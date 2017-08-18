@@ -13,6 +13,6 @@ O software foi desenvolvido como requisito para aprovação no curso de Análise
 
 ## Autores
 
-* **Gabriel Rossetto Marques** - *Initial work* - [russoetto](https://github.com/russoetto)
-* **João Henrique Wind** - *Initial work* - [jotahws](https://github.com/jotahws)
-* **Maurício de Araújo Sforça** - *Initial work* - [araujoito](https://github.com/araujoito)
+* **Gabriel Rossetto Marques** - [russoetto](https://github.com/russoetto)
+* **João Henrique Wind** - [jotahws](https://github.com/jotahws)
+* **Maurício de Araújo Sforça** - [araujoito](https://github.com/araujoito)
