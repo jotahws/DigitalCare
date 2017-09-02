@@ -1,0 +1,99 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 31, 2017, 9:38:12 PM
+    Author     : JotaWind
+*/
+
+/*BOTÃO VERDE DIGITAL CARE*/
+.btn-digital-green {
+    color: #fff;
+    background-color: #68c4af;
+    border-color: #28a745;
+}
+
+.btn-digital-green:hover {
+    color: #fff;
+    background-color: #589988;
+    border-color: #28a745;
+}
+
+.btn-digital-green:focus, .btn-digital-green.focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
+}
+
+.btn-digital-green.disabled, .btn-digital-green:disabled {
+    background-color: #68c4af;
+    border-color: #68c4af;
+}
+
+.btn-digital-green:active, .btn-digital-green.active,
+.show > .btn-digital-green.dropdown-toggle {
+    background-color: #589988;
+    background-image: none;
+    border-color: #28a745;
+}
+/*FIM BOTÃO VERDE DIGITAL CARE*/
+
+/*BOTÃO AMARELO DIGITAL CARE*/
+.btn-digital-yellow {
+    color: #666;
+    /*cor normal*/
+    background-color: #ffffcc;
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+.btn-digital-yellow:hover {
+    color: #666;
+    /*cor escura*/
+    background-color: #eadb9d; 
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+.btn-digital-yellow:focus, .btn-digital-yellow.focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
+}
+
+.btn-digital-yellow.disabled, .btn-digital-yellow:disabled {
+    /*cor normal*/
+    background-color: #ffffcc;
+    /*cor normal*/
+    border-color: #ffffcc;
+}
+
+.btn-digital-yellow:active, .btn-digital-yellow.active,
+.show > .btn-digital-yellow.dropdown-toggle {
+    /*cor escura*/
+    background-color: #eadb9d;
+    background-image: none;
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+#header-btn {
+    color: #666;
+}
+/*FIM BOTÃO AMARELO DIGITAL CARE*/
+
+/*VERTICAL RULE (HR SO QUE VERTICAL)*/
+
+.vr{
+    border-right:1px solid rgba(0, 0, 0, 0.1);
+    height: 200px;
+}
+
+/*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
+
+/*RODAPE*/
+.rodape{
+    padding-top: 150px;
+    background-repeat: repeat-x;
+    height: 400px;
+    margin-top: 100px;
+}
+/*FIM RODAPE*/
