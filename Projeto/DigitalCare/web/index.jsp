@@ -30,7 +30,7 @@
                         <div class="carousel-caption d-none d-md-block text-left">
                             <h1>Na hora certa, no lugar certo.</h1>
                             <p>Nós mostramos as opções mais relevantes para você, de acordo com a sua localização e com a sua disponibilidade de tempo.</p>
-                            <p><a class="btn btn-lg btn-digital-green" href="#" role="button">Cadastre-se agora</a></p>
+                            <p><a class="btn btn-lg btn-digital-green" href="${pageContext.request.contextPath}/cadastroPaciente.jsp" role="button">Cadastre-se agora</a></p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <p class="lead">Você digita o seu tipo de consulta e nós te daremos uma variedade de clínicas para que você possa escolher de acordo com sua disponibilidade de acesso e de tempo.</p>
                 </div>
                 <div class="col-md-5 order-md-1">
-                    <img class="featurette-image img-fluid mx-auto" src="${pageContext.request.contextPath}/images/dedo-botao.png" alt="Generic placeholder image">
+                    <img class="featurette-image img-fluid mx-auto" src="${pageContext.request.contextPath}/images/dedo-botao.png" alt="tecla escrita a palavra mágica">
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
                     <p class="lead">Você pode agendar de acordo com a sua disponibilidade. Se tiver algum compromisso, simplesmente entre na DigitalCare e cancele, sem precisar sair do lugar ou mesmo fazer ligações.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" src="${pageContext.request.contextPath}/images/calendar.png" alt="Generic placeholder image">
+                    <img class="featurette-image img-fluid mx-auto" src="${pageContext.request.contextPath}/images/calendar.png" alt="calendário com um dia circulado">
                 </div>
             </div>
 
@@ -105,12 +105,12 @@
             <div class="row featurette">
                 <div class="col-md-7 ">
                     <h1 class="">Não perca tempo, cadastre-se agora mesmo!</h1>
-                    <p><a class="btn btn-lg btn-digital-green" href="#" role="button">Clique aqui</a></p>
+                    <p><a class="btn btn-lg btn-digital-green" href="${pageContext.request.contextPath}/cadastroPaciente.jsp" role="button">Clique aqui</a></p>
                 </div>
                 <div class="vr"></div>
                 <div class="text-right col-md-4">
                     <h2 class="text-muted">Deseja cadastrar sua clínica?</h2>
-                    <p><a class="btn btn-lg btn-digital-yellow" href="#" role="button">Seja nosso parceiro!</a></p>
+                    <p><a class="btn btn-lg btn-digital-yellow" href="${pageContext.request.contextPath}/cadastroClinica.jsp" role="button">Seja nosso parceiro!</a></p>
                 </div>
             </div>
 

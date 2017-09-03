@@ -18,10 +18,10 @@
                     </ul>
                     <ul class="navbar-nav navbar-right ">
                         <li class="nav-item">
-                            <a class="btn-digital-yellow nav-link btn" id="header-btn" href="#">Entrar</a>
+                            <a class="btn-digital-yellow nav-link btn" id="header-btn" href="${pageContext.request.contextPath}/login.jsp">Entrar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cadastrar</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Cadastrar</a>
                         </li>
                     </ul>
                 </div>
