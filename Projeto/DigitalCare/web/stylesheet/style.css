@@ -8,6 +8,19 @@ and open the template in the editor.
     Author     : JotaWind
 */
 
+/*
+
+PALHETA DE CORES:
+
+Verde principal: #68c4af
+Verde secundario escuro: #96ead7
+Verde secundario claro: #bfd9d2
+Amarelo claro: #ffffcc
+Amarelo escuro: #f5e5ba
+Cinza escuro: #2e2e2e
+
+*/
+
 /*BOTÃO VERDE DIGITAL CARE*/
 .btn-digital-green {
     color: #fff;
@@ -151,6 +164,13 @@ and open the template in the editor.
     display: block;
     margin: 20px auto 15px auto;
     width: 100px;
+}
+
+
+@media (max-width: 40em){
+    .login{
+        background-color: #ffffcc;
+    }
 }
 
 /*FIM LOGIN*/

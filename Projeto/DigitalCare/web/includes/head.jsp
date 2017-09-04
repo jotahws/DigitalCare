@@ -3,6 +3,9 @@
     Created on : Aug 30, 2017, 10:46:46 AM
     Author     : JotaWind
 --%>
+
+        <!--Arrumando responsividade-->
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!--Full Calendar-->
         <link rel='stylesheet' href='${pageContext.request.contextPath}/components/fullcalendar/fullcalendar.css' />
         <script src='${pageContext.request.contextPath}/components/fullcalendar/lib/jquery.min.js'></script>
