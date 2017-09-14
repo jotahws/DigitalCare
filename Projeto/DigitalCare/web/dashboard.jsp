@@ -25,10 +25,23 @@
                     editable: false,
                     eventClick: function (event) {
                         swal({
-                            title: event.title,
-                            html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
-                            confirmButtonText: 'top!'
+                            title: event.title + ' <a href="#" class="btn btn-sm btn-digital-green">Ver perfil</a>',
+                            html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
+                                    '<p>Status: Confirmado</p>' +
+                                    '<p>Horário: ' + event.start.toString() + '</p>' +
+                                    '<p>Duração prevista: 30 min</p>' +
+                                    '<br><h3>Perfil</h3>' +
+                                    '<p>Última consulta: 30/05/2016</p>' +
+                                    '<p>Usuário desde: 2005</p></div>' +
+                                    '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
+                                     <a href="#" class="btn btn-info">consulta concluída</a> \n\
+                                     <a href="#" class="btn btn-danger">cancelar consulta</a>',
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            width: 600,
+                            padding: 50
                         })
+
                     },
                     header: {
                         left: 'title',
@@ -47,41 +60,50 @@
                     scrollTime: time,
                     events: [
                         {
-                            title: 'Deputada Léia',
+                            id: '1',
+                            title: 'Deputada Léia Organson',
                             start: '2017-09-14T09:30:00'
                         },
                         {
+                            id: '2',
                             title: 'Anaquim Vader',
                             start: '2017-09-14T10:30:00',
                             end: '2017-08-21T16:30:00'
                         },
                         {
-                            title: 'Darth Mau',
+                            id: '3',
+                            title: 'Darch Sidou',
                             start: '2017-09-14T11:30:00',
                         },
                         {
+                            id: '4',
                             title: 'Ran Sollo',
                             start: '2017-09-14T12:30:00'
                         },
                         {
+                            id: '5',
                             title: 'Chewie Bacon',
                             start: '2017-09-14T13:30:00',
                             end: '2017-08-21T16:30:00'
                         },
                         {
+                            id: '6',
                             title: 'Lucas Skaiualquer',
                             start: '2017-09-14T14:30:00',
                         },
                         {
+                            id: '7',
                             title: 'Prin Amigdala',
                             start: '2017-09-14T15:30:00'
                         },
                         {
+                            id: '8',
                             title: 'Yodinha das Novinha',
                             start: '2017-09-14T16:30:00',
                             end: '2017-08-21T16:30:00'
                         },
                         {
+                            id: '9',
                             title: 'Quai Gonna Jim',
                             start: '2017-09-14T17:30:00',
                         }
