@@ -114,7 +114,7 @@ Cinza escuro: #2e2e2e
 /*LOGIN*/
 
 .login{
-    background-color: #eee;
+    background-color: #666;
 }
 
 .panel-default{
@@ -172,5 +172,24 @@ Cinza escuro: #2e2e2e
         background-color: #ffffcc;
     }
 }
-
 /*FIM LOGIN*/
+
+/* QUADRADOS INFORMATIVOS DA DASHBOARD */
+.data-box-light{
+    background-color: #68c4af;
+}
+.data-box-dark{
+    background-color: #96ead7;
+}
+.data-box{
+    margin-top: 30px;
+    padding: 30px 40px;
+    border-radius: 10px;
+    min-height: 200px;
+}
+@media (max-width: 992px){
+    .data-box{
+        margin-top: 10px;
+    }
+}
+/* FIM QUADRADOS INFORMATIVOS DA DASHBOARD */
