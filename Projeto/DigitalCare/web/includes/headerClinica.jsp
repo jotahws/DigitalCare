@@ -3,6 +3,8 @@
     Created on : Sep 13, 2017, 2:21:50 PM
     Author     : JotaWind
 --%>
+<!--request.getAttribute("javax.servlet.forward.request_uri")-->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/images/logo-peq-branco.png"></a>
@@ -31,7 +33,7 @@
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
                     <li>
-                        <a href="${pageContext.request.contextPath}/calendar.jsp">Calendário Detalhado</a>
+                        <a href="${pageContext.request.contextPath}/calendario.jsp">Calendário Detalhado</a>
                     </li>
                     <li>
                         <a href="#">Marcar Indisponibilidade</a>

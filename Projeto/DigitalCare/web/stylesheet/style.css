@@ -176,21 +176,31 @@ Cinza escuro: #2e2e2e
 
 /* QUADRADOS INFORMATIVOS DA DASHBOARD */
 .data-box-light{
-    background-color: #68c4af;
+    background-color: #96ead7 ;
 }
 .data-box-dark{
-    background-color: #96ead7;
+    background-color: #68c4af;
 }
 .data-box{
-    margin-top: 30px;
+    margin: 25px 0px;
     padding: 30px 40px;
     border-radius: 10px;
     min-height: 200px;
 }
 @media (max-width: 992px){
     .data-box{
-        margin-top: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px
     }
+}
+.data-box.data-box-sm{
+    min-height: 100px;
+}
+
+.data-box .btn{
+    width: 100%;
+    min-height: 0px;
+    white-space: normal;
 }
 /* FIM QUADRADOS INFORMATIVOS DA DASHBOARD */
 
@@ -200,3 +210,13 @@ Cinza escuro: #2e2e2e
 }
 /* FIM Sweet alert Custom */
 
+/* Custom Bootstrap*/
+.bg-danger-light{
+    background-color: #f1b0b7;
+}
+
+.bg-warning-light{
+    background-color: #ffef8f; 
+}
+
+/* FIM Custom Bootstrap*/
