@@ -41,11 +41,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="de" class="col-form-label">De</label>
-                                <input type="email" class="form-control" id="de" placeholder="Ex. 13:00" >
+                                <input type="text" class="form-control" id="de" placeholder="Ex. 13:00" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="ate" class="col-form-label">Até</label>
-                                <input type="password" class="form-control" id="ate" placeholder="Ex. 16:00">
+                                <input type="text" class="form-control" id="ate" placeholder="Ex. 16:00">
                             </div>
                         </div>
                         <div class="form-row">
@@ -107,13 +107,20 @@
                     height: 600,
                 });
             });
+            $('#data').mask('99/99/9999');
+            $('#de').mask('99:99');
+            $('#ate').mask('99:99');
             $('#dia-inteiro').change(function () {
                 if ($(this).is(':checked')) {
                     $('#de').attr('disabled', true);
                     $('#ate').attr('disabled', true);
-                }else{
+                    $('#de').attr('placeholder', '00:00');
+                    $('#ate').attr('placeholder', '23:59');
+                } else {
                     $('#de').attr('disabled', false);
                     $('#ate').attr('disabled', false);
+                    $('#de').attr('placeholder', 'Ex. 13:00');
+                    $('#ate').attr('placeholder', 'Ex. 16:00');
                 }
             });
         </script>
