@@ -181,6 +181,11 @@ Cinza escuro: #2e2e2e
 .data-box-dark{
     background-color: #68c4af;
 }
+.data-box-yellow-light{
+    background-color: #ffffcc;
+    border: 1px solid;
+    border-color: #96ead7;
+}
 .data-box{
     margin: 25px 0px;
     padding: 30px 40px;

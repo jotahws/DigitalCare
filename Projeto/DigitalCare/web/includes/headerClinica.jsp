@@ -36,7 +36,7 @@
                         <a href="${pageContext.request.contextPath}/calendario.jsp">Calendário Detalhado</a>
                     </li>
                     <li>
-                        <a href="#">Marcar Indisponibilidade</a>
+                        <a href="${pageContext.request.contextPath}/indisponibilidade.jsp">Marcar Indisponibilidade</a>
                     </li>
                 </ul>
             </li>

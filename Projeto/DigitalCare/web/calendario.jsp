@@ -13,20 +13,63 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Dashboard</title>
+        <title>Indisponibilidade - DigitalCare</title>
 
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
     </head>
 
     <body class="fixed-nav sticky-footer" id="page-top">
+
+
+        <!-- Navigation -->
+        <%@include file="/includes/headerClinica.jsp" %>
+
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <h1 class="col-10">Calendário</h1>
+                    <a href="${pageContext.request.contextPath}/indisponibilidade.jsp" class=" btn-lg col-md-2"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
+                </div>
+                <hr>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="data-box-sm data-box data-box-light ">
+                            <h2>2</h2>
+                            <p>Paciente(s) em espera</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="data-box bg-warning-light data-box-sm">
+                            <h2>10</h2>
+                            <p>Paciente(s) Restante(s)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="data-box bg-danger-light data-box-sm">
+                            <h2>1</h2>
+                            <p>Paciente(s) Cancelado(s)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 data-box">
+                        <a href="" class="btn btn-digital-green btn-lg"><i class="fa fa-3x pull-left fa-arrow-circle-o-right"></i>Chamar Próximo Paciente<br>(João da Silva)</a>
+                    </div>
+                </div>
+                <div style="" id="calendar"></div>
+            </div>
+        </div> 
+
+        <%@include file="/includes/footer.jsp" %>
+
+        <!-- JS customizado -->
+        <script src="js/dash.js"></script>
         <!--Calendario-->
         <script>
             $(document).ready(function () {
                 new Date($.now());
                 var dt = new Date();
                 var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-
                 $('#calendar').fullCalendar({
                     locale: 'pt-br',
                     editable: false,
@@ -48,7 +91,7 @@
                         month: 'Mês',
                         week: 'Semana',
                         day: 'Dia',
-                        list: 'List'
+                        list: 'Lista'
                     },
                     allDaySlot: false,
                     slotLabelFormat: "HH:mm",
@@ -127,52 +170,11 @@
                         }
                     ]
                 });
-
+                if ($(window).width() < 992) {
+                    $('#calendar').fullCalendar('changeView', 'agendaDay');
+                }
             });
         </script>
         <!--FIM Calendario-->
-
-        <!-- Navigation -->
-        <%@include file="/includes/headerClinica.jsp" %>
-
-        <div class="content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <h1 class="col-10">Calendário</h1>
-                    <a href="" class=" btn-lg col-md-2"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
-                </div>
-                <hr>
-                <div class="row">
-
-                    <div class="col-md-3">
-                        <div class="data-box-sm data-box data-box-light ">
-                            <h2>2</h2>
-                            <p>Paciente(s) em espera</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="data-box bg-warning-light data-box-sm">
-                            <h2>10</h2>
-                            <p>Paciente(s) Restante(s)</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="data-box bg-danger-light data-box-sm">
-                            <h2>1</h2>
-                            <p>Paciente(s) Cancelado(s)</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 data-box">
-                        <a href="" class="btn btn-digital-green btn-lg"><i class="fa fa-3x pull-left fa-arrow-circle-o-right"></i>Chamar Próximo Paciente<br>(João da Silva)</a>
-                    </div>
-                </div>
-                <div style="" id="calendar"></div>
-            </div>
-        </div> 
-
-        <%@include file="/includes/footer.jsp" %>
-
-        <!-- JS customizado -->
-        <script src="js/dash.js"></script>
-
+    </body>
 </html>
