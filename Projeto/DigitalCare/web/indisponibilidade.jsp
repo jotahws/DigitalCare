@@ -41,7 +41,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="de" class="col-form-label">De</label>
-                                <input type="email" class="form-control" id="de" placeholder="Ex. 13:00">
+                                <input type="email" class="form-control" id="de" placeholder="Ex. 13:00" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="ate" class="col-form-label">Até</label>
@@ -52,7 +52,7 @@
                             <div class="form-group col-md-6">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox"> Dia Inteiro
+                                        <input class="form-check-input" id="dia-inteiro" type="checkbox"> Dia Inteiro
                                     </label>
                                 </div>
                             </div>
@@ -106,6 +106,15 @@
                     scrollTime: time,
                     height: 600,
                 });
+            });
+            $('#dia-inteiro').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#de').attr('disabled', true);
+                    $('#ate').attr('disabled', true);
+                }else{
+                    $('#de').attr('disabled', false);
+                    $('#ate').attr('disabled', false);
+                }
             });
         </script>
         <!--FIM Calendario-->
