@@ -5,8 +5,10 @@
  */
 package daos;
 
+import beans.Paciente;
 import beans.PacienteUsuario;
 import conexao.ConnectionFactory;
+import facade.Facade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +32,10 @@ public class PacienteUsuarioDAO {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(inserePacienteUsuario, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, pacienteUsuario.getPaciente().getId());
-            stmt.setInt(2, pacienteUsuario.getEndereco().getId());
+            int idPaciente = Facade.inserirPaciente(pacienteUsuario.getPaciente());
+            int idEndereco = Facade.inserirEndereco(pacienteUsuario.getEndereco());
+            stmt.setInt(1, idPaciente);
+            stmt.setInt(2, idEndereco);
             stmt.setString(3, pacienteUsuario.getEmail());
             stmt.setString(4, pacienteUsuario.getSenha());
             stmt.setString(5, pacienteUsuario.getTelefone());

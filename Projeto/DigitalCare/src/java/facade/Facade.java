@@ -6,10 +6,14 @@
 package facade;
 
 import beans.Cidade;
+import beans.Endereco;
 import beans.Estado;
+import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
+import daos.EnderecoDAO;
 import daos.EstadoDAO;
+import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
 import java.util.List;
@@ -35,6 +39,15 @@ public class Facade {
         dao.inserirPacienteUsuario(pacienteUsuario);
     }
 
+    public static int inserirEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        return enderecoDAO.inserirEndereco(endereco);
+    }
+    
+    public static int inserirPaciente(Paciente paciente) throws ClassNotFoundException, SQLException {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.inserirPaciente(paciente);
+    }
 
     
 }
