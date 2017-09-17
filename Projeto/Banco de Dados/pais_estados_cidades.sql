@@ -1,6 +1,6 @@
 INSERT INTO `pais` (`id`, `nome`, `sigla`) VALUES (1, 'Brasil', 'BR');
 
-INSERT INTO `estado` (`id`, `nome`, `uf`, `pais`) VALUES
+INSERT INTO `estado` (`id`, `nome`, `uf`, `id_pais`) VALUES
 (1, 'Acre', 'AC', 1),
 (2, 'Alagoas', 'AL', 1),
 (3, 'Amazonas', 'AM', 1),
@@ -29,7 +29,7 @@ INSERT INTO `estado` (`id`, `nome`, `uf`, `pais`) VALUES
 (26, 'São Paulo', 'SP', 1),
 (27, 'Tocantins', 'TO', 1);
 
-INSERT INTO `cidade` (`id`, `nome`, `estado`) VALUES
+INSERT INTO `cidade` (`id`, `nome`, `id_estado`) VALUES
 (1, 'Afonso Cláudio', 8),
 (2, 'Água Doce do Norte', 8),
 (3, 'Águia Branca', 8),
@@ -2056,7 +2056,8 @@ INSERT INTO `cidade` (`id`, `nome`, `estado`) VALUES
 (2024, 'Mariana', 11),
 (2025, 'Marilac', 11),
 (2026, 'Mário Campos', 11);
-INSERT INTO `cidade` (`id`, `nome`, `estado`) VALUES
+
+INSERT INTO `cidade` (`id`, `nome`, `id_estado`) VALUES
 (2027, 'Maripá de Minas', 11),
 (2028, 'Marliéria', 11),
 (2029, 'Marmelópolis', 11),
@@ -3924,7 +3925,8 @@ INSERT INTO `cidade` (`id`, `nome`, `estado`) VALUES
 (3891, 'Benjamin Constant do Sul', 23),
 (3892, 'Bento Gonçalves', 23),
 (3893, 'Boa Vista das Missões', 23);
-INSERT INTO `cidade` (`id`, `nome`, `estado`) VALUES
+
+INSERT INTO `cidade` (`id`, `nome`, `id_estado`) VALUES
 (3894, 'Boa Vista do Buricá', 23),
 (3895, 'Boa Vista do Cadeado', 23),
 (3896, 'Boa Vista do Incra', 23),
