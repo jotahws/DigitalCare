@@ -15,6 +15,7 @@ import java.util.Date;
 public class Paciente implements Serializable{
     
     private int id;
+    private String cpf;
     private String nome;
     private String sobrenome;
     private Date dataNascimento;
@@ -36,6 +37,14 @@ public class Paciente implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getNome() {
