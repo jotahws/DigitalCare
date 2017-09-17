@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/pacientes.jsp">
                     <i class="fa fa-fw fa-users"></i>
                     <span class="nav-link-text">Pacientes</span>
                 </a>
@@ -55,7 +55,7 @@
                 <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-bell"></i>
                     <span class="d-lg-none">Alerts
-                        <span class="badge badge-pill badge-warning">6 New</span>
+                        <span class="badge badge-pill badge-warning">Novas Notificações</span>
                     </span>
                     <span class="new-indicator text-warning d-none d-lg-block">
                         <i class="fa fa-fw fa-circle"></i>
@@ -63,7 +63,7 @@
                     </span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                    <h6 class="dropdown-header">New Alerts:</h6>
+                    <h6 class="dropdown-header">Alertas:</h6>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
                         <span class="text-success">

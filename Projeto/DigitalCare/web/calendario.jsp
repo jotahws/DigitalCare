@@ -5,7 +5,7 @@
 --%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
     <head>
         <%@include file="/includes/head.jsp" %>
@@ -13,7 +13,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Indisponibilidade - DigitalCare</title>
+        <title>Calendário - DigitalCare</title>
 
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -28,8 +28,8 @@
         <div class="content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <h1 class="col-10">Calendário</h1>
-                    <a href="${pageContext.request.contextPath}/indisponibilidade.jsp" class=" btn-lg col-md-2"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
+                    <h1 class="col-9">Calendário</h1>
+                    <a href="${pageContext.request.contextPath}/indisponibilidade.jsp" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
                 </div>
                 <hr>
                 <div class="row">
@@ -52,8 +52,8 @@
                             <p>Paciente(s) Cancelado(s)</p>
                         </div>
                     </div>
-                    <div class="col-md-3 data-box">
-                        <a href="" class="btn btn-digital-green btn-lg"><i class="fa fa-3x pull-left fa-arrow-circle-o-right"></i>Chamar Próximo Paciente<br>(João da Silva)</a>
+                    <div class="col-md-3 ">
+                        <a href="" class="btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar Próximo Paciente</a>
                     </div>
                 </div>
                 <div style="" id="calendar"></div>

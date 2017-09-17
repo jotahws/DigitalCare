@@ -6,7 +6,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
     <head>
         <%@include file="/includes/head.jsp" %>
@@ -14,7 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Calendário - DigitalCare</title>
+        <title>Marcar indisponibilidade - DigitalCare</title>
 
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -32,7 +32,7 @@
                     <h1 class="col-10">Marcar Indisponibilidade</h1>
                 </div>
                 <hr>
-                <div class="data-box data-box-yellow-light col-md-6 col-lg-4">
+                <div id="form" class="data-box data-box-yellow-light col-md-6">
                     <form>
                         <div class="form-group">
                             <label for="data" class="col-form-label">Data</label>
@@ -123,6 +123,9 @@
                     $('#ate').attr('placeholder', 'Ex. 16:00');
                 }
             });
+            if ($(window).width() > 1400) {
+                $('#form').addClass('col-lg-4');
+            }
         </script>
         <!--FIM Calendario-->
     </body>

@@ -188,7 +188,7 @@ Cinza escuro: #2e2e2e
 }
 .data-box{
     margin: 25px 0px;
-    padding: 30px 40px;
+    padding: 30px 30px 10px 30px;
     border-radius: 10px;
     min-height: 200px;
 }
@@ -202,10 +202,10 @@ Cinza escuro: #2e2e2e
     min-height: 100px;
 }
 
-.data-box .btn{
-    width: 100%;
+.btn-data-box-row{
     min-height: 0px;
     white-space: normal;
+    margin-top: 30px
 }
 /* FIM QUADRADOS INFORMATIVOS DA DASHBOARD */
 
