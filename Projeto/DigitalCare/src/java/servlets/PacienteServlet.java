@@ -67,15 +67,17 @@ public class PacienteServlet extends HttpServlet {
                 String bairro = request.getParameter("bairro");
                 String estadoString = request.getParameter("estado");
                 String cidadeString = request.getParameter("cidade");
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date dataNasc = (Date)formatter.parse(dtnsc);
-                
+//                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
+//                Date dataNasc = formatter.parse(dtnsc);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataNasc = sdf.parse("27/07/2006");
+
                 Paciente paciente = new Paciente(nome, sobrenome, dataNasc, sexo);
-                Cidade cidade = facade.getCidadePorId(Integer.parseInt(cidadeString));
+                Cidade cidade = facade.getCidadePorId(1);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
                 PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, endereco, email, sexo, tel1, tel2);
-                facade.inserirPaciente(pacienteUsuario);
-                
+                facade.inserirPacienteUsuario(pacienteUsuario);
+
                 status = "successCadastro";
             } catch (Exception ex) {
                 status = "error";

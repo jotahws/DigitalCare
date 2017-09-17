@@ -8,7 +8,9 @@ package facade;
 import beans.Cidade;
 import beans.Estado;
 import beans.PacienteUsuario;
+import daos.CidadeDAO;
 import daos.EstadoDAO;
+import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,16 +25,14 @@ public class Facade {
         return dao.listarEstados();
     }
 
-    public Cidade getCidadePorId(int id) {
-//        CidadeDAO dao = new CidadeDAO();
-//        return dao.getCidadePorId(id);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cidade getCidadePorId(int id) throws ClassNotFoundException, SQLException {
+        CidadeDAO dao = new CidadeDAO();
+        return dao.buscarCidade(id);
     }
 
-    public void inserirPaciente(PacienteUsuario pacienteUsuario) {
-//        PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
-//        dao.inserirPaciente(pacienteUsuario);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void inserirPacienteUsuario(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
+        dao.inserirPacienteUsuario(pacienteUsuario);
     }
 
 
