@@ -23,20 +23,47 @@
                 </div>
                 <form action="#" method="POST">
                     <fieldset>
-                        <label for="password">Nome:</label>
-                        <input type="text" id="password" placeholder="Dom Pedro">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" placeholder="João">
+                        <label for="sobrenome">Sobrenome:</label>
+                        <input type="text" id="sobrenome" placeholder="da Silva">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" id="cpf" placeholder="">
+                        <label for="dtnsc">Data de Nascimento:</label>
+                        <input type="text" id="dtnsc" placeholder="">
+                        <label for="sexo">Sexo:</label>
+                        <select class="custom-select">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select><br>
+                        <label for="tel1">Telefone 1:</label>
+                        <input type="text" id="tel1" placeholder="">
+                        <label for="tel2">Telefone 2:</label>
+                        <input type="text" id="tel2" placeholder="">
                         <label for="email">E-mail:</label>
                         <input type="email" id="email" placeholder="pedro@email.com">
-                        <label for="">Texto:</label>
-                        <input type="text" id="" placeholder="text">
-                        <label for="">Texto:</label>
-                        <input type="text" id="" placeholder="text">
-                        <label for="">Texto:</label>
-                        <input type="text" id="" placeholder="text">
-                        <label for="">Texto:</label>
-                        <input type="text" id="" placeholder="text">
                         <label for="password">Senha:</label>
                         <input type="password" id="password" placeholder="senha123">
+                        <label for="password">Confirmar Senha:</label>
+                        <input type="password" id="password" placeholder="senha123">
+                        <label for="cep">CEP:</label>
+                        <input type="text" id="cep" placeholder="">
+                        <label for="">Rua:</label>
+                        <input type="text" id="" placeholder="">
+                        <label for="">Numero:</label>
+                        <input type="text" id="" placeholder="">
+                        <label for="">Complemento:</label>
+                        <input type="text" id="" placeholder="">
+                        <label for="">Bairro:</label>
+                        <input type="text" id="" placeholder="">
+                        <label for="">Estado:</label>
+                        <select class="custom-select">
+                            
+                        </select>
+                        <label for="custom-select">Cidade:</label>
+                        <select class="custom-select">
+                            
+                        </select>
                         <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                         <div class="text-right">
                             <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
