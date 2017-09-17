@@ -42,11 +42,9 @@ public class CidadeDAO {
 
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
-                Estado estado = Facade(rs.getInt("id_estado"));
                 Cidade cidade = new Cidade();
                 cidade.setId(id);
                 cidade.setNome(nome);
-                cidade.setEstado(estado);
                 lista.add(cidade);
             }
             return lista;
