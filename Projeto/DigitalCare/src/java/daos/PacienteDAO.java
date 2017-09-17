@@ -40,7 +40,7 @@ public class PacienteDAO {
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt("id");
+                return rs.getInt(1);
             }
         } finally {
             try {

@@ -34,8 +34,8 @@
                         <input type="text" id="dtnsc" name="dtnsc" placeholder="">
                         <label for="sexo">Sexo:</label>
                         <select id="sexo" name="sexo" class="custom-select">
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Feminino</option>
                         </select><br>
                         <label for="tel1">Telefone 1:</label>
                         <input type="text" id="tel1" name="tel1" placeholder="">

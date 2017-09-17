@@ -22,7 +22,7 @@ import java.sql.Statement;
 public class PacienteUsuarioDAO {
     
     private final String inserePacienteUsuario = "INSERT INTO paciente_usuario (id_paciente, id_endereco, "
-            + "email, senha, telefone1, telefone) VALUES (?,?,?,?,?,?)";
+            + "email, senha, telefone, telefone2) VALUES (?,?,?,?,?,?)";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -43,7 +43,7 @@ public class PacienteUsuarioDAO {
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt("id");
+                return rs.getInt(1);
             }
         } finally {
             try {

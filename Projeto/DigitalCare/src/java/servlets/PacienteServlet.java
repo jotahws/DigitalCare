@@ -72,10 +72,10 @@ public class PacienteServlet extends HttpServlet {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 Date dataNasc = sdf.parse("27/07/2006");
 
-                Paciente paciente = new Paciente(nome, sobrenome, dataNasc, sexo);
+                Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
                 Cidade cidade = facade.getCidadePorId(1);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
-                PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, endereco, email, sexo, tel1, tel2);
+                PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, endereco, email, pssw, tel1, tel2);
                 facade.inserirPacienteUsuario(pacienteUsuario);
 
                 status = "successCadastro";

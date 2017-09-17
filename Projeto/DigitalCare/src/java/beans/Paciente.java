@@ -24,7 +24,8 @@ public class Paciente implements Serializable{
     public Paciente() {
     }
 
-    public Paciente(String nome, String sobrenome, Date dataNascimento, String sexo) {
+    public Paciente(String cpf, String nome, String sobrenome, Date dataNascimento, String sexo) {
+        this.cpf = cpf;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.dataNascimento = dataNascimento;
