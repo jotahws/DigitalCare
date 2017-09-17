@@ -21,7 +21,7 @@ public class ConnectionFactory {
         try {
             //quem chamou o metodo terá que tratar a exception
             Properties prop = new Properties();
-            prop.load(getClass().getResourceAsStream("/conecao/bancoDados.properties"));
+            prop.load(getClass().getResourceAsStream("/conexao/bancoDados.properties"));
             String url = prop.getProperty("url");
             String usuario = prop.getProperty("usuario");
             String senha = prop.getProperty("senha");

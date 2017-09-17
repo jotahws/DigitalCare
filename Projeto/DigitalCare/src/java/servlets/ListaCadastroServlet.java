@@ -5,9 +5,11 @@
  */
 package servlets;
 
+import beans.Estado;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,10 +41,12 @@ public class ListaCadastroServlet extends HttpServlet {
         Facade facade = new Facade();
         String status = "success";
         try {
-            List<Estado> estados = facade.listaEstados();
+            List<Estado> estados = facade.listarEstados();
             request.setAttribute("estados", estados);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             status = "error";
+        } catch (ClassNotFoundException ex){
+            
         }
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/cadastroPaciente.jsp?status=" + status);
         rd.forward(request, response);

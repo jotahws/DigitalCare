@@ -4,6 +4,7 @@
     Author     : JotaWind
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -58,11 +59,15 @@
                         <input type="text" id="" placeholder="">
                         <label for="">Estado:</label>
                         <select class="custom-select">
-                            
+                            <c:forEach var="item" items="${estados}">
+                                <option value="${item.id}">
+                                    <c:out value="${item.nome}"/>
+                                </option>
+                            </c:forEach>                       
                         </select>
                         <label for="custom-select">Cidade:</label>
                         <select class="custom-select">
-                            
+
                         </select>
                         <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                         <div class="text-right">

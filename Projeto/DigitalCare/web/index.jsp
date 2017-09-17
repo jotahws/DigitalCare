@@ -105,7 +105,7 @@
             <div class="row featurette">
                 <div class="col-md-7 ">
                     <h1 class="">Não perca tempo, cadastre-se agora mesmo!</h1>
-                    <p><a class="btn btn-lg btn-digital-green" href="${pageContext.request.contextPath}/cadastroPaciente.jsp" role="button">Clique aqui</a></p>
+                    <p><a class="btn btn-lg btn-digital-green" href="${pageContext.request.contextPath}/ListaCadastroServlet" role="button">Clique aqui</a></p>
                 </div>
                 <div class="vr"></div>
                 <div class="text-right col-md-4">

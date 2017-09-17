@@ -5,6 +5,9 @@
  */
 package facade;
 
+import beans.Estado;
+import daos.EstadoDAO;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,7 +16,7 @@ import java.util.List;
  */
 public class Facade {
 
-    public List<Estado> listaEstados() {
+    public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
     }
