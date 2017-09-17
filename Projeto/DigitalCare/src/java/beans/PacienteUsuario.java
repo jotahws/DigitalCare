@@ -21,6 +21,18 @@ public class PacienteUsuario implements Serializable{
     private String telefone;
     private String telefone2;
 
+    public PacienteUsuario(Paciente paciente, Endereco endereco, String email, String senha, String telefone, String telefone2) {
+        this.paciente = paciente;
+        this.endereco = endereco;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.telefone2 = telefone2;
+    }
+
+    public PacienteUsuario() {
+    }
+
     public int getId() {
         return id;
     }

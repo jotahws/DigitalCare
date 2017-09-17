@@ -20,6 +20,14 @@ public class Cidade implements Serializable{
     private Estado estado;
     private String nome;
 
+    public Cidade(Estado estado, String nome) {
+        this.estado = estado;
+        this.nome = nome;
+    }
+
+    public Cidade() {
+    }
+
     public int getId() {
         return id;
     }

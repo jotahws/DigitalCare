@@ -22,7 +22,7 @@
                     <p class="text-center"><img src="images/logo-peq.png" class="page-title-logo"></p>
                     <h2>Novo Cadastro</h2>   
                 </div>
-                <form action="#" method="POST">
+                <form action="${pageContext.request.contextPath}/PacienteServlet?action=register" method="POST">
                     <fieldset>
                         <label for="nome">Nome:</label>
                         <input type="text" id="nome" placeholder="João">
@@ -33,7 +33,7 @@
                         <label for="dtnsc">Data de Nascimento:</label>
                         <input type="text" id="dtnsc" placeholder="">
                         <label for="sexo">Sexo:</label>
-                        <select class="custom-select">
+                        <select id="sexo" class="custom-select">
                             <option value="Masculino">Masculino</option>
                             <option value="Feminino">Feminino</option>
                         </select><br>
@@ -43,31 +43,31 @@
                         <input type="text" id="tel2" placeholder="">
                         <label for="email">E-mail:</label>
                         <input type="email" id="email" placeholder="pedro@email.com">
-                        <label for="password">Senha:</label>
-                        <input type="password" id="password" placeholder="senha123">
-                        <label for="password">Confirmar Senha:</label>
-                        <input type="password" id="password" placeholder="senha123">
+                        <label for="pssw">Senha:</label>
+                        <input type="password" id="pssw" placeholder="senha123">
+                        <label for="pssw2">Confirmar Senha:</label>
+                        <input type="password" id="pssw2" placeholder="senha123">
                         <label for="cep">CEP:</label>
                         <input type="text" id="cep" placeholder="">
-                        <label for="">Rua:</label>
-                        <input type="text" id="" placeholder="">
-                        <label for="">Numero:</label>
-                        <input type="text" id="" placeholder="">
-                        <label for="">Complemento:</label>
-                        <input type="text" id="" placeholder="">
-                        <label for="">Bairro:</label>
-                        <input type="text" id="" placeholder="">
-                        <label for="">Estado:</label>
-                        <select class="custom-select">
+                        <label for="rua">Rua:</label>
+                        <input type="text" id="rua" placeholder="">
+                        <label for="numero">Numero:</label>
+                        <input type="text" id="numero" placeholder="">
+                        <label for="compl">Complemento:</label>
+                        <input type="text" id="compl" placeholder="">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" placeholder="">
+                        <label for="estado">Estado:</label>
+                        <select id="estado" class="custom-select">
                             <c:forEach var="item" items="${estados}">
                                 <option value="${item.id}">
                                     <c:out value="${item.nome}"/>
                                 </option>
                             </c:forEach>                       
                         </select>
-                        <label for="custom-select">Cidade:</label>
-                        <select class="custom-select">
-
+                        <label  for="cidade">Cidade:</label>
+                        <select id="cidade" class="custom-select">
+                            <option value="1">valor temporario 1</option>
                         </select>
                         <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                         <div class="text-right">

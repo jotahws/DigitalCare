@@ -20,6 +20,16 @@ public class Paciente implements Serializable{
     private Date dataNascimento;
     private String sexo;
 
+    public Paciente() {
+    }
+
+    public Paciente(String nome, String sobrenome, Date dataNascimento, String sexo) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+    }
+
     public int getId() {
         return id;
     }
