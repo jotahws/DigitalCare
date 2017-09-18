@@ -25,3 +25,4 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/font-awesome/css/font-awesome.css" >
         <!--Customização-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/style.css" >
+        <script src="${pageContext.request.contextPath}/js/customjs.js"></script>

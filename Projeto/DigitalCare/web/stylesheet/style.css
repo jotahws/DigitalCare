@@ -118,7 +118,7 @@ Cinza escuro: #2e2e2e
 }
 
 .panel-default{
-    opacity: 0.9;
+    opacity: 1;
     margin-top:120px;
 }
 
@@ -223,5 +223,8 @@ Cinza escuro: #2e2e2e
 .bg-warning-light{
     background-color: #ffef8f; 
 }
-
 /* FIM Custom Bootstrap*/
+
+.form-group select{
+    width: 100%;
+}

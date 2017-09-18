@@ -36,7 +36,7 @@
                     <form>
                         <div class="form-group">
                             <label for="data" class="col-form-label">Data</label>
-                            <input type="text" class="form-control" id="data" placeholder="Ex. 12/02/2017">
+                            <input type="text" class="form-control data" id="data" placeholder="Ex. 12/02/2017">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -106,22 +106,6 @@
                     scrollTime: time,
                     height: 600,
                 });
-            });
-            $('#data').mask('99/99/9999');
-            $('#de').mask('99:99');
-            $('#ate').mask('99:99');
-            $('#dia-inteiro').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#de').attr('disabled', true);
-                    $('#ate').attr('disabled', true);
-                    $('#de').attr('placeholder', '00:00');
-                    $('#ate').attr('placeholder', '23:59');
-                } else {
-                    $('#de').attr('disabled', false);
-                    $('#ate').attr('disabled', false);
-                    $('#de').attr('placeholder', 'Ex. 13:00');
-                    $('#ate').attr('placeholder', 'Ex. 16:00');
-                }
             });
             if ($(window).width() > 1400) {
                 $('#form').addClass('col-lg-4');

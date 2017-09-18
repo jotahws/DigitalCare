@@ -24,55 +24,103 @@
                 </div>
                 <form action="${pageContext.request.contextPath}/PacienteServlet?action=register" method="POST">
                     <fieldset>
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" placeholder="João">
-                        <label for="sobrenome">Sobrenome:</label>
-                        <input type="text" id="sobrenome" name="sobrenome" placeholder="da Silva">
-                        <label for="cpf">CPF:</label>
-                        <input type="text" id="cpf" name="cpf" placeholder="">
-                        <label for="dtnsc">Data de Nascimento:</label>
-                        <input type="text" id="dtnsc" name="dtnsc" placeholder="">
-                        <label for="sexo">Sexo:</label>
-                        <select id="sexo" name="sexo" class="custom-select">
-                            <option value="M">Masculino</option>
-                            <option value="F">Feminino</option>
-                        </select><br>
-                        <label for="tel1">Telefone 1:</label>
-                        <input type="text" id="tel1" name="tel1" placeholder="">
-                        <label for="tel2">Telefone 2:</label>
-                        <input type="text" id="tel2" name="tel2" placeholder="">
-                        <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" placeholder="pedro@email.com">
-                        <label for="pssw">Senha:</label>
-                        <input type="password" id="pssw" name="pssw" placeholder="senha123">
-                        <label for="pssw2">Confirmar Senha:</label>
-                        <input type="password" id="pssw2" name="pssw2" placeholder="senha123">
-                        <label for="cep">CEP:</label>
-                        <input type="text" id="cep" name="cep" placeholder="">
-                        <label for="rua">Rua:</label>
-                        <input type="text" id="rua" name="rua" placeholder="">
-                        <label for="numero">Numero:</label>
-                        <input type="text" id="numero" name="numero" placeholder="">
-                        <label for="compl">Complemento:</label>
-                        <input type="text" id="compl" name="compl" placeholder="">
-                        <label for="bairro">Bairro:</label>
-                        <input type="text" id="bairro" name="bairro" placeholder="">
-                        <label for="estado">Estado:</label>
-                        <select id="estado" name="estado" class="custom-select">
-                            <c:forEach var="item" items="${estados}">
-                                <option value="${item.id}">
-                                    <c:out value="${item.nome}"/>
-                                </option>
-                            </c:forEach>                       
-                        </select>
-                        <label  for="cidade">Cidade:</label>
-                        <select id="cidade" name="cidade" class="custom-select">
-                            <option value="1">1</option>
-                        </select>
-                        <input type="submit" value="Cadastrar" class="btn btn-digital-green">
-                        <div class="text-right">
-                            <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
-                        </div>
+                        <div class="form-row">
+                            <legend>Sobre você</legend>
+                            <div class="form-group col-md-6">
+                                <label for="nome">Nome:</label>
+                                <input type="text" id="nome" name="nome" placeholder="Pedro">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="sobrenome">Sobrenome:</label>
+                                <input type="text" id="sobrenome" name="sobrenome" placeholder="da Silva">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="cpf">CPF:</label>
+                                <input type="text" id="cpf" name="cpf" placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="dtnsc">Data de Nascimento:</label>
+                                <input type="text" id="dtnsc" class="data" name="dtnsc" placeholder="">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="sexo">Sexo:</label>
+                                <select id="sexo" name="sexo" class="custom-select">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </div>
+                            <legend>Seus Dados</legend>
+                            <div class="form-group col-md-4">
+                                <label for="tel1">Telefone 1:</label>
+                                <input type="text" id="tel1" class="telefone" name="tel1" placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="tel2">Telefone 2:</label>
+                                <input type="text" id="tel2" class="telefone" name="tel2" placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" placeholder="pedro@email.com">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="pssw">Senha:</label>
+                                <input type="password" id="pssw" name="pssw" placeholder="senha123">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="pssw2">Confirmar Senha:</label>
+                                <input type="password" id="pssw2" name="pssw2" placeholder="senha123">
+                            </div>
+                            <legend>Endereço</legend>
+                            <div class="form-group col-md-4">
+                                <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
+                                <input type="text" id="cep" name="cep" placeholder="">
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label for="rua">Rua:</label>
+                                <input type="text" id="rua" name="rua" placeholder="Rua das Flores" disabled>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="numero">Número:</label>
+                                <input type="text" id="numero" name="numero" placeholder="2042">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="compl">Complemento:</label>
+                                <input type="text" id="compl" name="compl" placeholder="ap 302 bloco 2">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" id="bairro" name="bairro" placeholder="" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" name="cidade" placeholder="" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="estado">Estado:</label>
+                                <input type="text" id="estado" name="estado" placeholder="" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="estado">Estado:</label>
+                                <select id="estado" name="estado" class="custom-select">
+                                    <c:forEach var="item" items="${estados}">
+                                        <option value="${item.id}">
+                                            <c:out value="${item.nome}"/>
+                                        </option>
+                                    </c:forEach>                       
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label  for="cidade">Cidade:</label>
+                                <select id="cidade" name="cidade" class="custom-select">
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="submit" value="Cadastrar" class="btn btn-digital-green">
+                                <div class="text-right">
+                                    <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
+                                </div>
+                            </div>
                     </fieldset>
                 </form>
             </div>
