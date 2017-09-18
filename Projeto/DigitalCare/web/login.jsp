@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,9 +20,27 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div  class="panel-default col-md-4 col-sm-12">
+                <c:choose>
+                    <c:when test="${(param.status == 'cadastro-ok')}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Cadastro efetuado!</strong> Faça o login para continuar
+                        </div>
+                    </c:when>
+                    <c:when test="${(param.status == 'cadastro-erro')}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Ops! Ocorreu um erro...</strong> Verifique seus dados e cadastre novamente
+                        </div>
+                    </c:when>
+                </c:choose>
                 <div class="title-login">
                     <p class="text-center"><img src="images/logo-peq.png" class="page-title-logo"></p>
-                    <h2>Realizar Login</h2>   
+                    <h2>Realizar Login</h2>
                 </div>
                 <form action="#" method="POST">
                     <fieldset>

@@ -13,7 +13,9 @@ import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -88,9 +90,9 @@ public class PacienteServlet extends HttpServlet {
                 PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, endereco, email, pssw, tel1, tel2);
                 facade.inserirPacienteUsuario(pacienteUsuario);
 
-                status = "successCadastro";
-            } catch (Exception ex) {
-                status = "error";
+                status = "cadastro-ok";
+            } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                status = "cadastro-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
         }
