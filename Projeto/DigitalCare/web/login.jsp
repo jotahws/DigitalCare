@@ -37,17 +37,25 @@
                             <strong>Ops! Ocorreu um erro...</strong> Verifique seus dados e cadastre novamente
                         </div>
                     </c:when>
+                    <c:when test="${(param.status == 'login-erro')}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Ops!</strong> Email ou senha inválido(s)
+                        </div>
+                    </c:when>
                 </c:choose>
                 <div class="title-login">
                     <p class="text-center"><img src="images/logo-peq.png" class="page-title-logo"></p>
                     <h2>Realizar Login</h2>
                 </div>
-                <form action="#" method="POST">
+                <form action="${pageContext.request.contextPath}/LoginServlet?action=login" method="POST">
                     <fieldset>
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" placeholder="jose@email.com">
+                        <input type="email" id="email" name="login" placeholder="jose@email.com">
                         <label for="password">Senha:</label>
-                        <input type="password" id="password" placeholder="password">
+                        <input type="password" id="password" name="senha" placeholder="password">
                         <input type="submit" value="Entrar" class="btn btn-digital-green">
                         <div class="text-right">
                             <a href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Novo por aqui?</a>
