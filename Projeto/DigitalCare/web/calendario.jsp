@@ -23,7 +23,7 @@
 
 
         <!-- Navigation -->
-        <%@include file="/includes/headerClinica.jsp" %>
+        <%@include file="/includes/headerDash.jsp" %>
 
         <div class="content-wrapper">
             <div class="container-fluid">

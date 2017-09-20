@@ -3,6 +3,8 @@
     Created on : Aug 30, 2017, 10:45:57 AM
     Author     : JotaWind
 --%>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+        <jsp:useBean scope="session" id="sessionLogin" class="beans.Login"/>
 
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
@@ -16,14 +18,29 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}">Home</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav navbar-right ">
-                        <li class="nav-item">
-                            <a class="btn-digital-yellow nav-link btn" id="header-btn" href="${pageContext.request.contextPath}/login.jsp">Entrar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Cadastrar</a>
-                        </li>
-                    </ul>
+                    <c:choose>
+                        <c:when test="${sessionLogin.perfil == 1}">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-fw fa-sign-out"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul class="navbar-nav navbar-right ">
+                                <li class="nav-item">
+                                    <a class="btn-digital-yellow nav-link btn" id="header-btn" href="${pageContext.request.contextPath}/login.jsp">Entrar</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Cadastrar</a>
+                                </li>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
         </nav>

@@ -1,3 +1,9 @@
+<%-- 
+    Document   : dashboardClinica
+    Created on : Sep 20, 2017, 3:33:36 PM
+    Author     : JotaWind
+--%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -119,7 +125,7 @@
 
         <div class="content-wrapper">
             <div class="container-fluid">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Clínica</h1>
                 <hr>
                 <div style="" class="table-striped " id="resumo-dia"></div>
                 <div class="row">

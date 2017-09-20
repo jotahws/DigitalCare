@@ -58,13 +58,13 @@ public class LoginServlet extends HttpServlet {
 
                 switch (login.getPerfil()) {
                     case 1:
-                        response.sendRedirect("paciente-home/index.jsp");
+                        response.sendRedirect("paciente-home.jsp");
                         break;
                     case 2:
                         response.sendRedirect("dashboard.jsp");
                         break;
                     default:
-                        response.sendRedirect("paciente-home/index.jsp");
+                        response.sendRedirect("dashboard-clinica.jsp");
                         break;
                 }
 

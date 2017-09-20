@@ -657,3 +657,31 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- --------------------------------------------------------
+-- --------------------------------------------------------
+-- -----------------------ALTERAÇÕES-----------------------
+-- --------------------------------------------------------
+-- --------------------------------------------------------
+
+-- -----ADICIONANDO ON DELETE CASCADE NO PACIENTE----------
+ALTER TABLE `digital_care`.`paciente_usuario` 
+DROP FOREIGN KEY `fk_endereco_paciente_usuario`,
+DROP FOREIGN KEY `fk_login_paciente_usuario`,
+DROP FOREIGN KEY `fk_paciente_usuario`;
+ALTER TABLE `digital_care`.`paciente_usuario` 
+ADD CONSTRAINT `fk_endereco_paciente_usuario`
+  FOREIGN KEY (`id_endereco`)
+  REFERENCES `digital_care`.`endereco` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_login_paciente_usuario`
+  FOREIGN KEY (`id_login`)
+  REFERENCES `digital_care`.`login` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_paciente_usuario`
+  FOREIGN KEY (`id_paciente`)
+  REFERENCES `digital_care`.`paciente` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
