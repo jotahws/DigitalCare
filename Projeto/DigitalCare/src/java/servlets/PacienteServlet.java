@@ -8,6 +8,7 @@ package servlets;
 import beans.Cidade;
 import beans.Endereco;
 import beans.Estado;
+import beans.Login;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
@@ -86,8 +87,9 @@ public class PacienteServlet extends HttpServlet {
 
                 Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
                 Cidade cidade = facade.getCidadePorId(1);
+                Login login = new Login(email, pssw, 1);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
-                PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, endereco, email, pssw, tel1, tel2);
+                PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                 facade.inserirPacienteUsuario(pacienteUsuario);
 
                 status = "cadastro-ok";

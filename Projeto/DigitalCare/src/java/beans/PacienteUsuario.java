@@ -15,17 +15,15 @@ public class PacienteUsuario implements Serializable{
     
     private int id;
     private Paciente paciente;
+    private Login login;
     private Endereco endereco;
-    private String email;
-    private String senha;
     private String telefone;
     private String telefone2;
 
-    public PacienteUsuario(Paciente paciente, Endereco endereco, String email, String senha, String telefone, String telefone2) {
+    public PacienteUsuario(Paciente paciente, Login login, Endereco endereco, String telefone, String telefone2) {
         this.paciente = paciente;
+        this.login = login;
         this.endereco = endereco;
-        this.email = email;
-        this.senha = senha;
         this.telefone = telefone;
         this.telefone2 = telefone2;
     }
@@ -49,28 +47,20 @@ public class PacienteUsuario implements Serializable{
         this.paciente = paciente;
     }
 
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getTelefone() {

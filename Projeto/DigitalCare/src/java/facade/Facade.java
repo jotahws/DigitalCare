@@ -8,11 +8,13 @@ package facade;
 import beans.Cidade;
 import beans.Endereco;
 import beans.Estado;
+import beans.Login;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
 import daos.EnderecoDAO;
 import daos.EstadoDAO;
+import daos.LoginDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
@@ -49,5 +51,9 @@ public class Facade {
         return pacienteDAO.inserirPaciente(paciente);
     }
 
+    public static int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        return loginDAO.inserirLogin(login);
+    }
     
 }

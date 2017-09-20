@@ -5,8 +5,7 @@
  */
 package daos;
 
-import beans.Paciente;
-import beans.PacienteUsuario;
+import beans.Login;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -19,27 +18,21 @@ import java.sql.Statement;
  *
  * @author Gabriel
  */
-public class PacienteUsuarioDAO {
+public class LoginDAO {
     
-    private final String inserePacienteUsuario = "INSERT INTO paciente_usuario (id_paciente, id_login, "
-            + "id_endereco, telefone, telefone2) VALUES (?,?,?,?,?)";
+    private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
     
-    public final int inserirPacienteUsuario(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException{
+    public final int inserirLogin(Login login) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(inserePacienteUsuario, Statement.RETURN_GENERATED_KEYS);
-            int idPaciente = Facade.inserirPaciente(pacienteUsuario.getPaciente());
-            int idLogin    = Facade.inserirLogin(pacienteUsuario.getLogin());
-            int idEndereco = Facade.inserirEndereco(pacienteUsuario.getEndereco());
-            stmt.setInt(1, idPaciente);
-            stmt.setInt(2, idLogin);
-            stmt.setInt(2, idEndereco);
-            stmt.setString(5, pacienteUsuario.getTelefone());
-            stmt.setString(6, pacienteUsuario.getTelefone2());
+            stmt = con.prepareStatement(insereLogin, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, login.getEmail());
+            stmt.setString(2, login.getSenha());
+            stmt.setInt(3, login.getPerfil());
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
@@ -55,4 +48,5 @@ public class PacienteUsuarioDAO {
         }
         return 0;
     }
+    
 }

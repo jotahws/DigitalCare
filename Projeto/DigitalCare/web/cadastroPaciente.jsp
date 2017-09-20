@@ -99,14 +99,14 @@
                                 <label for="estado">Estado:</label>
                                 <input type="text" id="estado" name="estado" placeholder="" readonly="true">
                             </div>
-                            <div class="form-group col-md-6">
+                            <!--<div class="form-group col-md-6">
                                 <label for="estado">Estado:</label>
                                 <select id="estado" name="estado" class="custom-select">
-                                    <c:forEach var="item" items="${estados}">
+                                    <//c:forEach var="item" items="${estados}">
                                         <option value="${item.id}">
-                                            <c:out value="${item.nome}"/>
+                                            <//c:out value="${item.nome}"/>
                                         </option>
-                                    </c:forEach>                       
+                                    <//c:forEach>                       
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -114,7 +114,7 @@
                                 <select id="cidade" name="cidade" class="custom-select">
                                     <option value="1">1</option>
                                 </select>
-                            </div>
+                            </div>-->
                             <div class="form-group col-md-12">
                                 <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
