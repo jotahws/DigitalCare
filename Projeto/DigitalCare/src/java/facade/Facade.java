@@ -45,7 +45,7 @@ public class Facade {
         EnderecoDAO enderecoDAO = new EnderecoDAO();
         return enderecoDAO.inserirEndereco(endereco);
     }
-    
+
     public static int inserirPaciente(Paciente paciente) throws ClassNotFoundException, SQLException {
         PacienteDAO pacienteDAO = new PacienteDAO();
         return pacienteDAO.inserirPaciente(paciente);
@@ -55,5 +55,10 @@ public class Facade {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.inserirLogin(login);
     }
-    
+
+    public Login verificaLogin(Login login) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        return loginDAO.buscarLogin(login);
+    }
+
 }

@@ -37,9 +37,9 @@ public class PacienteUsuarioDAO {
             int idEndereco = Facade.inserirEndereco(pacienteUsuario.getEndereco());
             stmt.setInt(1, idPaciente);
             stmt.setInt(2, idLogin);
-            stmt.setInt(2, idEndereco);
-            stmt.setString(5, pacienteUsuario.getTelefone());
-            stmt.setString(6, pacienteUsuario.getTelefone2());
+            stmt.setInt(3, idEndereco);
+            stmt.setString(4, pacienteUsuario.getTelefone());
+            stmt.setString(5, pacienteUsuario.getTelefone2());
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {

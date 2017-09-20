@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Login;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,24 +43,30 @@ public class LoginServlet extends HttpServlet {
 
         if ("login".equals(action)) {
 
-            String login = request.getParameter("login");
+            String email = request.getParameter("login");
             String senha = request.getParameter("senha");
 
             try {
-//                Funcionario funcionario = new Funcionario();
-//                senha = funcionario.criptografa(senha);
-//                Funcionario func = facade.verificaLogin(login, senha);
-//
-//                HttpSession session = request.getSession();
-//                session.setAttribute("funcionarioLogado", func);
-//
-//                if ("GERENTE-RH".equals(func.getPerfil())) {
-//                    response.sendRedirect("CarregaListaFuncServlet?action=listaFuncionarios");
-//                } else if (("GERENTE".equals(func.getPerfil())) || ("FUNCIONARIO".equals(func.getPerfil()))) {
-//                    response.sendRedirect("relatoriosF.jsp");
-//                } else {
-                response.sendRedirect("paciente-home/index.jsp");
-//                }
+                Login login = new Login();
+                login.setEmail(email);
+                login.setSenha(senha);
+//                senha = login.criptografa(senha);;
+                login = facade.verificaLogin(login);
+
+                HttpSession session = request.getSession();
+                session.setAttribute("sessionLogin", login);
+
+                switch (login.getPerfil()) {
+                    case 1:
+                        response.sendRedirect("paciente-home/index.jsp");
+                        break;
+                    case 2:
+                        response.sendRedirect("dashboard.jsp");
+                        break;
+                    default:
+                        response.sendRedirect("paciente-home/index.jsp");
+                        break;
+                }
 
             } catch (Exception ex) {
                 response.sendRedirect("login.jsp?status=login-erro");

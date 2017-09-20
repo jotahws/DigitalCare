@@ -21,7 +21,7 @@ import java.sql.Statement;
 public class LoginDAO {
     
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
-    
+    private final String buscaCidadePorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -47,6 +47,33 @@ public class LoginDAO {
             }
         }
         return 0;
+    }
+
+    public Login buscarLogin(Login login) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaCidadePorEmail);
+            stmt.setString(1, login.getEmail());
+            stmt.setString(2, login.getSenha());
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                //login
+                int idLogin = rs.getInt("l.id");
+                int perfil = rs.getInt("l.perfil");
+                login.setId(idLogin);
+                login.setPerfil(perfil);
+                return login;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
     
 }
