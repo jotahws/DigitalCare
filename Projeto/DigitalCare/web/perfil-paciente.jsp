@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index.jsp
-    Created on : Sep 19, 2017, 2:49:08 PM
+    Document   : perfil-paciente
+    Created on : Sep 20, 2017, 8:11:27 PM
     Author     : JotaWind
 --%>
 
@@ -31,7 +31,7 @@
                 <div class="container marketing">
                     <div class="row featurette">
                         <div class="col-md-7">
-                            <h1 class="featurette-heading">Paciente - HOME </h1>
+                            <h1 class="featurette-heading">Paciente - Perfil </h1>
                         </div>
                     </div>
                     <hr class="featurette-divider">

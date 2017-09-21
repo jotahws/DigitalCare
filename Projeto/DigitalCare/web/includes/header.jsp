@@ -1,10 +1,9 @@
-<%-- 
-    Document   : header
-    Created on : Aug 30, 2017, 10:45:57 AM
-    Author     : JotaWind
---%>
+        <%-- 
+            Document   : header
+            Created on : Aug 30, 2017, 10:45:57 AM
+            Author     : JotaWind
+        --%>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-        <jsp:useBean scope="session" id="sessionLogin" class="beans.Login"/>
 
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
@@ -19,8 +18,15 @@
                         </li>
                     </ul>
                     <c:choose>
-                        <c:when test="${sessionLogin.perfil == 1}">
+                        <c:when test="${sessionLogin.perfil != 0}">
                             <ul class="navbar-nav ml-auto">
+                                <c:choose>
+                                    <c:when test="${sessionLogin.perfil == 1}">
+                                        <li class="nav-item active" >
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/perfil-paciente.jsp">Perfil</a>
+                                        </li>
+                                    </c:when>
+                                </c:choose>
                                 <li class="nav-item">
                                     <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-fw fa-sign-out"></i>

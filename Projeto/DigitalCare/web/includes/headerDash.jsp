@@ -5,7 +5,6 @@
 --%>
 <!--request.getAttribute("javax.servlet.forward.request_uri")-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:useBean scope="session" id="sessionLogin" class="beans.Login"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/images/logo-peq-branco.png"></a>
@@ -23,7 +22,7 @@
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="pacientes">
                         <a class="nav-link" href="${pageContext.request.contextPath}/pacientes.jsp">
                             <i class="fa fa-fw fa-users"></i>
                             <span class="nav-link-text">Pacientes</span>
@@ -44,7 +43,7 @@
                         </ul>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                        <a class="nav-link">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/configuracoes-medico.jsp">
                             <i class="fa fa-fw fa-wrench"></i>
                             <span class="nav-link-text">Configurações</span>
                         </a>

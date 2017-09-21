@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,17 @@
         <%@include file="/includes/head.jsp" %>
     </head>
     <body>
-
+        <c:choose>
+            <c:when test="${(sessionLogin.perfil == 1)}">
+                <c:redirect url="/paciente-home.jsp"/>
+            </c:when>
+            <c:when test="${(sessionLogin.perfil == 2)}">
+                <c:redirect url="/dashboard.jsp"/>
+            </c:when>
+            <c:when test="${(sessionLogin.perfil == 3)}">
+                <c:redirect url="/dashboard-clinica.jsp"/>
+            </c:when>
+        </c:choose>
         <%@include file="/includes/header.jsp" %>
 
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
