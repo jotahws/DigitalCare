@@ -114,4 +114,17 @@ $(document).ready(function () {
         if (isValid === false)
             e.preventDefault();
     });
+
+//--------------------------RESPONSIVIDADE----------------------------
+
+    if ($(window).width() < 1200) {
+        $('.agendamento .data-box').addClass('col-md-6');
+        $('.agendamento .data-box').removeClass('col-md-5');
+    }
+    
+    
+    
+    
+    
+    
 });
