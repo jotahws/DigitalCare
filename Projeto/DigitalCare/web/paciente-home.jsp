@@ -77,7 +77,7 @@
                     <div class="featurette-divider"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="">Próximas consultas</h1><br>
+                            <h1 class="">Suas próximas consultas</h1><br>
                             <div style="" id="calendar"></div>
 
                         </div>

@@ -35,7 +35,7 @@
                 <%@include file="/includes/headerDash.jsp" %>
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Dashboard Clínica</h1>
+                        <h1>Dashboard</h1>
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">
@@ -57,10 +57,121 @@
                                     <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="data-box data-box-light">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                        </div>
+                        <hr>
+                        <div class="row dash-row">
+                            <h2>Consultas em andamento</h2>
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="tabela-dash">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row dash-row">
+                            <h2>Próximos pacientes</h2>
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="tabela-dash">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
