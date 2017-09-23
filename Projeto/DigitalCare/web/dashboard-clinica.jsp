@@ -40,21 +40,21 @@
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="data-box data-box-dark">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
                                 <div class="data-box data-box-light">
                                     <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto </p>
+                                    <p>Pacientes em espera</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box data-box-dark">
+                                <div class="data-box bg-warning-light">
                                     <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                    <p>Pacientes marcados</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="data-box bg-danger-light">
+                                    <h2>10</h2>
+                                    <p>Pacientes cancelados</p>
                                 </div>
                             </div>
                         </div>

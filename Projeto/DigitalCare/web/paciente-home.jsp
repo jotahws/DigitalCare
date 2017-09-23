@@ -46,9 +46,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="tipoConsulta" class="col-sm-4 col-form-label">Data preferecial</label>
+                                    <label for="data" class="col-sm-4 col-form-label">Data preferecial</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control" id="data" placeholder="Data preferecial">
+                                        <input type="date" class="data form-control" id="data" placeholder="12/02/2017">
                                     </div>
                                 </div>
                                 <div class="form-group row">

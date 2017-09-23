@@ -9,8 +9,10 @@ $(document).ready(function () {
 //----------------------mascaras---------------------------
     $('.data').mask('99/99/9999');
     $('.telefone').mask('(99)99999-9999');
+    $('.telresidencial').mask('(99)9999-9999');
     $('#cep').mask('99.999-999');
     $('#cpf').mask('999.999.999-99');
+    $('.cnpj').mask('99.999.999/9999-99');
 //------------------indisponibilidade---------------------
     $('#de').mask('99:99');
     $('#ate').mask('99:99');
@@ -121,10 +123,7 @@ $(document).ready(function () {
         $('.agendamento .data-box').addClass('col-md-6');
         $('.agendamento .data-box').removeClass('col-md-5');
     }
-    
-    
-    
-    
-    
-    
+
+
+
 });
