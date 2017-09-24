@@ -100,7 +100,7 @@ public class CidadeDAO {
     public Cidade buscarCidadeNome(String cidadeNome) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(buscaCidadePorId);
+            stmt = con.prepareStatement(buscaCidadePorNome);
             stmt.setString(1, cidadeNome);
             rs = stmt.executeQuery();
             if (rs.next()) {

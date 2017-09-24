@@ -61,7 +61,6 @@ public class ClinicaServlet extends HttpServlet {
                 String complemento = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
                 String cidadeString = request.getParameter("cidade");
-                String estadoString = request.getParameter("estado");
                 cnpj = cnpj.replace("-", "");
                 cnpj = cnpj.replace(".", "");
                 cnpj = cnpj.replace("/", "");
@@ -78,7 +77,7 @@ public class ClinicaServlet extends HttpServlet {
                 
                 Login login = new Login(email, senha, 2);
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
-                Cidade cidade = facade.getCidadePorId(1);
+                Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
                 ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
                 facade.inserirClinicaEndereco(clinicaEndereco);

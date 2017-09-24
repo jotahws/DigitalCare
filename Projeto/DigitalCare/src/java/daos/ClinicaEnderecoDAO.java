@@ -37,6 +37,7 @@ public class ClinicaEnderecoDAO {
             stmt.setInt(2,idEndereco);
             stmt.setString(3, clinicaEndereco.getTelefone1());
             stmt.setString(4, clinicaEndereco.getTelefone2());
+            stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);

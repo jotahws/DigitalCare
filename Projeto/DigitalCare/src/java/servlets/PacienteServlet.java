@@ -72,7 +72,6 @@ public class PacienteServlet extends HttpServlet {
                 tel2 = tel2.replace("-", "");
                 String email = request.getParameter("email");
                 String pssw = request.getParameter("pssw");
-                String pssw2 = request.getParameter("pssw2");
                 String cep = request.getParameter("cep");
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
@@ -80,13 +79,12 @@ public class PacienteServlet extends HttpServlet {
                 String numero = request.getParameter("numero");
                 String compl = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
-                String estadoString = request.getParameter("estado");
                 String cidadeString = request.getParameter("cidade");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
                 Date dataNasc = formatter.parse(dtnsc);
 
                 Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
-                Cidade cidade = facade.getCidadePorId(1);
+                Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Login login = new Login(email, pssw, 1);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
                 PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);

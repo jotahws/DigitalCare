@@ -37,6 +37,7 @@ public class ClinicaDAO {
             stmt.setString(3, clinica.getRazaoSocial());
             stmt.setString(4, clinica.getNomeFantasia());
             stmt.setString(5, clinica.getSite());
+            stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
