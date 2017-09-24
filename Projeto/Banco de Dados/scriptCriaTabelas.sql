@@ -119,15 +119,22 @@ DROP TABLE IF EXISTS `digital_care`.`clinica_endereco` ;
 
 CREATE TABLE IF NOT EXISTS `digital_care`.`clinica_endereco` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_clinica` INT NOT NULL,
   `id_endereco` INT(11) NOT NULL,
   `telefone1` VARCHAR(11) NULL DEFAULT NULL,
   `telefone2` VARCHAR(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_endereco_clinica_endereco_idx` (`id_endereco` ASC),
+  INDEX `fk_clinica_clinica_endereco_idx` (`id_clinica` ASC),
   CONSTRAINT `fk_endereco_clinica_endereco`
     FOREIGN KEY (`id_endereco`)
     REFERENCES `digital_care`.`endereco` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_clinica_clinica_endereco`
+    FOREIGN KEY (`id_clinica`)
+    REFERENCES `digital_care`.`clinica` (`id`)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
