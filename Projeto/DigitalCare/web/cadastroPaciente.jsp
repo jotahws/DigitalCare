@@ -4,8 +4,8 @@
     Author     : JotaWind
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,6 +14,11 @@
         <title>Cadastrar - DigitalCare</title>
     </head>
     <body class="login">
+        <c:choose>
+            <c:when test="${sessionLogin.email != null}">
+                <c:redirect url="/index.jsp"/>
+            </c:when>
+        </c:choose>
         <%@include file="/includes/header.jsp" %>
         <div class="row">
             <div class="col-md-2"></div>

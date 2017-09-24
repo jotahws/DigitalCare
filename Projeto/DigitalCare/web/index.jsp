@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,17 @@
         <%@include file="/includes/head.jsp" %>
     </head>
     <body>
-
+        <c:choose>
+            <c:when test="${(sessionLogin.perfil == 1)}">
+                <c:redirect url="/paciente-home.jsp"/>
+            </c:when>
+            <c:when test="${(sessionLogin.perfil == 2)}">
+                <c:redirect url="/dashboard.jsp"/>
+            </c:when>
+            <c:when test="${(sessionLogin.perfil == 3)}">
+                <c:redirect url="/dashboard-clinica.jsp"/>
+            </c:when>
+        </c:choose>
         <%@include file="/includes/header.jsp" %>
 
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -28,8 +39,7 @@
                     <img class="first-slide" src="${pageContext.request.contextPath}/images/Doctor7.jpg" alt="Primeiro slide">
                     <div class="container">
                         <div class="carousel-caption d-none d-md-block text-left">
-                            <h1>Na hora certa, no lugar certo.</h1>
-                            <p>Nós mostramos as opções mais relevantes para você, de acordo com a sua localização e com a sua disponibilidade de tempo.</p>
+                            <h1>Seja bem vindo à DigitalCare,<br> uma maneira rápida e fácil de agendar sua consulta.</h1>
                             <p><a class="btn btn-lg btn-digital-green" href="${pageContext.request.contextPath}/cadastroPaciente.jsp" role="button">Cadastre-se agora</a></p>
                         </div>
                     </div>

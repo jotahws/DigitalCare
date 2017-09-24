@@ -4,6 +4,7 @@
     Author     : JotaWind
 --%>
 
+        <jsp:useBean scope="session" id="sessionLogin" class="beans.Login"/>
         <!--Arrumando responsividade-->
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!--Full Calendar-->
