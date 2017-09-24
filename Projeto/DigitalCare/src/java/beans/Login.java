@@ -16,7 +16,7 @@ public class Login implements Serializable{
     private int id;
     private String email;
     private String senha;
-    private int perfil;
+    private int perfil;  //1 - Paciente; 2 - Clinica; 3 - Médico
 
     public Login(String email, String senha, int perfil) {
         this.email = email;

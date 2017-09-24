@@ -6,12 +6,16 @@
 package facade;
 
 import beans.Cidade;
+import beans.Clinica;
+import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Estado;
 import beans.Login;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
+import daos.ClinicaDAO;
+import daos.ClinicaEnderecoDAO;
 import daos.EnderecoDAO;
 import daos.EstadoDAO;
 import daos.LoginDAO;
@@ -54,6 +58,16 @@ public class Facade {
     public static int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.inserirLogin(login);
+    }
+    
+    public static int inserirClinica(Clinica clinica) throws ClassNotFoundException, SQLException{
+        ClinicaDAO clinicaDAO = new ClinicaDAO();
+        return clinicaDAO.inserirClinica(clinica);
+    }
+    
+    public void inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
+        ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
+        clinicaEnderecoDAO.inserirClinicaEndereco(clinicaEndereco);
     }
 
     public Login verificaLogin(Login login) throws ClassNotFoundException, SQLException {
