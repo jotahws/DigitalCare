@@ -36,6 +36,10 @@ public class Facade {
         return dao.buscarCidade(id);
     }
 
+    public Cidade getCidadePorNome(String nome) throws ClassNotFoundException, SQLException {
+        CidadeDAO dao = new CidadeDAO();
+        return dao.buscarCidadeNome(nome);
+    }
     public void inserirPacienteUsuario(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
         PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
         dao.inserirPacienteUsuario(pacienteUsuario);
