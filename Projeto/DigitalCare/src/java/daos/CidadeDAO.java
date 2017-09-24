@@ -25,6 +25,8 @@ public class CidadeDAO {
     private final String listaCidadePorEstado = "SELECT * FROM cidade WHERE id_estado = ?";
     private final String buscaCidadePorId = "SELECT * FROM cidade c INNER JOIN estado e ON c.id_estado = e.id "
             + "WHERE c.id = ?";
+    private final String buscaCidadePorNome = "SELECT * FROM cidade c INNER JOIN estado e ON c.id_estado = e.id "
+            + "WHERE c.nome = ?";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -65,6 +67,41 @@ public class CidadeDAO {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaCidadePorId);
             stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                //Cidade
+                int idCidade = rs.getInt("c.id");
+                String nomeCidade = rs.getString("c.nome");
+                //Estado
+                int idEstado = rs.getInt("e.id");
+                String nomeEstado = rs.getString("e.nome");
+                String ufEstado = rs.getString("e.uf");
+                //instanciar
+                Estado estado = new Estado(idEstado, nomeEstado, ufEstado);
+                Cidade cidade = new Cidade(idCidade, estado, nomeCidade);
+                return cidade;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    
+    
+    public Cidade buscarCidadeNome(String cidadeNome) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaCidadePorId);
+            stmt.setString(1, cidadeNome);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 //Cidade
