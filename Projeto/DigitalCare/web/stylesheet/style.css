@@ -155,10 +155,15 @@ Cinza escuro: #2e2e2e
 }
 
 .login fieldset input[type="email"], .login fieldset input[type="password"], .login fieldset input[type="text"] {
-    background: #eee;
+    background: #f3f3f3;
     color: #777;
     padding: 4px 10px;
     width: 100%;
+}
+
+.login fieldset input[type="text"].locked{
+    background: #e1e1e1;
+    color: #bbb;
 }
 
 .login fieldset input[type="submit"] {

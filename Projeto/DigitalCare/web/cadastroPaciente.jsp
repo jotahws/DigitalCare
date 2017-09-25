@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-group col-md-8">
                                 <label for="rua">Rua:</label>
-                                <input type="text" id="rua" name="rua" placeholder="Rua das Flores" readonly="true">
+                                <input type="text" id="rua" name="rua"  readonly="true" class="locked">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="numero">Número:</label>
@@ -94,32 +94,16 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="bairro">Bairro:</label>
-                                <input type="text" id="bairro" name="bairro" placeholder="" readonly="true">
+                                <input type="text" id="bairro" name="bairro" placeholder="" readonly="true" class="locked">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" id="cidade" name="cidade" placeholder="" readonly="true">
+                                <input type="text" id="cidade" name="cidade" placeholder="" readonly="true" class="locked">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="estado">Estado:</label>
-                                <input type="text" id="estado" name="estado" placeholder="" readonly="true">
+                                <input type="text" id="estado" name="estado" placeholder="" readonly="true" class="locked">
                             </div>
-                            <!--<div class="form-group col-md-6">
-                                <label for="estado">Estado:</label>
-                                <select id="estado" name="estado" class="custom-select">
-                                    <//c:forEach var="item" items="${estados}">
-                                        <option value="${item.id}">
-                                            <//c:out value="${item.nome}"/>
-                                        </option>
-                                    <//c:forEach>                       
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label  for="cidade">Cidade:</label>
-                                <select id="cidade" name="cidade" class="custom-select">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>-->
                             <div class="form-group col-md-12">
                                 <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
