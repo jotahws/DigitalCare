@@ -95,11 +95,21 @@
             $('#calendar').fullCalendar({
                 locale: 'pt-br',
                 editable: false,
-                eventClick: function () {
+                eventClick: function (event) {
                     swal({
-                        title: 'João das Neves',
-                        html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
-                        confirmButtonText: 'top!'
+                        title: event.title ,
+                        html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
+                                '<p>Status: Confirmado</p>' +
+                                '<p>Horário: ' + event.start.toString() + '</p>' +
+                                '<p>Duração prevista: 30 min</p>' +
+                                '<p><b>Local: Clínica Lucano</b></p>' +
+                                '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10095.611312493658!2d-49.28693809014179!3d-25.45570653704176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4eb0012a30701491!2sCl%C3%ADnica+Lucano!5e0!3m2!1spt-BR!2sbr!4v1506433178013" width="500" height="250" frameborder="0" style="border:0" allowfullscreen="false"></iframe>' +
+                                '<br><br><a href="#" class="btn-sm btn-digital-green">OK!</a> \n\
+                                             <a href="#" class="btn-sm btn-danger">cancelar consulta</a>',
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                        width: 600,
+                        padding: 50
                     });
                 },
                 header: {
@@ -123,34 +133,34 @@
                 height: 600,
                 events: [
                     {
-                        title: 'event1',
+                        title: 'Dermatologia',
                         start: '2017-08-30T13:30:00'
                     },
                     {
-                        title: 'event2',
+                        title: 'Endocrinologia',
                         start: '2017-08-30T13:30:00',
                         end: '2017-08-21T14:00:00'
                     },
                     {
-                        title: 'event3',
+                        title: 'Geriatria',
                         start: '2017-08-23T12:00:00',
                         end: '2017-08-21T13:00:00'
                     },
                     {
                         id: '1',
-                        title: 'Deputada Léia Organson',
+                        title: 'Dermatologia',
                         start: '2017-09-14T09:30:00',
                         end: '2017-09-14T10:00:00'
                     },
                     {
                         id: '2',
-                        title: 'Anaquim Vader',
+                        title: 'Consulta X',
                         start: '2017-09-14T10:30:00',
                         end: '2017-09-14T11:00:00'
                     },
                     {
                         id: '9',
-                        title: 'Quai Gonna Jim',
+                        title: 'Dermatologia',
                         start: '2017-09-14T17:30:00',
                         end: '2017-09-14T18:00:00'
                     }
