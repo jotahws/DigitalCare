@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
+        <title>Perfil - DigitalCare</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
         <%@include file="/includes/head.jsp" %>
     </head>
@@ -28,16 +28,42 @@
             </c:when>
             <c:otherwise>
                 <%@include file="/includes/header.jsp" %>
-                <div class="container marketing">
-                    <div class="row featurette">
+                <div class="container paciente">
+                    <div class="row">
                         <div class="col-md-7">
-                            <h1 class="featurette-heading">Paciente - Perfil </h1>
+                            <h1 class="">Seu Perfil</h1>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <a href="configuracoes-paciente.jsp" class="btn btn-dark ">Editar Perfil</a>
                         </div>
                     </div>
-                    <hr class="featurette-divider">
                 </div>
-                <%@include file="/includes/footer.jsp" %>
-            </c:otherwise>
-        </c:choose>
-    </body>
+                <hr>
+                <div class="container ">
+                    <div class="row">
+                        <legend class="dados">Dados</legend>
+                        <p class="col-md-12 dados">Nome: <strong>Joãozinho da Silva Stenislau</strong> </p>
+                        <p class="col-md-4 dados">CPF: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Data de Nascimento: <strong>13/05/1997</strong> </p>
+                        <p class="col-md-4 dados">Sexo: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Email: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Telefone 1: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Telefone 2: <strong>Algum dado</strong> </p>
+                        <legend class="dados"><hr>Dados Médicos</legend>
+                        <p class="col-md-4 dados">Plano de Saúde: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Tipo sanguíneo: <strong>Algum dado</strong> </p>
+                        <legend class="dados"><hr>Endereço</legend>
+                        <p class="col-md-12 dados">CEP: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Rua: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Número: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Complemento: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Bairro: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Cidade: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Estado: <strong>Algum dado</strong> </p>
+                    </div>
+                </div>
+            <%@include file="/includes/footer.jsp" %>
+        </c:otherwise>
+    </c:choose>
+</body>
 </html>

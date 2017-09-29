@@ -62,11 +62,11 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="senha">Senha:</label>
-                                <input type="password" id="senha" name="senha" placeholder="senha123" class="required">
+                                <input type="password" id="pssw" name="senha" placeholder="senha123" class="required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="senha2">Confirmar Senha:</label>
-                                <input type="password" id="senha2" name="senha2" placeholder="senha123" class="required">
+                                <input type="password" id="pssw2" name="senha2" placeholder="senha123" class="required">
                             </div>
                             <legend>Endereço</legend>
                             <div class="form-group col-md-4">

@@ -51,6 +51,16 @@ Cinza escuro: #2e2e2e
 }
 /*FIM BOTÃO VERDE DIGITAL CARE*/
 
+/* LINK VERDE DIGITAL CARE*/
+.link-digital-green{
+    color: #0e9374;
+}
+.link-digital-green:hover{
+    color: #0b7058;
+    text-decoration: none;
+}
+/*FIM LINK VERDE DIGITAL CARE*/
+
 /*BOTÃO AMARELO DIGITAL CARE*/
 .btn-digital-yellow {
     color: #666;
@@ -93,11 +103,26 @@ Cinza escuro: #2e2e2e
 }
 /*FIM BOTÃO AMARELO DIGITAL CARE*/
 
+/* LINK VERMELHO*/
+.link-danger{
+    color: #d5464a;
+}
+.link-danger:hover{
+    color: #ad393c;
+    text-decoration: none;
+}
+/*FIM LINKVERMELHO*/
+
 /*VERTICAL RULE (HR SO QUE VERTICAL)*/
 
 .vr{
     border-right:1px solid rgba(0, 0, 0, 0.1);
     height: 200px;
+}
+
+.dashed-divider{
+    margin: 40px 0px;
+    border-top:3px dashed #eee;
 }
 
 /*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
@@ -289,3 +314,50 @@ Cinza escuro: #2e2e2e
     overflow: auto;
 }
 /* FIM DASHBOARD CLINICA*/
+
+/* BTN ADICIONAR NOVO INPUT*/
+a.adicionar{
+    cursor: pointer;
+    color: #0069d9 !important;
+}
+a.adicionar:hover{
+    cursor: pointer;
+    color: #0056b3 !important;
+}
+a.adicionar-verde{
+    cursor: pointer;
+    color: #0e9374 !important;
+}
+a.adicionar-verde:hover{
+    cursor: pointer;
+    color: #0b7058 !important;
+}
+/* FIM BTN ADICIONAR NOVO INPUT*/
+
+/* PERFIL PACIENTE */
+.paciente{
+    margin-top: 80px;
+}
+
+.dados{
+    font-size: 20px;
+    font-weight: 200;
+}
+
+legend.dados{
+    font-size: 27px;
+    font-weight: 400;
+}
+/* FIM PERFIL PACIENTE*/
+
+.acordeao{
+    margin: 20px 0px 30px;
+}
+
+.large-divider {
+    margin: 1rem 0 3rem; /* Space out the Bootstrap <hr> more */
+}
+
+.border-divider{
+    border-left: 1px solid #eee;
+}
