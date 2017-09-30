@@ -28,4 +28,4 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/style.css" >
         <script src="${pageContext.request.contextPath}/js/customjs.js"></script>
         <!--Icone Aba-->
-        <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo-aba.png" type="image/x-png"/>
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/miniatura.png" type="image/x-png"/>
