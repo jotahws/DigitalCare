@@ -24,6 +24,8 @@
         <script src="${pageContext.request.contextPath}/components/bootstrap/dist/js/bootstrap.min.js" ></script>
         <!--Font Awesome-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/font-awesome/css/font-awesome.css" >
-        <!--Customização-->
+        <!--Customizacao-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/style.css" >
         <script src="${pageContext.request.contextPath}/js/customjs.js"></script>
+        <!--Icone Aba-->
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo-aba.png" type="image/x-png"/>
