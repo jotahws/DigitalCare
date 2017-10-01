@@ -108,7 +108,7 @@
                                             <input type="text" id="estado" name="estado" readonly="true" class="locked form-control">
                                         </div>
                                         <div class="form-group col-md-12 text-right">
-                                            <input type="submit" value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
+                                            <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -136,15 +136,15 @@
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label for="nova-senha">Nova senha:</label>
-                                                            <input type="password" id="senha" name="nova-senha" class="required form-control">
+                                                            <input type="password" id="pssw" name="nova-senha" class="required form-control">
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label for="nova-senha2">Confirmar Senha:</label>
-                                                            <input type="password" id="senha2" name="nova-senha2" class="required form-control">
+                                                            <input type="password" id="pssw2" name="nova-senha2" class="required form-control">
                                                         </div>
                                                         <div class="form-group col-md-12 text-right">
                                                             <label>&nbsp;</label>
-                                                            <input type="submit" value="Alterar senha" class="btn btn-digital-green ">
+                                                            <input type="submit" id="VerificaSenha" value="Alterar senha" class="btn btn-digital-green ">
                                                         </div>
                                                     </div>
                                                 </fieldset>
