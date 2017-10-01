@@ -43,7 +43,7 @@
                         </ul>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/configuracoes-medico.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaConfigMedico">
                             <i class="fa fa-fw fa-wrench"></i>
                             <span class="nav-link-text">Configurações</span>
                         </a>

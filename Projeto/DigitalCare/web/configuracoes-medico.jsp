@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -43,87 +44,40 @@
 
                         <div class="container">
                             <div class="row">
+                                <jsp:useBean id="medicoBean" class="beans.Medico"/>
                                 <form action="${pageContext.request.contextPath}/" method="POST">
                                     <fieldset>
                                         <div class="form-row">
                                             <legend>Sobre Você</legend>
                                             <div class="form-group col-md-6">
                                                 <label for="nome">Nome:</label>
-                                                <input type="text" id="nome" name="nome"class="required form-control">
+                                                <input type="text" id="nome" name="nome"class="required form-control" value="${medico.nome}">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="sobrenome">Sobrenome:</label>
-                                                <input type="text" id="sobrenome" name="sobrenome" class="required form-control">
+                                                <input type="text" id="sobrenome" name="sobrenome" class="required form-control" value="${medico.sobrenome}">
                                             </div>
-                                            <div class="form-group col-md-5">
+                                            <div class="form-group col-md-4">
                                                 <label for="cpf">CPF:</label>
-                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control">
+                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${medico.cpf}">
                                             </div>
-                                            <div class="form-group col-md-5">
+                                            <div class="form-group col-md-4">
                                                 <label for="datanasc">Data de Nascimento:</label>
-                                                <input type="text" id="datanasc" name="datanasc" class="required form-control">
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="sexo">Sexo:</label>
-                                                <select id="sexo" name="sexo" class="custom-select">
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F">Feminino</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="tel1">Telefone 1:</label>
-                                                <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="tel2">Telefone 2:</label>
-                                                <input type="text" id="tel2" class="telresidencial form-control" name="tel2" placeholder="">
+                                                <input type="text" id="datanasc" name="datanasc" class="required form-control" value="<fmt:formatDate pattern = "dd/MM/yyyy" value = "${medico.dataNascimento}"/>"> 
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="email">E-mail:</label>
                                                 <input type="email" id="email" name="email" class="required form-control">
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="tel1">Telefone 1:</label>
+                                                <input type="text" id="tel1" class="telefone required form-control" name="tel1"  value="${medico.telefone1}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="tel2">Telefone 2:</label>
+                                                <input type="text" id="tel2" class="telresidencial form-control" name="tel2"  value="${medico.telefone2}">
+                                            </div>
                                             <div id="accordionDados" class="col-md-12" role="tablist">
-                                                <div class="card acordeao">
-                                                    <div class="card-header" role="tab" id="headingEnd">
-                                                        <h5 class="mb-0">
-                                                            <a class="link-digital-green" data-toggle="collapse" href="#collapseEnd" aria-expanded="true" aria-controls="collapseEnd">
-                                                                Endereço
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-                                                    <div id="collapseEnd" class="collapse" role="tabpanel" aria-labelledby="headingEnd" data-parent="#accordionDaos">
-                                                        <div class="card-body row">
-                                                            <div class="form-group col-md-4">
-                                                                <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
-                                                                <input type="text" id="cep" name="cep" placeholder="" class="required form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-8">
-                                                                <label for="rua">Rua:</label>
-                                                                <input type="text" id="rua" name="rua" readonly="true" class="locked form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-3">
-                                                                <label for="numero">Número:</label>
-                                                                <input type="text" id="numero" name="numero"  class="required form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-3">
-                                                                <label for="compl">Complemento:</label>
-                                                                <input type="text" id="compl" name="compl" class="form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="bairro">Bairro:</label>
-                                                                <input type="text" id="bairro" name="bairro"  readonly="true" class="locked form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="cidade">Cidade:</label>
-                                                                <input type="text" id="cidade" name="cidade" readonly="true" class="locked form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="estado">Estado:</label>
-                                                                <input type="text" id="estado" name="estado" readonly="true" class="locked form-control">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="card acordeao">
                                                     <div class="card-header" role="tab" id="headingMedico">
                                                         <h5 class="mb-0">
@@ -138,20 +92,17 @@
                                                                 <div class="row">
                                                                     <div class="form-group col-md-8">
                                                                         <label for="crm">CRM:</label>
-                                                                        <input type="text" id="crm" name="crm" class="required form-control">
+                                                                        <input type="text" id="crm" name="crm" class="required form-control" disabled="" value="${medico.numeroCrm}">
                                                                     </div>
                                                                     <div class="form-group col-md-4">
                                                                         <label for="expedicao">Expedição</label>
-                                                                        <select id="expedicao" name="expedicao" class="custom-select">
-                                                                            <option value="PR">PR</option>
-                                                                            <option value="SC">SC</option>
-                                                                        </select>
+                                                                        <input type="text" id="expedicao" name="expedicao" class="required form-control" disabled="" value="${medico.estadoCrm.uf}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="valor">Valor cobrado por Consulta</label>
                                                                     <div class="form-group col-md-4">
-                                                                        <input type="text" id="valor" name="valor" class="required form-control">
+                                                                        <input type="text" id="valor" name="valor" class="required form-control"  value="${medico.precoConsulta}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -253,7 +204,7 @@
                                                             <div class="col-md-4 border-divider">
                                                                 <div class="form-group col-md-12">
                                                                     <label for="clinicas">Clínica(s) Vinculada(s)</label>
-                                                                    <input type="text" id="clinicas" name="clinicas" class="required form-control">
+                                                                    <h5>Clinica X</h5>
                                                                 </div>
                                                             </div>
                                                         </div>

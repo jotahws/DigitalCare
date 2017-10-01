@@ -6,6 +6,9 @@
 package servlets;
 
 import beans.Estado;
+import beans.Login;
+import beans.Medico;
+import daos.MedicoDAO;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,6 +55,22 @@ public class ListaMedicoServlet extends HttpServlet {
                 status = "error";
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/novo-medico.jsp?status=" + statusLista);
+            rd.forward(request, response);
+        } else if ("listaConfigMedico".equals(action)) {
+            String statusLista = "";
+            try {
+                HttpSession session = request.getSession();
+                Login login = (Login) session.getAttribute("sessionLogin");
+                Medico medico = Facade.getMedicoPorLogin(login.getId());
+                List<Estado> estados = facade.listarEstados();
+                request.setAttribute("estados", estados);
+                request.setAttribute("medico", medico);
+                statusLista = request.getParameter("status");
+                
+            } catch (Exception ex) {
+                status = "error";
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-medico.jsp?status=" + statusLista);
             rd.forward(request, response);
         }
     }

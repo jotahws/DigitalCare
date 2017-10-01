@@ -21,10 +21,11 @@ import java.util.List;
  * @author Gabriel
  */
 public class MedicoDAO {
-    
+
     private final String insereMedico = "INSERT INTO medico (id_login, id_estado_crm, num_crm, nome, sobrenome, cpf) "
             + "VALUES (?,?,?,?,?,?)";
     private final String buscaIdMedicoPorLogin = "SELECT id FROM medico WHERE id_login=?";
+    private final String buscaMedicoPorLogin = "SELECT * FROM medico WHERE id_login=?";
     private final String updateMedico = "UPDATE medico SET nome=?, sobrenome=?, preco_consulta=?, data_nascimento=?, "
             + "telefone=?, telefone2=? WHERE id=?";
     private final String deleteMedicoEspecialidade = "DELETE FROM medico_especialidade WHERE id_medico =? "
@@ -32,12 +33,11 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    
-    
+
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
-    
+
 //    public List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
 //        try {
 //            List<MedicoEspecialidade> lista = new ArrayList();
@@ -62,7 +62,6 @@ public class MedicoDAO {
 //            }
 //        }
 //    }
-    
     public void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -79,8 +78,8 @@ public class MedicoDAO {
             }
         }
     }
-    
-    public void deletarMedicoEspecialidade(int idEspecialidade, int idMedico) throws ClassNotFoundException, SQLException{
+
+    public void deletarMedicoEspecialidade(int idEspecialidade, int idMedico) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(deleteMedicoEspecialidade);
@@ -96,7 +95,7 @@ public class MedicoDAO {
             }
         }
     }
-    
+
     public void atualizarMedico(Medico medico) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -119,16 +118,16 @@ public class MedicoDAO {
             }
         }
     }
-    
-    public int buscarIdMedicoPorLogin(int idLogin) throws ClassNotFoundException, SQLException{
-        try{
+
+    public int buscarIdMedicoPorLogin(int idLogin) throws ClassNotFoundException, SQLException {
+        try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaIdMedicoPorLogin);
             stmt.setInt(1, idLogin);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
-            }  
+            }
         } finally {
             try {
                 stmt.close();
@@ -139,7 +138,7 @@ public class MedicoDAO {
         }
         return 0;
     }
-    
+
     public int inserirMedico(Medico medico) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -166,5 +165,23 @@ public class MedicoDAO {
         }
         return 0;
     }
-    
+
+    public Medico getMedicoPorLogin(int idLogin) throws SQLException, ClassNotFoundException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaMedicoPorLogin);
+            stmt.setInt(1, idLogin);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Medico medico = new Medico();
+                medico.setId(rs.getInt("id"));
+                medico.setNome(rs.getString("nome"));
+                medico.setSobrenome(rs.getString("sobrenome"));
+                medico.setCpf(rs.getString("cpf"));
+                medico.setPrecoConsulta(rs.getDouble("preco_consulta"));
+                medico.setDataNascimento(rs.getDate("data_nascimento"));
+                medico.setTelefone1(rs.getString("telefone"));
+                medico.setTelefone2(rs.getString("telefone2"));
+                medico.setNumeroCrm(rs.getString("num_crm"));
+                medico.setEstadoCrm(Facade.buscarEstadoPorId(rs.getInt("id_estado_crm")));
 }
