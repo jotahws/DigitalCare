@@ -184,4 +184,18 @@ public class MedicoDAO {
                 medico.setTelefone2(rs.getString("telefone2"));
                 medico.setNumeroCrm(rs.getString("num_crm"));
                 medico.setEstadoCrm(Facade.buscarEstadoPorId(rs.getInt("id_estado_crm")));
+                medico.setPrecoConsulta(rs.getDouble("preco_consulta"));
+                return medico;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+
 }
