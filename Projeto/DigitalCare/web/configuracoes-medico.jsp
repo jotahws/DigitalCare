@@ -159,22 +159,94 @@
                                                                         <a id="newEspec" class="adicionar-verde"><i class="fa fa-fw fa-plus"></i></a>
                                                                     </label>
                                                                     <div id="especDiv" class="form-group col-md-3">
-                                                                        <select id="especialidade" name="especialidade" class="custom-select">
-                                                                            <option value="Dermatologia">Dermatologia</option>
-                                                                            <option value="Endocrinologia">Endocrinologia</option>
+                                                                        <select id="especialidade" name="especialidade1" class="custom-select">
+                                                                            <option value="0">Nenhum...</option>
+                                                                            <option value="1">Dermatologia</option>
+                                                                            <option value="2">Endocrinologia</option>
                                                                         </select>
                                                                     </div>
-
+                                                                    <div id="especDiv" class="form-group col-md-3">
+                                                                        <select id="especialidade" name="especialidade2" class="custom-select">
+                                                                            <option value="0">Nenhum...</option>
+                                                                            <option value="1">Dermatologia</option>
+                                                                            <option value="2">Endocrinologia</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div id="especDiv" class="form-group col-md-3">
+                                                                        <select id="especialidade" name="especialidade3" class="custom-select">
+                                                                            <option value="0">Nenhum...</option>
+                                                                            <option value="1">Dermatologia</option>
+                                                                            <option value="2">Endocrinologia</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div id="especDiv" class="form-group col-md-3">
+                                                                        <select id="especialidade" name="especialidade4" class="custom-select">
+                                                                            <option value="0">Nenhum...</option>
+                                                                            <option value="1">Dermatologia</option>
+                                                                            <option value="2">Endocrinologia</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s): 
+                                                                    <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
                                                                         <a id="newPlano" class="adicionar-verde"><i class="fa fa-fw fa-plus"></i></a>
                                                                     </label>
-                                                                    <div id="planoDiv" class="form-group col-md-3">
-                                                                        <select id="planos" name="planos" class="custom-select col-md-4">
-                                                                            <option value="Amil">Amil</option>
-                                                                            <option value="Unimed">Unimed</option>
-                                                                        </select>
+                                                                    <div id="planoDiv" class="form-group col-md-12">
+                                                                        <div class="row">
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="1">
+                                                                                    Amil
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="2">
+                                                                                    Unimed
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="3">
+                                                                                    Clinipan
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="4">
+                                                                                    Qualicorp
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="5">
+                                                                                    Bradesco Saúde
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="6">
+                                                                                    Sul América
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="7">
+                                                                                    Nossa Saúde
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check col-md-3">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="8">
+                                                                                    Transmontano Saúde
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--<select id="planos" name="plano1" class="custom-select col-md-4">
+                                                                                <option value="empty">Nenhum...</option>
+                                                                                <option value="Amil">Amil</option>
+                                                                                <option value="Unimed">Unimed</option>
+                                                                            </select>-->
                                                                     </div>
                                                                 </div>
                                                             </div>

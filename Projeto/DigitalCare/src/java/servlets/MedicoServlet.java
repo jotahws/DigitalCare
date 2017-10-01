@@ -8,12 +8,15 @@ package servlets;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
+import beans.MedicoEspecialidade;
 import facade.Facade;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -90,6 +93,37 @@ public class MedicoServlet extends HttpServlet {
                 int idMedico = Facade.BuscarIdMedicoPorLogin(login.getId());
                 Medico medico = new Medico(idMedico, nome, sobrenome, Double.parseDouble(precoConsulta), dataNasc, telefone1, telefone2);
                 Facade.atualizarMedico(medico);
+                List<MedicoEspecialidade> listaMedicoEspecialidade = Facade.buscarMedicoEspecialidade(idMedico);
+                List<Integer> listaIdEspecialidade = new ArrayList();
+                if (!"0".equals(request.getParameter("especialidade1")))
+                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
+                if (!"0".equals(request.getParameter("especialidade2")))
+                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
+                if (!"0".equals(request.getParameter("especialidade3")))
+                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
+                if (!"0".equals(request.getParameter("especialidade4")))
+                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
+                
+                for (MedicoEspecialidade medicoEspecialidade : listaMedicoEspecialidade){
+                    boolean bDeletar = true;
+                    for (int idEspecialidade : listaIdEspecialidade)
+                        if (medicoEspecialidade.getIdEspecialidade() == idEspecialidade)
+                            bDeletar = false;
+                    if (bDeletar)
+                        Facade.deletarMedicoEspecialidade(medicoEspecialidade.getIdMedico(), 
+                                   medicoEspecialidade.getIdEspecialidade());
+                }
+                
+                for (int idEspecialidade : listaIdEspecialidade){
+                    boolean bInserir = true;
+                    for (MedicoEspecialidade medicoEspecialidade : listaMedicoEspecialidade)
+                        if (idEspecialidade == medicoEspecialidade.getIdEspecialidade())
+                            bInserir = false;
+                    if (bInserir)
+                        Facade.inserirMedicoEspecialidade(idEspecialidade, idMedico);
+                }
+                        
+                
                 
 //                status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {

@@ -12,6 +12,7 @@ import beans.Endereco;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
+import beans.MedicoEspecialidade;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
@@ -106,8 +107,24 @@ public class Facade {
         medicoDAO.atualizarMedico(medico);
     }
 
+
     public void alteraPacienteUsuario(PacienteUsuario pacienteUsuario) throws SQLException, ClassNotFoundException {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         pacienteUsuarioDAO.alteraDadosPaciente(pacienteUsuario);
+}
+    
+    public static List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.buscarMedicoEspecialidade(idMedico);
+    }
+    
+    public static void deletarMedicoEspecialidade(int idEspecialidade, int idMedico) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.deletarMedicoEspecialidade(idEspecialidade, idMedico);
+    }
+    
+    public static void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.inserirMedicoEspecialidade(idEspecialidade, idMedico);
     }
 }
