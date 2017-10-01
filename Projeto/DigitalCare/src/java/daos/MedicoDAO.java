@@ -6,6 +6,7 @@
 package daos;
 
 import beans.Medico;
+import beans.MedicoEspecialidade;
 import com.mysql.jdbc.Statement;
 import conexao.ConnectionFactory;
 import facade.Facade;
@@ -13,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,11 +28,75 @@ public class MedicoDAO {
     private final String buscaIdMedicoPorLogin = "SELECT id FROM medico WHERE id_login=?";
     private final String updateMedico = "UPDATE medico SET nome=?, sobrenome=?, preco_consulta=?, data_nascimento=?, "
             + "telefone=?, telefone2=? WHERE id=?";
+    private final String deleteMedicoEspecialidade = "DELETE FROM medico_especialidade WHERE id_medico =? "
+            + "AND id_especialidade =?";
+    private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
+            + "VALUES (?,?)";
+    private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
+    
     
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
     
+    public List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
+        try {
+            List<MedicoEspecialidade> lista = new ArrayList();
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscarMedicoEspecialidade);
+            stmt.setInt(1, idMedico);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int idEspecialidade = rs.getInt("id_especialidade");
+                MedicoEspecialidade medicoEspecialidade = new MedicoEspecialidade(id, idMedico, idEspecialidade);
+                lista.add(medicoEspecialidade);
+            }
+            return lista;
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(insereMedicoEspecialidade);
+            stmt.setInt(1, idMedico);
+            stmt.setInt(2, idEspecialidade);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public void deletarMedicoEspecialidade(int idEspecialidade, int idMedico) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deleteMedicoEspecialidade);
+            stmt.setInt(1, idMedico);
+            stmt.setInt(2, idEspecialidade);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
     
     public void atualizarMedico(Medico medico) throws ClassNotFoundException, SQLException {
         try {
