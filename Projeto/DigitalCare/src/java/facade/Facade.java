@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class Facade {
 
-    public static PacienteUsuario buscarPacienteUsuarioPorIdLogin(int id) {
+    public static PacienteUsuario buscarPacienteUsuarioPorIdLogin(int id) throws ClassNotFoundException, SQLException {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         return pacienteUsuarioDAO.buscarPacienteUsuarioPorIdLogin(id);
     }
