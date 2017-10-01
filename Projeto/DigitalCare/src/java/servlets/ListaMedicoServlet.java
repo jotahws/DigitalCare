@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Especialidade;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -61,12 +62,9 @@ public class ListaMedicoServlet extends HttpServlet {
             try {
                 HttpSession session = request.getSession();
                 Login login = (Login) session.getAttribute("sessionLogin");
-                Medico medico = Facade.getMedicoPorLogin(login.getId());
-                List<Estado> estados = facade.listarEstados();
-                request.setAttribute("estados", estados);
-                request.setAttribute("medico", medico);
+                List<Especialidade> espec = Facade.listarEspecialidades();
+                request.setAttribute("espec", espec);
                 statusLista = request.getParameter("status");
-                
             } catch (Exception ex) {
                 status = "error";
             }

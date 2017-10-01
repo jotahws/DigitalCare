@@ -45,37 +45,37 @@
                         <div class="container">
                             <div class="row">
                                 <jsp:useBean id="medicoBean" class="beans.Medico"/>
-                                <form action="${pageContext.request.contextPath}/" method="POST">
+                                <form action="${pageContext.request.contextPath}/MedicoServlet?action=edit" method="POST">
                                     <fieldset>
                                         <div class="form-row">
                                             <legend>Sobre Você</legend>
                                             <div class="form-group col-md-6">
                                                 <label for="nome">Nome:</label>
-                                                <input type="text" id="nome" name="nome"class="required form-control" value="${medico.nome}">
+                                                <input type="text" id="nome" name="nome"class="required form-control" value="${usuario.nome}">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="sobrenome">Sobrenome:</label>
-                                                <input type="text" id="sobrenome" name="sobrenome" class="required form-control" value="${medico.sobrenome}">
+                                                <input type="text" id="sobrenome" name="sobrenome" class="required form-control" value="${usuario.sobrenome}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="cpf">CPF:</label>
-                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${medico.cpf}">
+                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${usuario.cpf}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="datanasc">Data de Nascimento:</label>
-                                                <input type="text" id="datanasc" name="datanasc" class="required form-control" value="<fmt:formatDate pattern = "dd/MM/yyyy" value = "${medico.dataNascimento}"/>"> 
+                                                <input type="text" id="datanasc" name="dtnsc" class="required data form-control" value="<fmt:formatDate pattern = "dd/MM/yyyy" value = "${usuario.dataNascimento}"/>"> 
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="email">E-mail:</label>
-                                                <input type="email" id="email" name="email" class="required form-control">
+                                                <input type="email" id="email" name="email" class="required form-control"  value="${usuario.login.email}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="tel1">Telefone 1:</label>
-                                                <input type="text" id="tel1" class="telefone required form-control" name="tel1"  value="${medico.telefone1}">
+                                                <input type="text" id="tel1" class="telefone required form-control" name="telefone1"  value="${usuario.telefone1}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="tel2">Telefone 2:</label>
-                                                <input type="text" id="tel2" class="telresidencial form-control" name="tel2"  value="${medico.telefone2}">
+                                                <input type="text" id="tel2" class="telresidencial form-control" name="telefone2"  value="${usuario.telefone2}">
                                             </div>
                                             <div id="accordionDados" class="col-md-12" role="tablist">
                                                 <div class="card acordeao">
@@ -92,17 +92,17 @@
                                                                 <div class="row">
                                                                     <div class="form-group col-md-8">
                                                                         <label for="crm">CRM:</label>
-                                                                        <input type="text" id="crm" name="crm" class="required form-control" disabled="" value="${medico.numeroCrm}">
+                                                                        <input type="text" id="crm" name="crm" class="required form-control" disabled="" value="${usuario.numeroCrm}">
                                                                     </div>
                                                                     <div class="form-group col-md-4">
                                                                         <label for="expedicao">Expedição</label>
-                                                                        <input type="text" id="expedicao" name="expedicao" class="required form-control" disabled="" value="${medico.estadoCrm.uf}">
+                                                                        <input type="text" id="expedicao" name="expedicao" class="required form-control" disabled="" value="${usuario.estadoCrm.uf}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="valor">Valor cobrado por Consulta</label>
                                                                     <div class="form-group col-md-4">
-                                                                        <input type="text" id="valor" name="valor" class="required form-control"  value="${medico.precoConsulta}">
+                                                                        <input type="text" id="valor" name="precoConsulta" class="required form-control"  value="${usuario.precoConsulta}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -110,31 +110,37 @@
                                                                         <a id="newEspec" class="adicionar-verde"><i class="fa fa-fw fa-plus"></i></a>
                                                                     </label>
                                                                     <div id="especDiv" class="form-group col-md-3">
+                                                                        <jsp:useBean id="especialidade" class="beans.Especialidade"/>
+                                                                        <c:set var="lista" value="${espec}"/>
                                                                         <select id="especialidade" name="especialidade1" class="custom-select">
                                                                             <option value="0">Nenhum...</option>
-                                                                            <option value="1">Dermatologia</option>
-                                                                            <option value="2">Endocrinologia</option>
+                                                                            <c:forEach var="item" items="${lista}">
+                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                            </c:forEach>
                                                                         </select>
                                                                     </div>
                                                                     <div id="especDiv" class="form-group col-md-3">
                                                                         <select id="especialidade" name="especialidade2" class="custom-select">
                                                                             <option value="0">Nenhum...</option>
-                                                                            <option value="1">Dermatologia</option>
-                                                                            <option value="2">Endocrinologia</option>
+                                                                            <c:forEach var="item" items="${lista}">
+                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                            </c:forEach>
                                                                         </select>
                                                                     </div>
                                                                     <div id="especDiv" class="form-group col-md-3">
                                                                         <select id="especialidade" name="especialidade3" class="custom-select">
                                                                             <option value="0">Nenhum...</option>
-                                                                            <option value="1">Dermatologia</option>
-                                                                            <option value="2">Endocrinologia</option>
+                                                                            <c:forEach var="item" items="${lista}">
+                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                            </c:forEach>
                                                                         </select>
                                                                     </div>
                                                                     <div id="especDiv" class="form-group col-md-3">
                                                                         <select id="especialidade" name="especialidade4" class="custom-select">
                                                                             <option value="0">Nenhum...</option>
-                                                                            <option value="1">Dermatologia</option>
-                                                                            <option value="2">Endocrinologia</option>
+                                                                            <c:forEach var="item" items="${lista}">
+                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                            </c:forEach>
                                                                         </select>
                                                                     </div>
                                                                 </div>

@@ -43,9 +43,9 @@ public class MedicoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        String status;  
-        
-        if ("register".equals(action)){
+        String status;
+
+        if ("register".equals(action)) {
             try {
                 String nome = request.getParameter("nome");
                 String sobrenome = request.getParameter("sobrenome");
@@ -63,13 +63,13 @@ public class MedicoServlet extends HttpServlet {
                 Estado estado = Facade.buscarEstadoPorId(Integer.parseInt(estadoCrm));
                 Medico medico = new Medico(login, estado, numeroCrm, nome, sobrenome, cpf, dataNasc);
                 Facade.inserirMedico(medico);
-                
+
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
                 status = "cadastro-erro";
             }
             response.sendRedirect("novo-medico.jsp?status=" + status);
-        } else if ("edit".equals(action)){
+        } else if ("edit".equals(action)) {
             try {
                 String nome = request.getParameter("nome");
                 String sobrenome = request.getParameter("sobrenome");
@@ -88,21 +88,25 @@ public class MedicoServlet extends HttpServlet {
                 telefone2 = telefone2.replace(" ", "");
                 telefone2 = telefone2.replace("-", "");
                 HttpSession session = request.getSession();
-                Login login = (Login)session.getAttribute("sessionLogin");
+                Login login = (Login) session.getAttribute("sessionLogin");
                 int idMedico = Facade.BuscarIdMedicoPorLogin(login.getId());
                 Medico medico = new Medico(idMedico, nome, sobrenome, Double.parseDouble(precoConsulta), dataNasc, telefone1, telefone2);
                 Facade.atualizarMedico(medico);
 //                List<MedicoEspecialidade> listaMedicoEspecialidade = Facade.buscarMedicoEspecialidade(idMedico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
-                if (!"0".equals(request.getParameter("especialidade1")))
+                if (!"0".equals(request.getParameter("especialidade1"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
-                if (!"0".equals(request.getParameter("especialidade2")))
+                }
+                if (!"0".equals(request.getParameter("especialidade2"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
-                if (!"0".equals(request.getParameter("especialidade3")))
+                }
+                if (!"0".equals(request.getParameter("especialidade3"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
-                if (!"0".equals(request.getParameter("especialidade4")))
+                }
+                if (!"0".equals(request.getParameter("especialidade4"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
-                
+                }
+
 //                for (Especialidade especialidade : listaMedicoEspecialidade){
 //                    boolean bDeletar = true;
 //                    for (int idEspecialidade : listaIdEspecialidade)
@@ -120,9 +124,12 @@ public class MedicoServlet extends HttpServlet {
 //                    if (bInserir)
 //                        Facade.inserirMedicoEspecialidade(idEspecialidade, idMedico);
 //                }
-                        
-                
-                
+                medico = Facade.getMedicoPorLogin(login.getId());
+                        medico.setListaEspecialidades(Facade.getListaEspecialidadesMedico(medico.getId()));
+                        medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
+                        medico.setLogin(login);
+                session.setAttribute("usuario", medico);
+
 //                status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
 //                status = "cadastro-erro";
