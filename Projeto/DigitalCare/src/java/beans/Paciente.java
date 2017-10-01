@@ -12,8 +12,8 @@ import java.util.Date;
  *
  * @author Gabriel
  */
-public class Paciente implements Serializable{
-    
+public class Paciente implements Serializable {
+
     private int id;
     private String cpf;
     private String nome;
@@ -25,6 +25,15 @@ public class Paciente implements Serializable{
     }
 
     public Paciente(String cpf, String nome, String sobrenome, Date dataNascimento, String sexo) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+    }
+
+    public Paciente(int id, String cpf, String nome, String sobrenome, Date dataNascimento, String sexo) {
+        this.id = id;
         this.cpf = cpf;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -79,5 +88,5 @@ public class Paciente implements Serializable{
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    
+
 }

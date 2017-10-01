@@ -6,7 +6,6 @@
 package daos;
 
 import beans.Medico;
-import beans.MedicoEspecialidade;
 import com.mysql.jdbc.Statement;
 import conexao.ConnectionFactory;
 import facade.Facade;
@@ -39,30 +38,30 @@ public class MedicoDAO {
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
     
-    public List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
-        try {
-            List<MedicoEspecialidade> lista = new ArrayList();
-            con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(buscarMedicoEspecialidade);
-            stmt.setInt(1, idMedico);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int idEspecialidade = rs.getInt("id_especialidade");
-                MedicoEspecialidade medicoEspecialidade = new MedicoEspecialidade(id, idMedico, idEspecialidade);
-                lista.add(medicoEspecialidade);
-            }
-            return lista;
-        } finally {
-            try {
-                con.close();
-                stmt.close();
-                rs.close();
-            } catch (SQLException ex) {
-                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
-            }
-        }
-    }
+//    public List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
+//        try {
+//            List<MedicoEspecialidade> lista = new ArrayList();
+//            con = new ConnectionFactory().getConnection();
+//            stmt = con.prepareStatement(buscarMedicoEspecialidade);
+//            stmt.setInt(1, idMedico);
+//            rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                int id = rs.getInt("id");
+//                int idEspecialidade = rs.getInt("id_especialidade");
+//                MedicoEspecialidade medicoEspecialidade = new MedicoEspecialidade(id, idMedico, idEspecialidade);
+//                lista.add(medicoEspecialidade);
+//            }
+//            return lista;
+//        } finally {
+//            try {
+//                con.close();
+//                stmt.close();
+//                rs.close();
+//            } catch (SQLException ex) {
+//                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+//            }
+//        }
+//    }
     
     public void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException {
         try {

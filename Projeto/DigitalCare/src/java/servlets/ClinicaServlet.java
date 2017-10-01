@@ -7,7 +7,6 @@ package servlets;
 
 import beans.Cidade;
 import beans.Clinica;
-import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Login;
 import facade.Facade;
@@ -77,14 +76,56 @@ public class ClinicaServlet extends HttpServlet {
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
-                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
-                facade.inserirClinicaEndereco(clinicaEndereco);
+//                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+//                facade.inserirClinicaEndereco(clinicaEndereco);
 
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException ex) {
                 status = "cadastro-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
+        } else if ("edit".equals(action)){
+            try{
+                String nomeFantasia = request.getParameter("nomeFantasia");
+                String razaoSocial = request.getParameter("razaoSocial");
+                String cnpj = request.getParameter("cnpj");
+                String site = request.getParameter("site");
+                String tel1 = request.getParameter("tel1");
+                String tel2 = request.getParameter("tel2");
+                String email = request.getParameter("email");
+                String senha = request.getParameter("senha");
+                String cep = request.getParameter("cep");
+                String rua = request.getParameter("rua");
+                String numero = request.getParameter("numero");
+                String complemento = request.getParameter("compl");
+                String bairro = request.getParameter("bairro");
+                String cidadeString = request.getParameter("cidade");
+                cnpj = cnpj.replace("-", "");
+                cnpj = cnpj.replace(".", "");
+                cnpj = cnpj.replace("/", "");
+                tel1 = tel1.replace("(", "");
+                tel1 = tel1.replace(")", "");
+                tel1 = tel1.replace(" ", "");
+                tel1 = tel1.replace("-", "");
+                tel2 = tel2.replace("(", "");
+                tel2 = tel2.replace(")", "");
+                tel2 = tel2.replace(" ", "");
+                tel2 = tel2.replace("-", "");
+                cep = cep.replace("-", "");
+                cep = cep.replace(".", "");
+                
+                Login login = new Login(email, senha, 3);
+                Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
+                Cidade cidade = facade.getCidadePorNome(cidadeString);
+                Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
+//                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+//                facade.inserirClinicaEndereco(clinicaEndereco);
+
+                status = "cadastro-ok";
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "cadastro-erro";
+            }
+            
         }
     }
 
