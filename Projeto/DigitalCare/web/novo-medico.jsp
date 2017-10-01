@@ -56,11 +56,15 @@
                                             <label for="email">E-mail:</label>
                                             <input type="email" id="email" name="email" class="required form-control">
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
+                                            <label for="dtnsc">Data de Nascimento:</label>
+                                            <input type="text" id="dtnsc" class="data required form-control" name="dtnsc" >
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label for="cpf">CPF:</label>
                                             <input type="text" id="cpf" name="cpf" class="cpf required form-control">
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
                                             <label for="datanasc">CRM:</label>
                                             <input type="text" id="datanasc" name="datanasc" class="required form-control">
                                         </div>

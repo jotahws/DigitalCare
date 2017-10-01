@@ -83,37 +83,42 @@ $(document).ready(function () {
         }
     });
 //---------------------Verifica os campos obrigatórios-----------------
-    $('input[type="submit"]').click(function (e) {
-        var isValid = true;
-        $('span.clear').remove();
-        $('.required').each(function () {
-            if ($.trim($(this).val()) === '') {
+    if (($('input[type="submit"]').attr('id') !== 'VerificaSenha') && ($('input[type="submit"]').attr('id') !== 'VerificaDados')) {
+        $('input[type="submit"]').click(function (e) {
+            var isValid = true;
+            $('span.clear').remove();
+            $('.required').each(function () {
+                if ($.trim($(this).val()) === '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    $(this).after('<span class="clear" style="font-size:0.8em;">Campo Obrigatorio</span>');
+                } else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if ($('#pssw').val() !== $('#pssw2').val()) {
                 isValid = false;
-                $(this).css({
+                $('#pssw2').css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
-                $(this).after('<span class="clear" style="font-size:0.8em;">Campo Obrigatorio</span>');
-            } else {
-                $(this).css({
-                    "border": "",
-                    "background": ""
-                });
+                $("#pssw2").after('<span class="clear" style="font-size:0.8em;">Os campos devem ser iguais</span>');
             }
-        });
-        if ($('#pssw').val() !== $('#pssw2').val()) {
-            isValid = false;
-            $('#pssw2').css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-            $("#pssw2").after('<span class="clear" style="font-size:0.8em;">Os campos devem ser iguais</span>');
-        }
 //        $('#rua').attr('disabled', false);
 //        $('#bairro').attr('disabled', false);
-        if (isValid === false)
-            e.preventDefault();
-    });
+            if (isValid === false)
+                e.preventDefault();
+        });
+    }else{
+        
+    }
+
 //--------------------------RESPONSIVIDADE----------------------------
 
     if ($(window).width() < 1200) {
