@@ -41,67 +41,69 @@
                         <div class="col-md-12">
                             <form action="${pageContext.request.contextPath}/" method="POST">
                                 <fieldset>
+                                    <jsp:useBean id="pacienteEdita" class="beans.PacienteUsuario"/>
+                                    <c:set var="item" value="${paciente}"/>
                                     <div class="form-row">
                                         <legend>Sobre Você</legend>
                                         <div class="form-group col-md-6">
                                             <label for="nome">Nome:</label>
-                                            <input type="text" id="nome" name="nome"class="required form-control">
+                                            <input type="text" id="nome" name="nome"class="required form-control" value="${item.paciente.nome}">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="sobrenome">Sobrenome:</label>
-                                            <input type="text" id="sobrenome" name="sobrenome" class="required form-control">
+                                            <input type="text" id="sobrenome" name="sobrenome" class="required form-control" value="${item.paciente.sobrenome}">
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="cpf">CPF:</label>
-                                            <input type="text" id="cpf" name="cpf" class="cpf required form-control">
+                                            <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${item.paciente.cpf}">
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="datanasc">Data de Nascimento:</label>
-                                            <input type="text" id="datanasc" name="datanasc" class="required form-control">
+                                            <input type="text" id="datanasc" name="datanasc" class="required form-control" value="${item.paciente.dataNascimento}">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>
-                                            <select id="sexo" name="sexo" class="custom-select">
+                                            <select id="sexo" name="sexo" class="custom-select" value="${item.paciente.sexo}">
                                                 <option value="M">Masculino</option>
                                                 <option value="F">Feminino</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tel1">Telefone 1:</label>
-                                            <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="">
+                                            <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="" value="${item.telefone}">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tel2">Telefone 2:</label>
-                                            <input type="text" id="tel2" class="telresidencial form-control" name="tel2" placeholder="">
+                                            <input type="text" id="tel2" class="telresidencial form-control" name="tel2" placeholder="" value="${item.telefone2}">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="email">E-mail:</label>
-                                            <input type="email" id="email" name="email" class="required form-control">
+                                            <input type="email" id="email" name="email" class="required form-control" value="${item.login.email}">
                                         </div>
                                         <legend><hr>Endereço</legend>
                                         <div class="form-group col-md-4">
                                             <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
-                                            <input type="text" id="cep" name="cep" placeholder="" class="required form-control">
+                                            <input type="text" id="cep" name="cep" placeholder="" class="required form-control" value="${item.endereco.cep}">
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label for="rua">Rua:</label>
-                                            <input type="text" id="rua" name="rua" readonly="true" class="locked form-control">
+                                            <input type="text" id="rua" name="rua" readonly="true" class="locked form-control" value="${item.endereco.rua}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="numero">Número:</label>
-                                            <input type="text" id="numero" name="numero"  class="required form-control">
+                                            <input type="text" id="numero" name="numero"  class="required form-control" value="${item.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="compl">Complemento:</label>
-                                            <input type="text" id="compl" name="compl" class="form-control">
+                                            <input type="text" id="compl" name="compl" class="form-control" value="${item.endereco.complemento}">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="bairro">Bairro:</label>
-                                            <input type="text" id="bairro" name="bairro"  readonly="true" class="locked form-control">
+                                            <input type="text" id="bairro" name="bairro"  readonly="true" class="locked form-control" value="${item.endereco.bairro}">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="cidade">Cidade:</label>
-                                            <input type="text" id="cidade" name="cidade" readonly="true" class="locked form-control">
+                                            <input type="text" id="cidade" name="cidade" readonly="true" class="locked form-control" >
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="estado">Estado:</label>

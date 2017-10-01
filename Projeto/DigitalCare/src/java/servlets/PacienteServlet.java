@@ -12,15 +12,18 @@ import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -90,6 +93,15 @@ public class PacienteServlet extends HttpServlet {
                 status = "cadastro-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
+        }else if ("meuPerfil".equals(action)) {
+            HttpSession session = request.getSession();
+            Login login = (Login)session.getAttribute("sessionLogin");
+            PacienteUsuario pacienteUsuario = new PacienteUsuario();
+            pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
+            request.setAttribute("paciente", pacienteUsuario);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
+                rd.forward(request, response);
+           
         }
 
     }

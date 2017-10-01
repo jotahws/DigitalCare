@@ -23,7 +23,7 @@
                                 <c:choose>
                                     <c:when test="${sessionLogin.perfil == 1}">
                                         <li class="nav-item active" >
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/perfil-paciente.jsp">Perfil</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/PacienteServlet?action=meuPerfil">Perfil</a>
                                         </li>
                                     </c:when>
                                 </c:choose>

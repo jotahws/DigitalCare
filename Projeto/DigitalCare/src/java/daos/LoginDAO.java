@@ -21,7 +21,7 @@ import java.sql.Statement;
 public class LoginDAO {
     
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
-    private final String buscaCidadePorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
+    private final String buscaLoginPorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -52,7 +52,7 @@ public class LoginDAO {
     public Login buscarLogin(Login login) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(buscaCidadePorEmail);
+            stmt = con.prepareStatement(buscaLoginPorEmail);
             stmt.setString(1, login.getEmail());
             stmt.setString(2, login.getSenha());
             rs = stmt.executeQuery();

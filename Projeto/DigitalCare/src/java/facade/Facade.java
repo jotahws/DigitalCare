@@ -79,4 +79,9 @@ public class Facade {
         return loginDAO.buscarLogin(login);
     }
 
+    public PacienteUsuario getPacientePorIdLogin(int id) {
+        PacienteUsuarioDAO pacUsuarioDAO = new PacienteUsuarioDAO();
+        return pacUsuarioDAO.buscaPacientePorIdLogin(id);
+    }
+
 }

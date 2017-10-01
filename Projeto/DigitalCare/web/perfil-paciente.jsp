@@ -42,12 +42,15 @@
                 <div class="container ">
                     <div class="row">
                         <legend class="dados">Dados</legend>
-                        <p class="col-md-12 dados">Nome: <strong>Joãozinho da Silva Stenislau</strong> </p>
+                        <jsp:useBean id="pacienteEdita" class="beans.PacienteUsuario"/>
+                        <c:set var="item" value="${paciente}"/>
+
+                        <p class="col-md-12 dados">Nome:  <c:out value="${item.paciente.nome}"/> </p>                                            
                         <p class="col-md-4 dados">CPF: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Data de Nascimento: <strong>13/05/1997</strong> </p>
                         <p class="col-md-4 dados">Sexo: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Email: <strong>Algum dado</strong> </p>
-                        <p class="col-md-4 dados">Telefone 1: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Telefone 1: <strong><c:out value="${item.telefone}"/></strong> </p>
                         <p class="col-md-4 dados">Telefone 2: <strong>Algum dado</strong> </p>
                         <legend class="dados"><hr>Dados Médicos</legend>
                         <p class="col-md-4 dados">Plano de Saúde: <strong>Algum dado</strong> </p>
@@ -62,8 +65,8 @@
                         <p class="col-md-4 dados">Estado: <strong>Algum dado</strong> </p>
                     </div>
                 </div>
-            <%@include file="/includes/footer.jsp" %>
-        </c:otherwise>
-    </c:choose>
-</body>
+                <%@include file="/includes/footer.jsp" %>
+            </c:otherwise>
+        </c:choose>
+    </body>
 </html>
