@@ -5,8 +5,12 @@
  */
 package servlets;
 
+import beans.Estado;
+import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,9 +39,19 @@ public class ListaMedicoServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         String status = "";
+        Facade facade = new Facade();
 
         if ("listaRegisterMedico".equals(action)) {
-            
+            String statusLista = "";
+            try {
+                List<Estado> estados = facade.listarEstados();
+                request.setAttribute("estados", estados);
+                statusLista = request.getParameter("status");
+            } catch (Exception ex) {
+                status = "error";
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/novo-medico.jsp?status=" + statusLista);
+            rd.forward(request, response);
         }
     }
 

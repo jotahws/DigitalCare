@@ -66,9 +66,12 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="expedicao">Expedição</label>
+                                            <jsp:useBean id="estado" class="beans.Estado"/>
+                                            <c:set var="lista" value="${estados}"/>
                                             <select id="expedicao" name="expedicao" class="custom-select">
-                                                <option value="1">PR</option>
-                                                <option value="2">SC</option>
+                                                <c:forEach var="item" items="${lista}">
+                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.uf}"/></option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
