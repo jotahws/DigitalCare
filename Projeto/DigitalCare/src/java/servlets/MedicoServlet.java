@@ -8,7 +8,6 @@ package servlets;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
-import beans.MedicoEspecialidade;
 import facade.Facade;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -93,7 +92,7 @@ public class MedicoServlet extends HttpServlet {
                 int idMedico = Facade.BuscarIdMedicoPorLogin(login.getId());
                 Medico medico = new Medico(idMedico, nome, sobrenome, Double.parseDouble(precoConsulta), dataNasc, telefone1, telefone2);
                 Facade.atualizarMedico(medico);
-                List<MedicoEspecialidade> listaMedicoEspecialidade = Facade.buscarMedicoEspecialidade(idMedico);
+//                List<MedicoEspecialidade> listaMedicoEspecialidade = Facade.buscarMedicoEspecialidade(idMedico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
                 if (!"0".equals(request.getParameter("especialidade1")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
@@ -104,24 +103,23 @@ public class MedicoServlet extends HttpServlet {
                 if (!"0".equals(request.getParameter("especialidade4")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
                 
-                for (MedicoEspecialidade medicoEspecialidade : listaMedicoEspecialidade){
-                    boolean bDeletar = true;
-                    for (int idEspecialidade : listaIdEspecialidade)
-                        if (medicoEspecialidade.getIdEspecialidade() == idEspecialidade)
-                            bDeletar = false;
-                    if (bDeletar)
-                        Facade.deletarMedicoEspecialidade(medicoEspecialidade.getIdMedico(), 
-                                   medicoEspecialidade.getIdEspecialidade());
-                }
-                
-                for (int idEspecialidade : listaIdEspecialidade){
-                    boolean bInserir = true;
-                    for (MedicoEspecialidade medicoEspecialidade : listaMedicoEspecialidade)
-                        if (idEspecialidade == medicoEspecialidade.getIdEspecialidade())
-                            bInserir = false;
-                    if (bInserir)
-                        Facade.inserirMedicoEspecialidade(idEspecialidade, idMedico);
-                }
+//                for (Especialidade especialidade : listaMedicoEspecialidade){
+//                    boolean bDeletar = true;
+//                    for (int idEspecialidade : listaIdEspecialidade)
+//                        if (especialidade.getId() == idEspecialidade)
+//                            bDeletar = false;
+//                    if (bDeletar)
+//                        Facade.deletarMedicoEspecialidade(idMedico, especialidade.getId());
+//                }
+//                
+//                for (int idEspecialidade : listaIdEspecialidade){
+//                    boolean bInserir = true;
+//                    for (Especialidade especialidade : listaMedicoEspecialidade)
+//                        if (idEspecialidade == especialidade.getId())
+//                            bInserir = false;
+//                    if (bInserir)
+//                        Facade.inserirMedicoEspecialidade(idEspecialidade, idMedico);
+//                }
                         
                 
                 
