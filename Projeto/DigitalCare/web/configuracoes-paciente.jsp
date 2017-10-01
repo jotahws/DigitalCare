@@ -131,6 +131,25 @@
                             <hr class="dashed-divider">
 
                             <h3>Avançado</h3>
+                            <c:choose>
+                                <c:when test="${(param.status == 'error')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Senha Atual Errada!</strong> 
+                                    </div>
+                                </c:when>
+
+                                <c:when test="${(param.status == 'ok')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Nova Senha Editava com Sucesso!</strong> 
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <div id="accordion" role="tablist">
                                 <div class="card" style="margin: 20px 0px 50px">
                                     <div class="card-header " role="tab" id="headingOne">
@@ -181,7 +200,7 @@
                                                 <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
                                             </p>
                                             <div>
-                                                <button class="btn btn-danger">Excluir minha conta</button>
+                                                <a class="btn-danger" href="PacienteServlet?action=deletaUsuario">Excluir minha conta </a>
                                             </div>
                                         </div>
                                     </div>

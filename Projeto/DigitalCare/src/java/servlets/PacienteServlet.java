@@ -100,23 +100,13 @@ public class PacienteServlet extends HttpServlet {
                 response.sendRedirect("login.jsp?status=" + status);
             } else if ("meuPerfil".equals(action)) {
                 HttpSession session = request.getSession();
-                Login login = (Login) session.getAttribute("sessionLogin");
-
-                PacienteUsuario pacienteUsuario = new PacienteUsuario();
-
-                try {
-                    pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
-
-                } catch (ClassNotFoundException ex) {
-                } catch (SQLException ex) {
-                }
-
+                PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
                 request.setAttribute("paciente", pacienteUsuario);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
                 rd.forward(request, response);
-
             } else if ("alteraPerfil".equals(action)) {
                 try {
+                    //Pega dos input dados informados
                     int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
                     String nome = request.getParameter("nome");
                     String sobrenome = request.getParameter("sobrenome");
@@ -146,13 +136,16 @@ public class PacienteServlet extends HttpServlet {
                     String cidadeString = request.getParameter("cidade");
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
                     Date dataNasc = formatter.parse(dtnsc);
-
+                    //Instancia os objetos
                     Paciente paciente = new Paciente(idPaciente, cpf, nome, sobrenome, dataNasc, sexo);
                     Cidade cidade = facade.getCidadePorNome(cidadeString);
                     Login login = new Login(email);
                     Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
                     PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                     facade.alteraPacienteUsuario(pacienteUsuario);
+                    //Atualiza a sessao com os dados do bens modificados
+                    HttpSession session = request.getSession();
+                    session.setAttribute("usuario", pacienteUsuario);
 
                     status = "altera-ok";
                 } catch (ParseException | SQLException | ClassNotFoundException ex) {
@@ -160,11 +153,34 @@ public class PacienteServlet extends HttpServlet {
                 }
                 response.sendRedirect("paciente-home.jsp?status=" + status);
             } else if ("alteraSenha".equals(action)) {
-                String senha = request.getParameter("senha");
+                HttpSession session = request.getSession();
+                PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
+                String senha = request.getParameter("senha-antiga");
+                String novaSenha = request.getParameter("senha-nova");
+                try {
+                    status = facade.verificaSenhaPacienteUsuario(pacienteUsuario, senha);
+                    facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
+                    pacienteUsuario.getLogin().setSenha(novaSenha);
+                    session.setAttribute("usuario", pacienteUsuario);
+
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "error";
+                }
+                response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status);
+            } else if ("deletaUsuario".equals(action)) {
+                HttpSession session = request.getSession();
+                PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
                 
-                String pssw = request.getParameter("pssw");
-                String pssw2 = request.getParameter("pssw2");
-                                
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(pacienteUsuario.getLogin().getId());
+                }
+                //facade.desativaConta(pacienteUsuario);
+
+                //session = request.getSession(false);
+                //if (session != null) {
+                //    session.invalidate();
+                //}
+                //response.sendRedirect("index.jsp");
             }
         } else {
             response.sendRedirect("login.jsp");

@@ -145,4 +145,19 @@ public class Facade {
         EnderecoDAO enderecoDAO = new EnderecoDAO();
         enderecoDAO.atualizarEndereco(endereco);
     }
+
+    public String verificaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        return loginDAO.verificaSenhaAtual(pacienteUsuario,senha);
+    }
+
+    public void editaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String novaSenha) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        loginDAO.atualizaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
+    }
+
+    public void desativaConta(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
+        pacienteUsuarioDAO.deletePacienteUsuario(pacienteUsuario);
+    }
 }
