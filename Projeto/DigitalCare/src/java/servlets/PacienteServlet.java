@@ -158,11 +158,13 @@ public class PacienteServlet extends HttpServlet {
                 } catch (ParseException | SQLException | ClassNotFoundException ex) {
                     status = "altera-erro";
                 }
-                action = "meuPerfil";
                 response.sendRedirect("paciente-home.jsp?status=" + status);
             } else if ("alteraSenha".equals(action)) {
+                String senha = request.getParameter("senha");
+                
                 String pssw = request.getParameter("pssw");
-
+                String pssw2 = request.getParameter("pssw2");
+                                
             }
         } else {
             response.sendRedirect("login.jsp");

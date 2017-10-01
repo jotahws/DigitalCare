@@ -45,6 +45,16 @@
                                     <jsp:useBean id="pacienteEdita" class="beans.PacienteUsuario"/>
                                     <c:set var="item" value="${paciente}"/>
                                     <div class="form-row">
+                                        <c:choose>
+                                            <c:when test="${(param.status == 'senhas-erro')}">
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <strong>Senhas erradas!</strong> 
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
                                         <legend>Sobre Você</legend>
                                         <div class="form-group col-md-6">
                                             <label for="nome">Nome:</label>
