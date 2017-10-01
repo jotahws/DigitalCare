@@ -40,6 +40,23 @@
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="container">
+                            <c:choose>
+                                <c:when test="${(param.status == 'cadastro-ok')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Cadastro efetuado!</strong> O médico deverá completar o seu cadastro para poder realizar consultas
+                                    </div>
+                                </c:when>
+                                <c:when test="${(param.status == 'cadastro-erro')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Cadastro efetuado!</strong> O médico deverá completar o seu cadastro para poder realizar consultas
+                                    </div>
+                                </c:when>                            </c:choose>
                             <form action="${pageContext.request.contextPath}/MedicoServlet?action=register" method="POST">
                                 <fieldset>
                                     <div class="form-row">
