@@ -7,6 +7,7 @@ package beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Medico implements Serializable{
     private String telefone1;
     private String telefone2;
     private Double avaliacao;
+    private List<Especialidade> listaEspecialidades;
 
     public Medico() {
     }
@@ -144,6 +146,14 @@ public class Medico implements Serializable{
 
     public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public List<Especialidade> getListaEspecialidades() {
+        return listaEspecialidades;
+    }
+
+    public void setListaEspecialidades(List<Especialidade> listaEspecialidades) {
+        this.listaEspecialidades = listaEspecialidades;
     }
     
 }

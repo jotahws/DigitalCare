@@ -27,6 +27,28 @@ public class EnderecoDAO {
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
+   
+    public void atualizarEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(updateEndereco);
+            stmt.setInt(1, endereco.getCidade().getId());
+            stmt.setString(2, endereco.getCep());
+            stmt.setString(3, endereco.getRua());
+            stmt.setString(4, endereco.getNumero());
+            stmt.setString(5, endereco.getComplemento());
+            stmt.setString(6, endereco.getBairro());
+            stmt.setInt(7, endereco.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
     
     public int inserirEndereco(Endereco endereco) throws ClassNotFoundException, SQLException{
         try {

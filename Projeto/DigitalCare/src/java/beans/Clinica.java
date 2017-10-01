@@ -5,6 +5,8 @@
  */
 package beans;
 
+import java.util.List;
+
 /**
  *
  * @author Gabriel
@@ -18,6 +20,7 @@ public class Clinica {
     private String nomeFantasia;
     private String site;
     private float avaliacao;
+    private List<Endereco> listaEnderecos;
 
     public Clinica() {
     }
@@ -85,7 +88,12 @@ public class Clinica {
     public void setAvaliacao(float avaliacao) {
         this.avaliacao = avaliacao;
     }
-    
-    
-    
+
+    public List<Endereco> getListaEnderecos() {
+        return listaEnderecos;
+    }
+
+    public void setListaEnderecos(List<Endereco> listaEnderecos) {
+        this.listaEnderecos = listaEnderecos;
+    }    
 }
