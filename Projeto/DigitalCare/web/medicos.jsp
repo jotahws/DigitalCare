@@ -36,7 +36,16 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Lista de Médicos</h1>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h1>Lista de Médicos</h1>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaRegisterMedico" class="btn btn-lg btn-digital-green">
+                                    <i class="fa fa-fw fa-plus"></i>Adicionar Novo Médico
+                                </a>
+                            </div>
+                        </div>
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">
