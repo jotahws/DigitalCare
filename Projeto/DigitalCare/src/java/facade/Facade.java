@@ -54,6 +54,16 @@ public class Facade {
         return convenioDAO.buscarConveniosPorMedico(idMedico);
     }
 
+    public static Clinica getClinicaPorLogin(int idLogin) throws ClassNotFoundException, SQLException {
+        ClinicaDAO clinicaDAO = new ClinicaDAO();
+        return clinicaDAO.buscarClinicaPorLogin(idLogin);
+    }
+
+    public static List<Endereco> getListaEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+        return enderecoDAO.buscarEnderecosClinica(idClinica);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();

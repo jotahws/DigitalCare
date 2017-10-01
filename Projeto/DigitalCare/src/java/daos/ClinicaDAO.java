@@ -24,10 +24,38 @@ public class ClinicaDAO {
             + "nome_fantasia, site) VALUES (?,?,?,?,?)";
     private final String updateClinica = "UPDATE clinica SET razao_social = ?, nome_fantasia = ?, "
             + "site = ? WHERE id = ?";
+    private final String buscaClinicaPorLogin = "SELECT * FROM clinica WHERE id_login = ?";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
+    
+    public final Clinica buscarClinicaPorLogin(int idLogin) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaClinicaPorLogin);
+            stmt.setInt(1, idLogin);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Clinica clinica = new Clinica();
+                clinica.setId(rs.getInt("id"));
+                clinica.setAvaliacao(rs.getDouble("avaliacao"));
+                clinica.setCnpj(rs.getString("cnpj"));
+                clinica.setNomeFantasia(rs.getString("nome_fantasia"));
+                clinica.setRazaoSocial(rs.getString("razao_social"));
+                clinica.setSite(rs.getString("site"));
+                return clinica;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
     
     public final void atualizarClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
         try { 

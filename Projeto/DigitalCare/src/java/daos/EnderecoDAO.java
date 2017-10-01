@@ -5,13 +5,17 @@
  */
 package daos;
 
+import beans.Cidade;
 import beans.Endereco;
+import beans.Estado;
 import conexao.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,11 +27,53 @@ public class EnderecoDAO {
             + "VALUES (?,?,?,?,?,?)";
     private final String updateEndereco = "UPDATE endereco SET id_cidade=?, cep=?, rua=?, numero=?, complemento=?, "
             + "bairro=? where id=?";
+    private final String buscaEnderecosClinica = "SELECT * FROM clinica_endereco ce " +
+                                                       "INNER JOIN endereco en ON ce.id_endereco = en.id " +
+                                                       "INNER JOIN cidade ci ON en.id_cidade = ci.id " +
+                                                       "INNER JOIN estado es ON ci.id_estado = es.id " +
+                                                       "WHERE ce.id_clinica = ?";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
-   
+    
+    public List<Endereco> buscarEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaEnderecosClinica);
+            stmt.setInt(1, idClinica);
+            rs = stmt.executeQuery();
+            List<Endereco> lista = new ArrayList();
+            while (rs.next()){
+                Estado estado = new Estado();
+                estado.setId(rs.getInt("es.id"));
+                estado.setNome(rs.getString("es.nome"));
+                estado.setUf(rs.getString("es.uf"));
+                Cidade cidade = new Cidade();
+                cidade.setEstado(estado);
+                cidade.setId(rs.getInt("ci.id"));
+                cidade.setNome(rs.getString("ci.nome"));
+                Endereco endereco = new Endereco();
+                endereco.setCidade(cidade);
+                endereco.setId(rs.getInt("en.id"));
+                endereco.setBairro(rs.getString("en.bairro"));
+                endereco.setCep(rs.getString("en.cep"));
+                endereco.setComplemento(rs.getString("en.complemento"));
+                endereco.setNumero(rs.getString("en.numero"));
+                endereco.setRua(rs.getString("en.rua"));
+                lista.add(endereco);
+            }
+            return lista;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
     public void atualizarEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
