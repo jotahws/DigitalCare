@@ -5,6 +5,7 @@
  */
 package daos;
 
+import beans.Estado;
 import beans.Medico;
 import com.mysql.jdbc.Statement;
 import conexao.ConnectionFactory;
@@ -25,7 +26,9 @@ public class MedicoDAO {
     private final String insereMedico = "INSERT INTO medico (id_login, id_estado_crm, num_crm, nome, sobrenome, cpf) "
             + "VALUES (?,?,?,?,?,?)";
     private final String buscaIdMedicoPorLogin = "SELECT id FROM medico WHERE id_login=?";
-    private final String buscaMedicoPorLogin = "SELECT * FROM medico WHERE id_login=?";
+    private final String buscaMedicoPorLogin = "SELECT * FROM medico m " +
+                                               "INNER JOIN estado e ON m.id_estado_crm = e.id " +
+                                               "WHERE id_login=?";
     private final String updateMedico = "UPDATE medico SET nome=?, sobrenome=?, preco_consulta=?, data_nascimento=?, "
             + "telefone=?, telefone2=? WHERE id=?";
     private final String deleteMedicoEspecialidade = "DELETE FROM medico_especialidade WHERE id_medico =? "
@@ -173,18 +176,23 @@ public class MedicoDAO {
             stmt.setInt(1, idLogin);
             rs = stmt.executeQuery();
             if (rs.next()) {
+                Estado estado = new Estado();
+                estado.setId(rs.getInt("e.id"));
+                estado.setNome(rs.getString("e.nome"));
+                estado.setUf(rs.getString("e.uf"));
                 Medico medico = new Medico();
-                medico.setId(rs.getInt("id"));
-                medico.setNome(rs.getString("nome"));
-                medico.setSobrenome(rs.getString("sobrenome"));
-                medico.setCpf(rs.getString("cpf"));
-                medico.setPrecoConsulta(rs.getDouble("preco_consulta"));
-                medico.setDataNascimento(rs.getDate("data_nascimento"));
-                medico.setTelefone1(rs.getString("telefone"));
-                medico.setTelefone2(rs.getString("telefone2"));
-                medico.setNumeroCrm(rs.getString("num_crm"));
-                medico.setEstadoCrm(Facade.buscarEstadoPorId(rs.getInt("id_estado_crm")));
-                medico.setPrecoConsulta(rs.getDouble("preco_consulta"));
+                medico.setEstadoCrm(estado);
+                medico.setId(rs.getInt("m.id"));
+                medico.setNome(rs.getString("m.nome"));
+                medico.setSobrenome(rs.getString("m.sobrenome"));
+                medico.setCpf(rs.getString("m.cpf"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                medico.setTelefone1(rs.getString("m.telefone"));
+                medico.setTelefone2(rs.getString("m.telefone2"));
+                medico.setNumeroCrm(rs.getString("m.num_crm"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setAvaliacao(rs.getDouble("m.avaliacao"));
                 return medico;
             }
         } finally {

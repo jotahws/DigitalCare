@@ -7,7 +7,9 @@ package facade;
 
 import beans.Cidade;
 import beans.Clinica;
+import beans.Convenio;
 import beans.Endereco;
+import beans.Especialidade;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -15,8 +17,9 @@ import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
-//import daos.ClinicaEnderecoDAO;
+import daos.ConvenioDAO;
 import daos.EnderecoDAO;
+import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
 import daos.LoginDAO;
 import daos.MedicoDAO;
@@ -39,6 +42,16 @@ public class Facade {
     public static Medico getMedicoPorLogin(int idLogin) throws SQLException, ClassNotFoundException {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorLogin(idLogin);
+    }
+
+    public static List<Especialidade> getListaEspecialidadesMedico(int idMedico) throws ClassNotFoundException, SQLException {
+        EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+        return especialidadeDAO.buscarEspecialidadesPorMedico(idMedico);
+    }
+
+    public static List<Convenio> getListaConveniosMedico(int idMedico) throws ClassNotFoundException, SQLException {
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.buscarConveniosPorMedico(idMedico);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
