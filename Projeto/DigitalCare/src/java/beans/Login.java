@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  * @author Gabriel
  */
-public class Login implements Serializable{
-    
+public class Login implements Serializable {
+
     private int id;
     private String email;
     private String senha;
@@ -23,8 +23,12 @@ public class Login implements Serializable{
         this.senha = senha;
         this.perfil = perfil;
     }
-    
+
     public Login() {
+    }
+
+    public Login(String email) {
+        this.email = email;
     }
 
     public int getId() {
@@ -58,5 +62,5 @@ public class Login implements Serializable{
     public void setPerfil(int perfil) {
         this.perfil = perfil;
     }
-    
+
 }

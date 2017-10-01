@@ -47,71 +47,126 @@ public class PacienteServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String action = request.getParameter("action");
-        Facade facade = new Facade();
-        String status = "";
+        HttpSession verSession = request.getSession();
+        if (verSession != null) {
 
-        if ("register".equals(action)) {
-            try {
-                String nome = request.getParameter("nome");
-                String sobrenome = request.getParameter("sobrenome");
-                String cpf = request.getParameter("cpf");
-                cpf = cpf.replace("-", "");
-                cpf = cpf.replace(".", "");
-                String dtnsc = request.getParameter("dtnsc");
-                String sexo = request.getParameter("sexo");
-                String tel1 = request.getParameter("tel1");
-                tel1 = tel1.replace("(", "");
-                tel1 = tel1.replace(")", "");
-                tel1 = tel1.replace(" ", "");
-                tel1 = tel1.replace("-", "");
-                String tel2 = request.getParameter("tel2");
-                tel2 = tel2.replace("(", "");
-                tel2 = tel2.replace(")", "");
-                tel2 = tel2.replace(" ", "");
-                tel2 = tel2.replace("-", "");
-                String email = request.getParameter("email");
-                String pssw = request.getParameter("pssw");
-                String cep = request.getParameter("cep");
-                cep = cep.replace("-", "");
-                cep = cep.replace(".", "");
-                String rua = request.getParameter("rua");
-                String numero = request.getParameter("numero");
-                String compl = request.getParameter("compl");
-                String bairro = request.getParameter("bairro");
-                String cidadeString = request.getParameter("cidade");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
-                Date dataNasc = formatter.parse(dtnsc);
+            String action = request.getParameter("action");
+            Facade facade = new Facade();
+            String status = "";
 
-                Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
-                Cidade cidade = facade.getCidadePorNome(cidadeString);
-                Login login = new Login(email, pssw, 1);
-                Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
-                PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
-                facade.inserirPacienteUsuario(pacienteUsuario);
+            if ("register".equals(action)) {
+                try {
+                    String nome = request.getParameter("nome");
+                    String sobrenome = request.getParameter("sobrenome");
+                    String cpf = request.getParameter("cpf");
+                    cpf = cpf.replace("-", "");
+                    cpf = cpf.replace(".", "");
+                    String dtnsc = request.getParameter("dtnsc");
+                    String sexo = request.getParameter("sexo");
+                    String tel1 = request.getParameter("tel1");
+                    tel1 = tel1.replace("(", "");
+                    tel1 = tel1.replace(")", "");
+                    tel1 = tel1.replace(" ", "");
+                    tel1 = tel1.replace("-", "");
+                    String tel2 = request.getParameter("tel2");
+                    tel2 = tel2.replace("(", "");
+                    tel2 = tel2.replace(")", "");
+                    tel2 = tel2.replace(" ", "");
+                    tel2 = tel2.replace("-", "");
+                    String email = request.getParameter("email");
+                    String pssw = request.getParameter("pssw");
+                    String cep = request.getParameter("cep");
+                    cep = cep.replace("-", "");
+                    cep = cep.replace(".", "");
+                    String rua = request.getParameter("rua");
+                    String numero = request.getParameter("numero");
+                    String compl = request.getParameter("compl");
+                    String bairro = request.getParameter("bairro");
+                    String cidadeString = request.getParameter("cidade");
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
+                    Date dataNasc = formatter.parse(dtnsc);
 
-                status = "cadastro-ok";
-            } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                status = "cadastro-erro";
-            }
-            response.sendRedirect("login.jsp?status=" + status);
-        }else if ("meuPerfil".equals(action)) {
-            HttpSession session = request.getSession();
-            Login login = (Login)session.getAttribute("sessionLogin");
-            PacienteUsuario pacienteUsuario = new PacienteUsuario();
-            try {
-                pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(PacienteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(PacienteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("paciente", pacienteUsuario);
+                    Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
+                    Cidade cidade = facade.getCidadePorNome(cidadeString);
+                    Login login = new Login(email, pssw, 1);
+                    Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
+                    PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
+                    facade.inserirPacienteUsuario(pacienteUsuario);
+
+                    status = "cadastro-ok";
+                } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                    status = "cadastro-erro";
+                }
+                response.sendRedirect("login.jsp?status=" + status);
+            } else if ("meuPerfil".equals(action)) {
+                HttpSession session = request.getSession();
+                Login login = (Login) session.getAttribute("sessionLogin");
+
+                PacienteUsuario pacienteUsuario = new PacienteUsuario();
+
+                try {
+                    pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
+
+                } catch (ClassNotFoundException ex) {
+                } catch (SQLException ex) {
+                }
+
+                request.setAttribute("paciente", pacienteUsuario);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
                 rd.forward(request, response);
-           
-        }
 
+            } else if ("alteraPerfil".equals(action)) {
+                try {
+                    int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
+                    String nome = request.getParameter("nome");
+                    String sobrenome = request.getParameter("sobrenome");
+                    String cpf = request.getParameter("cpf");
+                    cpf = cpf.replace("-", "");
+                    cpf = cpf.replace(".", "");
+                    String dtnsc = request.getParameter("dtnsc");
+                    String sexo = request.getParameter("sexo");
+                    String tel1 = request.getParameter("tel1");
+                    tel1 = tel1.replace("(", "");
+                    tel1 = tel1.replace(")", "");
+                    tel1 = tel1.replace(" ", "");
+                    tel1 = tel1.replace("-", "");
+                    String tel2 = request.getParameter("tel2");
+                    tel2 = tel2.replace("(", "");
+                    tel2 = tel2.replace(")", "");
+                    tel2 = tel2.replace(" ", "");
+                    tel2 = tel2.replace("-", "");
+                    String email = request.getParameter("email");
+                    String cep = request.getParameter("cep");
+                    cep = cep.replace("-", "");
+                    cep = cep.replace(".", "");
+                    String rua = request.getParameter("rua");
+                    String numero = request.getParameter("numero");
+                    String compl = request.getParameter("compl");
+                    String bairro = request.getParameter("bairro");
+                    String cidadeString = request.getParameter("cidade");
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
+                    Date dataNasc = formatter.parse(dtnsc);
+
+                    Paciente paciente = new Paciente(idPaciente, cpf, nome, sobrenome, dataNasc, sexo);
+                    Cidade cidade = facade.getCidadePorNome(cidadeString);
+                    Login login = new Login(email);
+                    Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
+                    PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
+                    facade.alteraPacienteUsuario(pacienteUsuario);
+
+                    status = "altera-ok";
+                } catch (ParseException | SQLException | ClassNotFoundException ex) {
+                    status = "altera-erro";
+                }
+                action = "meuPerfil";
+                response.sendRedirect("paciente-home.jsp?status=" + status);
+            } else if ("alteraSenha".equals(action)) {
+                String pssw = request.getParameter("pssw");
+
+            }
+        } else {
+            response.sendRedirect("login.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

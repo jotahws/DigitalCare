@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,8 +39,8 @@
                 <hr>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
-                            <form action="${pageContext.request.contextPath}/" method="POST">
+                        <div class="col-md-12">                            
+                            <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraPerfil" method="POST">
                                 <fieldset>
                                     <jsp:useBean id="pacienteEdita" class="beans.PacienteUsuario"/>
                                     <c:set var="item" value="${paciente}"/>
@@ -48,6 +49,8 @@
                                         <div class="form-group col-md-6">
                                             <label for="nome">Nome:</label>
                                             <input type="text" id="nome" name="nome"class="required form-control" value="${item.paciente.nome}">
+                                            <input type="hidden" id="idPaciente" name="idPaciente" class="required form-control" value="${item.paciente.id}">
+
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="sobrenome">Sobrenome:</label>
@@ -58,8 +61,8 @@
                                             <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${item.paciente.cpf}">
                                         </div>
                                         <div class="form-group col-md-5">
-                                            <label for="datanasc">Data de Nascimento:</label>
-                                            <input type="text" id="datanasc" name="datanasc" class="required form-control" value="${item.paciente.dataNascimento}">
+                                            <label for="dtnsc">Data de Nascimento:</label>
+                                            <input type="text" id="dtnsc" name="dtnsc" class="required form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${item.paciente.dataNascimento}'/>" >
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>
@@ -103,11 +106,11 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="cidade">Cidade:</label>
-                                            <input type="text" id="cidade" name="cidade" readonly="true" class="locked form-control" >
+                                            <input type="text" id="cidade" name="cidade" readonly="true" class="locked form-control" value="${item.endereco.cidade.nome}" >
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="estado">Estado:</label>
-                                            <input type="text" id="estado" name="estado" readonly="true" class="locked form-control">
+                                            <input type="text" id="estado" name="estado" readonly="true" class="locked form-control" value="${item.endereco.cidade.estado.uf}">
                                         </div>
                                         <div class="form-group col-md-12 text-right">
                                             <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
@@ -129,7 +132,7 @@
                                     </div>
                                     <div id="collapseOne" class="collapse " role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
-                                            <form>
+                                            <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraSenha" method="POST">
                                                 <fieldset>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">

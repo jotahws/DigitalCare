@@ -27,6 +27,16 @@ public class PacienteUsuarioDAO {
     
     private final String inserePacienteUsuario = "INSERT INTO paciente_usuario (id_paciente, id_login, "
                                                + "id_endereco, telefone, telefone2) VALUES (?,?,?,?,?)";
+    private final String updatePacienteUsuario = "UPDATE paciente_usuario, paciente, endereco, login "
+                                               + "SET paciente_usuario.telefone=?, paciente_usuario.telefone2=?, paciente.cpf=?, "
+                                               + "    paciente.sexo=?,             paciente.nome=?,              paciente.data_nascimento=?,"
+                                               + "    paciente.sobrenome=?,        endereco.bairro=?,            endereco.cep=?,"
+                                               + "    endereco.complemento=?,      endereco.id_cidade=?,         endereco.numero=?,"
+                                               + "    endereco.rua=?,              login.email=?"
+                                               + "    WHERE paciente_usuario.id_endereco = endereco.id"
+                                               + "      AND paciente_usuario.id_paciente = paciente.id"
+                                               + "      AND paciente_usuario.id_login    = login.id"
+                                               + "      AND paciente.id=?";
     private final String buscaPacientePorId = "SELECT	paciente_usuario.telefone,              paciente_usuario.telefone2," +
                                             "		paciente.cpf, 				paciente.data_nascimento," +
                                                "        paciente.nome,				paciente.sexo," +
@@ -126,6 +136,7 @@ public class PacienteUsuarioDAO {
                 endereco.setCidade(cidade);
                 pacienteUsuario.setPaciente(paciente);
                 pacienteUsuario.setEndereco(endereco);
+                pacienteUsuario.setLogin(login);
                 return pacienteUsuario;
                 }
         } finally {
@@ -139,5 +150,37 @@ public class PacienteUsuarioDAO {
         }
         return null;
         
+    }
+
+    public void alteraDadosPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(updatePacienteUsuario);
+            stmt.setString(1, pacienteUsuario.getTelefone());
+            stmt.setString(2, pacienteUsuario.getTelefone2());
+            stmt.setString(3, pacienteUsuario.getPaciente().getCpf());
+            stmt.setString(4, pacienteUsuario.getPaciente().getSexo());
+            stmt.setString(5, pacienteUsuario.getPaciente().getNome());
+            java.sql.Date dataSql = new java.sql.Date(pacienteUsuario.getPaciente().getDataNascimento().getTime());
+            stmt.setDate(6, dataSql);
+            stmt.setString(7, pacienteUsuario.getPaciente().getSobrenome());
+            stmt.setString(8, pacienteUsuario.getEndereco().getBairro());
+            stmt.setString(9, pacienteUsuario.getEndereco().getCep());
+            stmt.setString(10,pacienteUsuario.getEndereco().getComplemento());
+            stmt.setInt(11,   pacienteUsuario.getEndereco().getCidade().getId());
+            stmt.setString(12,pacienteUsuario.getEndereco().getNumero());
+            stmt.setString(13,pacienteUsuario.getEndereco().getRua());
+            stmt.setString(14,pacienteUsuario.getLogin().getEmail());
+            stmt.setInt(15,   pacienteUsuario.getPaciente().getId());
+            
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 }

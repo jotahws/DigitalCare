@@ -105,4 +105,9 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.atualizarMedico(medico);
     }
+
+    public void alteraPacienteUsuario(PacienteUsuario pacienteUsuario) throws SQLException, ClassNotFoundException {
+        PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
+        pacienteUsuarioDAO.alteraDadosPaciente(pacienteUsuario);
+    }
 }
