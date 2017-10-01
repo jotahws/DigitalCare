@@ -5,9 +5,15 @@
  */
 package servlets;
 
+import beans.Estado;
+import beans.Login;
+import beans.Medico;
 import facade.Facade;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,11 +40,32 @@ public class MedicoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        Facade facade = new Facade();
-        String status = "";  
+        String status;  
         
         if ("register".equals(action)){
-            
+            try {
+                String nome = request.getParameter("nome");
+                String sobrenome = request.getParameter("sobrenome");
+                String email = request.getParameter("email");
+                String cpf = request.getParameter("cpf");
+                String numeroCrm = request.getParameter("numeroCrm");
+                String dataNascimento = request.getParameter("dtnsc");
+                String estadoCrm = request.getParameter("expedicao");
+                String senha = request.getParameter("senha1");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataNasc = formatter.parse(dataNascimento);
+                cpf = cpf.replace("-", "");
+                cpf = cpf.replace(".", "");
+                Login login = new Login(email, senha, 2);
+                Estado estado = Facade.buscarEstadoPorId(Integer.parseInt(estadoCrm));
+                Medico medico = new Medico(login, estado, numeroCrm, nome, sobrenome, cpf, dataNasc);
+                Facade.inserirMedico(medico);
+                
+                status = "cadastro-ok";
+            } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                status = "cadastro-erro"+ex.getMessage();
+            }
+            response.sendRedirect("novo-medico.jsp?status=" + status);
         }
     }
 

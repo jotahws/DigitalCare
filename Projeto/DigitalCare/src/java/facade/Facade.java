@@ -11,6 +11,7 @@ import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Estado;
 import beans.Login;
+import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
@@ -19,6 +20,7 @@ import daos.ClinicaEnderecoDAO;
 import daos.EnderecoDAO;
 import daos.EstadoDAO;
 import daos.LoginDAO;
+import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
@@ -77,6 +79,16 @@ public class Facade {
     public Login verificaLogin(Login login) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLogin(login);
+    }
+    
+    public static Estado buscarEstadoPorId(int id) throws ClassNotFoundException, SQLException {
+        EstadoDAO estadoDAO = new EstadoDAO();
+        return estadoDAO.buscarEstadoPorId(id);
+    }
+    
+    public static int inserirMedico(Medico medico) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.inserirMedico(medico);
     }
 
 }

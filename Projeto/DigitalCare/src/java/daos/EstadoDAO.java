@@ -23,11 +23,40 @@ import java.util.List;
  */
 public class EstadoDAO {
     
-    private final String listaEstados = "SELECT * from estado;";
+    private final String listaEstados = "SELECT * FROM estado;";
+    private final String buscaEstadoPorId = "SELECT * FROM estado WHERE id=?";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
+    
+    public Estado buscarEstadoPorId(int idEstado) throws ClassNotFoundException, SQLException{
+        try{
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaEstadoPorId);
+            stmt.setInt(1, idEstado);
+            rs = stmt.executeQuery();
+            if (rs.next()){
+                Estado estado = new Estado();
+                String nome = rs.getString("nome");
+                String uf = rs.getString("uf");
+                estado.setId(idEstado);
+                estado.setNome(nome);
+                estado.setUf(uf);
+                return estado;
+            }
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+            
+        }
+        return null;
+    }
     
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         try {
