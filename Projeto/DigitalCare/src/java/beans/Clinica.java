@@ -19,7 +19,7 @@ public class Clinica {
     private String razaoSocial;
     private String nomeFantasia;
     private String site;
-    private float avaliacao;
+    private Double avaliacao;
     private List<Endereco> listaEnderecos;
 
     public Clinica() {
@@ -81,11 +81,11 @@ public class Clinica {
         this.site = site;
     }
 
-    public float getAvaliacao() {
+    public Double getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(float avaliacao) {
+    public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
     }
 

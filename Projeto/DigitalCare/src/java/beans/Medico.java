@@ -28,6 +28,7 @@ public class Medico implements Serializable{
     private String telefone2;
     private Double avaliacao;
     private List<Especialidade> listaEspecialidades;
+    private List<Convenio> listaConvenios;
 
     public Medico() {
     }
@@ -154,6 +155,14 @@ public class Medico implements Serializable{
 
     public void setListaEspecialidades(List<Especialidade> listaEspecialidades) {
         this.listaEspecialidades = listaEspecialidades;
+    }
+
+    public List<Convenio> getListaConvenios() {
+        return listaConvenios;
+    }
+
+    public void setListaConvenios(List<Convenio> listaConvenios) {
+        this.listaConvenios = listaConvenios;
     }
     
 }

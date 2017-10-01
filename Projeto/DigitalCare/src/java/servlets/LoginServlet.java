@@ -5,7 +5,9 @@
  */
 package servlets;
 
+import beans.Clinica;
 import beans.Login;
+import beans.Medico;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
@@ -62,9 +64,18 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect("paciente-home.jsp");
                         break;
                     case 2:
+                        Medico medico = Facade.getMedicoPorLogin(login.getId());
+                        medico.setListaEspecialidades(Facade.getListaEspecialidadesMedico(medico.getId()));
+                        medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
+                        medico.setLogin(login);
+                        session.setAttribute("usuario", medico);
                         response.sendRedirect("dashboard.jsp");
                         break;
-                    default:
+                    case 3:
+                        Clinica clinica = Facade.getClinicaPorLogin(login.getId());
+                        clinica.setListaEnderecos(Facade.getListaEnderecosClinica(clinica.getId()));
+                        clinica.setLogin(login);
+                        session.setAttribute("usuario", clinica);
                         response.sendRedirect("dashboard-clinica.jsp");
                         break;
                 }
