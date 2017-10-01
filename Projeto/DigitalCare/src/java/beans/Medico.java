@@ -30,18 +30,24 @@ public class Medico implements Serializable{
     public Medico() {
     }
 
-    public Medico(Login login, Estado estadoCrm, String numeroCrm, String nome, String sobrenome, String cpf, Double precoConsulta, Date dataNascimento, String telefone1, String telefone2, Double avaliacao) {
+    public Medico(Login login, Estado estadoCrm, String numeroCrm, String nome, String sobrenome, String cpf, Date dataNascimento) {
         this.login = login;
         this.estadoCrm = estadoCrm;
         this.numeroCrm = numeroCrm;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Medico(int id, String nome, String sobrenome, Double precoConsulta, Date dataNascimento, String telefone1, String telefone2) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
         this.precoConsulta = precoConsulta;
         this.dataNascimento = dataNascimento;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
-        this.avaliacao = avaliacao;
     }
 
     public int getId() {

@@ -73,7 +73,7 @@ public class ClinicaServlet extends HttpServlet {
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
                 
-                Login login = new Login(email, senha, 2);
+                Login login = new Login(email, senha, 3);
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);

@@ -40,6 +40,23 @@
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="container">
+                            <c:choose>
+                                <c:when test="${(param.status == 'cadastro-ok')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Cadastro efetuado!</strong> O médico deverá completar o seu cadastro para poder realizar consultas
+                                    </div>
+                                </c:when>
+                                <c:when test="${(param.status == 'cadastro-erro')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Cadastro efetuado!</strong> O médico deverá completar o seu cadastro para poder realizar consultas
+                                    </div>
+                                </c:when>                            </c:choose>
                             <form action="${pageContext.request.contextPath}/MedicoServlet?action=register" method="POST">
                                 <fieldset>
                                     <div class="form-row">
@@ -56,19 +73,26 @@
                                             <label for="email">E-mail:</label>
                                             <input type="email" id="email" name="email" class="required form-control">
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
+                                            <label for="dtnsc">Data de Nascimento:</label>
+                                            <input type="text" id="dtnsc" class="data required form-control" name="dtnsc" >
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label for="cpf">CPF:</label>
                                             <input type="text" id="cpf" name="cpf" class="cpf required form-control">
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
                                             <label for="datanasc">CRM:</label>
-                                            <input type="text" id="datanasc" name="datanasc" class="required form-control">
+                                            <input type="text" id="numeroCrm" name="numeroCrm" class="required form-control">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="expedicao">Expedição</label>
+                                            <jsp:useBean id="estado" class="beans.Estado"/>
+                                            <c:set var="lista" value="${estados}"/>
                                             <select id="expedicao" name="expedicao" class="custom-select">
-                                                <option value="1">PR</option>
-                                                <option value="2">SC</option>
+                                                <c:forEach var="item" items="${lista}">
+                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.uf}"/></option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">

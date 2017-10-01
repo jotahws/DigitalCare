@@ -7,7 +7,6 @@ package daos;
 
 import beans.Login;
 import conexao.ConnectionFactory;
-import facade.Facade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

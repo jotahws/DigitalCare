@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -97,7 +99,13 @@ public class PacienteServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Login login = (Login)session.getAttribute("sessionLogin");
             PacienteUsuario pacienteUsuario = new PacienteUsuario();
-            pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
+            try {
+                pacienteUsuario = facade.getPacientePorIdLogin(login.getId());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(PacienteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PacienteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.setAttribute("paciente", pacienteUsuario);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
                 rd.forward(request, response);
