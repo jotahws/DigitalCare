@@ -39,8 +39,55 @@
                         <h1>Cadastrar um novo médico</h1>
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
-                        <div class="row">
-
+                        <div class="container">
+                            <form action="${pageContext.request.contextPath}/MedicoServlet?action=register" method="POST">
+                                <fieldset>
+                                    <div class="form-row">
+                                        <legend>Dados do médico</legend>
+                                        <div class="form-group col-md-4">
+                                            <label for="nome">Nome:</label>
+                                            <input type="text" id="nome" name="nome"class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="sobrenome">Sobrenome:</label>
+                                            <input type="text" id="sobrenome" name="sobrenome" class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="email">E-mail:</label>
+                                            <input type="email" id="email" name="email" class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label for="cpf">CPF:</label>
+                                            <input type="text" id="cpf" name="cpf" class="cpf required form-control">
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label for="datanasc">CRM:</label>
+                                            <input type="text" id="datanasc" name="datanasc" class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="expedicao">Expedição</label>
+                                            <select id="expedicao" name="expedicao" class="custom-select">
+                                                <option value="1">PR</option>
+                                                <option value="2">SC</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="senha1">Senha:</label>
+                                            <input type="password" id="pssw" name="senha1" class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="senha2">Confirmar Senha:</label>
+                                            <input type="password" id="pssw2" name="senha2" class="required form-control">
+                                        </div>
+                                        <div class="form-group col-md-4 ">
+                                            <label for="">&nbsp;</label>
+                                            <div class="form-group col-md-6 ">
+                                                <input type="submit" value="Cadastrar" class="btn btn-digital-green form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
                         </div>
                     </div>
                 </div> 
