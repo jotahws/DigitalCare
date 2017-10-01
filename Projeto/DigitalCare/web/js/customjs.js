@@ -115,8 +115,72 @@ $(document).ready(function () {
             if (isValid === false)
                 e.preventDefault();
         });
-    }else{
-        
+    } else {
+        $('#VerificaDados').click(function (e) {
+            var isValid = true;
+            $('span.clear').remove();
+            $('input[type="text"].required').each(function () {
+                if ($.trim($(this).val()) === '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    $(this).after('<span class="clear" style="font-size:0.8em;">Campo Obrigatorio</span>');
+                } else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            $('input[type="email"].required').each(function () {
+                if ($.trim($(this).val()) === '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    $(this).after('<span class="clear" style="font-size:0.8em;">Campo Obrigatorio</span>');
+                } else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid === false)
+                e.preventDefault();
+        });
+        $('#VerificaSenha').click(function (e) {
+            var isValid = true;
+            $('span.clear').remove();
+            $('input[type="password"].required').each(function () {
+                if ($.trim($(this).val()) === '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    $(this).after('<span class="clear" style="font-size:0.8em;">Campo Obrigatorio</span>');
+                } else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if ($('#pssw').val() !== $('#pssw2').val()) {
+                isValid = false;
+                $('#pssw2').css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+                $("#pssw2").after('<span class="clear" style="font-size:0.8em;">Os campos devem ser iguais</span>');
+            }
+            if (isValid === false)
+                e.preventDefault();
+        });
     }
 
 //--------------------------RESPONSIVIDADE----------------------------
