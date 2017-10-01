@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Clinica;
 import beans.Login;
 import beans.Medico;
 import beans.PacienteUsuario;
@@ -71,6 +72,10 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect("dashboard.jsp");
                         break;
                     case 3:
+                        Clinica clinica = Facade.getClinicaPorLogin(login.getId());
+                        clinica.setListaEnderecos(Facade.getListaEnderecosClinica(clinica.getId()));
+                        clinica.setLogin(login);
+                        session.setAttribute("usuario", clinica);
                         response.sendRedirect("dashboard-clinica.jsp");
                         break;
                 }
