@@ -90,5 +90,14 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         return medicoDAO.inserirMedico(medico);
     }
-
+    
+    public static int BuscarIdMedicoPorLogin(int idLogin) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.buscarIdMedicoPorLogin(idLogin);
+    }
+    
+    public static void atualizarMedico(Medico medico) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.atualizarMedico(medico);
+    }
 }

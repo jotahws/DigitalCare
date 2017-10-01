@@ -40,6 +40,16 @@ public class Medico implements Serializable{
         this.dataNascimento = dataNascimento;
     }
 
+    public Medico(int id, String nome, String sobrenome, Double precoConsulta, Date dataNascimento, String telefone1, String telefone2) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.precoConsulta = precoConsulta;
+        this.dataNascimento = dataNascimento;
+        this.telefone1 = telefone1;
+        this.telefone2 = telefone2;
+    }
+
     public int getId() {
         return id;
     }

@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -63,9 +64,37 @@ public class MedicoServlet extends HttpServlet {
                 
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                status = "cadastro-erro"+ex.getMessage();
+                status = "cadastro-erro";
             }
             response.sendRedirect("novo-medico.jsp?status=" + status);
+        } else if ("edit".equals(action)){
+            try {
+                String nome = request.getParameter("nome");
+                String sobrenome = request.getParameter("sobrenome");
+                String dataNascimento = request.getParameter("dtnsc");
+                String precoConsulta = request.getParameter("precoConsulta");
+                String telefone1 = request.getParameter("telefone1");
+                String telefone2 = request.getParameter("telefone2");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataNasc = formatter.parse(dataNascimento);
+                telefone1 = telefone1.replace("(", "");
+                telefone1 = telefone1.replace(")", "");
+                telefone1 = telefone1.replace(" ", "");
+                telefone1 = telefone1.replace("-", "");
+                telefone2 = telefone2.replace("(", "");
+                telefone2 = telefone2.replace(")", "");
+                telefone2 = telefone2.replace(" ", "");
+                telefone2 = telefone2.replace("-", "");
+                HttpSession session = request.getSession();
+                Login login = (Login)session.getAttribute("sessionLogin");
+                int idMedico = Facade.BuscarIdMedicoPorLogin(login.getId());
+                Medico medico = new Medico(idMedico, nome, sobrenome, Double.parseDouble(precoConsulta), dataNasc, telefone1, telefone2);
+                Facade.atualizarMedico(medico);
+                
+//                status = "cadastro-ok";
+            } catch (ClassNotFoundException | SQLException | ParseException ex) {
+//                status = "cadastro-erro";
+            }
         }
     }
 
