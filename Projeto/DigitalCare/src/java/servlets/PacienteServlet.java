@@ -151,7 +151,7 @@ public class PacienteServlet extends HttpServlet {
                 } catch (ParseException | SQLException | ClassNotFoundException ex) {
                     status = "altera-erro";
                 }
-                response.sendRedirect("paciente-home.jsp?status=" + status);
+                response.sendRedirect("PacienteServlet?status=" + status + "&action=meuPerfil");
             } else if ("alteraSenha".equals(action)) {
                 HttpSession session = request.getSession();
                 PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
@@ -165,7 +165,7 @@ public class PacienteServlet extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "error";
                 }
-                response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status);
+                response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status +"#bairro");
             } else if ("deletaUsuario".equals(action)) {
                 HttpSession session = request.getSession();
                 PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");

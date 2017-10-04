@@ -106,8 +106,8 @@ public class LoginDAO {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(updateSenhaPacienteUsuario);
-            stmt.setInt(1, pacienteUsuario.getLogin().getId());
-            stmt.setString(2, novaSenha);
+            stmt.setString(1, novaSenha);
+            stmt.setInt(2, pacienteUsuario.getLogin().getId());
             stmt.executeUpdate();
         } finally {
             try {

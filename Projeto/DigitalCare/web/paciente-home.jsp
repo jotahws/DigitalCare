@@ -76,16 +76,6 @@
                 <div class="container">
                     <div class="featurette-divider"></div>
                     <div class="row">
-                        <c:choose>
-                            <c:when test="${(param.status == 'altera-ok')}">
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>Alteracao efetuada com sucesso!</strong> 
-                                </div>
-                            </c:when>
-                        </c:choose>
                         <div class="col-md-12">
                             <h1 class="">Suas próximas consultas</h1><br>
                             <div style="" id="calendar"></div>

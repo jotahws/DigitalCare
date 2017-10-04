@@ -38,6 +38,16 @@
                 </div>
                 <hr>
                 <div class="container">
+                    <c:choose>
+                        <c:when test="${(param.status == 'altera-ok')}">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Alteração efetuada com sucesso!</strong> 
+                            </div>
+                        </c:when>
+                    </c:choose>
                     <div class="row">
                         <div class="col-md-12">                            
                             <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraPerfil" method="POST">
@@ -84,14 +94,14 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>
-                                            <select id="sexo" name="sexo" class="custom-select" value="${item.paciente.sexo}">
-                                                <option value="M">Masculino</option>
-                                                <option value="F">Feminino</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="tel1">Telefone 1:</label>
-                                            <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="" value="${item.telefone}">
+                                            <select id="sexo" name="sexo" class="custom-select" value="">
+                                                <option <c:if test="${item.paciente.sexo == 'M'}">selected</c:if> value='M'>Masculino</option>
+                                                <option <c:if test="${item.paciente.sexo == 'F'}">selected</c:if> value="F">Feminino</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="tel1">Telefone 1:</label>
+                                                <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="" value="${item.telefone}">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tel2">Telefone 2:</label>
@@ -145,7 +155,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Senha Atual Errada!</strong> 
+                                        <strong>Opa! </strong> A senha atual digitada está incorreta!
                                     </div>
                                 </c:when>
 
@@ -154,20 +164,20 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Nova Senha Editava com Sucesso!</strong> 
+                                        <strong>Nova Senha Editada com Sucesso!</strong> 
                                     </div>
                                 </c:when>
                             </c:choose>
                             <div id="accordion" role="tablist">
-                                <div class="card" style="margin: 20px 0px 50px">
-                                    <div class="card-header " role="tab" id="headingOne">
+                                <div class="card " style="margin: 20px 0px 50px">
+                                    <div class="card-header" role="tab" id="headingOne">
                                         <h5 class="mb-0">
                                             <a class="link-digital-green" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Alterar Senha
                                             </a>
                                         </h5>
                                     </div>
-                                    <div id="collapseOne" class="collapse " role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div id="collapseOne" class="collapse <c:if test="${(param.status != null)}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraSenha" method="POST">
                                                 <fieldset>
@@ -208,7 +218,7 @@
                                                 <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
                                             </p>
                                             <div>
-                                                <a class="btn-danger" href="PacienteServlet?action=deletaUsuario">Excluir minha conta </a>
+                                                <a id="deletarPerfil" style="color: white; cursor: pointer" class="btn btn-danger">Excluir minha conta </a>
                                             </div>
                                         </div>
                                     </div>
@@ -221,5 +231,39 @@
             </c:otherwise>
         </c:choose>
     </body>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#deletarPerfil").click(function () {
+                swal({
+                    title: 'Você tem certeza?',
+                    text: "Você não poderá desfazer isso!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, exclua!',
+                    cancelButtonText: 'cancelar!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false
+                }).then(function () {
+                    window.location.href = "PacienteServlet?action=deletaUsuario";
+                }, function (dismiss) {
+                    if (dismiss === 'cancel') {
+                        swal(
+                                'Operação cancelada',
+                                'Sua conta não foi apagada :)',
+                                'error'
+                                )
+                    }
+                })
+
+            })
+
+        });
+
+    </script>
 </html>
 
