@@ -54,6 +54,11 @@ public class Facade {
         return convenioDAO.buscarConveniosPorMedico(idMedico);
     }
 
+    public static List<Convenio> getListaConvenios() throws ClassNotFoundException, SQLException {
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.buscarConvenios();
+    }
+
     public static Clinica getClinicaPorLogin(int idLogin) throws ClassNotFoundException, SQLException {
         ClinicaDAO clinicaDAO = new ClinicaDAO();
         return clinicaDAO.buscarClinicaPorLogin(idLogin);
@@ -190,5 +195,10 @@ public class Facade {
     public void desativaConta(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         pacienteUsuarioDAO.deletePacienteUsuario(pacienteUsuario);
+    }
+
+    public List<Especialidade> buscarEspecialidadesMedico(int id) throws ClassNotFoundException, SQLException {
+        EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+        return especialidadeDAO.buscarEspecialidadesPorMedico(id);
     }
 }

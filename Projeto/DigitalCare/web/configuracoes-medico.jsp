@@ -86,7 +86,7 @@
                                                             </a>
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseMedico" class="collapse" role="tabpanel" aria-labelledby="headingMedico" data-parent="#accordionDads">
+                                                    <div id="collapseMedico" class="collapse show" role="tabpanel" aria-labelledby="headingMedico" data-parent="#accordionDads">
                                                         <div class="card-body row">
                                                             <div class="col-md-8">
                                                                 <div class="row">
@@ -107,103 +107,54 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="especialidade">Especialidade(s):
-                                                                        <a id="newEspec" class="adicionar-verde"><i class="fa fa-fw fa-plus"></i></a>
                                                                     </label>
-                                                                    <div id="especDiv" class="form-group col-md-3">
-                                                                        <jsp:useBean id="especialidade" class="beans.Especialidade"/>
-                                                                        <c:set var="lista" value="${espec}"/>
-                                                                        <select id="especialidade" name="especialidade1" class="custom-select">
-                                                                            <option value="0">Nenhum...</option>
-                                                                            <c:forEach var="item" items="${lista}">
-                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div id="especDiv" class="form-group col-md-3">
-                                                                        <select id="especialidade" name="especialidade2" class="custom-select">
-                                                                            <option value="0">Nenhum...</option>
-                                                                            <c:forEach var="item" items="${lista}">
-                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div id="especDiv" class="form-group col-md-3">
-                                                                        <select id="especialidade" name="especialidade3" class="custom-select">
-                                                                            <option value="0">Nenhum...</option>
-                                                                            <c:forEach var="item" items="${lista}">
-                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div id="especDiv" class="form-group col-md-3">
-                                                                        <select id="especialidade" name="especialidade4" class="custom-select">
-                                                                            <option value="0">Nenhum...</option>
-                                                                            <c:forEach var="item" items="${lista}">
-                                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </div>
+                                                                    <jsp:useBean id="especialidade" class="beans.Especialidade"/>
+                                                                    <c:set var="listaEspecs" value="${espec}"/>
+
+                                                                    <c:if test="${especMedico.size() > 0}">
+                                                                        <c:forEach var = "i" begin = "0" end = "${especMedico.size()-1}">
+                                                                            <div id="especDiv" class="form-group col-md-3">
+                                                                                <select id="especialidade${i+1}" name="especialidade${i+1}" class="custom-select">
+                                                                                    <option value="0">Escolha...</option>
+                                                                                    <option value="<c:out value="${especMedico.get(i).id}"/>" selected><c:out value="${especMedico.get(i).nome}"/></option>
+                                                                                    <c:forEach var="item" items="${listaEspecs}">
+                                                                                        <c:if test="${especMedico.get(i).id != item.id}">
+                                                                                            <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                                        </c:if>
+                                                                                    </c:forEach>
+                                                                                </select>
+                                                                            </div>
+                                                                        </c:forEach>
+                                                                    </c:if>
+                                                                    <c:forEach var = "i" begin = "${especMedico.size()}" end = "3">
+                                                                        <div id="especDiv" class="form-group col-md-3">
+                                                                            <select id="especialidade${i+1}" name="especialidade${i+1}" class="custom-select vazio">
+                                                                                <option value="0">Escolha...</option>
+                                                                                <c:forEach var="item" items="${listaEspecs}">
+                                                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                                </c:forEach>
+                                                                            </select>
+                                                                        </div>
+                                                                    </c:forEach>
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
-                                                                        <a id="newPlano" class="adicionar-verde"><i class="fa fa-fw fa-plus"></i></a>
                                                                     </label>
                                                                     <div id="planoDiv" class="form-group col-md-12">
                                                                         <div class="row">
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="1">
-                                                                                    Amil
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="2">
-                                                                                    Unimed
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="3">
-                                                                                    Clinipan
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="4">
-                                                                                    Qualicorp
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="5">
-                                                                                    Bradesco Saúde
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="6">
-                                                                                    Sul América
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="7">
-                                                                                    Nossa Saúde
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check col-md-3">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="8">
-                                                                                    Transmontano Saúde
-                                                                                </label>
-                                                                            </div>
+                                                                            <c:forEach var="item" items="${convenios}">
+                                                                                <div class="form-check col-md-3">
+                                                                                    <label class="form-check-label">
+                                                                                        <input class="form-check-input"
+                                                                                               <c:forEach var="itemConv" items="${conveniosMedico}">
+                                                                                                   <c:if test="${item.nome == itemConv.nome}"><c:out value="checked"/></c:if>
+                                                                                               </c:forEach>
+                                                                                               type="checkbox" value="${item.id}">
+                                                                                        ${item.nome}
+                                                                                    </label>
+                                                                                </div>
+                                                                            </c:forEach>
                                                                         </div>
-                                                                        <!--<select id="planos" name="plano1" class="custom-select col-md-4">
-                                                                                <option value="empty">Nenhum...</option>
-                                                                                <option value="Amil">Amil</option>
-                                                                                <option value="Unimed">Unimed</option>
-                                                                            </select>-->
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -296,30 +247,9 @@
                 <script src="js/dash.js"></script>
                 <script>
                     $(document).ready(function () {
-                        var count1 = 1;
-                        var count2 = 1;
-                        $("#newPlano").click(function () {
-                            count1++;
-                            if (count1 < 12) {
-                                $("#planoDiv").before("<div class=\"form-group col-md-3\"> \n\
-                                                <select id=\"planos\" name=\"planos\" class=\"custom-select col-md-4\"> \n\
-                                                        <option value=\"Amil\">Amil</option> \n\
-                                                        <option value=\"Unimed\">Unimed</option> \n\
-                                                </select>\n\
-                                            </div>");
-                            }
-                        });
-                        $("#newEspec").click(function () {
-                            count2++;
-                            if (count2 < 6) {
-                                $("#especDiv").before("<div class=\"form-group col-md-3\"> \n\
-                                                <select id=\"planos\" name=\"planos\" class=\"custom-select col-md-4\"> \n\
-                                                        <option value=\"Amil\">Dermatologia</option> \n\
-                                                        <option value=\"Unimed\">Endocrinologia</option> \n\
-                                                </select>\n\
-                                            </div>");
-                            }
-                        });
+
+
+
                     });
 
                 </script>

@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
 import beans.Login;
@@ -61,9 +62,15 @@ public class ListaMedicoServlet extends HttpServlet {
             String statusLista = "";
             try {
                 HttpSession session = request.getSession();
-                Login login = (Login) session.getAttribute("sessionLogin");
+                Medico medico = (Medico) session.getAttribute("usuario");
+                List<Especialidade> especMedico = facade.buscarEspecialidadesMedico(medico.getId());
                 List<Especialidade> espec = Facade.listarEspecialidades();
+                List<Convenio> convenios = Facade.getListaConvenios();
+                List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(medico.getId());
                 request.setAttribute("espec", espec);
+                request.setAttribute("especMedico", especMedico);
+                request.setAttribute("convenios", convenios);
+                request.setAttribute("conveniosMedico", conveniosMedico);
                 statusLista = request.getParameter("status");
             } catch (Exception ex) {
                 status = "error";

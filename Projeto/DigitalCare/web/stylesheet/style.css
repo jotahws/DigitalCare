@@ -125,6 +125,11 @@ Cinza escuro: #2e2e2e
     border-top:3px dashed #eee;
 }
 
+.normal-divider{
+    margin: 50px 0px;
+    border-top:2px solid #eee;
+}
+
 /*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
 
 /*RODAPE*/
@@ -188,7 +193,6 @@ Cinza escuro: #2e2e2e
 
 .login fieldset input[type="text"].locked{
     background: #e1e1e1;
-    color: #bbb;
 }
 
 .login fieldset input[type="submit"] {

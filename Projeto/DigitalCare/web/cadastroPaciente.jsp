@@ -33,19 +33,19 @@
                             <legend>Sobre você</legend>
                             <div class="form-group col-md-6">
                                 <label for="nome">Nome:</label>
-                                <input type="text" id="nome" name="nome" placeholder="Pedro" class="required">
+                                <input type="text" id="nome" name="nome" class="required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="sobrenome">Sobrenome:</label>
-                                <input type="text" id="sobrenome" name="sobrenome" placeholder="da Silva" class="required">
+                                <input type="text" id="sobrenome" name="sobrenome" class="required">
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="cpf">CPF:</label>
-                                <input type="text" id="cpf" name="cpf" placeholder="" class="required">
+                                <input type="text" id="cpf" name="cpf"  class="required">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="dtnsc">Data de Nascimento:</label>
-                                <input type="text" id="dtnsc" class="data required" name="dtnsc" placeholder="" class="required">
+                                <input type="text" id="dtnsc" class="data required" name="dtnsc"  class="required">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="sexo">Sexo:</label>
@@ -57,7 +57,7 @@
                             <legend>Seus Dados</legend>
                             <div class="form-group col-md-4">
                                 <label for="tel1">Telefone 1:</label>
-                                <input type="text" id="tel1" class="telefone required" name="tel1" placeholder="">
+                                <input type="text" id="tel1" class="telefone required" name="tel1">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="tel2">Telefone 2:</label>
@@ -65,15 +65,15 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="email">E-mail:</label>
-                                <input type="email" id="email" name="email" placeholder="pedro@email.com" class="required">
+                                <input type="email" id="email" name="email"class="required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="pssw">Senha:</label>
-                                <input type="password" id="pssw" name="pssw" placeholder="senha123" class="required">
+                                <input type="password" id="pssw" name="pssw"  class="required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="pssw2">Confirmar Senha:</label>
-                                <input type="password" id="pssw2" name="pssw2" placeholder="senha123" class="required">
+                                <input type="password" id="pssw2" name="pssw2"  class="required">
                             </div>
                             <legend>Endereço</legend>
                             <div class="form-group col-md-4">
@@ -86,11 +86,11 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="numero">Número:</label>
-                                <input type="text" id="numero" name="numero" placeholder="2042" class="required">
+                                <input type="text" id="numero" name="numero"  class="required">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="compl">Complemento:</label>
-                                <input type="text" id="compl" name="compl" placeholder="ap 302 bloco 2">
+                                <input type="text" id="compl" name="compl" >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="bairro">Bairro:</label>
