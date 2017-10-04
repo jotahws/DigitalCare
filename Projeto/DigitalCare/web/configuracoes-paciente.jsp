@@ -4,14 +4,14 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>ConfiguraÃ§Ãµes - DigitalCare</title>
+        <title>Configurações - DigitalCare</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
         <%@include file="/includes/head.jsp" %>
     </head>
@@ -24,7 +24,7 @@
                 <div class="container" style="margin-top: 50px">
                     <%@include file="/includes/header.jsp" %>
                     <h1>Acesso Negado.</h1>
-                    <h2>Apenas pacientes podem acessar essa pÃ¡gina</h2>
+                    <h2>Apenas pacientes podem acessar essa página</h2>
                 </div>
             </c:when>
             <c:otherwise>
@@ -32,7 +32,7 @@
                 <div class="container paciente">
                     <div class="row">
                         <div class="col-md-7">
-                            <h1 class="">ConfiguraÃ§Ãµes</h1>
+                            <h1 class="">Configurações</h1>
                         </div>
                     </div>
                 </div>
@@ -47,15 +47,23 @@
                                     <div class="form-row">
                                         <c:choose>
                                             <c:when test="${(param.status == 'senhas-erro')}">
-                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                     <strong>Senhas erradas!</strong> 
                                                 </div>
                                             </c:when>
+                                            <c:when test="${(param.status == 'erro-deleta')}">
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <strong>Ocorreu um erro ao deletar sua conta!</strong> 
+                                                </div>
+                                            </c:when>
                                         </c:choose>
-                                        <legend>Sobre VocÃª</legend>
+                                        <legend>Sobre Você</legend>
                                         <div class="form-group col-md-6">
                                             <label for="nome">Nome:</label>
                                             <input type="text" id="nome" name="nome"class="required form-control" value="${item.paciente.nome}">
@@ -93,7 +101,7 @@
                                             <label for="email">E-mail:</label>
                                             <input type="email" id="email" name="email" class="required form-control" value="${item.login.email}">
                                         </div>
-                                        <legend><hr>EndereÃ§o</legend>
+                                        <legend><hr>Endereço</legend>
                                         <div class="form-group col-md-4">
                                             <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                             <input type="text" id="cep" name="cep" placeholder="" class="required form-control" value="${item.endereco.cep}">
@@ -103,7 +111,7 @@
                                             <input type="text" id="rua" name="rua" readonly="true" class="locked form-control" value="${item.endereco.rua}">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="numero">NÃºmero:</label>
+                                            <label for="numero">Número:</label>
                                             <input type="text" id="numero" name="numero"  class="required form-control" value="${item.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
@@ -123,14 +131,14 @@
                                             <input type="text" id="estado" name="estado" readonly="true" class="locked form-control" value="${item.endereco.cidade.estado.uf}">
                                         </div>
                                         <div class="form-group col-md-12 text-right">
-                                            <input type="submit" id="VerificaDados"  value="Salvar AlteraÃ§Ãµes" class="btn btn-lg btn-digital-green ">
+                                            <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
                                         </div>
                                     </div>
                                 </fieldset>
                             </form>
                             <hr class="dashed-divider">
 
-                            <h3>AvanÃ§ado</h3>
+                            <h3>Avançado</h3>
                             <c:choose>
                                 <c:when test="${(param.status == 'error')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -197,7 +205,7 @@
                                     <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <p>
-                                                <span style="color: red;">AtenÃ§Ã£o:</span> Ao desativar a conta vocÃª estarÃ¡ <strong>excluindo</strong> todos os seus dados e nÃ£o poderÃ¡ desfazer essa aÃ§Ã£o. 
+                                                <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
                                             </p>
                                             <div>
                                                 <a class="btn-danger" href="PacienteServlet?action=deletaUsuario">Excluir minha conta </a>

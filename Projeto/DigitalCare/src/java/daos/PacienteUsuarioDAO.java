@@ -27,7 +27,10 @@ public class PacienteUsuarioDAO {
 
     private final String inserePacienteUsuario = "INSERT INTO paciente_usuario (id_paciente, id_login, "
             + "id_endereco, telefone, telefone2) VALUES (?,?,?,?,?)";
+    private final String deletePacienteUsuario = "DELETE FROM paciente_usuario where paciente_usuario.id =?";
     private final String deletePaciente = "DELETE FROM paciente where paciente.id =?";
+    private final String deleteEndereco = "DELETE FROM endereco where endereco.id =?";
+    private final String deleteLogin = "DELETE FROM login where login.id =?";
     private final String updatePacienteUsuario = "UPDATE paciente_usuario, paciente, endereco, login "
             + "SET paciente_usuario.telefone=?, paciente_usuario.telefone2=?, paciente.cpf=?, "
             + "    paciente.sexo=?,             paciente.nome=?,              paciente.data_nascimento=?,"
@@ -250,8 +253,21 @@ public class PacienteUsuarioDAO {
     public void deletePacienteUsuario(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deletePacienteUsuario);
+            stmt.setInt(1, pacienteUsuario.getId());
+            stmt.executeUpdate();
+            
             stmt = con.prepareStatement(deletePaciente);
             stmt.setInt(1, pacienteUsuario.getPaciente().getId());
+            stmt.executeUpdate();
+            
+            stmt = con.prepareStatement(deleteEndereco);
+            stmt.setInt(1, pacienteUsuario.getEndereco().getId());
+            stmt.executeUpdate();
+            
+            
+            stmt = con.prepareStatement(deleteLogin);
+            stmt.setInt(1, pacienteUsuario.getLogin().getId());
             stmt.executeUpdate();
         } finally {
             try {

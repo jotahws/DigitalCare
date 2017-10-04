@@ -179,7 +179,7 @@ public class Facade {
 
     public String verificaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
-        return loginDAO.verificaSenhaAtual(pacienteUsuario,senha);
+        return loginDAO.verificaSenhaAtual(pacienteUsuario, senha);
     }
 
     public void editaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String novaSenha) throws ClassNotFoundException, SQLException {

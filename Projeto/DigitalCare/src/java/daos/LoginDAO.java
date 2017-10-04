@@ -22,7 +22,7 @@ public class LoginDAO {
 
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
     private final String buscaLoginPorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
-    private final String buscaSenhaAtual = "select * from login l where l.id = ? and l.senha = ?  ";
+    private final String buscaSenhaAtual = "select * from login l where l.id=? and l.senha =?;";
     private final String updateSenhaPacienteUsuario = "update login set login.senha = ? where login.id=?";
 
     private Connection con = null;

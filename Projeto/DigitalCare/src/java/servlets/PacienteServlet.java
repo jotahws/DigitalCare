@@ -156,13 +156,12 @@ public class PacienteServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
                 String senha = request.getParameter("senha-antiga");
-                String novaSenha = request.getParameter("senha-nova");
+                String novaSenha = request.getParameter("nova-senha");
                 try {
                     status = facade.verificaSenhaPacienteUsuario(pacienteUsuario, senha);
                     facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
                     pacienteUsuario.getLogin().setSenha(novaSenha);
                     session.setAttribute("usuario", pacienteUsuario);
-
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "error";
                 }
@@ -170,17 +169,18 @@ public class PacienteServlet extends HttpServlet {
             } else if ("deletaUsuario".equals(action)) {
                 HttpSession session = request.getSession();
                 PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
-                
-                try (PrintWriter out = response.getWriter()) {
-                    out.println(pacienteUsuario.getLogin().getId());
+                try {
+                    facade.desativaConta(pacienteUsuario);
+                    session = request.getSession(false);
+                    
+                    if (session != null) {
+                        session.invalidate();
+                        response.sendRedirect("index.jsp?status=" + status);
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-deleta";
+                    response.sendRedirect("configuracoes-paciente" + status);
                 }
-                //facade.desativaConta(pacienteUsuario);
-
-                //session = request.getSession(false);
-                //if (session != null) {
-                //    session.invalidate();
-                //}
-                //response.sendRedirect("index.jsp");
             }
         } else {
             response.sendRedirect("login.jsp");
