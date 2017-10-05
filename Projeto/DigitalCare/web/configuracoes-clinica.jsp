@@ -32,6 +32,7 @@
             </c:when>
             <c:otherwise>
                 <!-- Navigation -->
+                <jsp:useBean id="clinicaBean" class="beans.Clinica"/>
                 <%@include file="/includes/headerDash.jsp" %>
                 <div class="content-wrapper">
                     <div class="container-fluid">
@@ -44,25 +45,26 @@
                                         <h3 class="col-md-12">Sobre sua Empresa</h3>
                                         <div class="form-group col-md-6">
                                             <label for="nomeFantasia">Nome fantasia:</label>
-                                            <input type="text" id="nomeFantasia" name="nomeFantasia"class="required form-control">
+                                            <input type="text" id="nomeFantasia" name="nomeFantasia" class="required form-control" value="${usuario.nomeFantasia}">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="razaoSocial">Razão social:</label>
-                                            <input type="text" id="razaoSocial" name="razaoSocial" class="required form-control">
+                                            <input type="text" id="razaoSocial" name="razaoSocial" class="required form-control" value="${usuario.razaoSocial}">
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="cnpj">CNPJ:</label>
-                                            <input type="text" id="cnpj" name="cnpj"class="cnpj required form-control">
+                                            <input type="text" id="cnpj" name="cnpj"class="cnpj required form-control" value="${usuario.cnpj}">
                                         </div>
                                         <div class="form-group col-md-7">
                                             <label for="site">Site:</label>
-                                            <input type="text" id="site" class="required form-control" name="site">
+                                            <input type="text" id="site" class="required form-control" name="site" value="${usuario.site}">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="email">E-mail:</label>
-                                            <input type="email" id="email" name="email" class="required form-control">
+                                            <input type="email" id="email" name="email" class="required form-control" value="${usuario.login.email}">
                                         </div>
-                                        <div class="form-group col-md-12 text-right">
+                                        <div class="form-group col-md-6 text-right">
+                                            <br>
                                             <input type="submit" id="VerificaDados" value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
                                         </div>
                                     </div>

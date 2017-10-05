@@ -75,7 +75,7 @@
                             </div>
                             <div class="form-group col-md-8">
                                 <label for="rua">Rua:</label>
-                                <input type="text" id="rua" name="rua" readonly="true" class="locked">
+                                <input type="text" id="rua" name="rua" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="numero">Número:</label>
@@ -87,15 +87,15 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="bairro">Bairro:</label>
-                                <input type="text" id="bairro" name="bairro"  readonly="true" class="locked">
+                                <input type="text" id="bairro" name="bairro"  readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" id="cidade" name="cidade" readonly="true" class="locked">
+                                <input type="text" id="cidade" name="cidade" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="estado">Estado:</label>
-                                <input type="text" id="estado" name="estado" readonly="true" class="locked">
+                                <input type="text" id="estado" name="estado" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-12">
                                 <input type="submit" value="Cadastrar" class="btn btn-digital-green">
