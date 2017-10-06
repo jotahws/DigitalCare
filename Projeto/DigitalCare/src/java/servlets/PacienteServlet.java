@@ -6,19 +6,20 @@
 package servlets;
 
 import beans.Cidade;
+import beans.Convenio;
+import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Login;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -134,13 +135,61 @@ public class PacienteServlet extends HttpServlet {
                     String compl = request.getParameter("compl");
                     String bairro = request.getParameter("bairro");
                     String cidadeString = request.getParameter("cidade");
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     Date dataNasc = formatter.parse(dtnsc);
                     //Instancia os objetos
                     Paciente paciente = new Paciente(idPaciente, cpf, nome, sobrenome, dataNasc, sexo);
                     Cidade cidade = facade.getCidadePorNome(cidadeString);
                     Login login = new Login(email);
                     Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
+                    
+                    List<ConvenioPaciente> listaConveniosPaciente = new ArrayList(); 
+                    
+                    //Coletando os id's das especialidades selecionadas
+                    if (!"0".equals(request.getParameter("idconvenio1"))){
+                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio1")));
+                        String numeroConvenio = request.getParameter("nconvenio1");
+                        String validadeConvenio = request.getParameter("vconvenio1");
+                        Date dataConvenio = formatter.parse(validadeConvenio);
+                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+                        listaConveniosPaciente.add(convenioPaciente);
+                    }
+                    if (!"0".equals(request.getParameter("idconvenio2"))){
+                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio2")));
+                        String numeroConvenio = request.getParameter("nconvenio2");
+                        String validadeConvenio = request.getParameter("vconvenio2");
+                        Date dataConvenio = formatter.parse(validadeConvenio);
+                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+                        listaConveniosPaciente.add(convenioPaciente);
+                    }
+                    
+                    if (!"0".equals(request.getParameter("idconvenio3"))){
+                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio3")));
+                        String numeroConvenio = request.getParameter("nconvenio3");
+                        String validadeConvenio = request.getParameter("vconvenio3");
+                        Date dataConvenio = formatter.parse(validadeConvenio);
+                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+                        listaConveniosPaciente.add(convenioPaciente);
+                    }
+                    
+                    if (!"0".equals(request.getParameter("idconvenio4"))){
+                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio4")));
+                        String numeroConvenio = request.getParameter("nconvenio4");
+                        String validadeConvenio = request.getParameter("vconvenio4");
+                        Date dataConvenio = formatter.parse(validadeConvenio);
+                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+                        listaConveniosPaciente.add(convenioPaciente);
+                    }
+
+                    //Deletando todas as especialidades do médico
+                    Facade.deletarConveniosPaciente(paciente.getId());
+
+                    //Inserindo as especialidades selecionadas
+                    for (ConvenioPaciente convenio : listaConveniosPaciente)
+                        Facade.inserirConvenioPaciente(convenio);
+                    
+                    paciente.setListaConvenios(listaConveniosPaciente);
+                    
                     PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                     facade.alteraPacienteUsuario(pacienteUsuario);
                     //Atualiza a sessao com os dados do bens modificados

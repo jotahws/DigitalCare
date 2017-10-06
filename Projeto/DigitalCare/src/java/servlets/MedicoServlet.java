@@ -5,6 +5,8 @@
  */
 package servlets;
 
+import beans.Convenio;
+import beans.Especialidade;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -88,51 +90,66 @@ public class MedicoServlet extends HttpServlet {
                 telefone2 = telefone2.replace(" ", "");
                 telefone2 = telefone2.replace("-", "");
                 HttpSession session = request.getSession();
-                Login login = (Login) session.getAttribute("sessionLogin");
-                int idMedico = Facade.BuscarIdMedicoPorLogin(login.getId());
-                Medico medico = new Medico(idMedico, nome, sobrenome, Double.parseDouble(precoConsulta), dataNasc, telefone1, telefone2);
+                Medico medico = (Medico) session.getAttribute("usuario");
+                medico.setNome(nome);
+                medico.setSobrenome(sobrenome);
+                medico.setDataNascimento(dataNasc);
+                medico.setPrecoConsulta(Double.parseDouble(precoConsulta));
+                medico.setTelefone1(telefone1);
+                medico.setTelefone2(telefone2);
                 Facade.atualizarMedico(medico);
-//                List<MedicoEspecialidade> listaMedicoEspecialidade = Facade.buscarMedicoEspecialidade(idMedico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
-                if (!"0".equals(request.getParameter("especialidade1"))) {
+                
+                //Coletando os id's das especialidades selecionadas
+                if (!"0".equals(request.getParameter("especialidade1")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
-                }
-                if (!"0".equals(request.getParameter("especialidade2"))) {
+                if (!"0".equals(request.getParameter("especialidade2")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
-                }
-                if (!"0".equals(request.getParameter("especialidade3"))) {
+                if (!"0".equals(request.getParameter("especialidade3")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
-                }
-                if (!"0".equals(request.getParameter("especialidade4"))) {
+                if (!"0".equals(request.getParameter("especialidade4")))
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
+                
+                //Deletando todas as especialidades do médico
+                Facade.deletarEspecialidadesMedico(medico.getId());
+                
+                List<Especialidade> listaEspecialidadesMedico = new ArrayList();
+                
+                //Inserindo as especialidades selecionadas
+                for (int idEspecialidade : listaIdEspecialidade){
+                    listaEspecialidadesMedico.add(Facade.buscarEspecialidadePorId(idEspecialidade));
+                    Facade.inserirEspecialidadeMedico(medico.getId(), idEspecialidade);
                 }
-
-//                for (Especialidade especialidade : listaMedicoEspecialidade){
-//                    boolean bDeletar = true;
-//                    for (int idEspecialidade : listaIdEspecialidade)
-//                        if (especialidade.getId() == idEspecialidade)
-//                            bDeletar = false;
-//                    if (bDeletar)
-//                        Facade.deletarMedicoEspecialidade(idMedico, especialidade.getId());
-//                }
-//                
-//                for (int idEspecialidade : listaIdEspecialidade){
-//                    boolean bInserir = true;
-//                    for (Especialidade especialidade : listaMedicoEspecialidade)
-//                        if (idEspecialidade == especialidade.getId())
-//                            bInserir = false;
-//                    if (bInserir)
-//                        Facade.inserirMedicoEspecialidade(idEspecialidade, idMedico);
-//                }
-                medico = Facade.getMedicoPorLogin(login.getId());
-                        medico.setListaEspecialidades(Facade.getListaEspecialidadesMedico(medico.getId()));
-                        medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
-                        medico.setLogin(login);
+                medico.setListaEspecialidades(listaEspecialidadesMedico);
+                
+                List<Integer> listaIdConvenios = new ArrayList();
+                
+                //Coletando os id's das especialidades selecionadas
+                if (!("0".equals(request.getParameter("convenio1"))))
+                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio1")));
+                if (!"0".equals(request.getParameter("convenio2")))
+                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio2")));
+                if (!"0".equals(request.getParameter("convenio3")))
+                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio3")));
+                if (!"0".equals(request.getParameter("convenio4")))
+                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio4")));
+                
+                //Deletando todas as especialidades do médico
+                Facade.deletarConveniosMedico(medico.getId());
+                
+                List<Convenio> listaConveniosMedico = new ArrayList();
+                
+                //Inserindo as especialidades selecionadas
+                for (int idConvenio : listaIdConvenios){
+                    listaConveniosMedico.add(Facade.buscarConvenioPorId(idConvenio));
+                    Facade.inserirConvenioMedico(medico.getId(), idConvenio);
+                }
+                medico.setListaConvenios(listaConveniosMedico);
+                
                 session.setAttribute("usuario", medico);
-
-//                status = "cadastro-ok";
+                status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
-//                status = "cadastro-erro";
+                status = "cadastro-erro";
             }
         }
     }

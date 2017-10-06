@@ -20,7 +20,7 @@ public class Clinica {
     private String nomeFantasia;
     private String site;
     private Double avaliacao;
-    private List<Endereco> listaEnderecos;
+    private List<ClinicaEndereco> listaEnderecos;
 
     public Clinica() {
     }
@@ -89,11 +89,11 @@ public class Clinica {
         this.avaliacao = avaliacao;
     }
 
-    public List<Endereco> getListaEnderecos() {
+    public List<ClinicaEndereco> getListaEnderecos() {
         return listaEnderecos;
     }
 
-    public void setListaEnderecos(List<Endereco> listaEnderecos) {
+    public void setListaEnderecos(List<ClinicaEndereco> listaEnderecos) {
         this.listaEnderecos = listaEnderecos;
     }    
 }

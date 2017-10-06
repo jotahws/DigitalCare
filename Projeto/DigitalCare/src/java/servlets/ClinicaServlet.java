@@ -7,6 +7,7 @@ package servlets;
 
 import beans.Cidade;
 import beans.Clinica;
+import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Login;
 import facade.Facade;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -76,33 +78,42 @@ public class ClinicaServlet extends HttpServlet {
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
-//                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
-//                facade.inserirClinicaEndereco(clinicaEndereco);
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+                facade.inserirClinicaEndereco(clinicaEndereco);
 
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException ex) {
                 status = "cadastro-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
-        } else if ("edit".equals(action)){
+        } else if ("alter".equals(action)){
             try{
                 String nomeFantasia = request.getParameter("nomeFantasia");
                 String razaoSocial = request.getParameter("razaoSocial");
-                String cnpj = request.getParameter("cnpj");
                 String site = request.getParameter("site");
-                String tel1 = request.getParameter("tel1");
-                String tel2 = request.getParameter("tel2");
-                String email = request.getParameter("email");
-                String senha = request.getParameter("senha");
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                clinica.setNomeFantasia(nomeFantasia);
+                clinica.setRazaoSocial(razaoSocial);
+                clinica.setSite(site);
+                Facade.atualizarClinica(clinica);
+
+//                status = "cadastro-ok";
+            } catch (ClassNotFoundException | SQLException ex) {
+//                status = "cadastro-erro";
+            }
+//            response.sendRedirect("login.jsp?status=" + status);
+        } else if ("editEndereco".equals(action)){
+            try {
+                String id = request.getParameter("id");
                 String cep = request.getParameter("cep");
                 String rua = request.getParameter("rua");
                 String numero = request.getParameter("numero");
-                String complemento = request.getParameter("compl");
+                String compl = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
                 String cidadeString = request.getParameter("cidade");
-                cnpj = cnpj.replace("-", "");
-                cnpj = cnpj.replace(".", "");
-                cnpj = cnpj.replace("/", "");
+                String tel1 = request.getParameter("tel1");
+                String tel2 = request.getParameter("tel2");
                 tel1 = tel1.replace("(", "");
                 tel1 = tel1.replace(")", "");
                 tel1 = tel1.replace(" ", "");
@@ -113,17 +124,43 @@ public class ClinicaServlet extends HttpServlet {
                 tel2 = tel2.replace("-", "");
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
+                int idClinicaEndereco = Integer.parseInt(id);
                 
-                Login login = new Login(email, senha, 3);
-                Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
-                Cidade cidade = facade.getCidadePorNome(cidadeString);
-                Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
-//                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
-//                facade.inserirClinicaEndereco(clinicaEndereco);
-
-                status = "cadastro-ok";
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                Endereco endereco = new Endereco();
+                
+                ClinicaEndereco clinicaEndereco = null;
+                for (ClinicaEndereco clinicaEnderecoAux : clinica.getListaEnderecos()){
+                    if (clinicaEnderecoAux.getId() == idClinicaEndereco){
+                        clinicaEndereco = clinicaEnderecoAux;
+                        endereco.setBairro(bairro);
+                        endereco.setCep(cep);
+                        endereco.setComplemento(compl);
+                        endereco.setNumero(numero);
+                        endereco.setRua(rua);
+                        endereco.setId(clinicaEndereco.getId());
+                        break;
+                    }    
+                }
+               
+                Cidade cidade = null;
+                if (clinicaEndereco != null){
+                    clinicaEndereco.setTelefone1(tel1);
+                    clinicaEndereco.setTelefone2(tel2);
+                    Facade.atualizarClinicaEndereco(clinicaEndereco);
+                    if (!clinicaEndereco.getEndereco().getCidade().getNome().equals(cidadeString)){
+                      cidade = facade.getCidadePorNome(cidadeString);
+                      endereco.setCidade(cidade);
+                    } else {
+                      endereco.setCidade(clinicaEndereco.getEndereco().getCidade());
+                    }
+                }
+                Facade.atualizarEndereco(endereco);
+               
+                
             } catch (ClassNotFoundException | SQLException ex) {
-                status = "cadastro-erro";
+                
             }
             
         }

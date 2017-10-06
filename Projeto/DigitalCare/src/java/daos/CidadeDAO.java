@@ -8,7 +8,6 @@ package daos;
 import beans.Cidade;
 import beans.Estado;
 import conexao.ConnectionFactory;
-import facade.Facade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

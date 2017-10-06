@@ -7,6 +7,7 @@ package beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Paciente implements Serializable {
     private String sobrenome;
     private Date dataNascimento;
     private String sexo;
+    private List<ConvenioPaciente> listaConvenios;
 
     public Paciente() {
     }
@@ -87,6 +89,14 @@ public class Paciente implements Serializable {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public List<ConvenioPaciente> getListaConvenios() {
+        return listaConvenios;
+    }
+
+    public void setListaConvenios(List<ConvenioPaciente> listaConvenios) {
+        this.listaConvenios = listaConvenios;
     }
 
 }

@@ -6,6 +6,7 @@
 package daos;
 
 import beans.Cidade;
+import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Estado;
 import conexao.ConnectionFactory;
@@ -37,13 +38,13 @@ public class EnderecoDAO {
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
     
-    public List<Endereco> buscarEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException{
+    public List<ClinicaEndereco> buscarEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaEnderecosClinica);
             stmt.setInt(1, idClinica);
             rs = stmt.executeQuery();
-            List<Endereco> lista = new ArrayList();
+            List<ClinicaEndereco> lista = new ArrayList();
             while (rs.next()){
                 Estado estado = new Estado();
                 estado.setId(rs.getInt("es.id"));
@@ -61,7 +62,12 @@ public class EnderecoDAO {
                 endereco.setComplemento(rs.getString("en.complemento"));
                 endereco.setNumero(rs.getString("en.numero"));
                 endereco.setRua(rs.getString("en.rua"));
-                lista.add(endereco);
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco();
+                clinicaEndereco.setEndereco(endereco);
+                clinicaEndereco.setTelefone1(rs.getString("ce.telefone1"));
+                clinicaEndereco.setTelefone2(rs.getString("ce.telefone2"));
+                clinicaEndereco.setId(rs.getInt("ce.id"));
+                lista.add(clinicaEndereco);
             }
             return lista;
         } finally {

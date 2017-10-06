@@ -7,7 +7,9 @@ package facade;
 
 import beans.Cidade;
 import beans.Clinica;
+import beans.ClinicaEndereco;
 import beans.Convenio;
+import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
@@ -17,6 +19,7 @@ import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
+import daos.ClinicaEnderecoDAO;
 import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
@@ -64,7 +67,7 @@ public class Facade {
         return clinicaDAO.buscarClinicaPorLogin(idLogin);
     }
 
-    public static List<Endereco> getListaEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
+    public static List<ClinicaEndereco> getListaEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
         EnderecoDAO enderecoDAO = new EnderecoDAO();
         return enderecoDAO.buscarEnderecosClinica(idClinica);
     }
@@ -114,10 +117,11 @@ public class Facade {
         return clinicaDAO.inserirClinica(clinica);
     }
 
-//    public void inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
-//        ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
-//        clinicaEnderecoDAO.inserirClinicaEndereco(clinicaEndereco);
-//    }
+    public void inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
+        ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
+        clinicaEnderecoDAO.inserirClinicaEndereco(clinicaEndereco);
+    }
+    
     public Login verificaLogin(Login login) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLogin(login);
@@ -152,12 +156,7 @@ public class Facade {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         pacienteUsuarioDAO.alteraDadosPaciente(pacienteUsuario);
     }
-
-//    public static List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
-//        MedicoDAO medicoDAO = new MedicoDAO();
-//        return medicoDAO.buscarMedicoEspecialidade(idMedico);
-//    }
-//    
+    
     public static void deletarMedicoEspecialidade(int idEspecialidade, int idMedico) throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.deletarMedicoEspecialidade(idEspecialidade, idMedico);
@@ -168,10 +167,11 @@ public class Facade {
         medicoDAO.inserirMedicoEspecialidade(idEspecialidade, idMedico);
     }
 
-//    public static void atualizarClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
-//        ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
-//        clinicaEnderecoDAO.atualizarClinicaEndereco(clinicaEndereco);
-//    }
+    public static void atualizarClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
+        ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
+        clinicaEnderecoDAO.atualizarClinicaEndereco(clinicaEndereco);
+    }
+    
     public static void atualizarClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
         ClinicaDAO clinicaDAO = new ClinicaDAO();
         clinicaDAO.atualizarClinica(clinica);
@@ -197,8 +197,48 @@ public class Facade {
         pacienteUsuarioDAO.deletePacienteUsuario(pacienteUsuario);
     }
 
-    public List<Especialidade> buscarEspecialidadesMedico(int id) throws ClassNotFoundException, SQLException {
+    public static List<Especialidade> buscarEspecialidadesMedico(int id) throws ClassNotFoundException, SQLException {
         EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
         return especialidadeDAO.buscarEspecialidadesPorMedico(id);
+    }
+    
+    public static int inserirEspecialidadeMedico(int idMedico, int idEspecialidade) throws ClassNotFoundException, SQLException {
+        EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+        return especialidadeDAO.inserirEspecialidadeMedico(idMedico, idEspecialidade);
+    }
+    
+    public static void deletarEspecialidadesMedico(int idMedico) throws ClassNotFoundException, SQLException{
+        EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+        especialidadeDAO.deletarEspecialidadesMedico(idMedico);
+    }
+    
+    public static Especialidade buscarEspecialidadePorId(int id) throws ClassNotFoundException, SQLException{
+        EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+        return especialidadeDAO.buscarEspecialidadePorId(id);
+    }
+    
+    public static void deletarConveniosMedico(int idMedico) throws ClassNotFoundException, SQLException{
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        convenioDAO.deletarConveniosMedico(idMedico);
+    }
+    
+    public static Convenio buscarConvenioPorId(int id) throws ClassNotFoundException, SQLException{
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.buscarConvenioPorId(id);
+    }
+    
+    public static int inserirConvenioMedico(int idMedico, int idConvenio) throws ClassNotFoundException, SQLException{
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.inserirConvenioMedico(idMedico, idConvenio);
+    }
+    
+    public static void deletarConveniosPaciente(int idPaciente) throws ClassNotFoundException, SQLException{
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        convenioDAO.deletarConveniosPaciente(idPaciente);
+    }
+    
+    public static int inserirConvenioPaciente(ConvenioPaciente convenioPaciente) throws ClassNotFoundException, SQLException{
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.inserirConvenioPaciente(convenioPaciente);
     }
 }
