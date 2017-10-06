@@ -171,23 +171,23 @@ public class PacienteServlet extends HttpServlet {
                         listaConveniosPaciente.add(convenioPaciente);
                     }
 
-                    if (!"0".equals(request.getParameter("idconvenio3"))) {
-                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio3")));
-                        String numeroConvenio = request.getParameter("nconvenio3");
-                        String validadeConvenio = request.getParameter("vconvenio3");
-                        Date dataConvenio = formatter.parse(validadeConvenio);
-                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
-                        listaConveniosPaciente.add(convenioPaciente);
-                    }
-
-                    if (!"0".equals(request.getParameter("idconvenio4"))) {
-                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio4")));
-                        String numeroConvenio = request.getParameter("nconvenio4");
-                        String validadeConvenio = request.getParameter("vconvenio4");
-                        Date dataConvenio = formatter.parse(validadeConvenio);
-                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
-                        listaConveniosPaciente.add(convenioPaciente);
-                    }
+//                    if (!"0".equals(request.getParameter("idconvenio3"))) {
+//                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio3")));
+//                        String numeroConvenio = request.getParameter("nconvenio3");
+//                        String validadeConvenio = request.getParameter("vconvenio3");
+//                        Date dataConvenio = formatter.parse(validadeConvenio);
+//                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+//                        listaConveniosPaciente.add(convenioPaciente);
+//                    }
+//
+//                    if (!"0".equals(request.getParameter("idconvenio4"))) {
+//                        Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio4")));
+//                        String numeroConvenio = request.getParameter("nconvenio4");
+//                        String validadeConvenio = request.getParameter("vconvenio4");
+//                        Date dataConvenio = formatter.parse(validadeConvenio);
+//                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
+//                        listaConveniosPaciente.add(convenioPaciente);
+//                    }
 
                     //Deletando todas as especialidades do médico
                     Facade.deletarConveniosPaciente(paciente.getId());

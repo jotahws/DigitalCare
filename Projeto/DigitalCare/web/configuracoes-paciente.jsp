@@ -162,11 +162,11 @@
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="convenio">Validade: </label>
-                                                    <input type="text" id="convenio" name="vconvenio${i+1}" class=" form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${conveniosPaciente.get(i).validade}'/>"/>
+                                                    <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${conveniosPaciente.get(i).validade}'/>"/>
                                                 </div>
                                             </c:forEach>
                                         </c:if>
-                                        <c:forEach var = "i" begin = "${conveniosPaciente.size()}" end = "3">
+                                        <c:forEach var = "i" begin = "${conveniosPaciente.size()}" end = "1">
                                             <div id="especDiv2" class="form-group col-md-4">
                                                 <label for="convenio">Convênio: </label>
                                                 <select id="convenios${i+1}" name="idconvenio${i+1}" class="custom-select vazio">
@@ -178,11 +178,11 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="convenio">Número: </label>
-                                                <input type="text" id="convenio" name="nconvenio" class=" form-control" value="${item.endereco.cep}">
+                                                <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${item.endereco.cep}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="convenio">Validade: </label>
-                                                <input type="text" id="convenio" name="vconvenio" class=" form-control" value="${item.endereco.cep}">
+                                                <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" value="${item.endereco.cep}">
                                             </div>
                                         </c:forEach>
                                         <div class="form-group col-md-12 text-right">
