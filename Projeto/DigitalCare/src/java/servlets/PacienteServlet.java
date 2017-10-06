@@ -100,9 +100,17 @@ public class PacienteServlet extends HttpServlet {
                 }
                 response.sendRedirect("login.jsp?status=" + status);
             } else if ("meuPerfil".equals(action)) {
-                HttpSession session = request.getSession();
-                PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
-                request.setAttribute("paciente", pacienteUsuario);
+                try {
+                    HttpSession session = request.getSession();
+                    PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
+                    List<Convenio> convenios = Facade.getListaConvenios();
+                    List<ConvenioPaciente> conveniosPaciente = Facade.getListaConveniosPaciente(pacienteUsuario.getPaciente().getId());
+                    request.setAttribute("convenios", convenios);
+                    request.setAttribute("conveniosPaciente", conveniosPaciente);
+                    request.setAttribute("paciente", pacienteUsuario);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro";
+                }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
                 rd.forward(request, response);
             } else if ("alteraPerfil".equals(action)) {
@@ -142,11 +150,11 @@ public class PacienteServlet extends HttpServlet {
                     Cidade cidade = facade.getCidadePorNome(cidadeString);
                     Login login = new Login(email);
                     Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
-                    
-                    List<ConvenioPaciente> listaConveniosPaciente = new ArrayList(); 
-                    
+
+                    List<ConvenioPaciente> listaConveniosPaciente = new ArrayList();
+
                     //Coletando os id's das especialidades selecionadas
-                    if (!"0".equals(request.getParameter("idconvenio1"))){
+                    if (!"0".equals(request.getParameter("idconvenio1"))) {
                         Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio1")));
                         String numeroConvenio = request.getParameter("nconvenio1");
                         String validadeConvenio = request.getParameter("vconvenio1");
@@ -154,7 +162,7 @@ public class PacienteServlet extends HttpServlet {
                         ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
                         listaConveniosPaciente.add(convenioPaciente);
                     }
-                    if (!"0".equals(request.getParameter("idconvenio2"))){
+                    if (!"0".equals(request.getParameter("idconvenio2"))) {
                         Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio2")));
                         String numeroConvenio = request.getParameter("nconvenio2");
                         String validadeConvenio = request.getParameter("vconvenio2");
@@ -162,8 +170,8 @@ public class PacienteServlet extends HttpServlet {
                         ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
                         listaConveniosPaciente.add(convenioPaciente);
                     }
-                    
-                    if (!"0".equals(request.getParameter("idconvenio3"))){
+
+                    if (!"0".equals(request.getParameter("idconvenio3"))) {
                         Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio3")));
                         String numeroConvenio = request.getParameter("nconvenio3");
                         String validadeConvenio = request.getParameter("vconvenio3");
@@ -171,8 +179,8 @@ public class PacienteServlet extends HttpServlet {
                         ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
                         listaConveniosPaciente.add(convenioPaciente);
                     }
-                    
-                    if (!"0".equals(request.getParameter("idconvenio4"))){
+
+                    if (!"0".equals(request.getParameter("idconvenio4"))) {
                         Convenio convenio = Facade.buscarConvenioPorId(Integer.parseInt(request.getParameter("idconvenio4")));
                         String numeroConvenio = request.getParameter("nconvenio4");
                         String validadeConvenio = request.getParameter("vconvenio4");
@@ -185,11 +193,12 @@ public class PacienteServlet extends HttpServlet {
                     Facade.deletarConveniosPaciente(paciente.getId());
 
                     //Inserindo as especialidades selecionadas
-                    for (ConvenioPaciente convenio : listaConveniosPaciente)
+                    for (ConvenioPaciente convenio : listaConveniosPaciente) {
                         Facade.inserirConvenioPaciente(convenio);
-                    
+                    }
+
                     paciente.setListaConvenios(listaConveniosPaciente);
-                    
+
                     PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                     facade.alteraPacienteUsuario(pacienteUsuario);
                     //Atualiza a sessao com os dados do bens modificados
@@ -214,14 +223,14 @@ public class PacienteServlet extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "error";
                 }
-                response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status +"#bairro");
+                response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status + "#bairro");
             } else if ("deletaUsuario".equals(action)) {
                 HttpSession session = request.getSession();
                 PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
                 try {
                     facade.desativaConta(pacienteUsuario);
                     session = request.getSession(false);
-                    
+
                     if (session != null) {
                         session.invalidate();
                         response.sendRedirect("index.jsp?status=" + status);

@@ -140,9 +140,55 @@
                                             <label for="estado">Estado:</label>
                                             <input type="text" id="estado" name="estado" readonly="true" class="locked form-control" value="${item.endereco.cidade.estado.uf}">
                                         </div>
+                                        <legend><hr>Plano(s) de Saúde</legend>
+                                            <jsp:useBean id="conveniosM" class="beans.Convenio"/>
+                                            <c:if test="${conveniosPaciente.size() > 0}">
+                                                <c:forEach var = "i" begin = "0" end = "${conveniosPaciente.size()-1}">
+                                                <div id="especDiv2" class="form-group col-md-4">
+                                                    <label for="convenio">Convênio: </label>
+                                                    <select id="convenios${i+1}" name="idconvenio${i+1}" class="custom-select">
+                                                        <option value="0">Escolha...</option>
+                                                        <option value="<c:out value="${conveniosPaciente.get(i).convenio.id}"/>" selected><c:out value="${conveniosPaciente.get(i).convenio.nome}"/></option>
+                                                        <c:forEach var="item" items="${convenios}">
+                                                            <c:if test="${conveniosPaciente.get(i).id != item.id}">
+                                                                <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="convenio">Número: </label>
+                                                    <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${conveniosPaciente.get(i).numero}"/>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="convenio">Validade: </label>
+                                                    <input type="text" id="convenio" name="vconvenio${i+1}" class=" form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${conveniosPaciente.get(i).validade}'/>"/>
+                                                </div>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:forEach var = "i" begin = "${conveniosPaciente.size()}" end = "3">
+                                            <div id="especDiv2" class="form-group col-md-4">
+                                                <label for="convenio">Convênio: </label>
+                                                <select id="convenios${i+1}" name="idconvenio${i+1}" class="custom-select vazio">
+                                                    <option value="0">Escolha...</option>
+                                                    <c:forEach var="item" items="${convenios}">
+                                                        <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="convenio">Número: </label>
+                                                <input type="text" id="convenio" name="nconvenio" class=" form-control" value="${item.endereco.cep}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="convenio">Validade: </label>
+                                                <input type="text" id="convenio" name="vconvenio" class=" form-control" value="${item.endereco.cep}">
+                                            </div>
+                                        </c:forEach>
                                         <div class="form-group col-md-12 text-right">
                                             <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
                                         </div>
+
                                     </div>
                                 </fieldset>
                             </form>
@@ -178,8 +224,8 @@
                                         </h5>
                                     </div>
                                     <div id="collapseOne" class="collapse <c:if test="${(param.status == 'ok')}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraSenha" method="POST">
+                                            <div class="card-body">
+                                                <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraSenha" method="POST">
                                                 <fieldset>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">

@@ -52,9 +52,9 @@ public class Facade {
         return especialidadeDAO.buscarEspecialidadesPorMedico(idMedico);
     }
 
-    public static List<Convenio> getListaConveniosMedico(int idMedico) throws ClassNotFoundException, SQLException {
+    public static List<Convenio> getListaConveniosMedico(int id) throws ClassNotFoundException, SQLException {
         ConvenioDAO convenioDAO = new ConvenioDAO();
-        return convenioDAO.buscarConveniosPorMedico(idMedico);
+        return convenioDAO.buscarConveniosPorMedico(id);
     }
 
     public static List<Convenio> getListaConvenios() throws ClassNotFoundException, SQLException {
@@ -80,6 +80,11 @@ public class Facade {
     private static void deletarEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
         EnderecoDAO dao = new EnderecoDAO();
         dao.deletarEndereco(endereco);
+    }
+
+    public static List<ConvenioPaciente> getListaConveniosPaciente(int id) throws ClassNotFoundException, SQLException {
+        ConvenioDAO convenioDAO = new ConvenioDAO();
+        return convenioDAO.buscarConveniosPorPaciente(id);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {

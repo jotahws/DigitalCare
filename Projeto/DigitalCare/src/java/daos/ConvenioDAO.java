@@ -25,6 +25,9 @@ public class ConvenioDAO {
     private final String buscaConveniosPorMedico = "SELECT * FROM convenio co "
             + "INNER JOIN medico_convenio mc ON co.id = mc.id_convenio "
             + "WHERE mc.id_medico = ?";
+    private final String buscaConveniosPorPaciente = "SELECT * FROM convenio co "
+            + "INNER JOIN paciente_convenio pc ON co.id = pc.id_convenio "
+            + "WHERE pc.id_paciente = ?";
     private final String buscaConvenios = "SELECT * FROM convenio";
     private final String deleteConvenioMedico = "DELETE FROM medico_convenio WHERE id_medico =?";
     private final String buscaConvenioPorId = "SELECT * FROM convenio WHERE id=?";
@@ -175,6 +178,35 @@ public class ConvenioDAO {
                 convenio.setId(rs.getInt("id"));
                 convenio.setNome(rs.getString("nome"));
                 lista.add(convenio);
+            }
+            return lista;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<ConvenioPaciente> buscarConveniosPorPaciente(int id) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaConveniosPorPaciente);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            List<ConvenioPaciente> lista = new ArrayList();
+            while (rs.next()) {
+                Convenio convenio = new Convenio();
+                convenio.setId(rs.getInt("co.id"));
+                convenio.setNome(rs.getString("co.nome"));
+                ConvenioPaciente convPaciente = new ConvenioPaciente();
+                convPaciente.setConvenio(convenio);
+                convPaciente.setNumero(rs.getString("pc.numero"));
+                convPaciente.setValidade(rs.getDate("pc.validade"));
+                convPaciente.setId(rs.getInt("pc.id"));
+                lista.add(convPaciente);
             }
             return lista;
         } finally {
