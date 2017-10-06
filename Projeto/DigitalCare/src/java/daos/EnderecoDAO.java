@@ -23,29 +23,31 @@ import java.util.List;
  * @author Gabriel
  */
 public class EnderecoDAO {
-    
+
     private final String insereEndereco = "INSERT INTO endereco (id_cidade, cep, rua, numero, complemento, bairro) "
             + "VALUES (?,?,?,?,?,?)";
     private final String updateEndereco = "UPDATE endereco SET id_cidade=?, cep=?, rua=?, numero=?, complemento=?, "
             + "bairro=? where id=?";
-    private final String buscaEnderecosClinica = "SELECT * FROM clinica_endereco ce " +
-                                                       "INNER JOIN endereco en ON ce.id_endereco = en.id " +
-                                                       "INNER JOIN cidade ci ON en.id_cidade = ci.id " +
-                                                       "INNER JOIN estado es ON ci.id_estado = es.id " +
-                                                       "WHERE ce.id_clinica = ?";
-    
+    private final String removeEndereco = "DELETE FROM endereco "
+            + "WHERE id=?;";
+    private final String buscaEnderecosClinica = "SELECT * FROM clinica_endereco ce "
+            + "INNER JOIN endereco en ON ce.id_endereco = en.id "
+            + "INNER JOIN cidade ci ON en.id_cidade = ci.id "
+            + "INNER JOIN estado es ON ci.id_estado = es.id "
+            + "WHERE ce.id_clinica = ?";
+
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
-    
-    public List<ClinicaEndereco> buscarEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException{
+
+    public List<ClinicaEndereco> buscarEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaEnderecosClinica);
             stmt.setInt(1, idClinica);
             rs = stmt.executeQuery();
             List<ClinicaEndereco> lista = new ArrayList();
-            while (rs.next()){
+            while (rs.next()) {
                 Estado estado = new Estado();
                 estado.setId(rs.getInt("es.id"));
                 estado.setNome(rs.getString("es.nome"));
@@ -79,7 +81,7 @@ public class EnderecoDAO {
             }
         }
     }
-    
+
     public void atualizarEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -101,8 +103,8 @@ public class EnderecoDAO {
             }
         }
     }
-    
-    public int inserirEndereco(Endereco endereco) throws ClassNotFoundException, SQLException{
+
+    public int inserirEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereEndereco, Statement.RETURN_GENERATED_KEYS);
@@ -125,6 +127,22 @@ public class EnderecoDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
-        return 0; 
+        return 0;
+    }
+
+    public void deletarEndereco(Endereco endereco) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(removeEndereco);
+            stmt.setInt(1, endereco.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 }

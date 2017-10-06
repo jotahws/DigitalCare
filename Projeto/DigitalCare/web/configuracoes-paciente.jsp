@@ -177,7 +177,7 @@
                                             </a>
                                         </h5>
                                     </div>
-                                    <div id="collapseOne" class="collapse <c:if test="${(param.status != null)}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div id="collapseOne" class="collapse <c:if test="${(param.status == 'ok')}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <form action="${pageContext.request.contextPath}/PacienteServlet?action=alteraSenha" method="POST">
                                                 <fieldset>

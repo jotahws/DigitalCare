@@ -42,9 +42,9 @@ public class ClinicaServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         Facade facade = new Facade();
-        String status = "";  
-        
-        if ("register".equals(action)){
+        String status = "";
+
+        if ("register".equals(action)) {
             try {
                 String nomeFantasia = request.getParameter("nomeFantasia");
                 String razaoSocial = request.getParameter("razaoSocial");
@@ -73,7 +73,7 @@ public class ClinicaServlet extends HttpServlet {
                 tel2 = tel2.replace("-", "");
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
-                
+
                 Login login = new Login(email, senha, 3);
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
@@ -86,8 +86,8 @@ public class ClinicaServlet extends HttpServlet {
                 status = "cadastro-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
-        } else if ("alter".equals(action)){
-            try{
+        } else if ("alter".equals(action)) {
+            try {
                 String nomeFantasia = request.getParameter("nomeFantasia");
                 String razaoSocial = request.getParameter("razaoSocial");
                 String site = request.getParameter("site");
@@ -98,12 +98,13 @@ public class ClinicaServlet extends HttpServlet {
                 clinica.setSite(site);
                 Facade.atualizarClinica(clinica);
 
-//                status = "cadastro-ok";
+                status = "alter-ok";
             } catch (ClassNotFoundException | SQLException ex) {
-//                status = "cadastro-erro";
+                status = "alter-error";
             }
-//            response.sendRedirect("login.jsp?status=" + status);
-        } else if ("editEndereco".equals(action)){
+            response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
+        } else if ("editEndereco".equals(action)) {
+            int superid = 0;
             try {
                 String id = request.getParameter("id");
                 String cep = request.getParameter("cep");
@@ -125,44 +126,122 @@ public class ClinicaServlet extends HttpServlet {
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
                 int idClinicaEndereco = Integer.parseInt(id);
-                
+                superid = idClinicaEndereco;
                 HttpSession session = request.getSession();
                 Clinica clinica = (Clinica) session.getAttribute("usuario");
                 Endereco endereco = new Endereco();
-                
+
                 ClinicaEndereco clinicaEndereco = null;
-                for (ClinicaEndereco clinicaEnderecoAux : clinica.getListaEnderecos()){
-                    if (clinicaEnderecoAux.getId() == idClinicaEndereco){
+                for (ClinicaEndereco clinicaEnderecoAux : clinica.getListaEnderecos()) {
+                    if (clinicaEnderecoAux.getId() == idClinicaEndereco) {
                         clinicaEndereco = clinicaEnderecoAux;
-                        endereco.setBairro(bairro);
-                        endereco.setCep(cep);
-                        endereco.setComplemento(compl);
-                        endereco.setNumero(numero);
-                        endereco.setRua(rua);
-                        endereco.setId(clinicaEndereco.getId());
+                        clinicaEndereco.getEndereco().setBairro(bairro);
+                        clinicaEndereco.getEndereco().setCep(cep);
+                        clinicaEndereco.getEndereco().setComplemento(compl);
+                        clinicaEndereco.getEndereco().setNumero(numero);
+                        clinicaEndereco.getEndereco().setRua(rua);
+                        clinicaEndereco.getEndereco().setId(clinicaEnderecoAux.getEndereco().getId());
                         break;
-                    }    
+                    }
                 }
-               
-                Cidade cidade = null;
-                if (clinicaEndereco != null){
+
+                Cidade cidade2 = null;
+                if (clinicaEndereco != null) {
+                    clinicaEndereco.setClinica(clinica);
                     clinicaEndereco.setTelefone1(tel1);
                     clinicaEndereco.setTelefone2(tel2);
                     Facade.atualizarClinicaEndereco(clinicaEndereco);
-                    if (!clinicaEndereco.getEndereco().getCidade().getNome().equals(cidadeString)){
-                      cidade = facade.getCidadePorNome(cidadeString);
-                      endereco.setCidade(cidade);
+                    if (!clinicaEndereco.getEndereco().getCidade().getNome().equals(cidadeString)) {
+                        cidade2 = facade.getCidadePorNome(cidadeString);
+                        endereco.setCidade(cidade2);
                     } else {
-                      endereco.setCidade(clinicaEndereco.getEndereco().getCidade());
+                        endereco.setCidade(clinicaEndereco.getEndereco().getCidade());
                     }
                 }
                 Facade.atualizarEndereco(endereco);
-               
-                
-            } catch (ClassNotFoundException | SQLException ex) {
-                
+                status = "editEnd-ok";
+
+            } catch (Exception ex) {
+                status = "editEnd-erro";
             }
-            
+            response.sendRedirect("endereco-clinica.jsp?id=" + superid + "&status=" + status);
+
+        } else if ("alterSenha".equals(action)) {
+            HttpSession session = request.getSession();
+            Clinica clinica = (Clinica) session.getAttribute("usuario");
+            String senha = request.getParameter("senha-antiga");
+            String novaSenha = request.getParameter("nova-senha");
+            try {
+                if (facade.senhaVerificada(clinica.getLogin().getId(), senha)) {
+                    facade.editaSenha(clinica.getLogin().getId(), novaSenha);
+                    clinica.getLogin().setSenha(novaSenha);
+                    session.setAttribute("usuario", clinica);
+                    status = "alterSenha-ok";
+                } else {
+                    status = "alterSenha-error";
+                }
+            } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
+                status = "alterSenha-error";
+            }
+            response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status + "#tabela");
+        } else if ("newEndereco".equals(action)) {
+            try {
+                String tel1 = request.getParameter("tel1");
+                String tel2 = request.getParameter("tel2");
+                String cep = request.getParameter("cep");
+                String rua = request.getParameter("rua");
+                String numero = request.getParameter("numero");
+                String complemento = request.getParameter("compl");
+                String bairro = request.getParameter("bairro");
+                String cidadeString = request.getParameter("cidade");
+                tel1 = tel1.replace("(", "");
+                tel1 = tel1.replace(")", "");
+                tel1 = tel1.replace(" ", "");
+                tel1 = tel1.replace("-", "");
+                tel2 = tel2.replace("(", "");
+                tel2 = tel2.replace(")", "");
+                tel2 = tel2.replace(" ", "");
+                tel2 = tel2.replace("-", "");
+                cep = cep.replace("-", "");
+                cep = cep.replace(".", "");
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                Cidade cidade = facade.getCidadePorNome(cidadeString);
+                Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
+                endereco.setId(Facade.inserirEndereco(endereco));
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+                clinicaEndereco.setId(facade.novaClinicaEndereco(clinicaEndereco));
+                clinica.getListaEnderecos().add(clinicaEndereco);
+                session.setAttribute("usuario", clinica);
+                status = "newEnd-ok";
+
+            } catch (Exception ex) {
+                status = "newEnd-erro";
+            }
+            response.sendRedirect("endereco-clinica.jsp?status=" + status);
+        } else if ("excludeEndereco".equals(action)) {
+            try {
+                String id = request.getParameter("id");
+                int idClinicaEndereco = Integer.parseInt(id);
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco();
+                for (ClinicaEndereco clinicaEnderecoAux : clinica.getListaEnderecos()) {
+                    if (clinicaEnderecoAux.getId() == idClinicaEndereco) {
+                        clinicaEndereco = clinicaEnderecoAux;
+                        break;
+                    }
+                }
+                clinicaEndereco.setClinica(clinica);
+                facade.removerClinicaEndereco(clinicaEndereco);
+                clinica.getListaEnderecos().remove(clinicaEndereco);
+                session.setAttribute("usuario", clinica);
+                status = "excludeEnd-ok";
+
+            } catch (ClassNotFoundException | NumberFormatException | SQLException ex) {
+                status = "excludeEnd-erro";
+            }
+            response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
         }
     }
 

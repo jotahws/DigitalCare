@@ -5,6 +5,7 @@
  */
 package daos;
 
+import beans.Clinica;
 import beans.Login;
 import beans.PacienteUsuario;
 import conexao.ConnectionFactory;
@@ -23,7 +24,7 @@ public class LoginDAO {
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
     private final String buscaLoginPorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
     private final String buscaSenhaAtual = "select * from login l where l.id=? and l.senha =?;";
-    private final String updateSenhaPacienteUsuario = "update login set login.senha = ? where login.id=?";
+    private final String updateSenha = "update login set login.senha = ? where login.id=?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -105,9 +106,45 @@ public class LoginDAO {
     public void atualizaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String novaSenha) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(updateSenhaPacienteUsuario);
+            stmt = con.prepareStatement(updateSenha);
             stmt.setString(1, novaSenha);
             stmt.setInt(2, pacienteUsuario.getLogin().getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public Boolean senhaAtualCorreta(int id, String senha) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaSenhaAtual);
+            stmt.setInt(1, id);
+            stmt.setString(2, senha);
+            rs = stmt.executeQuery();
+            return rs.next();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public void atualizaSenha(int id, String novaSenha) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(updateSenha);
+            stmt.setString(1, novaSenha);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
         } finally {
             try {
