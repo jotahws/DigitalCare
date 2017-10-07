@@ -120,8 +120,12 @@
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="valor">Valor cobrado por Consulta</label>
                                                                     <div class="form-group col-md-4">
-                                                                        <input type="text" id="valor" name="precoConsulta" class="required form-control"  value="${usuario.precoConsulta}">
+                                                                        <div class="input-group">
+                                                                        <span class="input-group-addon" id="basic-addon1">R$</span>
+                                                                        <input type="text" id="valor" name="precoConsulta" class="required form-control money"  value="${usuario.precoConsulta}">
                                                                     </div>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="especialidade">Especialidade(s):
@@ -258,8 +262,8 @@
                                         </h5>
                                     </div>
                                     <div id="collapseOne" class="collapse <c:if test="${(param.status == 'alterSenha-error')}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <form action="${pageContext.request.contextPath}/MedicoServlet?action=alterSenha" method="POST">
+                                            <div class="card-body">
+                                                <form action="${pageContext.request.contextPath}/MedicoServlet?action=alterSenha" method="POST">
                                                 <fieldset>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
