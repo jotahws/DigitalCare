@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `digital_care`.`clinica_endereco` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `id_clinica` INT NOT NULL,
   `id_endereco` INT(11) NOT NULL,
-  `telefone1` VARCHAR(11) NULL DEFAULT NULL,
+  `telefone1` VARCHAR(11) NOT NULL,
   `telefone2` VARCHAR(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_endereco_clinica_endereco_idx` (`id_endereco` ASC),
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `digital_care`.`medico` (
   `nome` VARCHAR(100) NOT NULL,
   `sobrenome` VARCHAR(200) NOT NULL,
   `cpf` VARCHAR(11) NOT NULL,
-  `preco_consulta` DOUBLE NOT NULL,
+  `preco_consulta` DOUBLE NULL,
   `data_nascimento` DATE NULL DEFAULT NULL,
   `telefone` VARCHAR(11) NULL DEFAULT NULL,
   `telefone2` VARCHAR(11) NULL DEFAULT NULL,
@@ -567,7 +567,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- --------------------------------------------------------
 -- --------------------------------------------------------
--- -----------------------ALTERAÃ‡Ã•ES-----------------------
+-- -----------------------ALTERAÇÕES-----------------------
 -- --------------------------------------------------------
 -- --------------------------------------------------------
 
