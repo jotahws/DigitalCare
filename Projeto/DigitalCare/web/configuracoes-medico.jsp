@@ -43,6 +43,24 @@
                         <hr class="large-divider">
 
                         <div class="container">
+                            <c:choose>
+                                <c:when test="${(param.status == 'edit-error')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Opa! </strong> Ocorreu um erro ao alterar os dados. Tente novamente.
+                                    </div>
+                                </c:when>
+                                <c:when test="${(param.status == 'edit-ok')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Seus dados foram alterados com sucesso!</strong> 
+                                    </div>
+                                </c:when>
+                            </c:choose> 
                             <div class="row">
                                 <jsp:useBean id="medicoBean" class="beans.Medico"/>
                                 <form action="${pageContext.request.contextPath}/MedicoServlet?action=edit" method="POST">
@@ -59,7 +77,7 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="cpf">CPF:</label>
-                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control" value="${usuario.cpf}">
+                                                <input type="text" id="cpf" name="cpf" disabled="" class="cpf required form-control" value="${usuario.cpf}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="datanasc">Data de Nascimento:</label>
@@ -102,8 +120,12 @@
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="valor">Valor cobrado por Consulta</label>
                                                                     <div class="form-group col-md-4">
-                                                                        <input type="text" id="valor" name="precoConsulta" class="required form-control"  value="${usuario.precoConsulta}">
+                                                                        <div class="input-group">
+                                                                        <span class="input-group-addon" id="basic-addon1">R$</span>
+                                                                        <input type="text" id="valor" name="precoConsulta" class="required form-control money"  value="${usuario.precoConsulta}">
                                                                     </div>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 <div class="row">
                                                                     <label class="col-md-12" for="especialidade">Especialidade(s):
@@ -138,25 +160,57 @@
                                                                     </c:forEach>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
+                                                                    <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s):
                                                                     </label>
-                                                                    <div id="planoDiv" class="form-group col-md-12">
-                                                                        <div class="row">
-                                                                            <c:forEach var="item" items="${convenios}">
-                                                                                <div class="form-check col-md-3">
-                                                                                    <label class="form-check-label">
-                                                                                        <input class="form-check-input"
-                                                                                               <c:forEach var="itemConv" items="${conveniosMedico}">
-                                                                                                   <c:if test="${item.nome == itemConv.nome}"><c:out value="checked"/></c:if>
-                                                                                               </c:forEach>
-                                                                                               type="checkbox" value="${item.id}">
-                                                                                        ${item.nome}
-                                                                                    </label>
-                                                                                </div>
-                                                                            </c:forEach>
+                                                                    <jsp:useBean id="conveniosM" class="beans.Convenio"/>
+
+                                                                    <c:if test="${conveniosMedico.size() > 0}">
+                                                                        <c:forEach var = "i" begin = "0" end = "${conveniosMedico.size()-1}">
+                                                                            <div id="especDiv2" class="form-group col-md-3">
+                                                                                <select id="convenios${i+1}" name="convenio${i+1}" class="custom-select">
+                                                                                    <option value="0">Escolha...</option>
+                                                                                    <option value="<c:out value="${conveniosMedico.get(i).id}"/>" selected><c:out value="${conveniosMedico.get(i).nome}"/></option>
+                                                                                    <c:forEach var="item" items="${convenios}">
+                                                                                        <c:if test="${conveniosMedico.get(i).id != item.id}">
+                                                                                            <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                                        </c:if>
+                                                                                    </c:forEach>
+                                                                                </select>
+                                                                            </div>
+                                                                        </c:forEach>
+                                                                    </c:if>
+                                                                    <c:set var="listaPlanos" value="${convenios}"/>
+                                                                    <c:forEach var = "i" begin = "${conveniosMedico.size()}" end = "3">
+                                                                        <div id="especDiv2" class="form-group col-md-3">
+                                                                            <select id="convenios${i+1}" name="convenio${i+1}" class="custom-select vazio">
+                                                                                <option value="0">Escolha...</option>
+                                                                                <c:forEach var="item" items="${convenios}">
+                                                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                                                </c:forEach>
+                                                                            </select>
                                                                         </div>
-                                                                    </div>
+                                                                    </c:forEach>
                                                                 </div>
+                                                                <!--                                                                <div class="row">
+                                                                                                                                    <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
+                                                                                                                                    </label>
+                                                                                                                                    <div id="planoDiv" class="form-group col-md-12">
+                                                                                                                                        <div class="row">
+                                                                <%--<c:forEach var="item" items="${convenios}">--%>
+                                                                    <div class="form-check col-md-3">
+                                                                        <label class="form-check-label">
+                                                                            <input class="form-check-input"
+                                                                <%--<c:forEach var="itemConv" items="${conveniosMedico}">--%>
+                                                                <%--<c:if test="${item.nome == itemConv.nome}"><c:out value="checked"/></c:if>--%>
+                                                                <%--</c:forEach>--%>
+                                                                type="checkbox" value="${item.id}">
+                                                                ${item.nome}
+                                                            </label>
+                                                        </div>
+                                                                <%--</c:forEach>--%>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
                                                             </div>
                                                             <div class="col-md-4 border-divider">
                                                                 <div class="form-group col-md-12">
@@ -179,6 +233,25 @@
                             <hr class="dashed-divider">
 
                             <h3>Avançado</h3>
+                            <c:choose>
+                                <c:when test="${(param.status == 'alterSenha-error')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Opa! </strong> A senha atual digitada está incorreta!
+                                    </div>
+                                </c:when>
+
+                                <c:when test="${(param.status == 'alterSenha-ok')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Nova Senha Editada com Sucesso!</strong> 
+                                    </div>
+                                </c:when>
+                            </c:choose> 
                             <div id="accordion" role="tablist">
                                 <div class="card acordeao">
                                     <div class="card-header " role="tab" id="headingOne">
@@ -188,9 +261,9 @@
                                             </a>
                                         </h5>
                                     </div>
-                                    <div id="collapseOne" class="collapse " role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <form>
+                                    <div id="collapseOne" class="collapse <c:if test="${(param.status == 'alterSenha-error')}">show</c:if>" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <form action="${pageContext.request.contextPath}/MedicoServlet?action=alterSenha" method="POST">
                                                 <fieldset>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">

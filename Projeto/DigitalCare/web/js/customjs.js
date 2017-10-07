@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('.cep').mask('99.999-999');
     $('#cpf').mask('999.999.999-99');
     $('.cnpj').mask('99.999.999/9999-99');
+    $('.money').maskMoney({thousands:'', decimal:'.', allowZero:true});
 //------------------indisponibilidade---------------------
     $('#de').mask('99:99');
     $('#ate').mask('99:99');

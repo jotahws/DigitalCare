@@ -147,10 +147,30 @@ public class MedicoServlet extends HttpServlet {
                 medico.setListaConvenios(listaConveniosMedico);
                 
                 session.setAttribute("usuario", medico);
-                status = "cadastro-ok";
+                status = "edit-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                status = "cadastro-erro";
+                status = "edit-erro";
             }
+            response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status);
+        } else if ("alterSenha".equals(action)) {
+            Facade facade = new Facade();
+            HttpSession session = request.getSession();
+            Medico medico = (Medico) session.getAttribute("usuario");
+            String senha = request.getParameter("senha-antiga");
+            String novaSenha = request.getParameter("nova-senha");
+            try {
+                if (facade.senhaVerificada(medico.getLogin().getId(), senha)) {
+                    facade.editaSenha(medico.getLogin().getId(), novaSenha);
+                    medico.getLogin().setSenha(novaSenha);
+                    session.setAttribute("usuario", medico);
+                    status = "alterSenha-ok";
+                } else {
+                    status = "alterSenha-error";
+                }
+            } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
+                status = "alterSenha-error";
+            }
+            response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status + "#convenios1");
         }
     }
 

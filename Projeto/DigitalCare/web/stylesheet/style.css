@@ -365,3 +365,7 @@ legend.dados{
 .border-divider{
     border-left: 1px solid #eee;
 }
+
+.buttonjs{
+    cursor: pointer;
+}

@@ -69,13 +69,13 @@
                         </a>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaClinicaServlet?action=listaConfiguracao">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/agendar-consulta.jsp">
                             <i class="fa fa-fw fa-calendar-plus-o"></i>
                             <span class="nav-link-text">Agendar Consulta</span>
                         </a>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/configuracoes-clinica.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaClinicaServlet?action=listaConfiguracao">
                             <i class="fa fa-fw fa-wrench"></i>
                             <span class="nav-link-text">Configurações</span>
                         </a>
