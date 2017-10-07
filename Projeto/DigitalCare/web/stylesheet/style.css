@@ -1,0 +1,371 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 31, 2017, 9:38:12 PM
+    Author     : JotaWind
+*/
+
+/*
+
+PALHETA DE CORES:
+
+Verde principal: #68c4af
+Verde secundario escuro: #96ead7
+Verde secundario claro: #bfd9d2
+Amarelo claro: #ffffcc
+Amarelo escuro: #f5e5ba
+Cinza escuro: #2e2e2e
+
+*/
+
+/*BOTÃO VERDE DIGITAL CARE*/
+.btn-digital-green {
+    color: #fff;
+    background-color: #68c4af;
+    border-color: #28a745;
+}
+
+.btn-digital-green:hover {
+    color: #fff;
+    background-color: #589988;
+    border-color: #28a745;
+}
+
+.btn-digital-green:focus, .btn-digital-green.focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
+}
+
+.btn-digital-green.disabled, .btn-digital-green:disabled {
+    background-color: #68c4af;
+    border-color: #68c4af;
+}
+
+.btn-digital-green:active, .btn-digital-green.active,
+.show > .btn-digital-green.dropdown-toggle {
+    background-color: #589988;
+    background-image: none;
+    border-color: #28a745;
+}
+/*FIM BOTÃO VERDE DIGITAL CARE*/
+
+/* LINK VERDE DIGITAL CARE*/
+.link-digital-green{
+    color: #0e9374;
+}
+.link-digital-green:hover{
+    color: #0b7058;
+    text-decoration: none;
+}
+/*FIM LINK VERDE DIGITAL CARE*/
+
+/*BOTÃO AMARELO DIGITAL CARE*/
+.btn-digital-yellow {
+    color: #666;
+    /*cor normal*/
+    background-color: #ffffcc;
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+.btn-digital-yellow:hover {
+    color: #666;
+    /*cor escura*/
+    background-color: #eadb9d; 
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+.btn-digital-yellow:focus, .btn-digital-yellow.focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
+}
+
+.btn-digital-yellow.disabled, .btn-digital-yellow:disabled {
+    /*cor normal*/
+    background-color: #ffffcc;
+    /*cor normal*/
+    border-color: #ffffcc;
+}
+
+.btn-digital-yellow:active, .btn-digital-yellow.active,
+.show > .btn-digital-yellow.dropdown-toggle {
+    /*cor escura*/
+    background-color: #eadb9d;
+    background-image: none;
+    /*cor escura vibrante*/
+    border-color: #f5e5ba;
+}
+
+#header-btn {
+    color: #666;
+}
+/*FIM BOTÃO AMARELO DIGITAL CARE*/
+
+/* LINK VERMELHO*/
+.link-danger{
+    color: #d5464a;
+}
+.link-danger:hover{
+    color: #ad393c;
+    text-decoration: none;
+}
+/*FIM LINKVERMELHO*/
+
+/*VERTICAL RULE (HR SO QUE VERTICAL)*/
+
+.vr{
+    border-right:1px solid rgba(0, 0, 0, 0.1);
+    height: 200px;
+}
+
+.dashed-divider{
+    margin: 40px 0px;
+    border-top:3px dashed #eee;
+}
+
+.normal-divider{
+    margin: 50px 0px;
+    border-top:2px solid #eee;
+}
+
+/*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
+
+/*RODAPE*/
+.rodape{
+    padding-top: 150px;
+    background-repeat: repeat-x;
+    height: 400px;
+    margin-top: 100px;
+}
+/*FIM RODAPE*/
+
+/*LOGIN*/
+
+.login{
+    background-color: #666;
+    margin-bottom: 200px;
+}
+
+.panel-default{
+    opacity: 1;
+    margin-top:120px;
+}
+
+.login input {
+    border: none;
+    transition: all .3s;
+}
+
+.title-login {
+    background: #ffffcc;
+    border-radius: 20px 20px 0 0;
+    color: #2e2e2e;
+    font-size: 28px;
+    padding: 26px 26px;
+}
+
+.title-login img{
+    margin-bottom: 10px;
+}
+
+.login label{
+    margin-top: 10px;
+}
+
+.login fieldset {
+    background: #fff;
+    border-radius: 0 0 20px 20px;
+    padding: 20px 26px;
+}
+
+.login fieldset input {
+    border-radius: 3px;
+}
+
+.login fieldset input[type="email"], .login fieldset input[type="password"], .login fieldset input[type="text"] {
+    background: #f3f3f3;
+    color: #777;
+    padding: 4px 10px;
+    width: 100%;
+}
+
+.login fieldset input[type="text"].locked{
+    background: #e1e1e1;
+}
+
+.login fieldset input[type="submit"] {
+    display: block;
+    margin: 20px auto 15px auto;
+    width: 100px;
+}
+
+
+@media (max-width: 40em){
+    .login{
+        background-color: #ffffcc;
+    }
+}
+/*FIM LOGIN*/
+
+/* QUADRADOS INFORMATIVOS DA DASHBOARD */
+.data-box-light{
+    background-color: #96ead7 ;
+}
+.data-box-dark{
+    background-color: #68c4af;
+}
+.data-box-white{
+    background-color: #fff;
+}
+.data-box-yellow-light{
+    background-color: #ffffcc;
+    border: 1px solid;
+    border-color: #96ead7;
+}
+.data-box{
+    margin: 25px 0px;
+    padding: 30px 30px 10px 30px;
+    border-radius: 10px;
+    min-height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+}
+@media (max-width: 992px){
+    .data-box{
+        margin-top: 5px;
+        margin-bottom: 10px
+    }
+}
+.data-box.data-box-sm{
+    min-height: 100px;
+}
+
+.btn-data-box-row{
+    min-height: 0px;
+    white-space: normal;
+    margin-top: 30px
+}
+/* FIM QUADRADOS INFORMATIVOS DA DASHBOARD */
+
+/* Sweet alert Custom */
+.left-text{
+    text-align: left;
+}
+/* FIM Sweet alert Custom */
+
+/* Custom Bootstrap*/
+.bg-danger-light{
+    background-color: #f1b0b7;
+}
+
+.bg-warning-light{
+    background-color: #ffef8f; 
+}
+/* FIM Custom Bootstrap*/
+
+.form-group select{
+    width: 100%;
+}
+
+/* TELA PACIENTE */
+
+.agendamento{
+    background: url("../images/mom-daughter.jpg") no-repeat center ;
+    height: 500px;
+    margin-top: 30px;
+    width: 100%;
+    background-size: cover;
+}
+
+.agendamento .data-box{
+    margin-top: 50px;
+    height: 370px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.agendamento .data-box label{
+    padding-right: 0px;
+}
+
+.agendamento .data-box h1{
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 575px){
+    .agendamento .data-box{
+        height: 470px;
+    }
+    .agendamento{
+        height: 600px;
+    }
+}
+/* FIM TELA PACIENTE */
+
+/* DASHBOARD CLINICA*/
+.dash-row h2{
+    margin: 30px 0px 20px 20px;
+    font-weight: 300;
+}
+.tabela-dash table{
+    border-radius: 5px;
+    border-collapse: collapse;
+}
+.tabela-dash { 
+    max-height: 320px; 
+    overflow: auto;
+}
+/* FIM DASHBOARD CLINICA*/
+
+/* BTN ADICIONAR NOVO INPUT*/
+a.adicionar{
+    cursor: pointer;
+    color: #0069d9 !important;
+}
+a.adicionar:hover{
+    cursor: pointer;
+    color: #0056b3 !important;
+}
+a.adicionar-verde{
+    cursor: pointer;
+    color: #0e9374 !important;
+}
+a.adicionar-verde:hover{
+    cursor: pointer;
+    color: #0b7058 !important;
+}
+/* FIM BTN ADICIONAR NOVO INPUT*/
+
+/* PERFIL PACIENTE */
+.paciente{
+    margin-top: 80px;
+}
+
+.dados{
+    font-size: 20px;
+    font-weight: 200;
+}
+
+legend.dados{
+    font-size: 27px;
+    font-weight: 400;
+}
+/* FIM PERFIL PACIENTE*/
+
+.acordeao{
+    margin: 20px 0px 30px;
+}
+
+.large-divider {
+    margin: 1rem 0 3rem; /* Space out the Bootstrap <hr> more */
+}
+
+.border-divider{
+    border-left: 1px solid #eee;
+}
+
+.buttonjs{
+    cursor: pointer;
+}
