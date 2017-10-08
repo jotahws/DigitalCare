@@ -14,6 +14,7 @@ import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,10 +87,11 @@ public class PacienteServlet extends HttpServlet {
                     String cidadeString = request.getParameter("cidade");
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
                     Date dataNasc = formatter.parse(dtnsc);
-
+                    Login login = new Login();
+                    pssw = login.criptografa(pssw);
                     Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
                     Cidade cidade = facade.getCidadePorNome(cidadeString);
-                    Login login = new Login(email, pssw, 1);
+                    login = new Login(email, pssw, 1);
                     Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
                     PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                     facade.inserirPacienteUsuario(pacienteUsuario);
@@ -97,6 +99,8 @@ public class PacienteServlet extends HttpServlet {
                     status = "cadastro-ok";
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     status = "cadastro-erro";
+                } catch (NoSuchAlgorithmException ex) {
+                    status = "criptografa-erro";
                 }
                 response.sendRedirect("login.jsp?status=" + status);
             } else if ("meuPerfil".equals(action)) {
@@ -188,7 +192,6 @@ public class PacienteServlet extends HttpServlet {
 //                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
 //                        listaConveniosPaciente.add(convenioPaciente);
 //                    }
-
                     //Deletando todas as especialidades do médico
                     Facade.deletarConveniosPaciente(paciente.getId());
 
@@ -216,12 +219,22 @@ public class PacienteServlet extends HttpServlet {
                 String senha = request.getParameter("senha-antiga");
                 String novaSenha = request.getParameter("nova-senha");
                 try {
-                    status = facade.verificaSenhaPacienteUsuario(pacienteUsuario, senha);
-                    facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
-                    pacienteUsuario.getLogin().setSenha(novaSenha);
-                    session.setAttribute("usuario", pacienteUsuario);
+                    Login login = new Login();
+                    senha = login.criptografa(senha);
+                    novaSenha = login.criptografa(novaSenha);
+                    
+                    if (facade.verificaSenhaPacienteUsuario(pacienteUsuario.getLogin().getId(), senha)) {
+                        facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
+                        pacienteUsuario.getLogin().setSenha(novaSenha);
+                        session.setAttribute("usuario", pacienteUsuario);
+                        status = "alterar-senha-ok";
+                    } else {
+                        status = "error-senha";
+                    }
                 } catch (ClassNotFoundException | SQLException ex) {
-                    status = "error";
+                    status = "error-senha";
+                } catch (NoSuchAlgorithmException ex) {
+                    status = "error-criptografa";
                 }
                 response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status + "#bairro");
             } else if ("deletaUsuario".equals(action)) {

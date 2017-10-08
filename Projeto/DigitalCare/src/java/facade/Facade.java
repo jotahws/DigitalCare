@@ -197,9 +197,9 @@ public class Facade {
         enderecoDAO.atualizarEndereco(endereco);
     }
 
-    public String verificaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
+    public Boolean verificaSenhaPacienteUsuario(int id, String senha) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
-        return loginDAO.verificaSenhaAtual(pacienteUsuario, senha);
+        return loginDAO.verificaSenhaAtual(id, senha);
     }
 
     public void editaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String novaSenha) throws ClassNotFoundException, SQLException {

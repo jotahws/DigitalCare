@@ -196,7 +196,7 @@
 
                             <h3>Avançado</h3>
                             <c:choose>
-                                <c:when test="${(param.status == 'error')}">
+                                <c:when test="${(param.status == 'error-senha')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -205,7 +205,7 @@
                                     </div>
                                 </c:when>
 
-                                <c:when test="${(param.status == 'ok')}">
+                                <c:when test="${(param.status == 'alterar-senha-ok')}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -213,7 +213,17 @@
                                         <strong>Nova Senha Editada com Sucesso!</strong> 
                                     </div>
                                 </c:when>
+                                
+                                <c:when test="${(param.status == 'error-criptografa')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Ocorreu algum erro ao criptografar a senha!</strong> 
+                                    </div>
+                                </c:when>
                             </c:choose>
+                            
                             <div id="accordion" role="tablist">
                                 <div class="card " style="margin: 20px 0px 50px">
                                     <div class="card-header" role="tab" id="headingOne">

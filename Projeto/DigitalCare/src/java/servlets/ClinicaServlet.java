@@ -12,6 +12,7 @@ import beans.Endereco;
 import beans.Login;
 import facade.Facade;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,7 +75,9 @@ public class ClinicaServlet extends HttpServlet {
                 cep = cep.replace("-", "");
                 cep = cep.replace(".", "");
 
-                Login login = new Login(email, senha, 3);
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                login = new Login(email, senha, 3);
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
@@ -84,6 +87,8 @@ public class ClinicaServlet extends HttpServlet {
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException ex) {
                 status = "cadastro-erro";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "criptografa-erro";
             }
             response.sendRedirect("login.jsp?status=" + status);
         } else if ("alter".equals(action)) {
@@ -172,6 +177,10 @@ public class ClinicaServlet extends HttpServlet {
             String senha = request.getParameter("senha-antiga");
             String novaSenha = request.getParameter("nova-senha");
             try {
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                novaSenha = login.criptografa(novaSenha);
+
                 if (facade.senhaVerificada(clinica.getLogin().getId(), senha)) {
                     facade.editaSenha(clinica.getLogin().getId(), novaSenha);
                     clinica.getLogin().setSenha(novaSenha);
@@ -182,6 +191,8 @@ public class ClinicaServlet extends HttpServlet {
                 }
             } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
                 status = "alterSenha-error";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "criptografa-erro";
             }
             response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status + "#tabela");
         } else if ("newEndereco".equals(action)) {

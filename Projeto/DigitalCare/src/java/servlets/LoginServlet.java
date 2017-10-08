@@ -48,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 Login login = new Login();
+                senha = login.criptografa(senha);
                 login.setEmail(email);
                 login.setSenha(senha);
 //                senha = login.criptografa(senha);;

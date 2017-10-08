@@ -12,6 +12,7 @@ import beans.Login;
 import beans.Medico;
 import facade.Facade;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,7 +62,10 @@ public class MedicoServlet extends HttpServlet {
                 Date dataNasc = formatter.parse(dataNascimento);
                 cpf = cpf.replace("-", "");
                 cpf = cpf.replace(".", "");
-                Login login = new Login(email, senha, 2);
+
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                login = new Login(email, senha, 2);
                 Estado estado = Facade.buscarEstadoPorId(Integer.parseInt(estadoCrm));
                 Medico medico = new Medico(login, estado, numeroCrm, nome, sobrenome, cpf, dataNasc);
                 Facade.inserirMedico(medico);
@@ -69,6 +73,8 @@ public class MedicoServlet extends HttpServlet {
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
                 status = "cadastro-erro";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "error-criptografa";
             }
             response.sendRedirect("novo-medico.jsp?status=" + status);
         } else if ("edit".equals(action)) {
@@ -99,53 +105,61 @@ public class MedicoServlet extends HttpServlet {
                 medico.setTelefone2(telefone2);
                 Facade.atualizarMedico(medico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
-                
+
                 //Coletando os id's das especialidades selecionadas
-                if (!"0".equals(request.getParameter("especialidade1")))
+                if (!"0".equals(request.getParameter("especialidade1"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
-                if (!"0".equals(request.getParameter("especialidade2")))
+                }
+                if (!"0".equals(request.getParameter("especialidade2"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
-                if (!"0".equals(request.getParameter("especialidade3")))
+                }
+                if (!"0".equals(request.getParameter("especialidade3"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
-                if (!"0".equals(request.getParameter("especialidade4")))
+                }
+                if (!"0".equals(request.getParameter("especialidade4"))) {
                     listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
-                
+                }
+
                 //Deletando todas as especialidades do médico
                 Facade.deletarEspecialidadesMedico(medico.getId());
-                
+
                 List<Especialidade> listaEspecialidadesMedico = new ArrayList();
-                
+
                 //Inserindo as especialidades selecionadas
-                for (int idEspecialidade : listaIdEspecialidade){
+                for (int idEspecialidade : listaIdEspecialidade) {
                     listaEspecialidadesMedico.add(Facade.buscarEspecialidadePorId(idEspecialidade));
                     Facade.inserirEspecialidadeMedico(medico.getId(), idEspecialidade);
                 }
                 medico.setListaEspecialidades(listaEspecialidadesMedico);
-                
+
                 List<Integer> listaIdConvenios = new ArrayList();
-                
+
                 //Coletando os id's das especialidades selecionadas
-                if (!("0".equals(request.getParameter("convenio1"))))
+                if (!("0".equals(request.getParameter("convenio1")))) {
                     listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio1")));
-                if (!"0".equals(request.getParameter("convenio2")))
+                }
+                if (!"0".equals(request.getParameter("convenio2"))) {
                     listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio2")));
-                if (!"0".equals(request.getParameter("convenio3")))
+                }
+                if (!"0".equals(request.getParameter("convenio3"))) {
                     listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio3")));
-                if (!"0".equals(request.getParameter("convenio4")))
+                }
+                if (!"0".equals(request.getParameter("convenio4"))) {
                     listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio4")));
-                
+                }
+
                 //Deletando todas as especialidades do médico
                 Facade.deletarConveniosMedico(medico.getId());
-                
+
                 List<Convenio> listaConveniosMedico = new ArrayList();
-                
+
                 //Inserindo as especialidades selecionadas
-                for (int idConvenio : listaIdConvenios){
+                for (int idConvenio : listaIdConvenios) {
                     listaConveniosMedico.add(Facade.buscarConvenioPorId(idConvenio));
                     Facade.inserirConvenioMedico(medico.getId(), idConvenio);
                 }
                 medico.setListaConvenios(listaConveniosMedico);
-                
+
                 session.setAttribute("usuario", medico);
                 status = "edit-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
@@ -159,6 +173,9 @@ public class MedicoServlet extends HttpServlet {
             String senha = request.getParameter("senha-antiga");
             String novaSenha = request.getParameter("nova-senha");
             try {
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                novaSenha = login.criptografa(novaSenha);
                 if (facade.senhaVerificada(medico.getLogin().getId(), senha)) {
                     facade.editaSenha(medico.getLogin().getId(), novaSenha);
                     medico.getLogin().setSenha(novaSenha);
@@ -169,6 +186,8 @@ public class MedicoServlet extends HttpServlet {
                 }
             } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
                 status = "alterSenha-error";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "error-criptografa";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status + "#convenios1");
         }

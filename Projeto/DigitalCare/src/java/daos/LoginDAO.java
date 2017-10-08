@@ -80,18 +80,14 @@ public class LoginDAO {
         return null;
     }
 
-    public String verificaSenhaAtual(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
+    public Boolean verificaSenhaAtual(int id, String senha) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaSenhaAtual);
-            stmt.setInt(1, pacienteUsuario.getLogin().getId());
+            stmt.setInt(1, id);
             stmt.setString(2, senha);
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                return "ok";
-            } else {
-                return "error";
-            }
+            return rs.next();
         } finally {
             try {
                 stmt.close();
