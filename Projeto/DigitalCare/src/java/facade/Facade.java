@@ -272,4 +272,9 @@ public class Facade {
         dao.removerClinicaEndereco(clinicaEndereco);
         Facade.deletarEndereco(clinicaEndereco.getEndereco());
     }
+
+    public List<Medico> carregaListaMedicos(int id) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.listaMedicosNaClinica(id);
+    }
 }

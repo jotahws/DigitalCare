@@ -57,7 +57,7 @@
                         </a>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/medicos.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaMedicos">
                             <i class="fa fa-fw fa-user-md"></i>
                             <span class="nav-link-text">Médicos</span>
                         </a>

@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/head.jsp" %>
-        <title>Cadastrar ClÃ­nica - DigitalCare</title>
+        <title>Cadastrar Clínica - DigitalCare</title>
     </head>
     <body class="login">
         <c:choose>
@@ -26,7 +26,7 @@
             <div  class="panel-default col-md-6 col-sm-12">
                 <div class="title-login">
                     <p class="text-center"><img src="images/logo-peq.png" class="page-title-logo"></p>
-                    <h2>Novo Cadastro de ClÃ­nica</h2>   
+                    <h2>Novo Cadastro de Clínica</h2>   
                 </div>
                 <form action="${pageContext.request.contextPath}/ClinicaServlet?action=register" method="POST">
                     <fieldset>
@@ -37,7 +37,7 @@
                                 <input type="text" id="nomeFantasia" name="nomeFantasia" class="required">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="razaoSocial">RazÃ£o social:</label>
+                                <label for="razaoSocial">Razão social:</label>
                                 <input type="text" id="razaoSocial" name="razaoSocial" class="required">
                             </div>
                             <div class="form-group col-md-5">
@@ -68,7 +68,7 @@
                                 <label for="senha2">Confirmar Senha:</label>
                                 <input type="password" id="pssw2" name="senha2" class="required">
                             </div>
-                            <legend>EndereÃ§o</legend>
+                            <legend>Endereço</legend>
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                 <input type="text" id="cep" name="cep" placeholder="" class="required">
@@ -78,7 +78,7 @@
                                 <input type="text" id="rua" name="rua" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="numero">NÃºmero:</label>
+                                <label for="numero">Número:</label>
                                 <input type="text" id="numero" name="numero" class="required">
                             </div>
                             <div class="form-group col-md-3">
@@ -100,7 +100,7 @@
                             <div class="form-group col-md-12">
                                 <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
-                                    <a href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Ã‰ uma pessoa fÃ­sica?</a>
+                                    <a href="${pageContext.request.contextPath}/cadastroPaciente.jsp">É uma pessoa física?</a>
                                 </div>
                             </div>
                         </div>

@@ -5,13 +5,18 @@
  */
 package servlets;
 
+import beans.Clinica;
 import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
 import beans.Medico;
 import facade.Facade;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,6 +78,23 @@ public class ListaMedicoServlet extends HttpServlet {
                 status = "error";
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-medico.jsp?status=" + statusLista);
+            rd.forward(request, response);
+        } else if ("listaMedicos".equals(action)) {
+            try {
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                List<Medico> medicos = facade.carregaListaMedicos(clinica.getId());
+                request.setAttribute("medicos", medicos);
+            } catch (ClassNotFoundException ex) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("Class not found: " + ex.getMessage());
+                }
+            } catch (SQLException ex) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("SQL not found: " + ex.getMessage());
+                }
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/medicos.jsp");
             rd.forward(request, response);
         }
     }

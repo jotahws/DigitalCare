@@ -3,7 +3,7 @@
     Created on : Sep 20, 2017, 3:33:36 PM
     Author     : JotaWind
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,7 +26,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
+                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="row dash-row">
-                            <h2>Pr√≥ximos pacientes</h2>
+                            <h2>PrÛximos pacientes</h2>
                             <div class="col-md-12">
                                 <table class="table">
                                     <thead class="thead-inverse">

@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,7 +13,7 @@
         <%@include file="/includes/head.jsp" %>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Calend√°rio - DigitalCare</title>
+        <title>Calend·rio - DigitalCare</title>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
     </head>
@@ -28,7 +28,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas m√©dicos podem acessar essa p√°gina</h2>
+                        <h2>Apenas mÈdicos podem acessar essa p·gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -39,7 +39,7 @@
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <div class="row">
-                            <h1 class="col-9">Calend√°rio</h1>
+                            <h1 class="col-9">Calend·rio</h1>
                             <a href="${pageContext.request.contextPath}/indisponibilidade.jsp" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
                         </div>
                         <hr>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 ">
-                                <a href="" class="btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar Pr√≥ximo Paciente</a>
+                                <a href="" class="btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar PrÛximo Paciente</a>
                             </div>
                         </div>
                         <div style="" id="calendar"></div>
@@ -86,8 +86,8 @@
                             editable: false,
                             eventClick: function () {
                                 swal({
-                                    title: 'Jo√£o das Neves',
-                                    html: 'aqui aparecer√° o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, etic√©tera... ',
+                                    title: 'Jo„o das Neves',
+                                    html: 'aqui aparecer· o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticÈtera... ',
                                     confirmButtonText: 'top!'
                                 });
                             },
@@ -99,7 +99,7 @@
                             timeFormat: 'H(:mm)',
                             buttonText: {
                                 today: 'Hoje',
-                                month: 'M√™s',
+                                month: 'MÍs',
                                 week: 'Semana',
                                 day: 'Dia',
                                 list: 'Lista'
@@ -127,7 +127,7 @@
                                 },
                                 {
                                     id: '1',
-                                    title: 'Deputada L√©ia Organson',
+                                    title: 'Deputada LÈia Organson',
                                     start: '2017-09-14T09:30:00',
                                     end: '2017-09-14T10:00:00'
                                 },

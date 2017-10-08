@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>ConfiguraÃ§Ãµes - DigitalCare</title>
+        <title>Configurações - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -29,7 +29,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas mÃ©dicos podem acessar essa pÃ¡gina</h2>
+                        <h2>Apenas médicos podem acessar essa página</h2>
                     </div>
                 </div>
             </c:when>
@@ -39,7 +39,7 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>ConfiguraÃ§Ãµes</h1>
+                        <h1>Configurações</h1>
                         <hr class="large-divider">
 
                         <div class="container">
@@ -66,7 +66,7 @@
                                 <form action="${pageContext.request.contextPath}/MedicoServlet?action=edit" method="POST">
                                     <fieldset>
                                         <div class="form-row">
-                                            <legend>Sobre VocÃª</legend>
+                                            <legend>Sobre Você</legend>
                                             <div class="form-group col-md-6">
                                                 <label for="nome">Nome:</label>
                                                 <input type="text" id="nome" name="nome"class="required form-control" value="${usuario.nome}">
@@ -100,7 +100,7 @@
                                                     <div class="card-header" role="tab" id="headingMedico">
                                                         <h5 class="mb-0">
                                                             <a class="link-digital-green" class="collapsed" data-toggle="collapse" href="#collapseMedico" aria-expanded="false" aria-controls="collapseMedico">
-                                                                Dados do mÃ©dico
+                                                                Dados do médico
                                                             </a>
                                                         </h5>
                                                     </div>
@@ -113,7 +113,7 @@
                                                                         <input type="text" id="crm" name="crm" class="required form-control" disabled="" value="${usuario.numeroCrm}">
                                                                     </div>
                                                                     <div class="form-group col-md-4">
-                                                                        <label for="expedicao">ExpediÃ§Ã£o</label>
+                                                                        <label for="expedicao">Expedição</label>
                                                                         <input type="text" id="expedicao" name="expedicao" class="required form-control" disabled="" value="${usuario.estadoCrm.uf}">
                                                                     </div>
                                                                 </div>
@@ -160,7 +160,7 @@
                                                                     </c:forEach>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <label class="col-md-12" for="planos">Plano(s) de SaÃºde Aceito(s):
+                                                                    <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s):
                                                                     </label>
                                                                     <jsp:useBean id="conveniosM" class="beans.Convenio"/>
 
@@ -192,7 +192,7 @@
                                                                     </c:forEach>
                                                                 </div>
                                                                 <!--                                                                <div class="row">
-                                                                                                                                    <label class="col-md-12" for="plano1">Plano(s) de SaÃºde Aceito(s): 
+                                                                                                                                    <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
                                                                                                                                     </label>
                                                                                                                                     <div id="planoDiv" class="form-group col-md-12">
                                                                                                                                         <div class="row">
@@ -214,7 +214,7 @@
                                                             </div>
                                                             <div class="col-md-4 border-divider">
                                                                 <div class="form-group col-md-12">
-                                                                    <label for="clinicas">ClÃ­nica(s) Vinculada(s)</label>
+                                                                    <label for="clinicas">Clínica(s) Vinculada(s)</label>
                                                                     <h5>Clinica X</h5>
                                                                 </div>
                                                             </div>
@@ -223,7 +223,7 @@
                                                 </div>
 
                                                 <div class="form-group col-md-12 text-right">
-                                                    <input type="submit" id="VerificaDados"  value="Salvar AlteraÃ§Ãµes" class="btn btn-lg btn-digital-green ">
+                                                    <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
                                                 </div>
                                             </div>
                                         </div>
@@ -232,14 +232,14 @@
                             </div>
                             <hr class="dashed-divider">
 
-                            <h3>AvanÃ§ado</h3>
+                            <h3>Avançado</h3>
                             <c:choose>
                                 <c:when test="${(param.status == 'alterSenha-error')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> A senha atual digitada estÃ¡ incorreta!
+                                        <strong>Opa! </strong> A senha atual digitada está incorreta!
                                     </div>
                                 </c:when>
 
@@ -299,7 +299,7 @@
                                     <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <p>
-                                                <span style="color: red;">AtenÃ§Ã£o:</span> Ao desativar a conta vocÃª estarÃ¡ <strong>excluindo</strong> todos os seus dados e nÃ£o poderÃ¡ desfazer essa aÃ§Ã£o. 
+                                                <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
                                             </p>
                                             <div>
                                                 <button class="btn btn-danger">Excluir minha conta</button>

@@ -3,14 +3,14 @@
     Created on : Sep 20, 2017, 7:50:42 PM
     Author     : JotaWind
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Configura√ß√µes - DigitalCare</title>
+        <title>ConfiguraÁıes - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
+                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -36,7 +36,7 @@
                 <%@include file="/includes/headerDash.jsp" %>
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Dados da Cl√≠nica</h1>
+                        <h1>Dados da ClÌnica</h1>
                         <hr>
                         <div class="container">
                             <c:choose>
@@ -61,7 +61,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> Ocorreu um erro ao excluir o endere√ßo. Tente novamente.
+                                        <strong>Opa! </strong> Ocorreu um erro ao excluir o endereÁo. Tente novamente.
                                     </div>
                                 </c:when>
                                 <c:when test="${(param.status == 'excludeEnd-ok')}">
@@ -69,7 +69,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>O endere√ßo foi exclu√≠do com sucesso!</strong> 
+                                        <strong>O endereÁo foi excluÌdo com sucesso!</strong> 
                                     </div>
                                 </c:when>
                             </c:choose>  
@@ -82,7 +82,7 @@
                                             <input type="text" id="nomeFantasia" name="nomeFantasia" class="required form-control" value="${usuario.nomeFantasia}">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="razaoSocial">Raz√£o social:</label>
+                                            <label for="razaoSocial">Raz„o social:</label>
                                             <input type="text" id="razaoSocial" name="razaoSocial" class="required form-control" value="${usuario.razaoSocial}">
                                         </div>
                                         <div class="form-group col-md-5">
@@ -99,7 +99,7 @@
                                         </div>
                                         <div class="form-group col-md-6 text-right">
                                             <br>
-                                            <input type="submit" id="VerificaDados" value="Salvar Altera√ß√µes" class="btn btn-lg btn-digital-green ">
+                                            <input type="submit" id="VerificaDados" value="Salvar AlteraÁıes" class="btn btn-lg btn-digital-green ">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -108,10 +108,10 @@
                             <div class="form-row">
                                 <div class="row col-md-12">
                                     <div class="col-md-8">
-                                        <h3>Endere√ßo(s)</h3>
+                                        <h3>EndereÁo(s)</h3>
                                     </div>
                                     <div id="nova-localizacao" class="col-md-4 text-right">
-                                        <a href="${pageContext.request.contextPath}/endereco-clinica.jsp" class="adicionar"><i class="fa fa-fw fa-plus-circle"></i>Adicionar um novo endere√ßo</a>
+                                        <a href="${pageContext.request.contextPath}/endereco-clinica.jsp" class="adicionar"><i class="fa fa-fw fa-plus-circle"></i>Adicionar um novo endereÁo</a>
                                     </div>
                                 </div>
                                 <div class=" col-md-12">
@@ -120,7 +120,7 @@
                                             <tr class="row">
                                                 <th class="col-md-3">CEP</th>
                                                 <th class="col-md-4">Rua</th>
-                                                <th class="col-md-2">N√∫mero</th>
+                                                <th class="col-md-2">N˙mero</th>
                                                 <th class="col-md-3"></th>
                                             </tr>
                                         </thead>
@@ -133,7 +133,7 @@
                                                     <td class="col-md-3">
                                                         <div class="col-md-12">
                                                             <a href="${pageContext.request.contextPath}/endereco-clinica.jsp?id=${item.id}" class="btn btn-outline-warning col-md-4">Alterar</a>
-                                                            <a onclick="return confirm('Voc√™ tem certeza que deseja excluir este endere√ßo?');" href="${pageContext.request.contextPath}/ClinicaServlet?action=excludeEndereco&id=${item.id}" class="btn btn-outline-danger col-md-4">Excluir</a>
+                                                            <a onclick="return confirm('VocÍ tem certeza que deseja excluir este endereÁo?');" href="${pageContext.request.contextPath}/ClinicaServlet?action=excludeEndereco&id=${item.id}" class="btn btn-outline-danger col-md-4">Excluir</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -146,14 +146,14 @@
 
                             <hr class="dashed-divider">
 
-                            <h3>Avan√ßado</h3>
+                            <h3>AvanÁado</h3>
                             <c:choose>
                                 <c:when test="${(param.status == 'alterSenha-error')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> A senha atual digitada est√° incorreta!
+                                        <strong>Opa! </strong> A senha atual digitada est· incorreta!
                                     </div>
                                 </c:when>
 
@@ -212,7 +212,7 @@
                                     <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <p>
-                                                <span style="color: red;">Aten√ß√£o:</span> Ao desativar a conta voc√™ estar√° <strong>excluindo</strong> todos os seus dados e n√£o poder√° desfazer essa a√ß√£o. 
+                                                <span style="color: red;">AtenÁ„o:</span> Ao desativar a conta vocÍ estar· <strong>excluindo</strong> todos os seus dados e n„o poder· desfazer essa aÁ„o. 
                                             </p>
                                             <div>
                                                 <button class="btn btn-danger">Excluir minha conta</button>

@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@
                 <form action="${pageContext.request.contextPath}/PacienteServlet?action=register" method="POST">
                     <fieldset>
                         <div class="form-row">
-                            <legend>Sobre vocÃª</legend>
+                            <legend>Sobre você</legend>
                             <div class="form-group col-md-6">
                                 <label for="nome">Nome:</label>
                                 <input type="text" id="nome" name="nome" class="required">
@@ -75,7 +75,7 @@
                                 <label for="pssw2">Confirmar Senha:</label>
                                 <input type="password" id="pssw2" name="pssw2"  class="required">
                             </div>
-                            <legend>EndereÃ§o</legend>
+                            <legend>Endereço</legend>
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                 <input type="text" id="cep" name="cep" placeholder="" class="required">
@@ -85,7 +85,7 @@
                                 <input type="text" id="rua" name="rua"  readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="numero">NÃºmero:</label>
+                                <label for="numero">Número:</label>
                                 <input type="text" id="numero" name="numero"  class="required">
                             </div>
                             <div class="form-group col-md-3">
@@ -107,7 +107,7 @@
                             <div class="form-group col-md-12">
                                 <input type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
-                                    <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clÃ­nica?</a>
+                                    <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
                                 </div>
                             </div>
                         </div>

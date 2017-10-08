@@ -5,7 +5,11 @@
  */
 package daos;
 
+import beans.Cidade;
+import beans.Consulta;
+import beans.Endereco;
 import beans.Estado;
+import beans.Login;
 import beans.Medico;
 import com.mysql.jdbc.Statement;
 import conexao.ConnectionFactory;
@@ -14,6 +18,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,12 +27,12 @@ import java.sql.SQLException;
  */
 public class MedicoDAO {
 
-    private final String insereMedico = "INSERT INTO medico (id_login, id_estado_crm, num_crm, nome, sobrenome, cpf) "
-            + "VALUES (?,?,?,?,?,?)";
+    private final String insereMedico = "INSERT INTO medico (id_login, id_estado_crm, num_crm, nome, sobrenome, cpf, data_nascimento) "
+            + "VALUES (?,?,?,?,?,?,?)";
     private final String buscaIdMedicoPorLogin = "SELECT id FROM medico WHERE id_login=?";
-    private final String buscaMedicoPorLogin = "SELECT * FROM medico m " +
-                                               "INNER JOIN estado e ON m.id_estado_crm = e.id " +
-                                               "WHERE id_login=?";
+    private final String buscaMedicoPorLogin = "SELECT * FROM medico m "
+            + "INNER JOIN estado e ON m.id_estado_crm = e.id "
+            + "WHERE id_login=?";
     private final String updateMedico = "UPDATE medico SET nome=?, sobrenome=?, preco_consulta=?, data_nascimento=?, "
             + "telefone=?, telefone2=? WHERE id=?";
     private final String deleteMedicoEspecialidade = "DELETE FROM medico_especialidade WHERE id_medico =? "
@@ -34,6 +40,12 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
+    private final String listMedicos = "SELECT m.nome, TIMESTAMPDIFF(YEAR, data_nascimento, current_date) as anos, l.email, m.cpf, con.status,"
+            + "m.num_crm, m.preco_consulta, m.data_nascimento, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
+            + "FROM medico m, login l, consulta con, clinica cli, medico_clinica mc, clinica_endereco ce"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
+            + "  AND cli.id = ce.id_clinica AND m.id   = con.id_medico AND con.id_clinica_endereco = ce.id "
+            + "  AND l.id   = m.id_login    AND cli.id =?;";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -151,6 +163,9 @@ public class MedicoDAO {
             stmt.setString(4, medico.getNome());
             stmt.setString(5, medico.getSobrenome());
             stmt.setString(6, medico.getCpf());
+            java.sql.Date dataSql = new java.sql.Date(medico.getDataNascimento().getTime());
+            stmt.setDate(7, dataSql);
+
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
@@ -202,6 +217,49 @@ public class MedicoDAO {
             }
         }
         return null;
+    }
+
+    public List<Medico> listaMedicosNaClinica(int idClinica) throws ClassNotFoundException, SQLException {
+        String listaTeste = "select m.nome from medico m ";
+        try {
+            List<Medico> lista = new ArrayList();
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(listaTeste);
+            //arrumar aqui depois que clinica e medico estiver vinculando, string listMedicos
+            //stmt.setInt(1, 1);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                 Medico medico = new Medico();
+                 medico.setNome(rs.getString("m.nome"));
+                /*Login login = new Login();
+                Consulta consulta = new Consulta();
+                
+                login.setEmail(rs.getString("l.email"));
+                consulta.setStatus(rs.getString("con.status"));
+                medico.setLogin(login);
+                medico.setConsulta(consulta);
+                medico.setId(rs.getInt("m.id"));
+
+                medico.setSobrenome(rs.getString("m.sobrenome"));
+                medico.setIdade(rs.getString("m.anos"));
+                medico.setCpf(rs.getString("m.cpf"));
+                medico.setNumeroCrm(rs.getString("m.num_crm"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setAvaliacao(rs.getDouble("m.avaliacao"));
+                medico.setTelefone1(rs.getString("m.telefone"));
+                medico.setTelefone2(rs.getString("m.telefone2"));*/
+                lista.add(medico);
+            }
+            return lista;
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 
 }

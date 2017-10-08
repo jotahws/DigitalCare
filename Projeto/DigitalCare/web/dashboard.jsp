@@ -1,5 +1,5 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -27,7 +27,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas m√©dicos podem acessar essa p√°gina</h2>
+                        <h2>Apenas mÈdicos podem acessar essa p·gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -46,13 +46,13 @@
                                     title: event.title + ' <a href="#" class="btn btn-sm btn-digital-green">Ver perfil</a>',
                                     html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
                                             '<p>Status: Confirmado</p>' +
-                                            '<p>Hor√°rio: ' + event.start.toString() + '</p>' +
-                                            '<p>Dura√ß√£o prevista: 30 min</p>' +
+                                            '<p>Hor·rio: ' + event.start.toString() + '</p>' +
+                                            '<p>DuraÁ„o prevista: 30 min</p>' +
                                             '<br><h3>Perfil</h3>' +
-                                            '<p>√öltima consulta: 30/05/2016</p>' +
-                                            '<p>Usu√°rio desde: 2005</p></div>' +
+                                            '<p>⁄ltima consulta: 30/05/2016</p>' +
+                                            '<p>Usu·rio desde: 2005</p></div>' +
                                             '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta conclu√≠da</a> \n\
+                                             <a href="#" class="btn btn-info">consulta concluÌda</a> \n\
                                              <a href="#" class="btn btn-danger">cancelar consulta</a>',
                                     showCloseButton: true,
                                     showConfirmButton: false,
@@ -79,7 +79,7 @@
                             events: [
                                 {
                                     id: '1',
-                                    title: 'Deputada L√©ia Organson',
+                                    title: 'Deputada LÈia Organson',
                                     start: '2017-09-14T09:30:00'
                                 },
                                 {

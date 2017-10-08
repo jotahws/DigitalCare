@@ -3,14 +3,14 @@
     Created on : Sep 20, 2017, 7:44:31 PM
     Author     : JotaWind
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Calend√°rio - DigitalCare</title>
+        <title>Calend·rio - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
+                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -35,8 +35,8 @@
                 <%@include file="/includes/headerDash.jsp" %>
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Calend√°rio</h1>
-                        <h4>Selecione um m√©dico e veja seus bagulho</h4>
+                        <h1>Calend·rio</h1>
+                        <h4>Selecione um mÈdico e veja seus bagulho</h4>
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">

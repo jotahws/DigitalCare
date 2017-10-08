@@ -13,8 +13,8 @@ import java.util.List;
  *
  * @author Gabriel
  */
-public class Medico implements Serializable{
-    
+public class Medico implements Serializable {
+
     private int id;
     private Login login;
     private Estado estadoCrm;
@@ -29,6 +29,8 @@ public class Medico implements Serializable{
     private Double avaliacao;
     private List<Especialidade> listaEspecialidades;
     private List<Convenio> listaConvenios;
+    private String idade;
+    private Consulta consulta;
 
     public Medico() {
     }
@@ -51,6 +53,19 @@ public class Medico implements Serializable{
         this.dataNascimento = dataNascimento;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
+    }
+
+    public Medico(String nome, String cpf, String idade) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.idade = idade;
+    }
+
+    public Medico(String nome, String cpf, String idade, Consulta consulta, Login login) {
+        this.nome = nome;
+        this.idade = idade;
+        this.consulta = consulta;
+        this.login = login;
     }
 
     public int getId() {
@@ -164,5 +179,13 @@ public class Medico implements Serializable{
     public void setListaConvenios(List<Convenio> listaConvenios) {
         this.listaConvenios = listaConvenios;
     }
-    
+
+    public void setIdade(String idade) {
+        this.idade = idade;
+    }
+
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
+    }
+
 }
