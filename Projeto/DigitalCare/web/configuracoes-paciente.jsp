@@ -118,11 +118,11 @@
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label for="rua">Rua:</label>
-                                            <input type="text" id="rua" name="rua" readonly="true" class="locked form-control" value="${item.endereco.rua}">
+                                            <input type="text" id="rua" name="rua" readonly="true" class=" locked form-control" value="${item.endereco.rua}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="numero">Número:</label>
-                                            <input type="text" id="numero" name="numero"  class="required form-control" value="${item.endereco.numero}">
+                                            <input type="text" id="numero" name="numero"  class="numero required form-control" value="${item.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="compl">Complemento:</label>
@@ -158,7 +158,7 @@
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="convenio">Número: </label>
-                                                    <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${conveniosPaciente.get(i).numero}"/>
+                                                    <input type="text" id="convenio" name="nconvenio${i+1}" class="numero form-control" value="${conveniosPaciente.get(i).numero}"/>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="convenio">Validade: </label>
@@ -178,11 +178,11 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="convenio">Número: </label>
-                                                <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${item.endereco.cep}">
+                                                <input type="text" id="convenio" name="nconvenio${i+1}" class="numero form-control" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="convenio">Validade: </label>
-                                                <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" value="${item.endereco.cep}">
+                                                <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" >
                                             </div>
                                         </c:forEach>
                                         <div class="form-group col-md-12 text-right">
@@ -291,6 +291,52 @@
     <script>
         $(document).ready(function () {
 
+
+
+            $('#VerificaDados').click(function (e) {
+                if ($('#cpf').val() != '') {
+                    if (!TestaCPF($('#cpf').val())) {
+                        $('#cpf').css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                        e.preventDefault();
+                    }
+
+                }
+            });
+
+            function TestaCPF(strCPF) {
+                strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                var Soma;
+                var Resto;
+                Soma = 0;
+                if (strCPF == "00000000000")
+                    return false;
+
+                for (i = 1; i <= 9; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(9, 10)))
+                    return false;
+
+                Soma = 0;
+                for (i = 1; i <= 10; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(10, 11)))
+                    return false;
+                return true;
+            }
+
             $("#deletarPerfil").click(function () {
                 swal({
                     title: 'Você tem certeza?',
@@ -316,10 +362,11 @@
                     }
                 })
 
-            })
+            });
 
         });
 
     </script>
+
 </html>
 

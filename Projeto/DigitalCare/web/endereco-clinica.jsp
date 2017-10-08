@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="numero">Número:</label>
-                                            <input type="text" id="numero" name="numero"  class="required form-control" value="${clinicaEndereco.endereco.numero}">
+                                            <input type="text" id="numero" name="numero"  class="numero required form-control" value="${clinicaEndereco.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="compl">Complemento:</label>
