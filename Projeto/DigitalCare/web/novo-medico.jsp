@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="datanasc">CRM:</label>
-                                            <input type="text" id="numeroCrm" name="numeroCrm" class="required form-control">
+                                            <input type="text" id="numeroCrm" name="numeroCrm" class="numero required form-control">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="expedicao">Expedição</label>

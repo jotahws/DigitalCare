@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@
                 <form action="${pageContext.request.contextPath}/PacienteServlet?action=register" method="POST">
                     <fieldset>
                         <div class="form-row">
-                            <legend>Sobre você</legend>
+                            <legend>Sobre vocÃª</legend>
                             <div class="form-group col-md-6">
                                 <label for="nome">Nome:</label>
                                 <input type="text" id="nome" name="nome" class="required">
@@ -75,7 +75,7 @@
                                 <label for="pssw2">Confirmar Senha:</label>
                                 <input type="password" id="pssw2" name="pssw2"  class="required">
                             </div>
-                            <legend>Endereço</legend>
+                            <legend>EndereÃ§o</legend>
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                 <input type="text" id="cep" name="cep" placeholder="" class="required">
@@ -85,8 +85,8 @@
                                 <input type="text" id="rua" name="rua"  readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="numero">Número:</label>
-                                <input type="text" id="numero" name="numero"  class="required">
+                                <label for="numero">NÃºmero:</label>
+                                <input type="text" id="numero" name="numero"  class="numero required">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="compl">Complemento:</label>
@@ -105,9 +105,9 @@
                                 <input type="text" id="estado" name="estado" placeholder="" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-12">
-                                <input type="submit" value="Cadastrar" class="btn btn-digital-green">
+                                <input id="VerificaDados" type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
-                                    <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
+                                    <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clÃ­nica?</a>
                                 </div>
                             </div>
                         </div>
@@ -117,4 +117,53 @@
         </div>
 
     </body>
+    <script>
+        $(document).ready(function () {
+
+
+            $('#VerificaDados').click(function (e) {
+                if ($('#cpf').val() != '') {
+                    if (!TestaCPF($('#cpf').val())) {
+                        $('#cpf').css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            function TestaCPF(strCPF) {
+                strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                var Soma;
+                var Resto;
+                Soma = 0;
+                if (strCPF == "00000000000")
+                    return false;
+
+                for (i = 1; i <= 9; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(9, 10)))
+                    return false;
+
+                Soma = 0;
+                for (i = 1; i <= 10; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(10, 11)))
+                    return false;
+                return true;
+            }
+
+        });
+    </script>
 </html>
