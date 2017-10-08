@@ -84,7 +84,7 @@ public class ListaMedicoServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 Clinica clinica = (Clinica) session.getAttribute("usuario");
                 List<Medico> medicos = facade.carregaListaMedicos(clinica.getId());
-                request.setAttribute("medicos", medicos);
+                request.setAttribute("listaMedicos", medicos);
             } catch (ClassNotFoundException ex) {
                 try (PrintWriter out = response.getWriter()) {
                     out.println("Class not found: " + ex.getMessage());
@@ -95,6 +95,25 @@ public class ListaMedicoServlet extends HttpServlet {
                 }
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/medicos.jsp");
+            rd.forward(request, response);
+        } else if ("verPerfilMedico".equals(action)) {
+            int idMedico = 0, idClinica = 0;
+            try {
+                idMedico = Integer.parseInt(request.getParameter("idMedico"));
+                Medico medico = Facade.getMedicoPorLogin(idMedico);
+                List<Especialidade> especMedico = facade.buscarEspecialidadesMedico(idMedico);
+                List<Especialidade> espec = Facade.listarEspecialidades();
+                List<Convenio> convenios = Facade.getListaConvenios();
+                List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(idMedico);
+                request.setAttribute("medico", medico);
+                request.setAttribute("espec", espec);
+                request.setAttribute("especMedico", especMedico);
+                request.setAttribute("convenios", convenios);
+                request.setAttribute("conveniosMedico", conveniosMedico);
+            } catch (Exception ex) {
+                status = "error-perfil";
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-medico.jsp");
             rd.forward(request, response);
         }
     }

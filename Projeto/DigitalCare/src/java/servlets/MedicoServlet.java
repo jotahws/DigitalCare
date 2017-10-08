@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,7 +48,7 @@ public class MedicoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        String status;
+        String status = "";
 
         if ("register".equals(action)) {
             try {
@@ -190,7 +192,18 @@ public class MedicoServlet extends HttpServlet {
                 status = "error-criptografa";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status + "#convenios1");
-        }
+            
+        } else if ("desvinculaMedico".equals(action)){
+            Facade facade = new Facade();
+            int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+            int idClinica = Integer.parseInt(request.getParameter("idClinica"));
+            try {
+                facade.desvinculaMedicoClinica(idMedico, idClinica);
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "error-desvincular";
+            }
+            response.sendRedirect("listaMedicoServlet?action=listaMedicos&status=" + status);
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

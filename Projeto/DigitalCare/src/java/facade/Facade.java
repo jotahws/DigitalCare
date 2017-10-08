@@ -131,7 +131,7 @@ public class Facade {
         ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
         return clinicaEnderecoDAO.novaClinicaEndereco(clinicaEndereco);
     }
-    
+
     public void inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
         clinicaEnderecoDAO.inserirClinicaEndereco(clinicaEndereco);
@@ -276,5 +276,10 @@ public class Facade {
     public List<Medico> carregaListaMedicos(int id) throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
         return medicoDAO.listaMedicosNaClinica(id);
+    }
+
+    public void desvinculaMedicoClinica(int idMedico, int idClinica) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.desvincularMedicoClinica(idMedico, idClinica);
     }
 }

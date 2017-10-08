@@ -40,12 +40,13 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT m.nome, TIMESTAMPDIFF(YEAR, data_nascimento, current_date) as anos, l.email, m.cpf, con.status,"
+    private final String listMedicos = "SELECT m.nome, TIMESTAMPDIFF(YEAR, data_nascimento, current_date) as anos, l.email, l.id m.cpf, con.status,"
             + "m.num_crm, m.preco_consulta, m.data_nascimento, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
             + "FROM medico m, login l, consulta con, clinica cli, medico_clinica mc, clinica_endereco ce"
             + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
             + "  AND cli.id = ce.id_clinica AND m.id   = con.id_medico AND con.id_clinica_endereco = ce.id "
-            + "  AND l.id   = m.id_login    AND cli.id =?;";
+            + "  AND l.id   = m.id_login    AND cli.id =?";
+    private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -229,8 +230,8 @@ public class MedicoDAO {
             //stmt.setInt(1, 1);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                 Medico medico = new Medico();
-                 medico.setNome(rs.getString("m.nome"));
+                Medico medico = new Medico();
+                medico.setNome(rs.getString("m.nome"));
                 /*Login login = new Login();
                 Consulta consulta = new Consulta();
                 
@@ -255,7 +256,23 @@ public class MedicoDAO {
             try {
                 con.close();
                 stmt.close();
-                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public void desvincularMedicoClinica(int idMedico, int idClinica) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(desvinculaMedicoClinica);
+            stmt.setInt(1, idMedico);
+            stmt.setInt(2, idClinica);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
