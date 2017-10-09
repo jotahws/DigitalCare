@@ -23,6 +23,7 @@ public class LoginDAO {
 
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
     private final String buscaLoginPorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
+    private final String buscaLoginPorId = "select * from login l where l.id = ?;";
     private final String buscaSenhaAtual = "select * from login l where l.id=? and l.senha =?;";
     private final String updateSenha = "update login set login.senha = ? where login.id=?";
 
@@ -66,6 +67,35 @@ public class LoginDAO {
                 int perfil = rs.getInt("l.perfil");
                 login.setId(idLogin);
                 login.setPerfil(perfil);
+                return login;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    public Login buscarLoginPorId(int id) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaLoginPorId);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                //login
+                Login login = new Login();
+                int idLogin = rs.getInt("l.id");
+                int perfil = rs.getInt("l.perfil");
+                String email = rs.getString("l.email");
+                login.setId(idLogin);
+                login.setPerfil(perfil);
+                login.setEmail(email);
                 return login;
             }
         } finally {

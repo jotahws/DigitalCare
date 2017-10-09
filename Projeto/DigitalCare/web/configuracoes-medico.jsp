@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Configurações - DigitalCare</title>
+        <title>Configura??es - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -29,7 +29,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas médicos podem acessar essa página</h2>
+                        <h2>Apenas m?dicos podem acessar essa p?gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -39,7 +39,7 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Configurações</h1>
+                        <h1>Configura??es</h1>
                         <hr class="large-divider">
 
                         <div class="container">
@@ -66,7 +66,7 @@
                                 <form action="${pageContext.request.contextPath}/MedicoServlet?action=edit" method="POST">
                                     <fieldset>
                                         <div class="form-row">
-                                            <legend>Sobre Você</legend>
+                                            <legend>Sobre Voc?</legend>
                                             <div class="form-group col-md-6">
                                                 <label for="nome">Nome:</label>
                                                 <input type="text" id="nome" name="nome"class="required form-control" value="${usuario.nome}">
@@ -100,7 +100,7 @@
                                                     <div class="card-header" role="tab" id="headingMedico">
                                                         <h5 class="mb-0">
                                                             <a class="link-digital-green" class="collapsed" data-toggle="collapse" href="#collapseMedico" aria-expanded="false" aria-controls="collapseMedico">
-                                                                Dados do médico
+                                                                Dados médicos
                                                             </a>
                                                         </h5>
                                                     </div>
@@ -160,7 +160,7 @@
                                                                     </c:forEach>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s):
+                                                                    <label class="col-md-12" for="planos">Plano(s) de Sa?de Aceito(s):
                                                                     </label>
                                                                     <jsp:useBean id="conveniosM" class="beans.Convenio"/>
 
@@ -192,7 +192,7 @@
                                                                     </c:forEach>
                                                                 </div>
                                                                 <!--                                                                <div class="row">
-                                                                                                                                    <label class="col-md-12" for="plano1">Plano(s) de Saúde Aceito(s): 
+                                                                                                                                    <label class="col-md-12" for="plano1">Plano(s) de Sa?de Aceito(s): 
                                                                                                                                     </label>
                                                                                                                                     <div id="planoDiv" class="form-group col-md-12">
                                                                                                                                         <div class="row">
@@ -214,7 +214,7 @@
                                                             </div>
                                                             <div class="col-md-4 border-divider">
                                                                 <div class="form-group col-md-12">
-                                                                    <label for="clinicas">Clínica(s) Vinculada(s)</label>
+                                                                    <label for="clinicas">Cl?nica(s) Vinculada(s)</label>
                                                                     <h5>Clinica X</h5>
                                                                 </div>
                                                             </div>
@@ -223,7 +223,7 @@
                                                 </div>
 
                                                 <div class="form-group col-md-12 text-right">
-                                                    <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
+                                                    <input type="submit" id="VerificaDados"  value="Salvar Altera??es" class="btn btn-lg btn-digital-green ">
                                                 </div>
                                             </div>
                                         </div>
@@ -232,14 +232,14 @@
                             </div>
                             <hr class="dashed-divider">
 
-                            <h3>Avançado</h3>
+                            <h3>Avan?ado</h3>
                             <c:choose>
                                 <c:when test="${(param.status == 'alterSenha-error')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> A senha atual digitada está incorreta!
+                                        <strong>Opa! </strong> A senha atual digitada est? incorreta!
                                     </div>
                                 </c:when>
 
@@ -299,7 +299,7 @@
                                     <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <p>
-                                                <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
+                                                <span style="color: red;">Aten??o:</span> Ao desativar a conta voc? estar? <strong>excluindo</strong> todos os seus dados e n?o poder? desfazer essa a??o. 
                                             </p>
                                             <div>
                                                 <button class="btn btn-danger">Excluir minha conta</button>

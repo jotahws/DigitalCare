@@ -141,6 +141,11 @@ public class Facade {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLogin(login);
     }
+    
+    public static Login buscaLoginPorId(int id) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        return loginDAO.buscarLoginPorId(id);
+    }
 
     public PacienteUsuario getPacientePorIdLogin(int id) throws ClassNotFoundException, SQLException {
         PacienteUsuarioDAO pacUsuarioDAO = new PacienteUsuarioDAO();

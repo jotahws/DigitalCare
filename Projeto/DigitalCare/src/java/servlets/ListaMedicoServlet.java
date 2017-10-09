@@ -97,19 +97,16 @@ public class ListaMedicoServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/medicos.jsp");
             rd.forward(request, response);
         } else if ("verPerfilMedico".equals(action)) {
-            int idMedico = 0, idClinica = 0;
+            int idLogin = 0, idClinica = 0;
             try {
-                idMedico = Integer.parseInt(request.getParameter("idMedico"));
-                Medico medico = Facade.getMedicoPorLogin(idMedico);
-                List<Especialidade> especMedico = facade.buscarEspecialidadesMedico(idMedico);
-                List<Especialidade> espec = Facade.listarEspecialidades();
-                List<Convenio> convenios = Facade.getListaConvenios();
-                List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(idMedico);
+                idLogin = Integer.parseInt(request.getParameter("id"));
+                Medico medico = Facade.getMedicoPorLogin(idLogin);
+                medico.setLogin(Facade.buscaLoginPorId(idLogin));
+                List<Especialidade> especMedico = Facade.buscarEspecialidadesMedico(medico.getId());
+                List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(medico.getId());
+                medico.setListaConvenios(conveniosMedico);
+                medico.setListaEspecialidades(especMedico);
                 request.setAttribute("medico", medico);
-                request.setAttribute("espec", espec);
-                request.setAttribute("especMedico", especMedico);
-                request.setAttribute("convenios", convenios);
-                request.setAttribute("conveniosMedico", conveniosMedico);
             } catch (Exception ex) {
                 status = "error-perfil";
             }

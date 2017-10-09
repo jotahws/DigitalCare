@@ -3,7 +3,7 @@
     Created on : Sep 20, 2017, 7:43:50 PM
     Author     : JotaWind
 --%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,36 +26,77 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
+                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
                     </div>
                 </div>
             </c:when>
             <c:otherwise>
                 <!-- Navigation -->
                 <%@include file="/includes/headerDash.jsp" %>
-
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-8">
-                                <h1>Lista de MÈdicos</h1>
+                                <h1>Lista de M√©dicos</h1>
                             </div>
                             <div class="col-md-4 text-right">
-                                <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaRegisterMedico" class="btn btn-lg btn-digital-green">
-                                    <i class="fa fa-fw fa-plus"></i>Adicionar Novo MÈdico
+                                <a href="${pageContext.request.contextPath}/vincular-medico.jsp" class="btn btn-lg btn-digital-green">
+                                    <i class="fa fa-fw fa-plus"></i>Adicionar Novo M√©dico
                                 </a>
                             </div>
                         </div>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">
-
+                            <div class="container ">
+                                <c:choose>
+                                    <c:when test="${(param.status == 'desvincular-error')}">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <strong>Ops! </strong> Ocorreu um erro ao desvincular o m√©dico. Tente novamente.
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${(param.status == 'desvincular-ok')}">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <strong>O m√©dico foi desvinculado com sucesso!</strong> 
+                                        </div>
+                                    </c:when>
+                                </c:choose> 
+                                <table id="tabela" class="table">
+                                    <thead class="thead-inverse">
+                                        <tr class="row">
+                                            <th class="col-md-3">Nome</th>
+                                            <th class="col-md-2">CRM</th>
+                                            <th class="col-md-2">Data de Nascimento</th>
+                                            <th class="col-md-3">Telefone</th>
+                                            <th class="col-md-2"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="item" items="${listaMedicos}">
+                                            <tr class="row">
+                                                <td class="col-md-3">${item.nome} ${item.sobrenome}</td>
+                                                <td class="col-md-2">${item.numeroCrm} ${item.estadoCrm.uf}</td>
+                                                <td class="col-md-2">${item.dataNascimento}</td>
+                                                <td class="col-md-3">${item.telefone1}</td>
+                                                <td class="col-md-2">
+                                                    <div class="col-md-12">
+                                                        <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}" class="btn btn-outline-primary">Perfil</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div> 
-
                 <%@include file="/includes/footer.jsp" %>
-
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
             </c:otherwise>

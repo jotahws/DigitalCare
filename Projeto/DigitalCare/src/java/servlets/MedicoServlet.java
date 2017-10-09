@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Clinica;
 import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
@@ -196,13 +197,15 @@ public class MedicoServlet extends HttpServlet {
         } else if ("desvinculaMedico".equals(action)){
             Facade facade = new Facade();
             int idMedico = Integer.parseInt(request.getParameter("idMedico"));
-            int idClinica = Integer.parseInt(request.getParameter("idClinica"));
+            HttpSession session = request.getSession();
+            Clinica clinica = (Clinica) session.getAttribute("usuario");
             try {
-                facade.desvinculaMedicoClinica(idMedico, idClinica);
+                facade.desvinculaMedicoClinica(idMedico, clinica.getId());
+                status = "desvincular-ok";
             } catch (ClassNotFoundException | SQLException ex) {
-                status = "error-desvincular";
+                status = "desvincular-error";
             }
-            response.sendRedirect("listaMedicoServlet?action=listaMedicos&status=" + status);
+            response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
         } 
     }
 
