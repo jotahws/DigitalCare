@@ -40,12 +40,12 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT m.nome, TIMESTAMPDIFF(YEAR, data_nascimento, current_date) as anos, l.email, l.id m.cpf, con.status,"
-            + "m.num_crm, m.preco_consulta, m.data_nascimento, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
-            + "FROM medico m, login l, consulta con, clinica cli, medico_clinica mc, clinica_endereco ce"
-            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
-            + "  AND cli.id = ce.id_clinica AND m.id   = con.id_medico AND con.id_clinica_endereco = ce.id "
-            + "  AND l.id   = m.id_login    AND cli.id =?";
+    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, con.status, e.uf"
+            + "m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
+            + "FROM medico m, login l, consulta con, clinica cli, medico_clinica mc, clinica_endereco ce, estado e"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica   AND mc.id_clinica_endereco  = ce.id "
+            + "  AND cli.id = ce.id_clinica AND m.id   = con.id_medico   AND con.id_clinica_endereco = ce.id "
+            + "  AND l.id   = m.id_login    AND e.id   = m.id_estado_crm AND cli.id =?";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
 
     private Connection con = null;
@@ -221,34 +221,34 @@ public class MedicoDAO {
     }
 
     public List<Medico> listaMedicosNaClinica(int idClinica) throws ClassNotFoundException, SQLException {
-        String listaTeste = "select m.nome from medico m ";
         try {
             List<Medico> lista = new ArrayList();
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(listaTeste);
-            //arrumar aqui depois que clinica e medico estiver vinculando, string listMedicos
-            //stmt.setInt(1, 1);
+            stmt = con.prepareStatement(listMedicos);
+            stmt.setInt(1, 1);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Medico medico = new Medico();
-                medico.setNome(rs.getString("m.nome"));
-                /*Login login = new Login();
+                Login login = new Login();
                 Consulta consulta = new Consulta();
+                Estado estado = new Estado();
                 
+                estado.setUf(rs.getString("e.uf"));
                 login.setEmail(rs.getString("l.email"));
                 consulta.setStatus(rs.getString("con.status"));
                 medico.setLogin(login);
                 medico.setConsulta(consulta);
+                medico.setEstadoCrm(estado);
                 medico.setId(rs.getInt("m.id"));
-
+                medico.setNome(rs.getString("m.nome"));
                 medico.setSobrenome(rs.getString("m.sobrenome"));
-                medico.setIdade(rs.getString("m.anos"));
                 medico.setCpf(rs.getString("m.cpf"));
                 medico.setNumeroCrm(rs.getString("m.num_crm"));
                 medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
                 medico.setAvaliacao(rs.getDouble("m.avaliacao"));
                 medico.setTelefone1(rs.getString("m.telefone"));
-                medico.setTelefone2(rs.getString("m.telefone2"));*/
+                medico.setTelefone2(rs.getString("m.telefone2"));
+                medico.setDataNascimento(rs.getDate("m.data_nascimento"));
                 lista.add(medico);
             }
             return lista;
