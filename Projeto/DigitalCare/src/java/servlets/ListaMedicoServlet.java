@@ -97,7 +97,7 @@ public class ListaMedicoServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/medicos.jsp");
             rd.forward(request, response);
         } else if ("verPerfilMedico".equals(action)) {
-            int idLogin = 0, idClinica = 0;
+            int idLogin;
             try {
                 idLogin = Integer.parseInt(request.getParameter("id"));
                 Medico medico = Facade.getMedicoPorLogin(idLogin);

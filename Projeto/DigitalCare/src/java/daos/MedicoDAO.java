@@ -40,11 +40,12 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf,"
-            + "m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
-            + "FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e"
-            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
-            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm AND cli.id =?";
+    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, " +
+        " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "  +
+        " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e " +
+        " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id " +
+        "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
+    
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
 
     private Connection con = null;
@@ -224,19 +225,17 @@ public class MedicoDAO {
             List<Medico> lista = new ArrayList();
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(listMedicos);
-            stmt.setInt(1, 1);
+            stmt.setInt(1, idClinica);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Medico medico = new Medico();
                 Login login = new Login();
-                Consulta consulta = new Consulta();
                 Estado estado = new Estado();
                 
                 estado.setUf(rs.getString("e.uf"));
                 login.setEmail(rs.getString("l.email"));
-                consulta.setStatus(rs.getString("con.status"));
+                login.setId(rs.getInt("l.id"));
                 medico.setLogin(login);
-                medico.setConsulta(consulta);
                 medico.setEstadoCrm(estado);
                 medico.setId(rs.getInt("m.id"));
                 medico.setNome(rs.getString("m.nome"));
