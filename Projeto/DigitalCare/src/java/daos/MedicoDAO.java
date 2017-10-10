@@ -40,12 +40,11 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, con.status, e.uf"
+    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf,"
             + "m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm"
-            + "FROM medico m, login l, consulta con, clinica cli, medico_clinica mc, clinica_endereco ce, estado e"
-            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica   AND mc.id_clinica_endereco  = ce.id "
-            + "  AND cli.id = ce.id_clinica AND m.id   = con.id_medico   AND con.id_clinica_endereco = ce.id "
-            + "  AND l.id   = m.id_login    AND e.id   = m.id_estado_crm AND cli.id =?";
+            + "FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
+            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm AND cli.id =?";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
 
     private Connection con = null;
