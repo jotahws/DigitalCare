@@ -87,6 +87,16 @@ public class Facade {
         return convenioDAO.buscarConveniosPorPaciente(id);
     }
 
+    public static List<Clinica> listarClinicas() throws ClassNotFoundException, SQLException {
+        ClinicaDAO dao = new ClinicaDAO();
+        return dao.listarClinicas();
+    }
+
+    public static List<Cidade> getCidadesPorNomeParcial(String nome) throws ClassNotFoundException, SQLException {
+        CidadeDAO dao = new CidadeDAO();
+        return dao.buscarCidadesPorNomeParcial(nome);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
