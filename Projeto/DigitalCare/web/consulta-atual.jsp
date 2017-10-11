@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas mÈdicos podem acessar essa p·gina</h2>
+                        <h2>Apenas m√©dicos podem acessar essa p√°gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -47,12 +47,12 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-4">
-                                <a class="btn col-12"><i class="fa fa-fw fa-file-text-o"></i> Receita MÈdica</a>
-                                <a class="btn col-12"><i class="fa fa-fw fa-stethoscope"></i> Atestado MÈdico</a>
+                                <a class="btn col-12"><i class="fa fa-fw fa-file-text-o"></i> Receita M√©dica</a>
+                                <a class="btn col-12"><i class="fa fa-fw fa-stethoscope"></i> Atestado M√©dico</a>
                                 <a class="btn col-12"><i class="fa fa-fw fa-files-o"></i> Solicitar Exame</a>
                             </div>
                             <div class="col-md-6">
-                                <h3>Prontu·rio<a><i class="fa fa-fw fa-question-circle-o"></i></a></h3>
+                                <h3>Prontu√°rio<a><i class="fa fa-fw fa-question-circle-o"></i></a></h3>
                                 <form class="form">
                                     <textarea class=""></textarea>
                                 </form>

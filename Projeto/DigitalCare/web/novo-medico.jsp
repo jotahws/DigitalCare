@@ -3,14 +3,15 @@
     Created on : Sep 21, 2017, 10:28:49 AM
     Author     : JotaWind
 --%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Novo MÈdico - DigitalCare</title>
+        <title>Novo M√©dico - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -26,7 +27,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
+                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -36,7 +37,7 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <h1>Cadastrar um novo mÈdico</h1>
+                        <h1>Cadastrar um novo m√©dico</h1>
                         <hr>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="container">
@@ -46,7 +47,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Cadastro efetuado!</strong> O mÈdico dever· completar o seu cadastro para poder realizar consultas
+                                        <strong>Cadastro efetuado!</strong> O m√©dico dever√° completar o seu cadastro para poder realizar consultas
                                     </div>
                                 </c:when>
                                 <c:when test="${(param.status == 'cadastro-erro')}">
@@ -54,13 +55,13 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Cadastro efetuado!</strong> O mÈdico dever· completar o seu cadastro para poder realizar consultas
+                                        <strong>Cadastro efetuado!</strong> O m√©dico dever√° completar o seu cadastro para poder realizar consultas
                                     </div>
                                 </c:when>                            </c:choose>
                             <form action="${pageContext.request.contextPath}/MedicoServlet?action=register" method="POST">
                                 <fieldset>
                                     <div class="form-row">
-                                        <legend>Dados do mÈdico</legend>
+                                        <legend>Dados do m√©dico</legend>
                                         <div class="form-group col-md-4">
                                             <label for="nome">Nome:</label>
                                             <input type="text" id="nome" name="nome"class="required form-control">
@@ -86,7 +87,7 @@
                                             <input type="text" id="numeroCrm" name="numeroCrm" class="numero required form-control">
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label for="expedicao">ExpediÁ„o</label>
+                                            <label for="expedicao">Expedi√ß√£o</label>
                                             <jsp:useBean id="estado" class="beans.Estado"/>
                                             <c:set var="lista" value="${estados}"/>
                                             <select id="expedicao" name="expedicao" class="custom-select">

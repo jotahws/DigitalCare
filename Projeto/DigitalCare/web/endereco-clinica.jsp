@@ -4,20 +4,21 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
             <c:choose>
                 <c:when test="${param.id == null}">
-                    Novo endereço - DigitalCare
+                    Novo endereÃ§o - DigitalCare
                 </c:when>
                 <c:when test="${param.id != null}">
-                    Alterar endereço - DigitalCare
+                    Alterar endereÃ§o - DigitalCare
                 </c:when>
             </c:choose>
         </title>
@@ -36,7 +37,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas Clínicas podem acessar a essa página</h2>
+                        <h2>Apenas ClÃ­nicas podem acessar a essa pÃ¡gina</h2>
                     </div>
                 </div>
             </c:when>
@@ -47,10 +48,10 @@
                     <div class="container-fluid">
                         <c:choose>
                             <c:when test="${param.id == null}">
-                                <h1>Novo endereço da Clínica</h1>
+                                <h1>Novo endereÃ§o da ClÃ­nica</h1>
                             </c:when>
                             <c:when test="${param.id != null}">
-                                <h1>Alterar endereço da Clínica</h1>
+                                <h1>Alterar endereÃ§o da ClÃ­nica</h1>
                             </c:when>
                         </c:choose>
                         <hr>
@@ -62,7 +63,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Alteração efetuada com sucesso!</strong> 
+                                        <strong>AlteraÃ§Ã£o efetuada com sucesso!</strong> 
                                     </div>
                                 </c:when>
                                 <c:when test="${(param.status == 'editEnd-erro')}">
@@ -70,7 +71,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Ocorreu um erro!</strong> Certifique-se de que o endereço foi carregado antes de clicar em alterar.
+                                        <strong>Ocorreu um erro!</strong> Certifique-se de que o endereÃ§o foi carregado antes de clicar em alterar.
                                     </div>
                                 </c:when>
                                 <c:when test="${(param.status == 'newEnd-ok')}">
@@ -78,7 +79,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Novo endereço cadastrado com sucesso!</strong> 
+                                        <strong>Novo endereÃ§o cadastrado com sucesso!</strong> 
                                     </div>
                                 </c:when>
                                 <c:when test="${(param.status == 'newEnd-erro')}">
@@ -86,7 +87,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Ocorreu um erro!</strong> Certifique-se de que o endereço foi carregado antes de clicar em alterar.
+                                        <strong>Ocorreu um erro!</strong> Certifique-se de que o endereÃ§o foi carregado antes de clicar em alterar.
                                     </div>
                                 </c:when>
                             </c:choose>
@@ -117,7 +118,7 @@
                                             <label for="tel2">Telefone 2:</label>
                                             <input type="text" id="tel2" class="telresidencial form-control" name="tel2" value="${clinicaEndereco.telefone2}">
                                         </div>
-                                        <legend>Endereço:</legend>
+                                        <legend>EndereÃ§o:</legend>
                                         <div class="form-group col-md-4">
                                             <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                             <input type="text" id="cep" name="cep" class="required form-control" value="${clinicaEndereco.endereco.cep}">
@@ -127,7 +128,7 @@
                                             <input type="text" id="rua" name="rua" readonly="true" class="locked required form-control" value="${clinicaEndereco.endereco.rua}">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="numero">Número:</label>
+                                            <label for="numero">NÃºmero:</label>
                                             <input type="text" id="numero" name="numero"  class="numero required form-control" value="${clinicaEndereco.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
@@ -147,7 +148,7 @@
                                             <input type="text" id="estado" name="estado" readonly="true" class="locked required form-control" value="${clinicaEndereco.endereco.cidade.estado.nome}">
                                         </div>
                                         <div class="form-group col-md-12 text-right">
-                                            <input type="submit" id="VerificaDados" value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
+                                            <input type="submit" id="VerificaDados" value="Salvar AlteraÃ§Ãµes" class="btn btn-lg btn-digital-green ">
                                         </div>
                                     </div>
                                 </fieldset>

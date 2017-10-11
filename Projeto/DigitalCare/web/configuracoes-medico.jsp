@@ -4,16 +4,17 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Configuraıes - DigitalCare</title>
+        <title>Configura√µes - DigitalCare</title>
         <%@include file="/includes/head.jsp" %>
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
@@ -100,7 +101,7 @@
                                                     <div class="card-header" role="tab" id="headingMedico">
                                                         <h5 class="mb-0">
                                                             <a class="link-digital-green" class="collapsed" data-toggle="collapse" href="#collapseMedico" aria-expanded="false" aria-controls="collapseMedico">
-                                                                Dados mÈdicos
+                                                                Dados m√©dicos
                                                             </a>
                                                         </h5>
                                                     </div>
@@ -113,7 +114,7 @@
                                                                         <input type="text" id="crm" name="crm" class="required form-control" disabled="" value="${usuario.numeroCrm}">
                                                                     </div>
                                                                     <div class="form-group col-md-4">
-                                                                        <label for="expedicao">ExpediÁ„o</label>
+                                                                        <label for="expedicao">Expedi√ß√£o</label>
                                                                         <input type="text" id="expedicao" name="expedicao" class="required form-control" disabled="" value="${usuario.estadoCrm.uf}">
                                                                     </div>
                                                                 </div>

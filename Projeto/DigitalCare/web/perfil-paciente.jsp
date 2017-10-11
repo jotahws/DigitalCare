@@ -4,11 +4,12 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Perfil - DigitalCare</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
@@ -23,7 +24,7 @@
                 <div class="container" style="margin-top: 50px">
                     <%@include file="/includes/header.jsp" %>
                     <h1>Acesso Negado.</h1>
-                    <h2>Apenas pacientes podem acessar essa página</h2>
+                    <h2>Apenas pacientes podem acessar essa pÃ¡gina</h2>
                 </div>
             </c:when>
             <c:otherwise>
@@ -52,13 +53,13 @@
                         <p class="col-md-4 dados">Email: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Telefone 1: <strong><c:out value="${item.telefone}"/></strong> </p>
                         <p class="col-md-4 dados">Telefone 2: <strong>Algum dado</strong> </p>
-                        <legend class="dados"><hr>Dados Médicos</legend>
-                        <p class="col-md-4 dados">Plano de Saúde: <strong>Algum dado</strong> </p>
-                        <p class="col-md-4 dados">Tipo sanguíneo: <strong>Algum dado</strong> </p>
-                        <legend class="dados"><hr>Endereço</legend>
+                        <legend class="dados"><hr>Dados MÃ©dicos</legend>
+                        <p class="col-md-4 dados">Plano de SaÃºde: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">Tipo sanguÃ­neo: <strong>Algum dado</strong> </p>
+                        <legend class="dados"><hr>EndereÃ§o</legend>
                         <p class="col-md-12 dados">CEP: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Rua: <strong>Algum dado</strong> </p>
-                        <p class="col-md-4 dados">Número: <strong>Algum dado</strong> </p>
+                        <p class="col-md-4 dados">NÃºmero: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Complemento: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Bairro: <strong>Algum dado</strong> </p>
                         <p class="col-md-4 dados">Cidade: <strong>Algum dado</strong> </p>

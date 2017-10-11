@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">

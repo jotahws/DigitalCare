@@ -47,7 +47,8 @@ public class MedicoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html;charset=UTF-8");
+        
         String action = request.getParameter("action");
         String status = "";
 
@@ -193,8 +194,8 @@ public class MedicoServlet extends HttpServlet {
                 status = "error-criptografa";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status + "#convenios1");
-            
-        } else if ("desvinculaMedico".equals(action)){
+
+        } else if ("desvinculaMedico".equals(action)) {
             Facade facade = new Facade();
             int idMedico = Integer.parseInt(request.getParameter("idMedico"));
             HttpSession session = request.getSession();
@@ -206,7 +207,7 @@ public class MedicoServlet extends HttpServlet {
                 status = "desvincular-error";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
-        } 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

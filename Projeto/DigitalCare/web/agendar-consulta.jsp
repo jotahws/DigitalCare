@@ -4,7 +4,7 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,7 +28,7 @@
                     <div class="container">
                         <%@include file="/includes/header.jsp" %>
                         <h1>Acesso Negado.</h1>
-                        <h2>Apenas ClÌnicas podem acessar a essa p·gina</h2>
+                        <h2>Apenas Cl√≠nicas podem acessar a essa p√°gina</h2>
                     </div>
                 </div>
             </c:when>
