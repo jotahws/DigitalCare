@@ -36,7 +36,7 @@
                         </div>
                         <div class="data-box col-md-5 data-box-white">
                             <h1>Buscar Nova Consulta</h1>
-                            <form>
+                            <form action="${pageContext.request.contextPath}/resultado-pesquisa-consulta.jsp" method="POST">
                                 <div class="form-group row">
                                     <label for="tipoConsulta" class="col-sm-4 col-form-label">Tipo da consulta</label>
                                     <div class="col-sm-8" >
