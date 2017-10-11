@@ -40,7 +40,7 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, " +
+    private final String listMedicos = "SELECT DISTINCT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, " +
         " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "  +
         " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e " +
         " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id " +

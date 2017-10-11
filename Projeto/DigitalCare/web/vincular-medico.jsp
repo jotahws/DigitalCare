@@ -41,33 +41,68 @@
                             <div class="col-md-8">
                                 <h1>Adicionar um novo Médico</h1>
                             </div>
-                            <div class="col-md-4 text-right">
-                                <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaRegisterMedico" class="btn btn-lg btn-digital-green">
-                                    <i class="fa fa-fw fa-plus"></i>Cadastrar um novo Médico
-                                </a>
-                            </div>
                         </div>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
-                        <div class="col-md-12">
-                            <form action="${pageContext.request.contextPath}/" method="POST">
-                                <fieldset>
-                                    <div class="form-row">
-                                        <legend></legend>
-                                        <div class="form-group col-md-3">
-                                            <label for="">Digite o CPF do médico que deseja vincular</label>
-                                            <input type="text" id="cpf" name="cpf" class="cpf required form-control">
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <label for="">&nbsp;</label>
-                                            <div class="form-group col-md-6 ">
-                                                <input type="submit" value="Pesquisar" class="btn btn-digital-green form-control">
+                        <div class="container">
+                            <div class="col-md-12">
+                                <form action="${pageContext.request.contextPath}/" method="POST">
+                                    <fieldset>
+                                        <div class="form-row">
+                                            <legend></legend>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Digite o CPF do médico que deseja vincular</label>
+                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="">&nbsp;</label>
+                                                <div class="form-group col-md-12 ">
+                                                    <input type="submit" value="Pesquisar" class="btn btn-digital-green form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6  form-group">
+                                                <label for="">&nbsp;</label>
+                                                <div class="form-group col-md-12 ">
+                                                    ou&nbsp;&nbsp;&nbsp;
+                                                    <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaRegisterMedico" class="btn btn-digital-yellow">
+                                                        <i class="fa fa-fw fa-plus"></i>Cadastrar um novo Médico
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </form>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
+
+                        <c:if test="${medico != null}">
+                            <div class="container">
+                                <hr class="normal-divider">
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th >Nome</th>
+                                            <th >CRM</th>
+                                            <th >Telefone</th>
+                                            <th ></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="item" items="${medico}">
+                                            <tr>
+                                                <td > ${item.nome} ${item.sobrenome}</td>
+                                                <td > ${item.numeroCrm} (${item.estadoCrm.uf})</td>
+                                                <td > ${item.telefone1}</td>
+                                                <td >
+                                                    <div class="col-md-12 text-right">
+                                                        <a href="${pageContext.request.contextPath}/" class="btn btn-outline-success">Vincular</a>
+                                                    </div> 
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>                     
+                            </div>
+                        </c:if>
                     </div>
                 </div> 
 

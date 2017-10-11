@@ -22,6 +22,9 @@
         <!--Bootstrap-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/bootstrap/dist/css/bootstrap.min.css" >
         <script src="${pageContext.request.contextPath}/components/bootstrap/dist/js/bootstrap.min.js" ></script>
+        <!--Datalist-->
+        <script src="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.js" ></script>
+        <link href="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <!--Font Awesome-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/font-awesome/css/font-awesome.css" >
         <!--Customizacao-->

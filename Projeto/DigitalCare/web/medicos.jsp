@@ -5,6 +5,8 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -80,9 +82,12 @@
                                         <c:forEach var="item" items="${listaMedicos}">
                                             <tr class="row">
                                                 <td class="col-md-3">${item.nome} ${item.sobrenome}</td>
-                                                <td class="col-md-2">${item.numeroCrm} ${item.estadoCrm.uf}</td>
-                                                <td class="col-md-2">${item.dataNascimento}</td>
-                                                <td class="col-md-3">${item.telefone1}</td>
+                                                <td class="col-md-2">${item.numeroCrm} (${item.estadoCrm.uf})</td>
+                                                <td class="col-md-2"><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
+                                                <td class="col-md-3">
+                                                    <c:set var="tel" value="${item.telefone1}"/>
+                                                    <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
+                                                </td>
                                                 <td class="col-md-2">
                                                     <div class="col-md-12">
                                                         <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}" class="btn btn-outline-primary">Perfil</a>

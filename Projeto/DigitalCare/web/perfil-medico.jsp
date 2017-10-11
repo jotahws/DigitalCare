@@ -45,7 +45,16 @@
                         <div class="row">
                             <div class="container ">
                                 <div class="form-row">
-                                    <legend>Sobre o médico</legend>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-8">
+                                            <h4>Sobre o médico</h4> 
+                                        </div>
+                                        <div class="text-right col-md-4">
+                                            <a href="${pageContext.request.contextPath}/horarios-medico.jsp" class="btn btn-digital-green">
+                                                <i class="fa fa-fw fa-calendar-o"></i>&nbsp;&nbsp;Editar os horários desse médico
+                                            </a>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <label for="nome">Nome:</label>
                                         <input readonly type="text" id="nome" name="nome" class="required form-control" value="${medico.nome} ${medico.sobrenome}">
@@ -121,7 +130,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right col-md-12">
-                                    <a style="color: white; cursor: pointer" id="desvincular" class="btn btn-lg btn-warning">Desvincular médico</a>
+                                    <a style=" cursor: pointer" id="desvincular" class="btn btn-lg btn-digital-yellow"><i class="fa fa-fw fa-minus-circle"></i>Desvincular médico</a>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +157,7 @@
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false
                 }).then(function () {
-                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico="+ idMedico;
+                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico;
                 }, function (dismiss) {
                     if (dismiss === 'cancel') {
                         swal(
