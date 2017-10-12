@@ -38,7 +38,7 @@
                             <h1>Buscar Nova Consulta</h1>
                             <form action="${pageContext.request.contextPath}/resultado-pesquisa-consulta.jsp" method="POST">
                                 <div class="form-group row">
-                                    <label for="tipoConsulta" class="col-sm-4 col-form-label">Tipo da consulta</label>
+                                    <label for="tipoConsulta" class="col-sm-4 col-form-label ">Tipo da consulta<span style="color:red;">*</span></label>
                                     <div class="col-sm-8" >
                                         <input id="tipoConsulta"
                                                name="tipoConsulta"
@@ -47,8 +47,8 @@
                                                class='flexdatalist form-control'
                                                data-min-length='0'
                                                list='tiposConsulta'
-                                               data-selection-required='true'>
-
+                                               data-selection-required='true'
+                                               required>
                                         <datalist id="tiposConsulta">
                                         </datalist>
                                     </div>
@@ -56,7 +56,7 @@
                                 <div class="form-group row">
                                     <label for="data" class="col-sm-4 col-form-label">Data preferecial</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="data form-control" id="data" placeholder="12/02/2017">
+                                        <input type="date" class="data form-control" id="data" >
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -86,12 +86,14 @@
                                                data-selection-required='true'>
 
                                         <datalist id="listaCidades"></datalist>
+
+                                        <small>(<span style="color:red;">*</span>)Obrigatório</small>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <button type="submit" class="form-control btn btn-digital-green">
-                                            <i class="fa fa-fw fa-search "></i> Pesquisar Clínicas
+                                            <i class="fa fa-fw fa-search "></i> Pesquisar Consultas
                                         </button>
                                     </div>
                                 </div>
@@ -238,8 +240,10 @@
             }
 
             $("#cidade-flexdatalist").on("keyup", function (e) {
-                $('#listaCidades').empty();
-                if ($(this).val().length > 2) {
+                if ($(this).val().length > 2 && $(this).val().length < 6) {
+                    //if ($(this).val().length < 6) {
+                        $('#listaCidades').empty();
+                    //}
                     buscaCidades($(this).val());
                 }
             });
