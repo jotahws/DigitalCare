@@ -198,16 +198,17 @@ public class MedicoServlet extends HttpServlet {
         } else if ("desvinculaMedico".equals(action)) {
             Facade facade = new Facade();
             int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+            int idClinica = Integer.parseInt(request.getParameter("idClinica"));
             HttpSession session = request.getSession();
             Clinica clinica = (Clinica) session.getAttribute("usuario");
             try {
-                facade.desvinculaMedicoClinica(idMedico, clinica.getId());
+                facade.desvinculaMedicoClinica(idMedico, idClinica);
                 status = "desvincular-ok";
             } catch (ClassNotFoundException | SQLException ex) {
                 status = "desvincular-error";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
-        }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

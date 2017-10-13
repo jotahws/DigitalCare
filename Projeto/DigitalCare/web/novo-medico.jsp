@@ -107,7 +107,7 @@
                                         <div class="form-group col-md-4 ">
                                             <label for="">&nbsp;</label>
                                             <div class="form-group col-md-6 ">
-                                                <input type="submit" value="Cadastrar" class="btn btn-digital-green form-control">
+                                                <input type="submit" value="Cadastrar" class="VerificaDados btn btn-digital-green form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -121,6 +121,55 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+
+
+                        $('.VerificaDados').click(function (e) {
+                            if ($('#cpf').val() != '') {
+                                if (!TestaCPF($('#cpf').val())) {
+                                    $('#cpf').css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+                                    $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                                    e.preventDefault();
+                                }
+                            }
+                        });
+
+                        function TestaCPF(strCPF) {
+                            strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                            var Soma;
+                            var Resto;
+                            Soma = 0;
+                            if (strCPF == "00000000000")
+                                return false;
+
+                            for (i = 1; i <= 9; i++)
+                                Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                            Resto = (Soma * 10) % 11;
+
+                            if ((Resto == 10) || (Resto == 11))
+                                Resto = 0;
+                            if (Resto != parseInt(strCPF.substring(9, 10)))
+                                return false;
+
+                            Soma = 0;
+                            for (i = 1; i <= 10; i++)
+                                Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                            Resto = (Soma * 10) % 11;
+
+                            if ((Resto == 10) || (Resto == 11))
+                                Resto = 0;
+                            if (Resto != parseInt(strCPF.substring(10, 11)))
+                                return false;
+                            return true;
+                        }
+
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

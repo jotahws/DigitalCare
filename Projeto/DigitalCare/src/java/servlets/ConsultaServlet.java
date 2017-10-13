@@ -5,22 +5,13 @@
  */
 package servlets;
 
-import beans.Clinica;
-import beans.ClinicaEndereco;
-import beans.Estado;
-import beans.Login;
-import beans.Medico;
+import com.google.gson.Gson;
 import facade.Facade;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author JotaWind
  */
-@WebServlet(name = "ListaClinicaServlet", urlPatterns = {"/ListaClinicaServlet"})
-public class ListaClinicaServlet extends HttpServlet {
+@WebServlet(name = "ConsultaServlet", urlPatterns = {"/ConsultaServlet"})
+public class ConsultaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,41 +38,43 @@ public class ListaClinicaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession verSession = request.getSession();
+        if (verSession != null) {
 
-        String action = request.getParameter("action");
-        String status = "";
-        Facade facade = new Facade();
+            String action = request.getParameter("action");
+            Facade facade = new Facade();
+            String status = "";
 
-        if ("listaConfiguracao".equals(action)) {
-            String statusLista = "";
-            try {
-                HttpSession session = request.getSession();
-                Clinica clinica = (Clinica) session.getAttribute("usuario");
-                statusLista = request.getParameter("status");
-            } catch (Exception ex) {
-                status = "error";
-            }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-clinica.jsp?status=" + statusLista);
-            rd.forward(request, response);
-        } else if ("PesquisaVinculaMedico".equals(action)) {
-            try {
-                String cpf = request.getParameter("cpf");
-                cpf = cpf.replace("-", "");
-                cpf = cpf.replace(".", "");
-
-                Medico medico = Facade.getMedicoPorCPF(cpf);
-                request.setAttribute("medico", medico);
-                status = "listaMedico-ok";
-                if (medico == null) {
-                    status = "listaMedico-vazio";
+            if ("ListaTiposConsulta".equals(action)) {
+                try {
+                    String json = new Gson().toJson(Facade.listarEspecialidades());
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                status = "ListaMedico-erro";
+            } else if ("ListaClinicas".equals(action)) {
+                try {
+                    String json2 = new Gson().toJson(Facade.listarClinicas());
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json2);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if ("ListaCidades".equals(action)) {
+                try {
+                    String nome = request.getParameter("nome");
+                    String json = new Gson().toJson(Facade.getCidadesPorNomeParcial(nome));
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/vincular-medico.jsp?status="+status);
-            rd.forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

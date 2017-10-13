@@ -6,6 +6,7 @@
 package daos;
 
 import beans.ClinicaEndereco;
+import beans.Endereco;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -13,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,6 +29,10 @@ public class ClinicaEnderecoDAO {
             + "telefone2 = ? WHERE id = ?";
     private final String removeClinicaEndereco = "DELETE FROM clinica_endereco "
             + "WHERE id=?;";
+    private final String buscaClinicaEnderecoPorID = "SELECT * FROM clinica_endereco ce \n"
+            + "INNER JOIN endereco e ON e.id = ce.id_endereco\n"
+            + "WHERE ce.id=?;";
+    private final String insereMedicoClinica = "INSERT INTO medico_clinica (id_clinica_endereco, id_medico) VALUES (?, ?)";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -75,6 +82,7 @@ public class ClinicaEnderecoDAO {
         }
         return 0;
     }
+    
     public final int novaClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();
@@ -113,6 +121,52 @@ public class ClinicaEnderecoDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(insereMedicoClinica);
+            stmt.setInt(1, idClinicaEndereco);
+            stmt.setInt(2, idMedico);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public ClinicaEndereco buscaClinicaEnderecoPorId(int idClinicaEnd) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaClinicaEnderecoPorID);
+            stmt.setInt(1, idClinicaEnd);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Endereco end = new Endereco();
+                end.setId(rs.getInt("e.id"));
+                end.setRua(rs.getString("e.rua"));
+                end.setNumero(rs.getString("e.numero"));
+                end.setBairro(rs.getString("e.bairro"));
+                ClinicaEndereco clinicaEnd = new ClinicaEndereco();
+                clinicaEnd.setId(idClinicaEnd);
+                clinicaEnd.setEndereco(end);
+                return clinicaEnd;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
     
 }

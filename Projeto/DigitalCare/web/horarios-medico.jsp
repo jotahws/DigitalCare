@@ -40,67 +40,72 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-8">
-                                <h1>Horários Dr(a). André</h1>
+                                <h2>Horários Dr(a). ${medico.nome} ${medico.sobrenome}</h2>
                             </div>
                         </div>
                         <hr>
                         <div class="container">
-                            <div class="col-md-12">
-                                <form action="${pageContext.request.contextPath}/" method="POST">
-                                    <fieldset>
-                                        <div class="form-row">
-                                            <legend>Novo horário</legend>
-                                            <div class="form-row">
-                                                <div class="col-5">
-                                                    <label for="dia-semana">Dia da semana</label>
-                                                    <input id="dia-semana" type='text' placeholder='Dia da semana' class='required flexdatalist form-control' 
-                                                           data-selection-required='true' data-min-length='0' list='semana' name='dia-semana'>
-                                                    <datalist id="semana">
-                                                        <option value="Domingo">Domingo</option>
-                                                        <option value="Segunda">Segunda-feira</option>
-                                                        <option value="Terça">Terça-feira</option>
-                                                        <option value="Quarta">Quarta-feira</option>
-                                                        <option value="Quinta">Quinta-feira</option>
-                                                        <option value="Sexta">Sexta-feira</option>
-                                                        <option value="Sábado">Sábado</option>
-                                                    </datalist>
+                            <c:forEach items="${medico.listaClinicaEndereco}" var="item">
+                                <c:if test="${item.clinica.id = usuario.id}">
+                                    <hr class="invisible-divider">
+                                    <div class="col-md-12">
+                                        <form action="${pageContext.request.contextPath}/" method="POST">
+                                            <fieldset>
+                                                <div class="form-row">
+                                                    <legend>Horários de ${item.endereco.rua}, ${item.endereco.numero} - ${item.endereco.bairro}</legend>
+                                                    <div class="form-row">
+                                                        <div class="col-5">
+                                                            <label for="dia-semana">Dia da semana</label>
+                                                            <input id="dia-semana" type='text' placeholder='Dia da semana' class='required flexdatalist form-control' 
+                                                                   data-selection-required='true' data-min-length='0' list='semana' name='dia-semana'>
+                                                            <datalist id="semana">
+                                                                <option value="Domingo">Domingo</option>
+                                                                <option value="Segunda">Segunda-feira</option>
+                                                                <option value="Terça">Terça-feira</option>
+                                                                <option value="Quarta">Quarta-feira</option>
+                                                                <option value="Quinta">Quinta-feira</option>
+                                                                <option value="Sexta">Sexta-feira</option>
+                                                                <option value="Sábado">Sábado</option>
+                                                            </datalist>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="inicio">Início</label>
+                                                            <input type="text" id="inicio" name="inicio" class="required hora form-control" placeholder="00:00">
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="fim">Fim</label>
+                                                            <input type="text" id="fim" name="fim" class="required hora form-control" placeholder="00:00">
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="">&nbsp;</label>
+                                                            <button type="submit" class="form-control btn btn-digital-yellow"><i class="fa fa-clock-o"></i> Adicionar</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col">
-                                                    <label for="inicio">Início</label>
-                                                    <input type="text" id="inicio" name="inicio" class="required hora form-control" placeholder="00:00">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="fim">Fim</label>
-                                                    <input type="text" id="fim" name="fim" class="required hora form-control" placeholder="00:00">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="">&nbsp;</label>
-                                                    <button type="submit" class="form-control btn btn-digital-yellow"><i class="fa fa-clock-o"></i> Adicionar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                                <hr class="normal-divider">
-                                <table class="table">
-                                    <thead class="thead-inverse">
-                                        <tr>
-                                            <th>Domingo</th>
-                                            <th>Segunda-feira</th>
-                                            <th>Terça-feira</th>
-                                            <th>Quarta-feira</th>
-                                            <th>Quinta-feira</th>
-                                            <th>Sexta-feira</th>
-                                            <th>Sábado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>                     
-                            </div>
+                                            </fieldset>
+                                        </form>
+                                        <hr class="normal-divider">
+                                        <table class="table">
+                                            <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>Domingo</th>
+                                                    <th>Segunda-feira</th>
+                                                    <th>Terça-feira</th>
+                                                    <th>Quarta-feira</th>
+                                                    <th>Quinta-feira</th>
+                                                    <th>Sexta-feira</th>
+                                                    <th>Sábado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                     
+                                    </div>
+                                </c:if>
+                            </c:forEach>
                         </div>
 
 

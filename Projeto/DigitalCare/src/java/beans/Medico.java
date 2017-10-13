@@ -29,6 +29,7 @@ public class Medico implements Serializable {
     private Double avaliacao;
     private List<Especialidade> listaEspecialidades;
     private List<Convenio> listaConvenios;
+    private List<ClinicaEndereco> listaClinicaEndereco;
     private String idade;
     private Consulta consulta;
 
@@ -186,6 +187,14 @@ public class Medico implements Serializable {
 
     public void setConsulta(Consulta consulta) {
         this.consulta = consulta;
+    }
+
+    public List<ClinicaEndereco> getListaClinicaEndereco() {
+        return listaClinicaEndereco;
+    }
+
+    public void setListaClinicaEndereco(List<ClinicaEndereco> listaClinicaEndereco) {
+        this.listaClinicaEndereco = listaClinicaEndereco;
     }
 
 }
