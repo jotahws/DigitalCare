@@ -107,6 +107,11 @@ public class Facade {
         dao.vincularMedicoClinica(idMedico, idClinicaEndereco);
     }
 
+    public static ClinicaEndereco getClinicaEnderecoPorId(int idClinicaEnd) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        return dao.buscaClinicaEnderecoPorId(idClinicaEnd);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();

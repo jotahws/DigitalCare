@@ -6,6 +6,7 @@
 package daos;
 
 import beans.Cidade;
+import beans.ClinicaEndereco;
 import beans.Consulta;
 import beans.Endereco;
 import beans.Estado;
@@ -43,11 +44,17 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT DISTINCT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, "
-            + " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "
-            + " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e "
-            + " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
-            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
+
+//    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, "
+//            + " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "
+//            + " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e "
+//            + " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
+//            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
+    
+    private final String listMedicos = "SELECT * FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e, endereco en\n"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
+            + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
+            + "AND en.id = ce.id_endereco   AND cli.id=?;";
 
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
 
@@ -234,7 +241,17 @@ public class MedicoDAO {
                 Medico medico = new Medico();
                 Login login = new Login();
                 Estado estado = new Estado();
-
+                Endereco endereco = new Endereco();
+                ClinicaEndereco clinicaEnd = new ClinicaEndereco();
+                List<ClinicaEndereco> listaClinica = new ArrayList();
+                endereco.setId(rs.getInt("en.id"));
+                endereco.setRua(rs.getString("en.rua"));
+                endereco.setBairro(rs.getString("en.bairro"));
+                endereco.setNumero(rs.getString("en.numero"));
+                clinicaEnd.setEndereco(endereco);
+                clinicaEnd.setId(rs.getInt("ce.id"));
+                listaClinica.add(clinicaEnd);
+                
                 estado.setUf(rs.getString("e.uf"));
                 login.setEmail(rs.getString("l.email"));
                 login.setId(rs.getInt("l.id"));
@@ -250,6 +267,7 @@ public class MedicoDAO {
                 medico.setTelefone1(rs.getString("m.telefone"));
                 medico.setTelefone2(rs.getString("m.telefone2"));
                 medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                medico.setListaClinicaEndereco(listaClinica);
                 lista.add(medico);
             }
             return lista;

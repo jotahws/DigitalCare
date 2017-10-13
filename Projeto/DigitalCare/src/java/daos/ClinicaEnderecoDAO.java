@@ -6,6 +6,7 @@
 package daos;
 
 import beans.ClinicaEndereco;
+import beans.Endereco;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -26,6 +27,10 @@ public class ClinicaEnderecoDAO {
             + "telefone2 = ? WHERE id = ?";
     private final String removeClinicaEndereco = "DELETE FROM clinica_endereco "
             + "WHERE id=?;";
+    
+    private final String buscaClinicaEnderecoPorID = "SELECT * FROM clinica_endereco ce \n"
+            + "INNER JOIN endereco e ON e.id = ce.id_endereco\n"
+            + "WHERE ce.id=?;";
     private final String insereMedicoClinica = "INSERT INTO medico_clinica (id_clinica_endereco, id_medico) VALUES (?, ?)";
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -133,5 +138,33 @@ public class ClinicaEnderecoDAO {
         }
     }
     
+    public ClinicaEndereco buscaClinicaEnderecoPorId(int idClinicaEnd) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaClinicaEnderecoPorID);
+            stmt.setInt(1, idClinicaEnd);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Endereco end = new Endereco();
+                end.setId(rs.getInt("e.id"));
+                end.setRua(rs.getString("e.rua"));
+                end.setNumero(rs.getString("e.numero"));
+                end.setBairro(rs.getString("e.bairro"));
+                ClinicaEndereco clinicaEnd = new ClinicaEndereco();
+                clinicaEnd.setId(idClinicaEnd);
+                clinicaEnd.setEndereco(end);
+                return clinicaEnd;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
     
 }

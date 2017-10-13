@@ -131,7 +131,10 @@
                                     </div>
                                 </div>
                                 <div class="text-right col-md-12">
-                                    <a style=" cursor: pointer" id="desvincular" class="btn btn-lg btn-digital-yellow"><i class="fa fa-fw fa-minus-circle"></i>Desvincular médico</a>
+                                    <a style=" cursor: pointer" id="desvincular" class="btn btn-lg btn-digital-yellow"><i class="fa fa-fw fa-minus-circle"></i>Desvincular médico</a><br>
+                                    <small>
+                                        (Você estará desvinculando o médico do endereço ${clinicaEndereco.endereco.rua}, ${clinicaEndereco.endereco.numero} - ${clinicaEndereco.endereco.bairro})
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -145,6 +148,7 @@
         <script>
             $("#desvincular").click(function () {
                 var idMedico = "${medico.id}";
+                var idClinica = "${clinicaEndereco.id}";
                 swal({
                     title: 'Você tem certeza?',
                     text: "O médico desvinculado não poderá mais realizar consultas nesta clínica",
@@ -158,7 +162,7 @@
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false
                 }).then(function () {
-                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico;
+                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico +"&idClinica=" + idClinica;
                 }, function (dismiss) {
                     if (dismiss === 'cancel') {
                         swal(

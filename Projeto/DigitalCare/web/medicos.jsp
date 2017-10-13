@@ -68,46 +68,49 @@
                                             <strong>O médico foi desvinculado com sucesso!</strong> 
                                         </div>
                                     </c:when>
-                                    <c:when test="${(param.status == 'vincular-erro')}">
+                                    <c:when test="${(param.status == 'vincula-erro')}">
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-                                            <strong>Ops! </strong> Ocorreu um erro ao vincular o médico. Tente novamente.
+                                            <strong>Ops! </strong> Ocorreu um erro ao adicionar o médico. Tente novamente.
                                         </div>
                                     </c:when>
-                                    <c:when test="${(param.status == 'vincular-ok')}">
+                                    <c:when test="${(param.status == 'vincula-ok')}">
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-                                            <strong>O médico foi vinculado com sucesso!</strong> 
+                                            <strong>O médico foi adicionado com sucesso!</strong> 
                                         </div>
                                     </c:when>
                                 </c:choose> 
                                 <table id="tabela" class="table">
                                     <thead class="thead-inverse">
-                                        <tr class="row">
-                                            <th class="col-md-3">Nome</th>
-                                            <th class="col-md-2">CRM</th>
-                                            <th class="col-md-2">Data de Nascimento</th>
-                                            <th class="col-md-3">Telefone</th>
-                                            <th class="col-md-2"></th>
+                                        <tr >
+                                            <th>Nome</th>
+                                            <th>CRM</th>
+                                            <th>Data de Nascimento</th>
+                                            <th>Telefone</th>
+                                            <th>Endereço Vinculado</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="item" items="${listaMedicos}">
-                                            <tr class="row">
-                                                <td class="col-md-3">${item.nome} ${item.sobrenome}</td>
-                                                <td class="col-md-2">${item.numeroCrm} (${item.estadoCrm.uf})</td>
-                                                <td class="col-md-2"><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
-                                                <td class="col-md-3">
+                                            <tr>
+                                                <td>${item.nome} ${item.sobrenome}</td>
+                                                <td>${item.numeroCrm} (${item.estadoCrm.uf})</td>
+                                                <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
+                                                <td>
                                                     <c:set var="tel" value="${item.telefone1}"/>
                                                     <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
                                                 </td>
-                                                <td class="col-md-2">
+                                                <td>${item.listaClinicaEndereco.get(0).endereco.rua}, ${item.listaClinicaEndereco.get(0).endereco.numero} - ${item.listaClinicaEndereco.get(0).endereco.bairro}</td>
+                                                <td>
                                                     <div class="col-md-12">
-                                                        <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}" class="btn btn-outline-primary">Perfil</a>
+                                                        <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}&clinicaEndereco=${item.listaClinicaEndereco.get(0).id}"
+                                                           class="btn btn-outline-primary">Perfil</a>
                                                     </div>
                                                 </td>
                                             </tr>

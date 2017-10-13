@@ -78,22 +78,11 @@
                         <c:if test="${medico != null}">
                             <div class="container">
                                 <hr class="normal-divider">
-                                <div class="row col-md-12">
+                                <div class="col-md-12">
                                     <label>Selecione o endereço da clínica:&nbsp;&nbsp;&nbsp;</label>
-<!--                                    <input type='text' id="clinicaEnd"
-                                           class='flexdatalist form-control col-md-6'
-                                           data-min-length='0'
-                                           data-selection-required='true'
-                                           list='clinicaEnderecos'
-                                           name='clinicaEnd'>
-                                    <datalist id="clinicaEnderecos">
-                                        <%--<c:forEach var="item" items="${usuario.listaEnderecos}">--%>
-                                            <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero}</option>
-                                        <%--</c:forEach>--%>
-                                    </datalist>-->
-                                    <select id="clinicaEnd" name="clinicaEnd" class="custom-select">
+                                    <select id="clinicaEnd" name="clinicaEnd" class="custom-select col-md-6">
                                         <c:forEach var="item" items="${usuario.listaEnderecos}">
-                                            <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero}</option>
+                                            <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero} - ${item.endereco.bairro}, ${item.endereco.cidade.nome} (${item.endereco.cidade.estado.uf})</option>
                                         </c:forEach>
                                     </select>
                                 </div><hr class="invisible-divider">
