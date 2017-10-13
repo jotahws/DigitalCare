@@ -97,6 +97,16 @@ public class Facade {
         return dao.buscarCidadesPorNomeParcial(nome);
     }
 
+    public static Medico getMedicoPorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        MedicoDAO dao = new MedicoDAO();
+        return dao.getMedicoPorCPF(cpf);
+    }
+
+    public static void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        dao.vincularMedicoClinica(idMedico, idClinicaEndereco);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();

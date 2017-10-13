@@ -46,13 +46,13 @@
                         <hr>
                         <div class="container">
                             <div class="col-md-12">
-                                <form action="${pageContext.request.contextPath}/" method="POST">
+                                <form action="${pageContext.request.contextPath}/ListaClinicaServlet?action=PesquisaVinculaMedico" method="POST">
                                     <fieldset>
                                         <div class="form-row">
                                             <legend></legend>
                                             <div class="form-group col-md-4">
-                                                <label for="">Digite o CPF do médico que deseja vincular</label>
-                                                <input type="text" id="cpf" name="cpf" class="cpf required form-control">
+                                                <label for="cpf">Digite o CPF do médico que deseja vincular</label>
+                                                <input type="text" id="cpf" value="${medico.cpf}" name="cpf" class="cpf required form-control">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="">&nbsp;</label>
@@ -78,28 +78,48 @@
                         <c:if test="${medico != null}">
                             <div class="container">
                                 <hr class="normal-divider">
+                                <div class="row col-md-12">
+                                    <label>Selecione o endereço da clínica:&nbsp;&nbsp;&nbsp;</label>
+<!--                                    <input type='text' id="clinicaEnd"
+                                           class='flexdatalist form-control col-md-6'
+                                           data-min-length='0'
+                                           data-selection-required='true'
+                                           list='clinicaEnderecos'
+                                           name='clinicaEnd'>
+                                    <datalist id="clinicaEnderecos">
+                                        <%--<c:forEach var="item" items="${usuario.listaEnderecos}">--%>
+                                            <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero}</option>
+                                        <%--</c:forEach>--%>
+                                    </datalist>-->
+                                    <select id="clinicaEnd" name="clinicaEnd" class="custom-select">
+                                        <c:forEach var="item" items="${usuario.listaEnderecos}">
+                                            <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div><hr class="invisible-divider">
+
                                 <table class="table">
                                     <thead class="thead-inverse">
                                         <tr>
-                                            <th >Nome</th>
-                                            <th >CRM</th>
-                                            <th >Telefone</th>
-                                            <th ></th>
+                                            <th>Nome</th>
+                                            <th>CRM</th>
+                                            <th>Telefone</th>
+                                            <th>Email</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="item" items="${medico}">
-                                            <tr>
-                                                <td > ${item.nome} ${item.sobrenome}</td>
-                                                <td > ${item.numeroCrm} (${item.estadoCrm.uf})</td>
-                                                <td > ${item.telefone1}</td>
-                                                <td >
-                                                    <div class="col-md-12 text-right">
-                                                        <a href="${pageContext.request.contextPath}/" class="btn btn-outline-success">Vincular</a>
-                                                    </div> 
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
+                                        <tr>
+                                            <td> ${medico.nome} ${medico.sobrenome}</td>
+                                            <td> ${medico.numeroCrm} (${medico.estadoCrm.uf})</td>
+                                            <td> ${medico.telefone1}</td>
+                                            <td> ${medico.login.email}</td>
+                                            <td>
+                                                <div class="col-md-12 text-right">
+                                                    <a id="vincular" class="btn btn-outline-success clickable">Vincular à Clínica</a>
+                                                </div> 
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>                     
                             </div>
@@ -111,6 +131,25 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        var idMedico = '${medico.id}';
+                        $('#vincular').click(function () {
+                            swal({
+                                title: 'Adicionar médico?',
+                                text: "Você poderá desfazer isso indo na sua lista de médicos.",
+                                type: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#68c4af',
+                                cancelButtonColor: '#bfd9d2',
+                                cancelButtonText: 'Cancelar',
+                                confirmButtonText: 'Adicionar'
+                            }).then(function () {
+                                window.location.href = "ClinicaServlet?action=vincularMedico&idMedico=" + idMedico + "&idClinicaEndereco=" + $('#clinicaEnd').val();
+                            });
+                        });
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

@@ -26,6 +26,7 @@ public class ClinicaEnderecoDAO {
             + "telefone2 = ? WHERE id = ?";
     private final String removeClinicaEndereco = "DELETE FROM clinica_endereco "
             + "WHERE id=?;";
+    private final String insereMedicoClinica = "INSERT INTO medico_clinica (id_clinica_endereco, id_medico) VALUES (?, ?)";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -114,5 +115,23 @@ public class ClinicaEnderecoDAO {
             }
         }
     }
+
+    public void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(insereMedicoClinica);
+            stmt.setInt(1, idClinicaEndereco);
+            stmt.setInt(2, idMedico);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
     
 }

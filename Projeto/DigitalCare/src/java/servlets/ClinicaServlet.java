@@ -253,6 +253,18 @@ public class ClinicaServlet extends HttpServlet {
                 status = "excludeEnd-erro";
             }
             response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
+        } else if ("vincularMedico".equals(action)) {
+            try {
+                String idMedicoString = request.getParameter("idMedico");
+                String idClinicaString = request.getParameter("idClinicaEndereco");
+                int idMedico = Integer.parseInt(idMedicoString);
+                int idClinicaEndereco = Integer.parseInt(idClinicaString);
+                Facade.vincularMedicoClinica(idMedico, idClinicaEndereco);
+                status = "vincula-ok";
+            } catch (ClassNotFoundException | NumberFormatException | SQLException ex) {
+                status = "vincula-erro";
+            }
+            response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
         }
     }
 

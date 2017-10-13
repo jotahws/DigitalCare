@@ -68,6 +68,22 @@
                                             <strong>O médico foi desvinculado com sucesso!</strong> 
                                         </div>
                                     </c:when>
+                                    <c:when test="${(param.status == 'vincular-erro')}">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <strong>Ops! </strong> Ocorreu um erro ao vincular o médico. Tente novamente.
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${(param.status == 'vincular-ok')}">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <strong>O médico foi vinculado com sucesso!</strong> 
+                                        </div>
+                                    </c:when>
                                 </c:choose> 
                                 <table id="tabela" class="table">
                                     <thead class="thead-inverse">
