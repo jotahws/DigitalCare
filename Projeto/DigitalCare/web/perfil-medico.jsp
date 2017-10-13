@@ -51,7 +51,7 @@
                                             <h4>Sobre o médico</h4> 
                                         </div>
                                         <div class="text-right col-md-4">
-                                            <a href="${pageContext.request.contextPath}/horarios-medico.jsp" class="btn btn-digital-green">
+                                            <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=horariosMedico&idMedico=${param.id}" class="btn btn-digital-green">
                                                 <i class="fa fa-fw fa-calendar-o"></i>&nbsp;&nbsp;Editar os horários desse médico
                                             </a>
                                         </div>
@@ -133,7 +133,7 @@
                                 <div class="text-right col-md-12">
                                     <a style=" cursor: pointer" id="desvincular" class="btn btn-lg btn-digital-yellow"><i class="fa fa-fw fa-minus-circle"></i>Desvincular médico</a><br>
                                     <small>
-                                        (Você estará desvinculando o médico do endereço ${clinicaEndereco.endereco.rua}, ${clinicaEndereco.endereco.numero} - ${clinicaEndereco.endereco.bairro})
+                                        (Você estará desvinculando o médico de ${clinicaEndereco.endereco.rua}, ${clinicaEndereco.endereco.numero} - ${clinicaEndereco.endereco.bairro})
                                     </small>
                                 </div>
                             </div>

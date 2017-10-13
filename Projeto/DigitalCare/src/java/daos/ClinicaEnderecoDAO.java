@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,7 +29,6 @@ public class ClinicaEnderecoDAO {
             + "telefone2 = ? WHERE id = ?";
     private final String removeClinicaEndereco = "DELETE FROM clinica_endereco "
             + "WHERE id=?;";
-    
     private final String buscaClinicaEnderecoPorID = "SELECT * FROM clinica_endereco ce \n"
             + "INNER JOIN endereco e ON e.id = ce.id_endereco\n"
             + "WHERE ce.id=?;";
@@ -81,6 +82,7 @@ public class ClinicaEnderecoDAO {
         }
         return 0;
     }
+    
     public final int novaClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
         try {
             con = new ConnectionFactory().getConnection();

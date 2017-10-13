@@ -45,6 +45,16 @@
                         </div>
                         <hr>
                         <div class="container">
+                            <c:choose>
+                                <c:when test="${(param.status == 'listaMedico-vazio')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Ops! </strong> Não há nenhum médico com esse CPF. Tente novamente.
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <div class="col-md-12">
                                 <form action="${pageContext.request.contextPath}/ListaClinicaServlet?action=PesquisaVinculaMedico" method="POST">
                                     <fieldset>
@@ -74,12 +84,11 @@
                                 </form>
                             </div>
                         </div>
-
                         <c:if test="${medico != null}">
                             <div class="container">
                                 <hr class="normal-divider">
                                 <div class="col-md-12">
-                                    <label>Selecione o endereço da clínica:&nbsp;&nbsp;&nbsp;</label>
+                                    <label>Selecione o endereço da clínica onde o médico irá trabalhar:</label>
                                     <select id="clinicaEnd" name="clinicaEnd" class="custom-select col-md-6">
                                         <c:forEach var="item" items="${usuario.listaEnderecos}">
                                             <option value="${item.id}">${item.endereco.rua}, ${item.endereco.numero} - ${item.endereco.bairro}, ${item.endereco.cidade.nome} (${item.endereco.cidade.estado.uf})</option>

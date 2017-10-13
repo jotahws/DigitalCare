@@ -63,7 +63,7 @@ public class ListaClinicaServlet extends HttpServlet {
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-clinica.jsp?status=" + statusLista);
             rd.forward(request, response);
-        }  else if ("PesquisaVinculaMedico".equals(action)) {
+        } else if ("PesquisaVinculaMedico".equals(action)) {
             try {
                 String cpf = request.getParameter("cpf");
                 cpf = cpf.replace("-", "");
@@ -72,10 +72,13 @@ public class ListaClinicaServlet extends HttpServlet {
                 Medico medico = Facade.getMedicoPorCPF(cpf);
                 request.setAttribute("medico", medico);
                 status = "listaMedico-ok";
+                if (medico == null) {
+                    status = "listaMedico-vazio";
+                }
             } catch (Exception ex) {
                 status = "ListaMedico-erro";
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/vincular-medico.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/vincular-medico.jsp?status="+status);
             rd.forward(request, response);
         }
 

@@ -116,6 +116,17 @@ public class ListaMedicoServlet extends HttpServlet {
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-medico.jsp");
             rd.forward(request, response);
+        } else if ("horariosMedico".equals(action)) {
+            try {
+                int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+                Medico medico = Facade.getMedicoPorLogin(idMedico);//COLOCAR GET MEDICO POR ID COM LISTA DE ENDERECOS NELA
+                request.setAttribute("medico", medico);
+                status = "horarios-ok";
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "horarios-error";
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/horarios-medico.jsp");
+            rd.forward(request, response);
         }
     }
 
