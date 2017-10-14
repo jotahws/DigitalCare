@@ -32,42 +32,69 @@
                 <div class="agendamento">
                     <div class="container">
                         <div>
-                            &nbsp
+                            &nbsp;
                         </div>
                         <div class="data-box col-md-5 data-box-white">
                             <h1>Buscar Nova Consulta</h1>
-                            <form>
+                            <form action="${pageContext.request.contextPath}/resultado-pesquisa-consulta.jsp" method="POST">
                                 <div class="form-group row">
-                                    <label for="tipoConsulta" class="col-sm-4 col-form-label">Tipo da consulta</label>
+                                    <label for="tipoConsulta" class="col-sm-4 col-form-label ">Tipo da consulta<span style="color:red;">*</span></label>
                                     <div class="col-sm-8" >
-                                        <select id="tipoConsulta" name="sexo" class="col-md-10 custom-select">
-                                            <option value="dermato">Dermatologia</option>
-                                            <option value="endo">Endocrinologia</option>
-                                        </select>
+                                        <input id="tipoConsulta"
+                                               name="tipoConsulta"
+                                               type='text'
+                                               placeholder='Tipo da consulta'
+                                               class='flexdatalist form-control'
+                                               data-min-length='0'
+                                               list='tiposConsulta'
+                                               data-selection-required='true'
+                                               required>
+                                        <datalist id="tiposConsulta">
+                                        </datalist>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="data" class="col-sm-4 col-form-label">Data preferecial</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="data form-control" id="data" placeholder="12/02/2017">
+                                        <input type="date" class="data form-control" id="data" >
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="clinica" placeholder="Clínica desejada">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="cidade" placeholder="Cidade">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
+                                    <label for="clinica" class="col-sm-4 col-form-label">Clínica desejada</label>
+                                    <div class="col-sm-8" >
+                                        <input id="clinica"
+                                               name="clinica"
+                                               type='text'
+                                               placeholder='Clínica desejada'
+                                               class='flexdatalist form-control'
+                                               data-min-length='0'
+                                               list='listaClinicas'
+                                               data-selection-required='true'>
 
+                                        <datalist id="listaClinicas"></datalist>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="cidade" class="col-sm-4 col-form-label">Cidade</label>
+                                    <div class="col-sm-8" >
+                                        <input id="cidade" type='text' autocomplete="off"
+                                               placeholder='Cidade'
+                                               class='flexdatalist form-control'
+                                               data-min-length='1'
+                                               list='listaCidades'
+                                               name='cidade'
+                                               data-selection-required='true'>
+
+                                        <datalist id="listaCidades"></datalist>
+
+                                        <small>(<span style="color:red;">*</span>)Obrigatório</small>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <div class="col-sm-12">
                                         <button type="submit" class="form-control btn btn-digital-green">
-                                            <i class="fa fa-fw fa-search "></i> Pesquisar Clínicas
-                                        </button>   
+                                            <i class="fa fa-fw fa-search "></i> Pesquisar Consultas
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -78,6 +105,8 @@
                     <div class="featurette-divider"></div>
                     <div class="row">
                         <div class="col-md-12">
+                            <div id="somediv"></div>
+
                             <h1 class="">Suas próximas consultas</h1><br>
                             <div style="" id="calendar"></div>
 
@@ -93,6 +122,7 @@
             new Date($.now());
             var dt = new Date();
             var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+
             $('#calendar').fullCalendar({
                 locale: 'pt-br',
                 editable: false,
@@ -176,6 +206,47 @@
                     $('.agendamento .data-box').removeClass('col-md-5');
                 }
             }
+
+            listaNovaConsulta();
+
+            function listaNovaConsulta() {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaTiposConsulta'}, //meaasge you want to send
+                        function (result) {
+                            $.each(result, function (index, tipo) {
+                                $("<option>").appendTo($("#tiposConsulta")).append(tipo.nome).val(tipo.id);
+                            });
+                        });
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaClinicas'}, //meaasge you want to send
+                        function (result) {
+                            $.each(result, function (index, clinica) {
+                                $("<option>").appendTo($("#listaClinicas")).append(clinica.nomeFantasia).val(clinica.id);
+                            });
+                        });
+            }
+
+            function buscaCidades(nome) {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaCidades', nome: nome}, //meaasge you want to send
+                        function (result) {
+                            $.each(result, function (index, cidade) {
+                                $("<option>").appendTo($("#listaCidades")).append(cidade.nome).val(cidade.id);
+                            });
+                        });
+            }
+
+            $("#cidade-flexdatalist").on("keyup", function (e) {
+                if ($(this).val().length > 2 && $(this).val().length < 6) {
+                    //if ($(this).val().length < 6) {
+                        $('#listaCidades').empty();
+                    //}
+                    buscaCidades($(this).val());
+                }
+            });
         });
     </script>
 

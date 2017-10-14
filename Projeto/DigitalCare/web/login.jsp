@@ -57,9 +57,9 @@
                 <form action="${pageContext.request.contextPath}/LoginServlet?action=login" method="POST">
                     <fieldset>
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="login">
+                        <input type="email" id="email" class="required" name="login"><br>
                         <label for="password">Senha:</label>
-                        <input type="password" id="password" name="senha">
+                        <input type="password" id="password" class="required" name="senha">
                         <input type="submit" value="Entrar" class="btn btn-digital-green">
                         <div class="text-right">
                             <a href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Novo por aqui?</a>

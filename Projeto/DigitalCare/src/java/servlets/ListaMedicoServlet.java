@@ -6,6 +6,7 @@
 package servlets;
 
 import beans.Clinica;
+import beans.ClinicaEndereco;
 import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
@@ -100,17 +101,31 @@ public class ListaMedicoServlet extends HttpServlet {
             int idLogin;
             try {
                 idLogin = Integer.parseInt(request.getParameter("id"));
+                int idClinicaEnd = Integer.parseInt(request.getParameter("clinicaEndereco"));
+                ClinicaEndereco clinicaEnd = Facade.getClinicaEnderecoPorId(idClinicaEnd);
                 Medico medico = Facade.getMedicoPorLogin(idLogin);
                 medico.setLogin(Facade.buscaLoginPorId(idLogin));
                 List<Especialidade> especMedico = Facade.buscarEspecialidadesMedico(medico.getId());
                 List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(medico.getId());
                 medico.setListaConvenios(conveniosMedico);
                 medico.setListaEspecialidades(especMedico);
+                request.setAttribute("clinicaEndereco", clinicaEnd);
                 request.setAttribute("medico", medico);
             } catch (Exception ex) {
                 status = "error-perfil";
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-medico.jsp");
+            rd.forward(request, response);
+        } else if ("horariosMedico".equals(action)) {
+            try {
+                int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+                Medico medico = Facade.getMedicoPorLogin(idMedico);//COLOCAR GET MEDICO POR ID COM LISTA DE ENDERECOS NELA
+                request.setAttribute("medico", medico);
+                status = "horarios-ok";
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "horarios-error";
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/horarios-medico.jsp");
             rd.forward(request, response);
         }
     }

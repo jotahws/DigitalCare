@@ -5,6 +5,10 @@
  */
 package daos;
 
+import beans.Cidade;
+import beans.ClinicaEndereco;
+import beans.Consulta;
+import beans.Endereco;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -30,6 +34,9 @@ public class MedicoDAO {
     private final String buscaMedicoPorLogin = "SELECT * FROM medico m "
             + "INNER JOIN estado e ON m.id_estado_crm = e.id "
             + "WHERE id_login=?";
+    private final String buscaMedicoPorCPF = "SELECT * FROM medico m "
+            + "INNER JOIN estado e ON m.id_estado_crm = e.id "
+            + "INNER JOIN login l ON l.id = m.id_login WHERE m.cpf = ? ";
     private final String updateMedico = "UPDATE medico SET nome=?, sobrenome=?, preco_consulta=?, data_nascimento=?, "
             + "telefone=?, telefone2=? WHERE id=?";
     private final String deleteMedicoEspecialidade = "DELETE FROM medico_especialidade WHERE id_medico =? "
@@ -37,11 +44,17 @@ public class MedicoDAO {
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
     private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
-    private final String listMedicos = "SELECT DISTINCT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, " +
-        " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "  +
-        " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e " +
-        " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id " +
-        "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
+
+//    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, "
+//            + " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "
+//            + " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e "
+//            + " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
+//            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
+    
+    private final String listMedicos = "SELECT * FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e, endereco en\n"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
+            + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
+            + "AND en.id = ce.id_endereco   AND cli.id=?;";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
             + "AND id_clinica_endereco =?";
 
@@ -229,6 +242,16 @@ public class MedicoDAO {
                 Medico medico = new Medico();
                 Login login = new Login();
                 Estado estado = new Estado();
+                Endereco endereco = new Endereco();
+                ClinicaEndereco clinicaEnd = new ClinicaEndereco();
+                List<ClinicaEndereco> listaClinica = new ArrayList();
+                endereco.setId(rs.getInt("en.id"));
+                endereco.setRua(rs.getString("en.rua"));
+                endereco.setBairro(rs.getString("en.bairro"));
+                endereco.setNumero(rs.getString("en.numero"));
+                clinicaEnd.setEndereco(endereco);
+                clinicaEnd.setId(rs.getInt("ce.id"));
+                listaClinica.add(clinicaEnd);
                 
                 estado.setUf(rs.getString("e.uf"));
                 login.setEmail(rs.getString("l.email"));
@@ -245,6 +268,7 @@ public class MedicoDAO {
                 medico.setTelefone1(rs.getString("m.telefone"));
                 medico.setTelefone2(rs.getString("m.telefone2"));
                 medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                medico.setListaClinicaEndereco(listaClinica);
                 lista.add(medico);
             }
             return lista;
@@ -273,6 +297,45 @@ public class MedicoDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public Medico getMedicoPorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaMedicoPorCPF);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Login login = new Login(rs.getString("l.email"));
+                Estado estado = new Estado();
+                estado.setId(rs.getInt("e.id"));
+                estado.setNome(rs.getString("e.nome"));
+                estado.setUf(rs.getString("e.uf"));
+                Medico medico = new Medico();
+                medico.setEstadoCrm(estado);
+                medico.setId(rs.getInt("m.id"));
+                medico.setNome(rs.getString("m.nome"));
+                medico.setSobrenome(rs.getString("m.sobrenome"));
+                medico.setCpf(rs.getString("m.cpf"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                medico.setTelefone1(rs.getString("m.telefone"));
+                medico.setTelefone2(rs.getString("m.telefone2"));
+                medico.setNumeroCrm(rs.getString("m.num_crm"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setAvaliacao(rs.getDouble("m.avaliacao"));
+                medico.setLogin(login);
+                return medico;
+            }
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 
 }

@@ -6,6 +6,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,7 @@ public class ClinicaEndereco implements Serializable{
     private Endereco endereco;
     private String telefone1;
     private String telefone2;
+    private List<Medico> listaMedicos;
 
     public ClinicaEndereco() {
     }
@@ -67,6 +69,14 @@ public class ClinicaEndereco implements Serializable{
 
     public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
+    }
+
+    public List<Medico> getListaMedicos() {
+        return listaMedicos;
+    }
+
+    public void setListaMedicos(List<Medico> listaMedicos) {
+        this.listaMedicos = listaMedicos;
     }
     
     
