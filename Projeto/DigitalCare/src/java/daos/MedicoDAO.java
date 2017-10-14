@@ -5,9 +5,6 @@
  */
 package daos;
 
-import beans.Cidade;
-import beans.Consulta;
-import beans.Endereco;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -45,8 +42,8 @@ public class MedicoDAO {
         " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e " +
         " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id " +
         "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
-    
-    private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? AND id_clinica_endereco =?";
+    private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
+            + "AND id_clinica_endereco =?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -76,6 +73,7 @@ public class MedicoDAO {
 //            }
 //        }
 //    }
+    
     public void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException {
         try {
             con = new ConnectionFactory().getConnection();

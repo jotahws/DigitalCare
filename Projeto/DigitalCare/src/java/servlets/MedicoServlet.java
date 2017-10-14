@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -207,6 +205,22 @@ public class MedicoServlet extends HttpServlet {
                 status = "desvincular-error";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
+        } else if ("excluir".equals(action)){
+            HttpSession session = request.getSession();
+            Medico medico = (Medico) session.getAttribute("usuario");
+            try {
+                Facade.deletarLogin(medico.getLogin().getId());
+                status = "excluir-ok";
+                session = request.getSession(false);
+
+                    if (session != null) {
+                        session.invalidate();
+                        response.sendRedirect("index.jsp?status=" + status);
+                    }
+            }  catch (ClassNotFoundException | SQLException ex) {
+                status = "excluir-erro";
+            }
+            response.sendRedirect("index.jsp?status=" + status);
         }
     }
 

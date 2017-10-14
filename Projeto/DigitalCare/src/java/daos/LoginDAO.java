@@ -26,12 +26,29 @@ public class LoginDAO {
     private final String buscaLoginPorId = "select * from login l where l.id = ?;";
     private final String buscaSenhaAtual = "select * from login l where l.id=? and l.senha =?;";
     private final String updateSenha = "update login set login.senha = ? where login.id=?";
+    private final String deleteLogin = "DELETE FROM login WHERE id=?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
-    public final int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
+    public void deletarLogin(int id) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deleteLogin);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereLogin, Statement.RETURN_GENERATED_KEYS);

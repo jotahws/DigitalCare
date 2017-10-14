@@ -287,4 +287,9 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.desvincularMedicoClinica(idMedico, idClinica);
     }
+    
+    public static void deletarLogin(int id) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        loginDAO.deletarLogin(id);
+    }
 }
