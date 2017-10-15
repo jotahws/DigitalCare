@@ -54,6 +54,9 @@ public class ListaMedicoServlet extends HttpServlet {
             String statusLista = "";
             try {
                 List<Estado> estados = facade.listarEstados();
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                request.setAttribute("enderecos", clinica.getListaEnderecos());
                 request.setAttribute("estados", estados);
                 statusLista = request.getParameter("status");
             } catch (Exception ex) {
@@ -119,7 +122,7 @@ public class ListaMedicoServlet extends HttpServlet {
         } else if ("horariosMedico".equals(action)) {
             try {
                 int idMedico = Integer.parseInt(request.getParameter("idMedico"));
-                Medico medico = Facade.getMedicoPorLogin(idMedico);//COLOCAR GET MEDICO POR ID COM LISTA DE ENDERECOS NELA
+                Medico medico = Facade.buscarMedicoPorId(idMedico);
                 request.setAttribute("medico", medico);
                 status = "horarios-ok";
             } catch (ClassNotFoundException | SQLException ex) {

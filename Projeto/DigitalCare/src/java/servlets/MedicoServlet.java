@@ -60,6 +60,7 @@ public class MedicoServlet extends HttpServlet {
                 String dataNascimento = request.getParameter("dtnsc");
                 String estadoCrm = request.getParameter("expedicao");
                 String senha = request.getParameter("senha1");
+                String endereco = request.getParameter("endereco");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date dataNasc = formatter.parse(dataNascimento);
                 cpf = cpf.replace("-", "");
@@ -70,7 +71,8 @@ public class MedicoServlet extends HttpServlet {
                 login = new Login(email, senha, 2);
                 Estado estado = Facade.buscarEstadoPorId(Integer.parseInt(estadoCrm));
                 Medico medico = new Medico(login, estado, numeroCrm, nome, sobrenome, cpf, dataNasc);
-                Facade.inserirMedico(medico);
+                Integer idMedico = Facade.inserirMedico(medico);
+                Facade.vincularMedicoClinica(idMedico, Integer.parseInt(endereco));
 
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {

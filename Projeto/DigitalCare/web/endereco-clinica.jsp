@@ -119,7 +119,7 @@
                                             <input type="text" id="tel2" class="telresidencial form-control" name="tel2" value="${clinicaEndereco.telefone2}">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="tel2">Matriz:</label>
+                                            <label for="tel2">Nome:</label>
                                             <input type="text" id="matriz" class="required form-control" name="matriz" value="${clinicaEndereco.nome}">
                                         </div>
                                         <legend>Endereço:</legend>

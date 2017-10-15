@@ -33,6 +33,7 @@ public class ClinicaEnderecoDAO {
             + "INNER JOIN endereco e ON e.id = ce.id_endereco\n"
             + "WHERE ce.id=?;";
     private final String insereMedicoClinica = "INSERT INTO medico_clinica (id_clinica_endereco, id_medico) VALUES (?, ?)";
+    
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;

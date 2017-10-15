@@ -322,4 +322,11 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.deletarMedicosSemClinica();
     }
+    
+    public static Medico buscarMedicoPorId(int idLogin) throws ClassNotFoundException, SQLException{
+        MedicoDAO medicoDAO = new MedicoDAO();
+        Medico medico = medicoDAO.getMedicoPorLogin(idLogin);
+        medico.setListaClinicaEndereco(medicoDAO.buscarMedicoClinicas(medico.getId()));
+        return medico;
+    }
 }

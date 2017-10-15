@@ -61,7 +61,7 @@ public class ClinicaServlet extends HttpServlet {
                 String complemento = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
                 String cidadeString = request.getParameter("cidade");
-                String matriz = request.getParameter("matriz");
+                String matriz = "Principal";
                 cnpj = cnpj.replace("-", "");
                 cnpj = cnpj.replace(".", "");
                 cnpj = cnpj.replace("/", "");

@@ -119,7 +119,7 @@
                                     <table id="tabela" class="table">
                                         <thead class="thead-inverse">
                                             <tr class="row">
-                                                <th class="col-md-3">Matriz</th>
+                                                <th class="col-md-3">Nome</th>
                                                 <th class="col-md-2">CEP</th>
                                                 <th class="col-md-3">Rua</th>
                                                 <th class="col-md-1">Número</th>

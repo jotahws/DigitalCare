@@ -6,6 +6,7 @@
 package daos;
 
 import beans.Cidade;
+import beans.Clinica;
 import beans.ClinicaEndereco;
 import beans.Consulta;
 import beans.Endereco;
@@ -43,7 +44,8 @@ public class MedicoDAO {
             + "AND id_especialidade =?";
     private final String insereMedicoEspecialidade = "INSERT INTO medico_especialidade (id_medico, id_especialidade) "
             + "VALUES (?,?)";
-    private final String buscarMedicoEspecialidade = "SELECT * FROM medico_especialidade WHERE id_medico =?";
+    private final String buscarMedicoEspecialidade = "SELECT * FROM medico_clinica mc INNER JOIN medico me ON "
+            + "mc.id_medico = me.id INNER JOIN endereco en ON me.id_estado_crm = en.id WHERE me.id=?";
 
 //    private final String listMedicos = "SELECT m.nome, m.data_nascimento, l.email, l.id, m.cpf, e.uf, m.sobrenome, "
 //            + " m.num_crm, m.preco_consulta, m.telefone, m.telefone2, m.avaliacao, m.id, m.id_login, m.id_estado_crm "
@@ -60,10 +62,65 @@ public class MedicoDAO {
     private final String deletaMedicosSemClinica = "DELETE FROM login WHERE id IN "
                                                         + "(SELECT id_login FROM medico WHERE id NOT IN "
                                                             + "(SELECT DISTINCT id_medico FROM medico_clinica))";
-
+    
+    private final String buscaMedicoClinicas = "SELECT * FROM medico_clinica mc "
+                                                + "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id "
+                                                + "INNER JOIN endereco en ON ce.id_endereco=en.id "
+                                                + "INNER JOIN cidade ci ON en.id_cidade = ci.id "
+                                                + "INNER JOIN estado es ON ci.id_estado = es.id "
+                                                + "INNER JOIN clinica cl ON ce.id_clinica = cl.id "
+                                                + "WHERE mc.id_medico=?;";
+    
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
+    
+    public List<ClinicaEndereco> buscarMedicoClinicas(int idMedico) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaMedicoClinicas);
+            stmt.setInt(1, idMedico);
+            rs = stmt.executeQuery();
+            List<ClinicaEndereco> lista = new ArrayList();
+            while (rs.next()) {
+                Estado estado = new Estado();
+                estado.setId(rs.getInt("es.id"));
+                estado.setNome(rs.getString("es.nome"));
+                estado.setUf(rs.getString("es.uf"));
+                Cidade cidade = new Cidade();
+                cidade.setId(rs.getInt("ci.id"));
+                cidade.setNome(rs.getString("es.nome"));
+                cidade.setEstado(estado);
+                Endereco endereco = new Endereco();
+                endereco.setId(rs.getInt("en.id"));
+                endereco.setCep(rs.getString("en.cep"));
+                endereco.setRua(rs.getString("en.rua"));
+                endereco.setNumero(rs.getString("en.numero"));
+                endereco.setComplemento(rs.getString("en.complemento"));
+                endereco.setBairro(rs.getString("en.bairro"));
+                endereco.setCidade(cidade);
+                Clinica clinica = new Clinica();
+                clinica.setCnpj(rs.getString("cl.cnpj"));
+                clinica.setNomeFantasia(rs.getString("cl.nome_fantasia"));
+                clinica.setRazaoSocial(rs.getString("cl.razao_social"));
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco();
+                clinicaEndereco.setClinica(clinica);
+                clinicaEndereco.setEndereco(endereco);
+                clinicaEndereco.setNome(rs.getString("ce.nome"));
+                clinicaEndereco.setTelefone1(rs.getString("ce.telefone1"));
+                clinicaEndereco.setTelefone1(rs.getString("ce.telefone2"));
+                lista.add(clinicaEndereco);
+            }
+            return lista;
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
     
     public void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException{
         try {

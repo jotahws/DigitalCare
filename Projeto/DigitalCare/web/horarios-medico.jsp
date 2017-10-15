@@ -46,7 +46,7 @@
                         <hr>
                         <div class="container">
                             <c:forEach items="${medico.listaClinicaEndereco}" var="item">
-                                <c:if test="${item.clinica.id = usuario.id}">
+                                <c:if test="${item.clinica.id == usuario.id}">
                                     <hr class="invisible-divider">
                                     <div class="col-md-12">
                                         <form action="${pageContext.request.contextPath}/" method="POST">

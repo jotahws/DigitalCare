@@ -100,17 +100,21 @@
                                             <label for="senha1">Senha:</label>
                                             <input type="password" id="pssw" name="senha1" class="required form-control">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="senha2">Confirmar Senha:</label>
                                             <input type="password" id="pssw2" name="senha2" class="required form-control">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="">&nbsp;</label>
-                                            <div class="form-group col-md-6 ">
-                                                <input type="submit" value="Cadastrar" class="VerificaDados btn btn-digital-green form-control">
-                                            </div>
+                                            <label for="endereco">Clínica:</label>
+                                            <jsp:useBean id="endereco" class="beans.ClinicaEndereco"/>
+                                            <c:set var="lista" value="${enderecos}"/>
+                                            <select id="endereco" name="endereco" class="custom-select">
+                                                <c:forEach var="item" items="${lista}">
+                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-3">
                                             <label for="">&nbsp;</label>
                                             <div class="form-group col-md-6 ">
                                                 <input type="submit" value="Cadastrar" class="VerificaDados btn btn-digital-green form-control">
