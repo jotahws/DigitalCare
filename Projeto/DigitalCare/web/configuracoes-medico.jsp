@@ -61,6 +61,14 @@
                                         <strong>Seus dados foram alterados com sucesso!</strong> 
                                     </div>
                                 </c:when>
+                                <c:when test="${(param.status == 'erro-deleta')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Ocorreu um erro ao deletar sua conta!</strong> 
+                                    </div>
+                                </c:when>
                             </c:choose> 
                             <div class="row">
                                 <jsp:useBean id="medicoBean" class="beans.Medico"/>
@@ -303,7 +311,7 @@
                                                 <span style="color: red;">Aten??o:</span> Ao desativar a conta voc? estar? <strong>excluindo</strong> todos os seus dados e n?o poder? desfazer essa a??o. 
                                             </p>
                                             <div>
-                                                <button class="btn btn-danger">Excluir minha conta</button>
+                                                <a id="deletarPerfil" style="color: white; cursor: pointer" class="btn btn-danger">Excluir minha conta </a>
                                             </div>
                                         </div>
                                     </div>
@@ -321,9 +329,33 @@
                 <script src="js/dash.js"></script>
                 <script>
                     $(document).ready(function () {
+                    
+                        $("#deletarPerfil").click(function () {
+                        swal({
+                            title: 'Você tem certeza?',
+                            text: "Você não poderá desfazer isso!",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sim, exclua!',
+                            cancelButtonText: 'cancelar!',
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            buttonsStyling: false
+                        }).then(function () {
+                            window.location.href = "MedicoServlet?action=excluir";
+                        }, function (dismiss) {
+                            if (dismiss === 'cancel') {
+                                swal(
+                                        'Operação cancelada',
+                                        'Sua conta não foi apagada :)',
+                                        'error'
+                                        )
+                            }
+                        })
 
-
-
+                        }); 
                     });
 
                 </script>

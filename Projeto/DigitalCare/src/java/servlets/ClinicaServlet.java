@@ -265,6 +265,23 @@ public class ClinicaServlet extends HttpServlet {
                 status = "vincula-erro";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
+        } else if ("excluir".equals(action)){
+            HttpSession session = request.getSession();
+            Clinica clinica = (Clinica) session.getAttribute("usuario");
+            try {
+                Facade.deletarLogin(clinica.getLogin().getId());
+                Facade.deletarMedicosSemClinica();
+                status = "excluir-ok";
+                session = request.getSession(false);
+
+                    if (session != null) {
+                        session.invalidate();
+                        response.sendRedirect("index.jsp?status=" + status);
+                    }
+            }  catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-deleta";
+                    response.sendRedirect("configuracoes-medico" + status);
+            }
         }
     }
 

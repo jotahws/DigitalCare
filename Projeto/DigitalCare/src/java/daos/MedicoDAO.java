@@ -57,10 +57,28 @@ public class MedicoDAO {
             + "AND en.id = ce.id_endereco   AND cli.id=?;";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
             + "AND id_clinica_endereco =?";
+    private final String deletaMedicosSemClinica = "DELETE FROM login WHERE id IN "
+                                                        + "(SELECT id_login FROM medico WHERE id NOT IN "
+                                                            + "(SELECT DISTINCT id_medico FROM medico_clinica))";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
+    
+    public void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deletaMedicosSemClinica);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                stmt.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
 
 //    public List<MedicoEspecialidade> buscarMedicoEspecialidade(int idMedico) throws ClassNotFoundException, SQLException{
 //        try {

@@ -219,9 +219,9 @@ public class MedicoServlet extends HttpServlet {
                         response.sendRedirect("index.jsp?status=" + status);
                     }
             }  catch (ClassNotFoundException | SQLException ex) {
-                status = "excluir-erro";
+                    status = "erro-deleta";
+                    response.sendRedirect("configuracoes-medico" + status);
             }
-            response.sendRedirect("index.jsp?status=" + status);
         }
     }
 
