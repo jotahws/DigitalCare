@@ -61,6 +61,7 @@ public class ClinicaServlet extends HttpServlet {
                 String complemento = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
                 String cidadeString = request.getParameter("cidade");
+                String matriz = request.getParameter("matriz");
                 cnpj = cnpj.replace("-", "");
                 cnpj = cnpj.replace(".", "");
                 cnpj = cnpj.replace("/", "");
@@ -81,7 +82,7 @@ public class ClinicaServlet extends HttpServlet {
                 Clinica clinica = new Clinica(login, cnpj, razaoSocial, nomeFantasia, site);
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
-                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2, matriz);
                 facade.inserirClinicaEndereco(clinicaEndereco);
 
                 status = "cadastro-ok";
@@ -120,6 +121,7 @@ public class ClinicaServlet extends HttpServlet {
                 String cidadeString = request.getParameter("cidade");
                 String tel1 = request.getParameter("tel1");
                 String tel2 = request.getParameter("tel2");
+                String matriz = request.getParameter("matriz");
                 tel1 = tel1.replace("(", "");
                 tel1 = tel1.replace(")", "");
                 tel1 = tel1.replace(" ", "");
@@ -155,6 +157,7 @@ public class ClinicaServlet extends HttpServlet {
                     clinicaEndereco.setClinica(clinica);
                     clinicaEndereco.setTelefone1(tel1);
                     clinicaEndereco.setTelefone2(tel2);
+                    clinicaEndereco.setNome(matriz);
                     Facade.atualizarClinicaEndereco(clinicaEndereco);
                     if (!clinicaEndereco.getEndereco().getCidade().getNome().equals(cidadeString)) {
                         cidade2 = facade.getCidadePorNome(cidadeString);
@@ -205,6 +208,7 @@ public class ClinicaServlet extends HttpServlet {
                 String complemento = request.getParameter("compl");
                 String bairro = request.getParameter("bairro");
                 String cidadeString = request.getParameter("cidade");
+                String matriz = request.getParameter("matriz");
                 tel1 = tel1.replace("(", "");
                 tel1 = tel1.replace(")", "");
                 tel1 = tel1.replace(" ", "");
@@ -220,7 +224,7 @@ public class ClinicaServlet extends HttpServlet {
                 Cidade cidade = facade.getCidadePorNome(cidadeString);
                 Endereco endereco = new Endereco(cidade, cep, rua, numero, complemento, bairro);
                 endereco.setId(Facade.inserirEndereco(endereco));
-                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2);
+                ClinicaEndereco clinicaEndereco = new ClinicaEndereco(clinica, endereco, tel1, tel2, matriz);
                 clinicaEndereco.setId(facade.novaClinicaEndereco(clinicaEndereco));
                 clinica.getListaEnderecos().add(clinicaEndereco);
                 session.setAttribute("usuario", clinica);

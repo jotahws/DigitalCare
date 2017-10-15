@@ -68,6 +68,7 @@ public class EnderecoDAO {
                 clinicaEndereco.setEndereco(endereco);
                 clinicaEndereco.setTelefone1(rs.getString("ce.telefone1"));
                 clinicaEndereco.setTelefone2(rs.getString("ce.telefone2"));
+                clinicaEndereco.setNome(rs.getString("ce.nome"));
                 clinicaEndereco.setId(rs.getInt("ce.id"));
                 lista.add(clinicaEndereco);
             }

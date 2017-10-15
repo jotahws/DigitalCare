@@ -119,18 +119,20 @@
                                     <table id="tabela" class="table">
                                         <thead class="thead-inverse">
                                             <tr class="row">
-                                                <th class="col-md-3">CEP</th>
-                                                <th class="col-md-4">Rua</th>
-                                                <th class="col-md-2">Número</th>
+                                                <th class="col-md-3">Matriz</th>
+                                                <th class="col-md-2">CEP</th>
+                                                <th class="col-md-3">Rua</th>
+                                                <th class="col-md-1">Número</th>
                                                 <th class="col-md-3"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach var="item" items="${usuario.listaEnderecos}">
                                                 <tr class="row">
-                                                    <td class="col-md-3">${item.endereco.cep}</td>
-                                                    <td class="col-md-4">${item.endereco.rua}</td>
-                                                    <td class="col-md-2">${item.endereco.numero}</td>
+                                                    <td class="col-md-3">${item.nome}</td>
+                                                    <td class="col-md-2">${item.endereco.cep}</td>
+                                                    <td class="col-md-3">${item.endereco.rua}</td>
+                                                    <td class="col-md-1">${item.endereco.numero}</td>
                                                     <td class="col-md-3">
                                                         <div class="col-md-12">
                                                             <a href="${pageContext.request.contextPath}/endereco-clinica.jsp?id=${item.id}" class="btn btn-outline-warning col-md-4">Alterar</a>

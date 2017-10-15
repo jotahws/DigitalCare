@@ -118,6 +118,10 @@
                                             <label for="tel2">Telefone 2:</label>
                                             <input type="text" id="tel2" class="telresidencial form-control" name="tel2" value="${clinicaEndereco.telefone2}">
                                         </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="tel2">Matriz:</label>
+                                            <input type="text" id="matriz" class="required form-control" name="matriz" value="${clinicaEndereco.nome}">
+                                        </div>
                                         <legend>Endereço:</legend>
                                         <div class="form-group col-md-4">
                                             <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>

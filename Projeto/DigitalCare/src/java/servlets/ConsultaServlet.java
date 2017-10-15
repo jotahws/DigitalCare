@@ -52,7 +52,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                 } catch (ClassNotFoundException | SQLException ex) {
-//                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if ("ListaClinicas".equals(action)) {
                 try {
@@ -61,7 +61,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json2);
                 } catch (ClassNotFoundException | SQLException ex) {
-//                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if ("ListaCidades".equals(action)) {
                 try {
@@ -71,7 +71,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                 } catch (ClassNotFoundException | SQLException ex) {
-//                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

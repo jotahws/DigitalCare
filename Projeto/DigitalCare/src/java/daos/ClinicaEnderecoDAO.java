@@ -22,11 +22,11 @@ import java.util.List;
  * @author Gabriel
  */
 public class ClinicaEnderecoDAO {
-    
+
     private final String insereClinicaEndereco = "INSERT INTO clinica_endereco (id_clinica, id_endereco, "
-            + "telefone1, telefone2) VALUES (?,?,?,?)";
+            + "telefone1, telefone2, nome) VALUES (?,?,?,?,?)";
     private final String updateClinicaEndereco = "UPDATE clinica_endereco SET telefone1 = ?, "
-            + "telefone2 = ? WHERE id = ?";
+            + "telefone2 = ?, nome = ? WHERE id = ?";
     private final String removeClinicaEndereco = "DELETE FROM clinica_endereco "
             + "WHERE id=?;";
     private final String buscaClinicaEnderecoPorID = "SELECT * FROM clinica_endereco ce \n"
@@ -36,16 +36,17 @@ public class ClinicaEnderecoDAO {
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
-    
+
     public final void atualizarClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         try {
             Facade.atualizarClinica(clinicaEndereco.getClinica());
             Facade.atualizarEndereco(clinicaEndereco.getEndereco());
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(updateClinicaEndereco);  
+            stmt = con.prepareStatement(updateClinicaEndereco);
             stmt.setString(1, clinicaEndereco.getTelefone1());
             stmt.setString(2, clinicaEndereco.getTelefone2());
-            stmt.setInt(3,clinicaEndereco.getId());
+            stmt.setString(3, clinicaEndereco.getNome());
+            stmt.setInt(4, clinicaEndereco.getId());
             stmt.executeUpdate();
         } finally {
             try {
@@ -56,17 +57,18 @@ public class ClinicaEnderecoDAO {
             }
         }
     }
-    
-    public final int inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
+
+    public final int inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereClinicaEndereco, Statement.RETURN_GENERATED_KEYS);
             int idClinica = Facade.inserirClinica(clinicaEndereco.getClinica());
             int idEndereco = Facade.inserirEndereco(clinicaEndereco.getEndereco());
-            stmt.setInt(1,idClinica);
-            stmt.setInt(2,idEndereco);
+            stmt.setInt(1, idClinica);
+            stmt.setInt(2, idEndereco);
             stmt.setString(3, clinicaEndereco.getTelefone1());
             stmt.setString(4, clinicaEndereco.getTelefone2());
+            stmt.setString(5, clinicaEndereco.getNome());
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
@@ -82,15 +84,16 @@ public class ClinicaEnderecoDAO {
         }
         return 0;
     }
-    
-    public final int novaClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
+
+    public final int novaClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereClinicaEndereco, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1,clinicaEndereco.getClinica().getId());
-            stmt.setInt(2,clinicaEndereco.getEndereco().getId());
+            stmt.setInt(1, clinicaEndereco.getClinica().getId());
+            stmt.setInt(2, clinicaEndereco.getEndereco().getId());
             stmt.setString(3, clinicaEndereco.getTelefone1());
             stmt.setString(4, clinicaEndereco.getTelefone2());
+            stmt.setString(5, clinicaEndereco.getNome());
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
@@ -107,11 +110,11 @@ public class ClinicaEnderecoDAO {
         return 0;
     }
 
-    public void removerClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException{
+    public void removerClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(removeClinicaEndereco);
-            stmt.setInt(1,clinicaEndereco.getId());
+            stmt.setInt(1, clinicaEndereco.getId());
             stmt.executeUpdate();
         } finally {
             try {
@@ -123,7 +126,7 @@ public class ClinicaEnderecoDAO {
         }
     }
 
-    public void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws ClassNotFoundException, SQLException{
+    public void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereMedicoClinica);
@@ -139,7 +142,7 @@ public class ClinicaEnderecoDAO {
             }
         }
     }
-    
+
     public ClinicaEndereco buscaClinicaEnderecoPorId(int idClinicaEnd) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -168,5 +171,5 @@ public class ClinicaEnderecoDAO {
         }
         return null;
     }
-    
+
 }
