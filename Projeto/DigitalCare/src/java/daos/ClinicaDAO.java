@@ -53,6 +53,7 @@ public class ClinicaDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -98,6 +99,7 @@ public class ClinicaDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -124,6 +126,7 @@ public class ClinicaDAO {
             try {
                 con.close();
                 stmt.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

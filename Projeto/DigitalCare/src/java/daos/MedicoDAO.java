@@ -116,6 +116,7 @@ public class MedicoDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -232,6 +233,7 @@ public class MedicoDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -262,6 +264,7 @@ public class MedicoDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -299,6 +302,7 @@ public class MedicoDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -351,6 +355,7 @@ public class MedicoDAO {
             try {
                 con.close();
                 stmt.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -406,6 +411,7 @@ public class MedicoDAO {
             try {
                 stmt.close();
                 con.close();
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
