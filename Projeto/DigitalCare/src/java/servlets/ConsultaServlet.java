@@ -37,7 +37,9 @@ public class ConsultaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        
         HttpSession verSession = request.getSession();
         if (verSession != null) {
 
@@ -52,7 +54,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                 } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if ("ListaClinicas".equals(action)) {
                 try {
@@ -61,7 +63,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json2);
                 } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if ("ListaCidades".equals(action)) {
                 try {
@@ -71,7 +73,7 @@ public class ConsultaServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                 } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(AjaxServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
