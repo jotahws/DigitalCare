@@ -45,6 +45,17 @@
                         <hr>
                         <div class="row">
                             <div class="container ">
+                                    <c:choose>
+                                        <c:when test="${medico.precoConsulta == ''}">
+                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <strong>Atenção! </strong> O médico deverá completar o seu cadastro para poder realizar consultas
+                                            </div>
+                                            <hr class="invisible-divider">
+                                        </c:when>
+                                    </c:choose>
                                 <div class="form-row">
                                     <div class="row col-md-12">
                                         <div class="col-md-8">
@@ -162,7 +173,7 @@
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false
                 }).then(function () {
-                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico +"&idClinica=" + idClinica;
+                    window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico + "&idClinica=" + idClinica;
                 }, function (dismiss) {
                     if (dismiss === 'cancel') {
                         swal(

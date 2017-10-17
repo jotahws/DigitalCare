@@ -13,6 +13,7 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
+import beans.HorarioDisponivel;
 import beans.Login;
 import beans.Medico;
 import beans.Paciente;
@@ -24,6 +25,7 @@ import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
+import daos.HorarioDisponivelDAO;
 import daos.LoginDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
@@ -110,6 +112,21 @@ public class Facade {
     public static ClinicaEndereco getClinicaEnderecoPorId(int idClinicaEnd) throws SQLException, ClassNotFoundException {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
         return dao.buscaClinicaEnderecoPorId(idClinicaEnd);
+    }
+
+    public static HorarioDisponivel inserirHorarioDisponivel(HorarioDisponivel horarioDisponivel) throws SQLException, ClassNotFoundException {
+        HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
+        return dao.inserirHorario(horarioDisponivel);
+    }
+    
+    public static void deletarHorarioDisponivel(HorarioDisponivel horarioDisponivel) throws SQLException, ClassNotFoundException {
+        HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
+        dao.apagarHorario(horarioDisponivel);
+    }
+
+    public static List<HorarioDisponivel> ListaHorariosPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
+        HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
+        return dao.listaHorariosPorMedico(medico);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {

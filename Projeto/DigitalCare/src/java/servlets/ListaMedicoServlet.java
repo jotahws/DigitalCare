@@ -124,6 +124,7 @@ public class ListaMedicoServlet extends HttpServlet {
             try {
                 int idMedico = Integer.parseInt(request.getParameter("idMedico"));
                 Medico medico = Facade.buscarMedicoPorId(idMedico);
+                medico.setListaHorarios(Facade.ListaHorariosPorMedico(medico));
                 request.setAttribute("medico", medico);
                 status = "horarios-ok";
             } catch (ClassNotFoundException | SQLException ex) {

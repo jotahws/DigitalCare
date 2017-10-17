@@ -34,6 +34,7 @@ public class MedicoDAO {
     private final String buscaIdMedicoPorLogin = "SELECT id FROM medico WHERE id_login=?";
     private final String buscaMedicoPorLogin = "SELECT * FROM medico m "
             + "INNER JOIN estado e ON m.id_estado_crm = e.id "
+            + "INNER JOIN login l ON m.id_login = l.id "
             + "WHERE id_login=?";
     private final String buscaMedicoPorCPF = "SELECT * FROM medico m "
             + "INNER JOIN estado e ON m.id_estado_crm = e.id "
@@ -101,10 +102,12 @@ public class MedicoDAO {
                 endereco.setCidade(cidade);
                 Clinica clinica = new Clinica();
                 clinica.setCnpj(rs.getString("cl.cnpj"));
+                clinica.setId(rs.getInt("cl.id"));
                 clinica.setNomeFantasia(rs.getString("cl.nome_fantasia"));
                 clinica.setRazaoSocial(rs.getString("cl.razao_social"));
                 ClinicaEndereco clinicaEndereco = new ClinicaEndereco();
                 clinicaEndereco.setClinica(clinica);
+                clinicaEndereco.setId(rs.getInt("ce.id"));
                 clinicaEndereco.setEndereco(endereco);
                 clinicaEndereco.setNome(rs.getString("ce.nome"));
                 clinicaEndereco.setTelefone1(rs.getString("ce.telefone1"));
@@ -283,7 +286,10 @@ public class MedicoDAO {
                 estado.setId(rs.getInt("e.id"));
                 estado.setNome(rs.getString("e.nome"));
                 estado.setUf(rs.getString("e.uf"));
+                Login login = new Login(rs.getString("l.email"), "", rs.getInt("l.perfil"));
+                login.setId(rs.getInt("l.id"));
                 Medico medico = new Medico();
+                medico.setLogin(login);
                 medico.setEstadoCrm(estado);
                 medico.setId(rs.getInt("m.id"));
                 medico.setNome(rs.getString("m.nome"));

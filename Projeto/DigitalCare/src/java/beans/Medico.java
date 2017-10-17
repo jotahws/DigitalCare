@@ -30,6 +30,7 @@ public class Medico implements Serializable {
     private List<Especialidade> listaEspecialidades;
     private List<Convenio> listaConvenios;
     private List<ClinicaEndereco> listaClinicaEndereco;
+    private List<HorarioDisponivel> listaHorarios;
     private String idade;
     private Consulta consulta;
 
@@ -195,6 +196,14 @@ public class Medico implements Serializable {
 
     public void setListaClinicaEndereco(List<ClinicaEndereco> listaClinicaEndereco) {
         this.listaClinicaEndereco = listaClinicaEndereco;
+    }
+
+    public List<HorarioDisponivel> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setListaHorarios(List<HorarioDisponivel> listaHorarios) {
+        this.listaHorarios = listaHorarios;
     }
 
 }

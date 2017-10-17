@@ -110,7 +110,7 @@
                                             <c:set var="lista" value="${enderecos}"/>
                                             <select id="endereco" name="endereco" class="custom-select">
                                                 <c:forEach var="item" items="${lista}">
-                                                    <option value="<c:out value="${item.id}"/>"><c:out value="${item.nome}"/></option>
+                                                    <option value="<c:out value="${item.id}"/>">${item.endereco.rua}, ${item.endereco.numero}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>

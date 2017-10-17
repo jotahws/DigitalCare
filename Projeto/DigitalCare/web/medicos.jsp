@@ -103,8 +103,10 @@
                                                 <td>${item.numeroCrm} (${item.estadoCrm.uf})</td>
                                                 <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
                                                 <td>
-                                                    <c:set var="tel" value="${item.telefone1}"/>
-                                                    <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
+                                                    <c:if test="${item.telefone1 != null}">
+                                                        <c:set var="tel" value="${item.telefone1}"/>
+                                                        <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
+                                                    </c:if>
                                                 </td>
                                                 <td>${item.listaClinicaEndereco.get(0).endereco.rua}, ${item.listaClinicaEndereco.get(0).endereco.numero} - ${item.listaClinicaEndereco.get(0).endereco.bairro}</td>
                                                 <td>

@@ -223,7 +223,7 @@ public class PacienteServlet extends HttpServlet {
                     Login login = new Login();
                     senha = login.criptografa(senha);
                     novaSenha = login.criptografa(novaSenha);
-                    
+
                     if (facade.verificaSenhaPacienteUsuario(pacienteUsuario.getLogin().getId(), senha)) {
                         facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
                         pacienteUsuario.getLogin().setSenha(novaSenha);
