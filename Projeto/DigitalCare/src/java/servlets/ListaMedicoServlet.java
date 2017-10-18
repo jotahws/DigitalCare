@@ -91,6 +91,8 @@ public class ListaMedicoServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 Clinica clinica = (Clinica) session.getAttribute("usuario");
                 List<Medico> medicos = facade.carregaListaMedicos(clinica.getId());
+                List<ClinicaEndereco> listaEndClinica = Facade.getListaEnderecosClinica(clinica.getId());
+                request.setAttribute("listaEndClinica", listaEndClinica);
                 request.setAttribute("listaMedicos", medicos);
             } catch (ClassNotFoundException ex) {
                 try (PrintWriter out = response.getWriter()) {

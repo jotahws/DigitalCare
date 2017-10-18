@@ -168,7 +168,8 @@
                                         <strong>Nova Senha Editada com Sucesso!</strong> 
                                     </div>
                                 </c:when>
-                            </c:choose>                            <div id="accordion" role="tablist">
+                            </c:choose>                            
+                            <div id="accordion" role="tablist">
                                 <div class="card" style="margin: 20px 0px 50px">
                                     <div class="card-header " role="tab" id="headingOne">
                                         <h5 class="mb-0">

@@ -85,40 +85,63 @@
                                         </div>
                                     </c:when>
                                 </c:choose> 
-                                <table id="tabela" class="table">
-                                    <thead class="thead-inverse">
-                                        <tr >
-                                            <th>Nome</th>
-                                            <th>CRM</th>
-                                            <th>Data de Nascimento</th>
-                                            <th>Telefone</th>
-                                            <th>Endereço Vinculado</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="item" items="${listaMedicos}">
-                                            <tr>
-                                                <td>${item.nome} ${item.sobrenome}</td>
-                                                <td>${item.numeroCrm} (${item.estadoCrm.uf})</td>
-                                                <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
-                                                <td>
-                                                    <c:if test="${item.telefone1 != null}">
-                                                        <c:set var="tel" value="${item.telefone1}"/>
-                                                        <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
-                                                    </c:if>
-                                                </td>
-                                                <td>${item.listaClinicaEndereco.get(0).endereco.rua}, ${item.listaClinicaEndereco.get(0).endereco.numero} - ${item.listaClinicaEndereco.get(0).endereco.bairro}</td>
-                                                <td>
-                                                    <div class="col-md-12">
-                                                        <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}&clinicaEndereco=${item.listaClinicaEndereco.get(0).id}"
-                                                           class="btn btn-outline-primary">Perfil</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                <c:forEach items="${listaEndClinica}" var="endereco">
+
+                                    <div id="accordionLista" role="tablist">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="TituloEnd${endereco.id}">
+                                                <h5 class="mb-0">
+                                                    <a class="collapsed link-digital-green" data-toggle="collapse" href="#collapse${endereco.id}" aria-expanded="false" aria-controls="collapse${endereco.id}">
+                                                        ${endereco.nome}
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapse${endereco.id}" class="collapse  <c:if test="${listaEndClinica.get(0).id == endereco.id}">show</c:if>" role="tabpanel" aria-labelledby="TituloEnd${endereco.id}" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">${endereco.endereco.rua}, ${endereco.endereco.numero} - ${endereco.endereco.bairro}, ${endereco.endereco.cidade.nome} (${endereco.endereco.cidade.estado.uf})</h4>
+                                                    <table id="tabela" class="table">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>Nome</th>
+                                                                <th>CRM</th>
+                                                                <th>Data de Nascimento</th>
+                                                                <th>Telefone</th>
+                                                                <th>E-mail</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="item" items="${listaMedicos}">
+                                                                <c:if test="${endereco.id == item.listaClinicaEndereco.get(0).id}">
+                                                                    <tr>
+                                                                        <td>${item.nome} ${item.sobrenome}</td>
+                                                                        <td>${item.numeroCrm} (${item.estadoCrm.uf})</td>
+                                                                        <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.dataNascimento}"/></td>
+                                                                        <td>
+                                                                            <c:if test="${item.telefone1 != null}">
+                                                                                <c:set var="tel" value="${item.telefone1}"/>
+                                                                                <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
+                                                                            </c:if>
+                                                                        </td>
+                                                                        <td>${item.login.email}</td>
+                                                                        <td>
+                                                                            <div class="col-md-12">
+                                                                                <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=verPerfilMedico&id=${item.login.id}&clinicaEndereco=${item.listaClinicaEndereco.get(0).id}"
+                                                                                   class="btn btn-outline-primary">Perfil</a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="invisible-divider">
+                                </c:forEach>
+
                             </div>
                         </div>
                     </div>
@@ -130,3 +153,13 @@
         </c:choose>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
