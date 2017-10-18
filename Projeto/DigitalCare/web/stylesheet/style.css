@@ -135,6 +135,11 @@ Cinza escuro: #2e2e2e
     border-top:none;
 }
 
+.small-invisible-divider{
+    margin: 17px 0px;
+    border-top:none;
+}
+
 /*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
 
 /*RODAPE*/
@@ -407,4 +412,13 @@ legend.dados{
 
 .clickable.btn-outline-success:hover{
     color: #fff !important;
+}
+
+.listgroup-medicos{
+    max-height: 800px;
+    overflow-y: scroll; 
+}
+
+.color-disabled{
+    color: #aaa;
 }

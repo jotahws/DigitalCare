@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Medico;
 import com.google.gson.Gson;
 import facade.Facade;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +41,7 @@ public class ConsultaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        
+
         HttpSession verSession = request.getSession();
         if (verSession != null) {
 
@@ -75,6 +77,31 @@ public class ConsultaServlet extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if ("BuscaConsultas".equals(action)) {
+                try {
+                    String tipo = request.getParameter("tipoConsulta");
+                    String data = request.getParameter("data");
+                    String clinica = request.getParameter("clinica");
+                    String cidade = request.getParameter("cidade");
+                    
+                    Facade.BuscarIdMedicoPorLogin(1);//APAGAR ISSO PFVR
+                    
+                    
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
+                rd.forward(request, response);
+            } else if ("BuscaConsultasMedico".equals(action)) {
+                try {
+                    int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+                    Medico medico = Facade.buscarMedicoPorId(idMedico);
+                    //Facade.buscarConsultasMedico(medico); É PRECISO FAZER ESSE MÉTODO AINDA
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario-clinica.jsp");
+                rd.forward(request, response);
             }
         }
     }

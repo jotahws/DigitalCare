@@ -195,13 +195,10 @@
                                 title: 'Você tem certeza?',
                                 type: 'warning',
                                 showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
+                                confirmButtonColor: '#68c4af',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Excluir',
                                 cancelButtonText: 'Cancelar',
-                                confirmButtonClass: 'btn btn-success',
-                                cancelButtonClass: 'btn btn-danger',
-                                buttonsStyling: false
                             }).then(function () {
                                 window.location.href = "HorarioServlet?action=deletarHorario&idHorario=" + idHora + "&idMedico=" +idMedico;
                             }, function (dismiss) {

@@ -31,6 +31,7 @@ import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,7 +119,7 @@ public class Facade {
         HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
         return dao.inserirHorario(horarioDisponivel);
     }
-    
+
     public static void deletarHorarioDisponivel(HorarioDisponivel horarioDisponivel) throws SQLException, ClassNotFoundException {
         HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
         dao.apagarHorario(horarioDisponivel);
@@ -127,6 +128,15 @@ public class Facade {
     public static List<HorarioDisponivel> ListaHorariosPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
         HorarioDisponivelDAO dao = new HorarioDisponivelDAO();
         return dao.listaHorariosPorMedico(medico);
+    }
+
+    public static List<Medico> getMedicosPorNome(String nome) throws ClassNotFoundException, SQLException {
+        MedicoDAO dao = new MedicoDAO();
+        List<Medico> medicos = dao.buscarMedicosPorNome(nome);
+        for(Medico medico : medicos){
+            medico.setListaClinicaEndereco(dao.buscarMedicoClinicas(medico.getId()));
+        }
+        return medicos;
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
@@ -183,7 +193,7 @@ public class Facade {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLogin(login);
     }
-    
+
     public static Login buscaLoginPorId(int id) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLoginPorId(id);
@@ -329,18 +339,18 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.desvincularMedicoClinica(idMedico, idClinica);
     }
-    
+
     public static void deletarLogin(int id) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         loginDAO.deletarLogin(id);
     }
-    
+
     public static void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
         medicoDAO.deletarMedicosSemClinica();
     }
-    
-    public static Medico buscarMedicoPorId(int idLogin) throws ClassNotFoundException, SQLException{
+
+    public static Medico buscarMedicoPorId(int idLogin) throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
         Medico medico = medicoDAO.getMedicoPorLogin(idLogin);
         medico.setListaClinicaEndereco(medicoDAO.buscarMedicoClinicas(medico.getId()));

@@ -37,17 +37,111 @@
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <h1>Calendário</h1>
-                        <h4>Selecione um médico e veja seus bagulho</h4>
+                        <h4>Selecione um médico para ver seu calendário</h4>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
-                        <div class="row">
-
+                        <div class="col-md-12 row">
+                            <div class="col-md-3">
+                                <div class="row ">
+                                    <div class="col-md-9">
+                                        <input class="form-control" id="medicoInput" placeholder="Pesquisar...">
+                                    </div>
+                                    <div class="col-md-3 row text-right">
+                                        <button type="submit" id="buscaMedico" class="btn btn-digital-green"><i class="fa fa-search"></i></button>                                    
+                                    </div>
+                                </div>
+                                <hr class="small-invisible-divider">
+                                <div id="listaMedicos" class="list-group listgroup-medicos">
+                                    <div class="text-center">
+                                        <h3 class="color-disabled">Médicos</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div style="" id="calendar"></div>
+                            </div>
                         </div>
                     </div>
                 </div> 
                 <%@include file="/includes/footer.jsp" %>
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        new Date($.now());
+                        var dt = new Date();
+                        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                        $('#calendar').fullCalendar({
+                            locale: 'pt-br',
+                            editable: false,
+                            eventClick: function () {
+                                swal({
+                                    title: 'João das Neves',
+                                    html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
+                                    confirmButtonText: 'top!'
+                                });
+                            },
+                            header: {
+                                left: 'prev,next today myCustomButton',
+                                center: 'title',
+                                right: 'month,agendaWeek,agendaDay'
+                            },
+                            timeFormat: 'H(:mm)',
+                            buttonText: {
+                                today: 'Hoje',
+                                month: 'Mês',
+                                week: 'Semana',
+                                day: 'Dia',
+                                list: 'Lista'
+                            },
+                            allDaySlot: false,
+                            slotLabelFormat: "HH:mm",
+                            defaultView: 'agendaWeek',
+                            columnFormat: 'ddd DD/MM',
+                            scrollTime: time,
+                            height: 800,
+                            events: [
+                                {
+                                    title: 'event1',
+                                    start: '2017-08-30T13:30:00'
+                                },
+                                {
+                                    title: 'event2',
+                                    start: '2017-08-30T13:30:00',
+                                    end: '2017-08-21T14:00:00'
+                                }
+                            ]
+                        });
+
+                        function buscaMedico(nome) {
+                            var calendarioMedicoAtual = '${param.idMedico}';
+                            $.post(
+                                    "ListaMedicoServlet",
+                                    {action: 'PesquisaAJAX', nome: nome}, //meaasge you want to send
+                                    function (result) {
+                                        $.each(result, function (index, medico) {
+                                            $("<a>").appendTo($("#listaMedicos")).append(medico.nome + " " + medico.sobrenome).addClass("list-group-item list-group-item-action")
+                                                    .attr("href", "ConsultaServlet?action=BuscaConsultasMedico&idMedico=" + medico.login.id)
+                                                    .attr("id", "medico" + medico.id);
+                                            if (medico.login.id == calendarioMedicoAtual) {
+                                                $("#medico" + medico.id).addClass("active");
+                                            }
+                                        });
+                                    });
+                        }
+
+                        $('#listaMedicos').empty();
+                        buscaMedico($("#medicoInput").val());
+
+                        $("#buscaMedico").click(function (e) {
+                            $('#listaMedicos').empty();
+                            buscaMedico($("#medicoInput").val());
+                        });
+
+                        if ($(window).width() < 992) {
+                            $('#calendar').fullCalendar('changeView', 'agendaDay');
+                        }
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

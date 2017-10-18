@@ -53,30 +53,31 @@ public class MedicoDAO {
 //            + " FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e "
 //            + " WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id "
 //            + "  AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm    AND cli.id =?";
-    
     private final String listMedicos = "SELECT * FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e, endereco en\n"
             + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
             + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
             + "AND en.id = ce.id_endereco   AND cli.id=?;";
+    private final String listarMedicosPorNome = "SELECT DISTINCT * FROM medico m INNER JOIN login l ON l.id=m.id_login \n"
+            + "WHERE m.nome LIKE ? ;";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
             + "AND id_clinica_endereco =?";
     private final String deletaMedicosSemClinica = "DELETE FROM login WHERE id IN "
-                                                        + "(SELECT id_login FROM medico WHERE id NOT IN "
-                                                            + "(SELECT DISTINCT id_medico FROM medico_clinica))";
-    
+            + "(SELECT id_login FROM medico WHERE id NOT IN "
+            + "(SELECT DISTINCT id_medico FROM medico_clinica))";
+
     private final String buscaMedicoClinicas = "SELECT * FROM medico_clinica mc "
-                                                + "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id "
-                                                + "INNER JOIN endereco en ON ce.id_endereco=en.id "
-                                                + "INNER JOIN cidade ci ON en.id_cidade = ci.id "
-                                                + "INNER JOIN estado es ON ci.id_estado = es.id "
-                                                + "INNER JOIN clinica cl ON ce.id_clinica = cl.id "
-                                                + "WHERE mc.id_medico=?;";
-    
+            + "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id "
+            + "INNER JOIN endereco en ON ce.id_endereco=en.id "
+            + "INNER JOIN cidade ci ON en.id_cidade = ci.id "
+            + "INNER JOIN estado es ON ci.id_estado = es.id "
+            + "INNER JOIN clinica cl ON ce.id_clinica = cl.id "
+            + "WHERE mc.id_medico=?;";
+
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
-    
-    public List<ClinicaEndereco> buscarMedicoClinicas(int idMedico) throws ClassNotFoundException, SQLException{
+
+    public List<ClinicaEndereco> buscarMedicoClinicas(int idMedico) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaMedicoClinicas);
@@ -125,8 +126,8 @@ public class MedicoDAO {
             }
         }
     }
-    
-    public void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException{
+
+    public void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(deletaMedicosSemClinica);
@@ -165,7 +166,6 @@ public class MedicoDAO {
 //            }
 //        }
 //    }
-    
     public void inserirMedicoEspecialidade(int idEspecialidade, int idMedico) throws SQLException, ClassNotFoundException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -337,7 +337,7 @@ public class MedicoDAO {
                 clinicaEnd.setEndereco(endereco);
                 clinicaEnd.setId(rs.getInt("ce.id"));
                 listaClinica.add(clinicaEnd);
-                
+
                 estado.setUf(rs.getString("e.uf"));
                 login.setEmail(rs.getString("l.email"));
                 login.setId(rs.getInt("l.id"));
@@ -423,6 +423,43 @@ public class MedicoDAO {
             }
         }
         return null;
+    }
+
+    public List<Medico> buscarMedicosPorNome(String nome) throws ClassNotFoundException, SQLException {
+        try {
+            List<Medico> lista = new ArrayList();
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(listarMedicosPorNome);
+            stmt.setString(1, nome + "%");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Medico medico = new Medico();
+                Login login = new Login();
+                login.setEmail(rs.getString("l.email"));
+                login.setId(rs.getInt("l.id"));
+                medico.setLogin(login);
+                medico.setId(rs.getInt("m.id"));
+                medico.setNome(rs.getString("m.nome"));
+                medico.setSobrenome(rs.getString("m.sobrenome"));
+                medico.setCpf(rs.getString("m.cpf"));
+                medico.setNumeroCrm(rs.getString("m.num_crm"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setAvaliacao(rs.getDouble("m.avaliacao"));
+                medico.setTelefone1(rs.getString("m.telefone"));
+                medico.setTelefone2(rs.getString("m.telefone2"));
+                medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                lista.add(medico);
+            }
+            return lista;
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 
 }

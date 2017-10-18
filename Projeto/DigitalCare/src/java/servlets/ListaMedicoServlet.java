@@ -11,10 +11,12 @@ import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
 import beans.Medico;
+import com.google.gson.Gson;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +48,7 @@ public class ListaMedicoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        
+
         String action = request.getParameter("action");
         String status = "";
         Facade facade = new Facade();
@@ -132,6 +134,28 @@ public class ListaMedicoServlet extends HttpServlet {
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/horarios-medico.jsp");
             rd.forward(request, response);
+        } else if ("PesquisaAJAX".equals(action)) {
+            try {
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica)session.getAttribute("usuario");
+                String nome = request.getParameter("nome");
+                List<Medico> medicos = Facade.getMedicosPorNome(nome);
+                List<Medico> medicosDaClinica = new ArrayList();
+                for (Medico medico : medicos) {
+                    for(ClinicaEndereco clinicaEnd : medico.getListaClinicaEndereco()){
+                        if (clinicaEnd.getClinica().getId() == clinica.getId()) {
+                            medicosDaClinica.add(medico);
+                        }
+                        break;
+                    }
+                }
+                String json = new Gson().toJson(medicosDaClinica);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

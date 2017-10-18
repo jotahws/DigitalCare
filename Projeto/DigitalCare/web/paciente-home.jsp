@@ -36,7 +36,7 @@
                         </div>
                         <div class="data-box col-md-5 data-box-white">
                             <h1>Buscar Nova Consulta</h1>
-                            <form action="${pageContext.request.contextPath}/resultado-pesquisa-consulta.jsp" method="POST">
+                            <form action="${pageContext.request.contextPath}/ConsultaServlet?action=BuscaConsultas" method="POST">
                                 <div class="form-group row">
                                     <label for="tipoConsulta" class="col-sm-4 col-form-label ">Tipo da consulta<span style="color:red;">*</span></label>
                                     <div class="col-sm-8" >
@@ -56,7 +56,7 @@
                                 <div class="form-group row">
                                     <label for="data" class="col-sm-4 col-form-label">Data preferecial</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="data form-control" id="data" >
+                                        <input type="date" name="data" class="data form-control" id="data" >
                                     </div>
                                 </div>
                                 <div class="form-group row">
