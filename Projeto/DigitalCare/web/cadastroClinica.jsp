@@ -121,6 +121,7 @@
                         "background": "#FFCECE"
                     });
                     $('#cnpj').after('<span class="clear" style="font-size:0.8em;"> CNPJ incorreto </span>');
+                    e.preventDefault();
                 }
             });
 

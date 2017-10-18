@@ -140,6 +140,11 @@ Cinza escuro: #2e2e2e
     border-top:none;
 }
 
+.large-invisible-divider{
+    margin: 60px 0px;
+    border-top:none;
+}
+
 /*FIM VERTICAL RULE (HR SO QUE VERTICAL)*/
 
 /*RODAPE*/

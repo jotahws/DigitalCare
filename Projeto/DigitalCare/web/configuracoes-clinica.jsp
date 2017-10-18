@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -130,7 +131,10 @@
                                             <c:forEach var="item" items="${usuario.listaEnderecos}">
                                                 <tr class="row">
                                                     <td class="col-md-3">${item.nome}</td>
-                                                    <td class="col-md-2">${item.endereco.cep}</td>
+                                                    <td class="col-md-2">
+                                                        <c:set var="cep" value="${item.endereco.cep}"/>
+                                                        <c:out value="${fn:substring(cep, 0, 2)}.${fn:substring(cep, 2, 5)}-${fn:substring(cep, 5, fn:length(cep))}"/>
+                                                    </td>
                                                     <td class="col-md-3">${item.endereco.rua}</td>
                                                     <td class="col-md-1">${item.endereco.numero}</td>
                                                     <td class="col-md-3">

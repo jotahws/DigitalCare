@@ -204,6 +204,4 @@ $(document).ready(function () {
         $('.agendamento .data-box').removeClass('col-md-5');
     }
 
-
-
 });
