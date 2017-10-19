@@ -140,7 +140,7 @@
                                 },
                                 {
                                     id: '3',
-                                    title: 'Darch Sidou',
+                                    title: '${usuario.nome} ${usuario.sobrenome}',
                                     start: '2017-09-14T11:30:00',
                                     end: '2017-09-14T12:00:00'
                                 },
