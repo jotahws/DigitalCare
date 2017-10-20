@@ -356,4 +356,9 @@ public class Facade {
         medico.setListaClinicaEndereco(medicoDAO.buscarMedicoClinicas(medico.getId()));
         return medico;
     }
+
+    public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.listaPacientesNoMedico(idMedico);
+    }
 }
