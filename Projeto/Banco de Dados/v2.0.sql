@@ -125,3 +125,24 @@ ADD CONSTRAINT `fk_prontuario_cab_item`
 
 ALTER TABLE `digital_care`.`clinica_endereco` 
 ADD COLUMN `nome` VARCHAR(50) NOT NULL AFTER `id_endereco`;
+
+ALTER TABLE `digital_care`.`medico_clinica` 
+ADD UNIQUE INDEX `ix_medico_clinica` (`id_clinica_endereco` ASC, `id_medico` ASC);
+
+ALTER TABLE `digital_care`.`medico` 
+ADD UNIQUE INDEX `ix_cpf_medico` (`cpf` ASC);
+
+ALTER TABLE `digital_care`.`clinica_endereco` 
+ADD UNIQUE INDEX `ix_clinica_endereco` (`id_clinica` ASC, `id_endereco` ASC);
+
+ALTER TABLE `digital_care`.`login` 
+ADD UNIQUE INDEX `ix_email` (`email` ASC);
+
+ALTER TABLE `digital_care`.`medico_convenio` 
+ADD UNIQUE INDEX `ix_medico_convenio` (`id_medico` ASC, `id_convenio` ASC);
+
+ALTER TABLE `digital_care`.`medico_especialidade` 
+ADD UNIQUE INDEX `ix_medico_especialidade` (`id_medico` ASC, `id_especialidade` ASC);
+
+ALTER TABLE `digital_care`.`paciente_convenio` 
+ADD UNIQUE INDEX `ix_paciente_convenio` (`id_paciente` ASC, `id_convenio` ASC);
