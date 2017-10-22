@@ -44,9 +44,9 @@ public class EstadoDAO {
             }
         } finally {
             try {
-                con.close();
-                stmt.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -74,9 +74,9 @@ public class EstadoDAO {
             return lista;
         } finally {
             try {
-                con.close();
-                stmt.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

@@ -40,8 +40,9 @@ public class LoginDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -62,9 +63,9 @@ public class LoginDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -89,9 +90,9 @@ public class LoginDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -118,9 +119,9 @@ public class LoginDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -138,9 +139,9 @@ public class LoginDAO {
             return rs.next();
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -156,8 +157,9 @@ public class LoginDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -174,9 +176,9 @@ public class LoginDAO {
             return rs.next();
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -192,8 +194,9 @@ public class LoginDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

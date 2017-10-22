@@ -567,7 +567,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- --------------------------------------------------------
 -- --------------------------------------------------------
--- -----------------------ALTERAÇÕES-----------------------
+-- -----------------------ALTERAÃ‡Ã•ES-----------------------
 -- --------------------------------------------------------
 -- --------------------------------------------------------
 
@@ -592,7 +592,3 @@ ADD CONSTRAINT `fk_paciente_usuario`
   REFERENCES `digital_care`.`paciente` (`id`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION;
-
-
-ALTER TABLE clinica_endereco DROP COLUMN id_medico_clinica;
-ALTER TABLE clinica_endereco DROP FOREIGN KEY fk_clinica_clinica_endereco;
