@@ -40,9 +40,78 @@
                     <div class="container-fluid">
                         <h1>Agendar Consulta</h1>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
+                        <div class="container ">
+                            <form action="${pageContext.request.contextPath}/ConsultaServlet?action=ClinicaBuscaConsultas" method="POST">
+                                <div class="card ">
+                                    <div class="card-header text-center">
+                                        Digite os dados para pesquisar a consulta
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-md-12 row">
+                                            <div class="form-group col-md-4">
+                                                <label for="tipoConsulta" class="col-form-label">Tipo da consulta<span style="color:red;">*</span></label>
+                                                <div class="" >
+                                                    <input id="tipoConsulta"
+                                                           name="tipoConsulta"
+                                                           type='text'
+                                                           placeholder='Tipo da consulta'
+                                                           class='flexdatalist form-control'
+                                                           data-min-length='0'
+                                                           list='tiposConsulta'
+                                                           data-selection-required='true'
+                                                           required>
+                                                    <datalist id="tiposConsulta">
+                                                    </datalist>
+                                                    <small style="color:red;">Obrigatório</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="paciente" class=" col-form-label">CPF do Paciente<span style="color:red;">*</span></label>
+                                                <div class="" >
+                                                    <input id="cpf" type='text' class='form-control cpf' name='paciente'>
+                                                    <small style="color:red;">Obrigatório</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="data" class="col-form-label">Data preferecial</label>
+                                                <div class="">
+                                                    <input type="date" name="data" class="data form-control" id="data" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="submit" class="btn btn-digital-green">
+                                            <i class="fa fa-fw fa-search"></i> Pesquisar Consultas
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                                <hr class="invisible-divider">
                         <div class="row">
-
+                            <table id="tabela" class="table">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>Endereço</th>
+                                        <th>Data</th>
+                                        <th>Doutor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DADO</td>
+                                        <td>03/06/2017 13:30</td>
+                                        <td>DADO</td>
+                                        <td>
+                                            <div class="col-md-12 text-right">
+                                                <a id="detalhe" class="clickable btn btn-outline-secondary ">Detalhes</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div> 
@@ -51,6 +120,24 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        listaNovaConsulta();
+
+                        function listaNovaConsulta() {
+                            $.post(
+                                    "ConsultaServlet",
+                                    {action: 'ListaTiposConsulta'}, //meaasge you want to send
+                                    function (result) {
+                                        $.each(result, function (index, tipo) {
+                                            $("<option>").appendTo($("#tiposConsulta")).append(tipo.nome).val(tipo.id);
+                                        });
+                                    });
+                        }
+                    });
+                </script>
+
             </c:otherwise>
         </c:choose>
     </body>

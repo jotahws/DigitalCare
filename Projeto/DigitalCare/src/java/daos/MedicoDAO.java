@@ -56,9 +56,9 @@ public class MedicoDAO {
     private final String listMedicos = "SELECT * FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e, endereco en\n"
             + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
             + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
-            + "AND en.id = ce.id_endereco   AND cli.id=?;";
+            + "AND en.id = ce.id_endereco   AND cli.id=? ORDER BY m.nome;";
     private final String listarMedicosPorNome = "SELECT DISTINCT * FROM medico m INNER JOIN login l ON l.id=m.id_login \n"
-            + "WHERE m.nome LIKE ? ;";
+            + "WHERE m.nome LIKE ? ORDER BY m.nome;";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
             + "AND id_clinica_endereco =?";
     private final String deletaMedicosSemClinica = "DELETE FROM login WHERE id IN "

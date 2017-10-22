@@ -62,21 +62,21 @@
                                         <td>Mark Zukerzinho</td>
                                         <td>38</td>
                                         <td>marcos@gmail.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
+                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Jacob Vampirinho</td>
                                         <td>105</td>
                                         <td>jakobson@gmail.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
+                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Larry Passarinho</td>
                                         <td>17</td>
                                         <td>larry@yahoo.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
+                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -47,7 +48,7 @@ public class MedicoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        
+
         String action = request.getParameter("action");
         String status = "";
 
@@ -111,18 +112,12 @@ public class MedicoServlet extends HttpServlet {
                 Facade.atualizarMedico(medico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
 
-                //Coletando os id's das especialidades selecionadas
-                if (!"0".equals(request.getParameter("especialidade1"))) {
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
-                }
-                if (!"0".equals(request.getParameter("especialidade2"))) {
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
-                }
-                if (!"0".equals(request.getParameter("especialidade3"))) {
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
-                }
-                if (!"0".equals(request.getParameter("especialidade4"))) {
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
+                String especialidades = request.getParameter("especialidades");
+                List<String> listaIdEspecialidadeString = Arrays.asList(especialidades.split(","));
+                if (listaIdEspecialidadeString.get(0) != "") {
+                    for (String espec : listaIdEspecialidadeString) {
+                        listaIdEspecialidade.add(Integer.parseInt(espec));
+                    }
                 }
 
                 //Deletando todas as especialidades do médico
@@ -139,18 +134,12 @@ public class MedicoServlet extends HttpServlet {
 
                 List<Integer> listaIdConvenios = new ArrayList();
 
-                //Coletando os id's das especialidades selecionadas
-                if (!("0".equals(request.getParameter("convenio1")))) {
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio1")));
-                }
-                if (!"0".equals(request.getParameter("convenio2"))) {
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio2")));
-                }
-                if (!"0".equals(request.getParameter("convenio3"))) {
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio3")));
-                }
-                if (!"0".equals(request.getParameter("convenio4"))) {
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio4")));
+                String convenios = request.getParameter("convenios");
+                List<String> listaIdConveniosString = Arrays.asList(convenios.split(","));
+                if (listaIdConveniosString.get(0) != "") {
+                    for (String espec : listaIdConveniosString) {
+                        listaIdConvenios.add(Integer.parseInt(espec));
+                    }
                 }
 
                 //Deletando todas as especialidades do médico
@@ -209,7 +198,7 @@ public class MedicoServlet extends HttpServlet {
                 status = "desvincular-error";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
-        } else if ("excluir".equals(action)){
+        } else if ("excluir".equals(action)) {
             HttpSession session = request.getSession();
             Medico medico = (Medico) session.getAttribute("usuario");
             try {
@@ -217,13 +206,13 @@ public class MedicoServlet extends HttpServlet {
                 status = "excluir-ok";
                 session = request.getSession(false);
 
-                    if (session != null) {
-                        session.invalidate();
-                        response.sendRedirect("index.jsp?status=" + status);
-                    }
-            }  catch (ClassNotFoundException | SQLException ex) {
-                    status = "erro-deleta";
-                    response.sendRedirect("configuracoes-medico" + status);
+                if (session != null) {
+                    session.invalidate();
+                    response.sendRedirect("index.jsp?status=" + status);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "erro-deleta";
+                response.sendRedirect("configuracoes-medico" + status);
             }
         }
     }

@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="pacientes">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/pacientes.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaPacienteServlet?action=listPacientes">
                             <i class="fa fa-fw fa-users"></i>
                             <span class="nav-link-text">Pacientes</span>
                         </a>

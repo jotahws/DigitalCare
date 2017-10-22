@@ -119,7 +119,7 @@
                                     {action: 'PesquisaAJAX', nome: nome}, //meaasge you want to send
                                     function (result) {
                                         $.each(result, function (index, medico) {
-                                            $("<a>").appendTo($("#listaMedicos")).append(medico.nome + " " + medico.sobrenome).addClass("list-group-item list-group-item-action")
+                                            $("<a>").appendTo($("#listaMedicos")).append("Dr(a). " + medico.nome + " " + medico.sobrenome).addClass("list-group-item list-group-item-action")
                                                     .attr("href", "ConsultaServlet?action=BuscaConsultasMedico&idMedico=" + medico.login.id)
                                                     .attr("id", "medico" + medico.id);
                                             if (medico.login.id == calendarioMedicoAtual) {
