@@ -7,13 +7,12 @@ package beans;
 
 import java.io.Serializable;
 import java.sql.Time;
-import java.util.Date;
 
 /**
  *
  * @author JotaWind
  */
-public class HorarioDisponivel implements Serializable {
+public class MedicoHorario implements Serializable {
 
     private int id;
     private int diaSemana;
@@ -22,10 +21,10 @@ public class HorarioDisponivel implements Serializable {
     private Medico medico;
     private ClinicaEndereco clinicaEndereco;
 
-    public HorarioDisponivel() {
+    public MedicoHorario() {
     }
 
-    public HorarioDisponivel(int diaSemana, Time horaInicio, Time horaFim, Medico medico, ClinicaEndereco clinicaEndereco) {
+    public MedicoHorario(int diaSemana, Time horaInicio, Time horaFim, Medico medico, ClinicaEndereco clinicaEndereco) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;

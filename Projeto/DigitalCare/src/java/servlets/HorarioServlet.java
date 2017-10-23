@@ -6,7 +6,7 @@
 package servlets;
 
 import beans.ClinicaEndereco;
-import beans.HorarioDisponivel;
+import beans.MedicoHorario;
 import beans.Medico;
 import facade.Facade;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class HorarioServlet extends HttpServlet {
                 Time inicio = new Time(formatter.parse(inicioString).getTime());
                 Time fim = new Time(formatter.parse(fimString).getTime());
 
-                HorarioDisponivel horarioDisponivel = new HorarioDisponivel(diaSemana, inicio, fim, medico, clinicaEndereco);
+                MedicoHorario horarioDisponivel = new MedicoHorario(diaSemana, inicio, fim, medico, clinicaEndereco);
 
                 Facade.inserirHorarioDisponivel(horarioDisponivel);
 
@@ -74,7 +74,7 @@ public class HorarioServlet extends HttpServlet {
             try {
                 int idHorario = Integer.parseInt(request.getParameter("idHorario"));
 
-                HorarioDisponivel horarioDisponivel = new HorarioDisponivel();
+                MedicoHorario horarioDisponivel = new MedicoHorario();
                 horarioDisponivel.setId(idHorario);
 
                 Facade.deletarHorarioDisponivel(horarioDisponivel);

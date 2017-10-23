@@ -5,12 +5,19 @@
  */
 package servlets;
 
+import beans.MedicoHorario;
 import beans.Medico;
 import com.google.gson.Gson;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -83,11 +90,18 @@ public class ConsultaServlet extends HttpServlet {
                     String data = request.getParameter("data");
                     String clinica = request.getParameter("clinica");
                     String cidade = request.getParameter("cidade");
+                    SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date;
+                    date = sdfEntrada.parse(data);
+                    GregorianCalendar cal = new GregorianCalendar();
+                    cal.setTime(date);
+                    int diaSemana = cal.get(Calendar.DAY_OF_WEEK);
+                    List<MedicoHorario> lista = Facade.buscarHorariosConsulta(tipo, cidade, clinica);
                     
-                    Facade.BuscarIdMedicoPorLogin(1);//APAGAR ISSO PFVR
                     
                     
-                } catch (ClassNotFoundException | SQLException ex) {
+                    
+                } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
