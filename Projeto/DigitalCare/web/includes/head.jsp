@@ -19,10 +19,14 @@
         <!--Masks-->
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskedinput.js"></script>
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskMoney.js"></script>
+        <!--POPPER-->
+        <script src="${pageContext.request.contextPath}/components/popper.js/dist/popper.min.js" ></script>
         <!--Bootstrap-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/bootstrap/dist/css/bootstrap.min.css" >
         <script src="${pageContext.request.contextPath}/components/bootstrap/dist/js/bootstrap.min.js" ></script>
-        <!--Datalist-->
+        <script src="${pageContext.request.contextPath}/components/bootstrap/js/dist/util.js" ></script>
+        <script src="${pageContext.request.contextPath}/components/bootstrap/js/dist/tab.js" ></script>
+        <!--FlexDatalist-->
         <script src="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.js" ></script>
         <link href="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <!--Font Awesome-->
