@@ -419,6 +419,10 @@ legend.dados{
     color: #fff !important;
 }
 
+.clickable.btn-outline-dark:hover{
+    color: #fff !important;
+}
+
 .listgroup-medicos{
     max-height: 800px;
     overflow-y: scroll; 

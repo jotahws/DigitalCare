@@ -90,28 +90,65 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <table id="tabela" class="table">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>Clínica</th>
-                                        <th>Data</th>
-                                        <th>Doutor</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>DADO</td>
-                                        <td>03/06/2017 13:30</td>
-                                        <td>DADO</td>
-                                        <td>
-                                            <div class="col-md-12 text-right">
-                                                <a id="detalhe" class="clickable btn btn-outline-secondary ">Detalhes</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link link-digital-green active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">02/07/2017</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link link-digital-green " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">03/07/2017</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link link-digital-green " id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">04/07/2017</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <table id="tabela" class="table table-sm">
+                                        <thead class="thead-default">
+                                            <tr>
+                                                <th>Clínica</th>
+                                                <th>Data</th>
+                                                <th>Doutor</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>DADO</td>
+                                                <td>03/06/2017 13:30</td>
+                                                <td>DADO</td>
+                                                <td>
+                                                    <div class="col-md-12 text-right">
+                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DADO</td>
+                                                <td>03/06/2017 13:30</td>
+                                                <td>DADO</td>
+                                                <td>
+                                                    <div class="col-md-12 text-right">
+                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DADO</td>
+                                                <td>03/06/2017 13:30</td>
+                                                <td>DADO</td>
+                                                <td>
+                                                    <div class="col-md-12 text-right">
+                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -148,6 +148,7 @@ public class ClinicaServlet extends HttpServlet {
                         clinicaEndereco.getEndereco().setComplemento(compl);
                         clinicaEndereco.getEndereco().setNumero(numero);
                         clinicaEndereco.getEndereco().setRua(rua);
+                        clinicaEndereco.getEndereco().setCidade(facade.getCidadePorNome(cidadeString));
                         clinicaEndereco.getEndereco().setId(clinicaEnderecoAux.getEndereco().getId());
                         break;
                     }
