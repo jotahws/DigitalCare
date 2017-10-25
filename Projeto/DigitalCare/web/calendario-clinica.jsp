@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -61,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <%@include file="/includes/footer.jsp" %>
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
@@ -73,11 +74,20 @@
                         $('#calendar').fullCalendar({
                             locale: 'pt-br',
                             editable: false,
-                            eventClick: function () {
+                            eventClick: function (event) {
                                 swal({
-                                    title: 'João das Neves',
-                                    html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
-                                    confirmButtonText: 'top!'
+                                    title: event.title +' '+ event.sobrenome,
+                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                                            '<p>Status: '+ event.status +'</p>' +
+                                            '<p>Horário: ' + event.horario + '</p>' +
+                                            '<p>Duração prevista: 30 min</p>' +
+                                            '<h3 class="left-text">Dados Pessoais</h3>' +
+                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p>',
+                                    showCloseButton: true,
+                                    showConfirmButton: true,
+                                    width: 600,
+                                    padding: 50
                                 });
                             },
                             header: {
@@ -99,19 +109,24 @@
                             columnFormat: 'ddd DD/MM',
                             scrollTime: time,
                             height: 800,
+                            defaultTimedEventDuration: '00:30:00',
                             events: [
-                                {
-                                    title: 'event1',
-                                    start: '2017-08-30T13:30:00'
-                                },
-                                {
-                                    title: 'event2',
-                                    start: '2017-08-30T13:30:00',
-                                    end: '2017-08-21T14:00:00'
-                                }
+                                <c:if test="${consultas.size() > 0}">
+                                    <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                                        {
+                                            id: '${i}',
+                                            title: '${consultas.get(i).paciente.nome}',
+                                            sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                                            sexo: '${consultas.get(i).paciente.sexo}',
+                                            status: '${consultas.get(i).status}',
+                                            nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                                            horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                        },
+                                    </c:forEach>
+                                </c:if>
                             ]
                         });
-
                         function buscaMedico(nome) {
                             var calendarioMedicoAtual = '${param.idMedico}';
                             $.post(
@@ -120,7 +135,7 @@
                                     function (result) {
                                         $.each(result, function (index, medico) {
                                             $("<a>").appendTo($("#listaMedicos")).append("Dr(a). " + medico.nome + " " + medico.sobrenome).addClass("list-group-item list-group-item-action")
-                                                    .attr("href", "ConsultaServlet?action=BuscaConsultasMedico&idMedico=" + medico.login.id)
+                                                    .attr("href", "ConsultaServlet?action=ClinicaBuscaConsultasMedico&idMedico=" + medico.login.id)
                                                     .attr("id", "medico" + medico.id);
                                             if (medico.login.id == calendarioMedicoAtual) {
                                                 $("#medico" + medico.id).addClass("active");
@@ -131,12 +146,10 @@
 
                         $('#listaMedicos').empty();
                         buscaMedico($("#medicoInput").val());
-
                         $("#buscaMedico").click(function (e) {
                             $('#listaMedicos').empty();
                             buscaMedico($("#medicoInput").val());
                         });
-
                         if ($(window).width() < 992) {
                             $('#calendar').fullCalendar('changeView', 'agendaDay');
                         }

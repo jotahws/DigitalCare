@@ -143,6 +143,11 @@ public class Facade {
         return medicos;
     }
 
+    public static List<Consulta> buscarConsultasMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultasMedico(medico);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();

@@ -21,7 +21,7 @@
                 <c:redirect url="/paciente-home.jsp"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 2)}">
-                <c:redirect url="/dashboard.jsp"/>
+                <c:redirect url="/ConsultaServlet?action=Dashboard"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 3)}">
                 <c:redirect url="/dashboard-clinica.jsp"/>

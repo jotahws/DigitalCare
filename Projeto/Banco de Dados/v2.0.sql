@@ -146,3 +146,7 @@ ADD UNIQUE INDEX `ix_medico_especialidade` (`id_medico` ASC, `id_especialidade` 
 
 ALTER TABLE `digital_care`.`paciente_convenio` 
 ADD UNIQUE INDEX `ix_paciente_convenio` (`id_paciente` ASC, `id_convenio` ASC);
+
+ALTER TABLE `digital_care`.`consulta` 
+CHANGE COLUMN `datahora` `datahora` DATETIME NOT NULL ;
+

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -85,11 +86,20 @@
                         $('#calendar').fullCalendar({
                             locale: 'pt-br',
                             editable: false,
-                            eventClick: function () {
+                            eventClick: function (event) {
                                 swal({
-                                    title: 'João das Neves',
-                                    html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
-                                    confirmButtonText: 'top!'
+                                    title: event.title +' '+ event.sobrenome,
+                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                                            '<p>Status: '+ event.status +'</p>' +
+                                            '<p>Horário: ' + event.horario + '</p>' +
+                                            '<p>Duração prevista: 30 min</p>' +
+                                            '<h3 class="left-text">Dados Pessoais</h3>' +
+                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p>',
+                                    showCloseButton: true,
+                                    showConfirmButton: true,
+                                    width: 600,
+                                    padding: 50
                                 });
                             },
                             header: {
@@ -111,75 +121,23 @@
                             columnFormat: 'ddd DD/MM',
                             scrollTime: time,
                             height: 600,
+                            defaultTimedEventDuration: '00:30:00',
+                            eventTextColor: '#fff',
                             events: [
-                                {
-                                    title: 'event1',
-                                    start: '2017-08-30T13:30:00'
-                                },
-                                {
-                                    title: 'event2',
-                                    start: '2017-08-30T13:30:00',
-                                    end: '2017-08-21T14:00:00'
-                                },
-                                {
-                                    title: 'event3',
-                                    start: '2017-08-23T12:00:00',
-                                    end: '2017-08-21T13:00:00'
-                                },
-                                {
-                                    id: '1',
-                                    title: 'Deputada Léia Organson',
-                                    start: '2017-09-14T09:30:00',
-                                    end: '2017-09-14T10:00:00'
-                                },
-                                {
-                                    id: '2',
-                                    title: 'Anaquim Vader',
-                                    start: '2017-09-14T10:30:00',
-                                    end: '2017-09-14T11:00:00'
-                                },
-                                {
-                                    id: '3',
-                                    title: '${usuario.nome} ${usuario.sobrenome}',
-                                    start: '2017-09-14T11:30:00',
-                                    end: '2017-09-14T12:00:00'
-                                },
-                                {
-                                    id: '4',
-                                    title: 'Ran Sollo',
-                                    start: '2017-09-14T12:30:00',
-                                    end: '2017-09-14T13:00:00'
-                                },
-                                {
-                                    id: '5',
-                                    title: 'Chewie Bacon',
-                                    start: '2017-09-14T13:30:00',
-                                    end: '2017-09-14T14:00:00'
-                                },
-                                {
-                                    id: '6',
-                                    title: 'Lucas Skaiualquer',
-                                    start: '2017-09-14T14:30:00',
-                                    end: '2017-09-14T15:00:00'
-                                },
-                                {
-                                    id: '7',
-                                    title: 'Prin Amigdala',
-                                    start: '2017-09-14T15:30:00',
-                                    end: '2017-09-14T16:00:00'
-                                },
-                                {
-                                    id: '8',
-                                    title: 'Yodinha das Novinha',
-                                    start: '2017-09-14T16:30:00',
-                                    end: '2017-09-14T17:00:00'
-                                },
-                                {
-                                    id: '9',
-                                    title: 'Quai Gonna Jim',
-                                    start: '2017-09-14T17:30:00',
-                                    end: '2017-09-14T18:00:00'
-                                }
+                                <c:if test="${consultas.size() > 0}">
+                                    <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                                        {
+                                            id: '${i}',
+                                            title: '${consultas.get(i).paciente.nome}',
+                                            sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                                            sexo: '${consultas.get(i).paciente.sexo}',
+                                            status: '${consultas.get(i).status}',
+                                            nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                                            horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                        },
+                                    </c:forEach>
+                                </c:if>
                             ]
                         });
                         if ($(window).width() < 992) {
