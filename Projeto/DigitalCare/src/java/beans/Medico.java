@@ -32,7 +32,8 @@ public class Medico implements Serializable {
     private List<ClinicaEndereco> listaClinicaEndereco;
     private List<MedicoHorario> listaHorarios;
     private String idade;
-    private Consulta consulta;
+    private List<Consulta> listaConsultas;
+    private List<MedicoFalta> listaFaltas;
 
     public Medico() {
     }
@@ -63,13 +64,28 @@ public class Medico implements Serializable {
         this.idade = idade;
     }
 
-    public Medico(String nome, String cpf, String idade, Consulta consulta, Login login) {
+    public Medico(String nome, String cpf, String idade, Login login) {
         this.nome = nome;
         this.idade = idade;
-        this.consulta = consulta;
         this.login = login;
     }
 
+    public List<Consulta> getListaConsultas() {
+        return listaConsultas;
+    }
+
+    public void setListaConsultas(List<Consulta> listaConsultas) {
+        this.listaConsultas = listaConsultas;
+    }
+
+    public List<MedicoFalta> getListaFaltas() {
+        return listaFaltas;
+    }
+
+    public void setListaFaltas(List<MedicoFalta> listaFaltas) {
+        this.listaFaltas = listaFaltas;
+    }
+    
     public int getId() {
         return id;
     }
@@ -185,11 +201,7 @@ public class Medico implements Serializable {
     public void setIdade(String idade) {
         this.idade = idade;
     }
-
-    public void setConsulta(Consulta consulta) {
-        this.consulta = consulta;
-    }
-
+    
     public List<ClinicaEndereco> getListaClinicaEndereco() {
         return listaClinicaEndereco;
     }

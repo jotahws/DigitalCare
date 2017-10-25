@@ -58,34 +58,32 @@ public class HorarioDAO {
                                             "INNER JOIN especialidade es ON me.id_especialidade = es.id\n" +
                                             "WHERE es.nome = ? ";
     
-    private final String buscaFaltasSemana = "SELECT * FROM medico_falta\n" +
+    private final String buscaFaltasSemanaMedico = "SELECT * FROM medico_falta\n" +
                                             "WHERE data_inicio >= ? AND " +
                                             "(data_fim <= ? OR data_fim IS NULL) AND "+
-                                            "id_medico IN (?)\n" +
-                                            "ORDER BY id_medico";
+                                            "id_medico = ?\n";
     
-    private final String buscaConsultasSemana = "SELECT * FROM consulta \n" +
-                                                "WHERE datahora BETWEEN ? AND ? AND id_medico IN (?)";
+    private final String buscaConsultasSemanaMedico = "SELECT * FROM consulta \n" +
+                                                "WHERE datahora BETWEEN ? AND ? AND id_medico = ?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
-    public List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, String idMedicos) throws ClassNotFoundException, SQLException {
+    public List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         List<Consulta> lista = new ArrayList();
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(buscaConsultasSemana);
+            stmt = con.prepareStatement(buscaConsultasSemanaMedico);
             java.sql.Date dataISql = new java.sql.Date(dataInicio.getTime());
             java.sql.Date dataFSql = new java.sql.Date(dataFim.getTime());
             stmt.setDate(1, dataISql);
             stmt.setDate(2, dataFSql);
-            stmt.setString(3, idMedicos);
+            stmt.setInt(3, idMedicos);
             rs = stmt.executeQuery();
-            SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy"); // formato da data 
             while (rs.next()) {
                 Consulta consulta = new Consulta();
-                String datahora = fmt.format(rs.getDate("datahora")); // aqui você passa o Date para converter
+                Date datahora = rs.getDate("datahora"); // aqui você passa o Date para converter
                 consulta.setIdMedico(rs.getInt("id_medico"));
                 consulta.setDataHora(datahora);
                 lista.add(consulta);
@@ -102,16 +100,16 @@ public class HorarioDAO {
         }
     }
     
-    public List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, String idMedicos) throws ClassNotFoundException, SQLException {
+    public List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         List<MedicoFalta> lista = new ArrayList();
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(buscaFaltasSemana);
+            stmt = con.prepareStatement(buscaFaltasSemanaMedico);
             java.sql.Date dataISql = new java.sql.Date(dataInicio.getTime());
             java.sql.Date dataFSql = new java.sql.Date(dataFim.getTime());
             stmt.setDate(1, dataISql);
             stmt.setDate(2, dataFSql);
-            stmt.setString(3, idMedicos);
+            stmt.setInt(3, idMedicos);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 MedicoFalta medFalta = new MedicoFalta();
@@ -208,8 +206,10 @@ public class HorarioDAO {
             stmt.setInt(1, horario.getMedico().getId());
             stmt.setInt(2, horario.getClinicaEndereco().getId());
             stmt.setInt(3, horario.getDiaSemana());
-            stmt.setTime(4, horario.getHoraInicio());
-            stmt.setTime(5, horario.getHoraFim());
+            java.sql.Time horaInicioSql = new java.sql.Time(horario.getHoraInicio().getTime());
+            java.sql.Time horaFimSql = new java.sql.Time(horario.getHoraFim().getTime());
+            stmt.setTime(4, horaInicioSql);
+            stmt.setTime(5, horaFimSql);
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {

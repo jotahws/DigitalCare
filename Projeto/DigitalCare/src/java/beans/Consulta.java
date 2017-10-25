@@ -6,6 +6,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -17,13 +18,13 @@ public class Consulta implements Serializable {
     private int idMedico;
     private int idPaciente;
     private int idClinicaEndereco;
-    private String dataHora;
+    private Date dataHora;
     private String status;
     private String observacao;
     private Medico medico;
     private Paciente paciente;
 
-    public Consulta(int id, int idMedico, int idPaciente, int idClinicaEndereco, String dataHora, String status, String observacao, Medico medico, Paciente paciente) {
+    public Consulta(int id, int idMedico, int idPaciente, int idClinicaEndereco, Date dataHora, String status, String observacao, Medico medico, Paciente paciente) {
         this.id = id;
         this.idMedico = idMedico;
         this.idPaciente = idPaciente;
@@ -73,11 +74,11 @@ public class Consulta implements Serializable {
         this.idClinicaEndereco = idClinicaEndereco;
     }
 
-    public String getDataHora() {
+    public Date getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(String dataHora) {
+    public void setDataHora(Date dataHora) {
         this.dataHora = dataHora;
     }
 

@@ -5,7 +5,6 @@
  */
 package beans;
 
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -18,8 +17,8 @@ public class MedicoFalta {
     private int idMedico;
     private Date dataInicio;
     private Date dataFim;
-    private Time horaInicio;
-    private Time horaFim;
+    private Date horaInicio;
+    private Date horaFim;
 
     public MedicoFalta() {
     }
@@ -56,19 +55,19 @@ public class MedicoFalta {
         this.dataFim = dataFim;
     }
 
-    public Time getHoraInicio() {
+    public Date getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Time getHoraFim() {
+    public Date getHoraFim() {
         return horaFim;
     }
 
-    public void setHoraFim(Time horaFim) {
+    public void setHoraFim(Date horaFim) {
         this.horaFim = horaFim;
     }
     

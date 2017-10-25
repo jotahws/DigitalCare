@@ -6,7 +6,7 @@
 package beans;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  *
@@ -16,15 +16,15 @@ public class MedicoHorario implements Serializable {
 
     private int id;
     private int diaSemana;
-    private Time horaInicio;
-    private Time horaFim;
+    private Date horaInicio;
+    private Date horaFim;
     private Medico medico;
     private ClinicaEndereco clinicaEndereco;
 
     public MedicoHorario() {
     }
 
-    public MedicoHorario(int diaSemana, Time horaInicio, Time horaFim, Medico medico, ClinicaEndereco clinicaEndereco) {
+    public MedicoHorario(int diaSemana, Date horaInicio, Date horaFim, Medico medico, ClinicaEndereco clinicaEndereco) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -48,19 +48,19 @@ public class MedicoHorario implements Serializable {
         this.diaSemana = diaSemana;
     }
 
-    public Time getHoraInicio() {
+    public Date getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Time getHoraFim() {
+    public Date getHoraFim() {
         return horaFim;
     }
 
-    public void setHoraFim(Time horaFim) {
+    public void setHoraFim(Date horaFim) {
         this.horaFim = horaFim;
     }
 

@@ -35,6 +35,7 @@ import daos.PacienteUsuarioDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -370,13 +371,43 @@ public class Facade {
         return hDAO.buscarHorariosConsulta(especialidade, cidade, clinica);
     }
     
-    public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, String idMedicos) throws ClassNotFoundException, SQLException {
+    public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
     }
     
-    public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, String idMedicos) throws ClassNotFoundException, SQLException {
+    public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarConsultasSemana(dataInicio, dataFim, idMedicos);
+    }
+    
+    public static void adicionarHorariosMedico(List<String> lista, Date horaIni, Date horaFim, Boolean add){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(horaIni);
+        Integer hIni = cal.get(GregorianCalendar.HOUR_OF_DAY);
+        Integer mIni = cal.get(GregorianCalendar.MINUTE);
+        cal.setTime(horaFim);
+        Integer hFim = cal.get(GregorianCalendar.HOUR_OF_DAY);
+        Integer mFim = cal.get(GregorianCalendar.MINUTE);
+        
+        for (Integer i=hIni; i<=hFim; i++){
+            for (Integer j=mIni; j<=mFim; j+=30){
+                String sAux = String.valueOf(i) +":"+ String.valueOf(j);
+                if ((add) && (!lista.contains(sAux))){
+                    lista.add(sAux);
+                } else if (!add){
+                    lista.remove(sAux);
+                }
+            }
+        }
+    }
+    
+    public static List<List<String>> instanciaListaHorarios(int dias){
+        List<List<String>> listaMaster = new ArrayList();
+        for (Integer i=1; i<=dias; i++){
+            List<String> listaDetail = new ArrayList();
+            listaMaster.add(listaDetail);
+        }
+        return listaMaster;
     }
 }
