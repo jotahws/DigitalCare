@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,12 +54,14 @@ public class ListaPacienteServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Medico medID = (Medico) session.getAttribute("usuario");
             try {
-                List<PacienteUsuario> pacientes;
-                pacientes = facade.carregaListaPacientes(medID.getId());
-                request.setAttribute("listaPacientes", pacientes);
+                List<PacienteUsuario> listaPacientes;
+                listaPacientes = facade.carregaListaPacientes(medID.getId());
+                request.setAttribute("listaPacientes", listaPacientes);
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ListaPacienteServlet.class.getName()).log(Level.SEVERE, null, ex);
+                status = "errorList";
             }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/pacientes.jsp");
+            rd.forward(request, response);
 
         }
     }

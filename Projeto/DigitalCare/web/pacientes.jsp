@@ -46,41 +46,29 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <table class="table">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nome</th>
-                                        <th>Idade</th>
-                                        <th>Email</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark Zukerzinho</td>
-                                        <td>38</td>
-                                        <td>marcos@gmail.com</td>
-                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob Vampirinho</td>
-                                        <td>105</td>
-                                        <td>jakobson@gmail.com</td>
-                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry Passarinho</td>
-                                        <td>17</td>
-                                        <td>larry@yahoo.com</td>
-                                        <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <c:forEach var="item" items="${listaPacientes}">
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nome</th>
+                                            <th>Idade</th>
+                                            <th>Email</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>${item.paciente.nome}</td>
+                                            <td>${item.paciente.dataNascimento}</td>
+                                            <td>${item.login.email}</td>
+                                            <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
+                                        </tr>                                                                               
+                                    </tbody>
+                                </table>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div> 
 

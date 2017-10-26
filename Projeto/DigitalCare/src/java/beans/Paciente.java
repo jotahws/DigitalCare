@@ -22,6 +22,7 @@ public class Paciente implements Serializable {
     private Date dataNascimento;
     private String sexo;
     private List<ConvenioPaciente> listaConvenios;
+    private Prontuario_cab prontuarioCab;
 
     public Paciente() {
     }
@@ -41,6 +42,15 @@ public class Paciente implements Serializable {
         this.sobrenome = sobrenome;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
+    }
+    public Paciente(int id, String cpf, String nome, String sobrenome, Date dataNascimento, String sexo, Prontuario_cab prontuarioCab) {
+        this.id = id;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+        this.prontuarioCab = prontuarioCab;
     }
 
     public int getId() {
@@ -97,6 +107,14 @@ public class Paciente implements Serializable {
 
     public void setListaConvenios(List<ConvenioPaciente> listaConvenios) {
         this.listaConvenios = listaConvenios;
+    }
+    
+    public Prontuario_cab getProntuarioCab() {
+        return prontuarioCab;
+    }
+
+    public void setProntuarioCab(Prontuario_cab prontuarioCab) {
+        this.prontuarioCab = prontuarioCab;
     }
 
 }

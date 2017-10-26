@@ -5,10 +5,13 @@
  */
 package daos;
 
+import beans.Cidade;
 import beans.ClinicaEndereco;
 import beans.Consulta;
+import beans.Convenio;
 import beans.ConvenioPaciente;
 import beans.Endereco;
+import beans.Estado;
 import beans.Login;
 import beans.Paciente;
 import beans.PacienteUsuario;
@@ -35,15 +38,15 @@ public class PacienteDAO {
             + "   INNER JOIN paciente_usuario        pusu ON (pac.id  		= pusu.id_paciente)"
             + "   INNER JOIN endereco     	   endP	ON (endP.id 		= pusu.id_endereco)"
             + "   INNER JOIN login 		   logP	ON (logP.id 		= pusu.id_login)"
-            + "   INNER JOIN paciente_convenio         pc	ON (pc.id_paciente 	= pac.id)"
-            + "   INNER JOIN convenio 		   conv ON (conv.id		= pc.id_convenio)"
             + "   INNER JOIN consulta 		    con ON (con.id_paciente	= pac.id)"
-            + "   INNER JOIN prontuario_item        pitem	ON (pitem.id_consulta	= con.id)"
-            + "   INNER JOIN prontuario_cab          pcab	ON (pcab.id		= pitem.id_prontuario_cab)"
-            + "   INNER JOIN clinica                  cli ON (pcab.id_clinica	= cli.id)"
-            + "   INNER JOIN clinica_endereco        cend	ON (cend.id_clinica	= cli.id)"
+            + "   INNER JOIN prontuario_item      pitem	ON (pitem.id_consulta	= con.id)"
+            + "   INNER JOIN prontuario_cab        pcab	ON (pcab.id		= pitem.id_prontuario_cab)"
+            + "   INNER JOIN clinica                cli ON (pcab.id_clinica	= cli.id)"
+            + "   INNER JOIN clinica_endereco      cend	ON (cend.id_clinica	= cli.id)"
             + "   INNER JOIN endereco 		 endCli	ON (cend.id_endereco	= endCli.id)"
-            + "   INNER JOIN medico                     m	ON (con.id_medico	= m.id)"
+            + "   INNER JOIN medico                   m	ON (con.id_medico	= m.id)"
+            + "   INNER JOIN cidade                 cid ON (cid.id              = endP.id_cidade)"
+            + "   INNER JOIN estado                  es ON (es.id               = cid.id_estado)"    
             + "where m.id = ? and pac.id = pcab.id_paciente and cend.id = con.id_clinica_endereco;";
 
     private Connection con = null;
@@ -89,13 +92,75 @@ public class PacienteDAO {
                 Paciente paciente = new Paciente();
                 Login login = new Login();
                 Endereco endereco = new Endereco();
-                ConvenioPaciente convenioPacinete = new ConvenioPaciente();
+                Cidade cidade = new Cidade();
+                Estado estado = new Estado();
                 Consulta consulta = new Consulta();
-                Prontuario_cab prontuario_cab = new Prontuario_cab();
-                Prontuario_item prontuario_item = new Prontuario_item();
+                Prontuario_cab prontuarioCab = new Prontuario_cab();
+                Prontuario_item prontuarioItem = new Prontuario_item();
                 Endereco endClinica = new Endereco();
                 ClinicaEndereco clinicaEnd = new ClinicaEndereco();
                 List<ClinicaEndereco> listaClinica = new ArrayList();
+               
+                consulta.setDataHora(rs.getDate("con.datahora"));
+                consulta.setId(rs.getInt("con.id"));
+                consulta.setIdClinicaEndereco(rs.getInt("con.id_clinica_endereco"));
+                consulta.setIdMedico(rs.getInt("con.id_medico"));
+                consulta.setIdPaciente(rs.getInt("con.id_paciente"));
+                consulta.setObservacao(rs.getString("con.observacao"));
+                consulta.setStatus(rs.getString("con.status"));
+                
+                prontuarioItem.setConsulta(consulta);
+                prontuarioItem.setAtestado(rs.getBlob("pitem.atestado"));
+                prontuarioItem.setDescricao(rs.getBlob("pitem.descricao"));
+                prontuarioItem.setExame(rs.getBlob("pitem.exame"));
+                prontuarioItem.setReceita(rs.getBlob("pitem.receita"));
+                prontuarioItem.setId(rs.getInt("pitem.id"));
+                prontuarioItem.setIdConsulta(rs.getInt("pitem.id_consulta"));
+                prontuarioItem.setIdProntuarioCab(rs.getInt("pitem.id_prontuario_cab"));
+
+                
+                prontuarioCab.setProntuarioItem(prontuarioItem);                
+                prontuarioCab.setId(rs.getInt("pcab.id"));
+                prontuarioCab.setIdClinica(rs.getInt("pcab.id_clinica"));
+                prontuarioCab.setIdPaciente(rs.getInt("pcab.id_paciente")); 
+                
+                paciente.setProntuarioCab(prontuarioCab);
+                paciente.setCpf(rs.getString("pac.cpf"));
+                paciente.setDataNascimento(rs.getDate("pac.data_nascimento"));
+                paciente.setId(rs.getInt("pac.id"));
+                paciente.setNome(rs.getString("pac.nome"));
+                paciente.setSobrenome(rs.getString("pac.sobrenome"));
+                paciente.setSexo(rs.getString("pac.sexo"));
+                
+                login.setEmail(rs.getString("logP.email"));
+                login.setId(rs.getInt("logP.id"));
+                
+                estado.setId(rs.getInt("es.id"));
+                estado.setNome(rs.getString("es.nome"));
+                estado.setUf(rs.getString("es.uf"));
+                
+                cidade.setEstado(estado);
+                cidade.setId(rs.getInt("cid.id"));
+                cidade.setNome(rs.getString("cid.nome"));
+                
+                endereco.setCidade(cidade);
+                endereco.setBairro(rs.getString("endP.bairro"));
+                endereco.setCep(rs.getString("endP.cep"));
+                endereco.setComplemento(rs.getString("endP.complemento"));
+                endereco.setId(rs.getInt("endP.id"));
+                endereco.setNumero(rs.getString("endP.numero"));
+                endereco.setRua(rs.getString("endP.rua"));
+                
+                
+                pacienteUsuario.setEndereco(endereco);
+                pacienteUsuario.setLogin(login);
+                pacienteUsuario.setPaciente(paciente);
+                
+                
+                pacienteUsuario.setId(rs.getInt("pusu.id"));
+                pacienteUsuario.setTelefone(rs.getString("pusu.telefone"));
+                pacienteUsuario.setTelefone2(rs.getString("pusu.telefone2"));
+                
                 lista.add(pacienteUsuario);
             }
             return lista;
