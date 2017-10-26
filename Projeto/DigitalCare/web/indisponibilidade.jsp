@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -92,12 +93,24 @@
                         $('#calendar').fullCalendar({
                             locale: 'pt-br',
                             editable: false,
-                            eventClick: function () {
+                            eventClick: function (event) {
                                 swal({
-                                    title: 'João das Neves',
-                                    html: 'aqui aparecerá o <b>estado</b> da consulta,<br> <b>perfil</b> do paciente, eticétera... ',
-                                    confirmButtonText: 'top!'
-                                });
+                                    title: event.title + ' <a href="#" class="btn btn-sm btn-digital-green">Ver perfil</a>',
+                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                                            '<p>Status: '+ event.status +'</p>' +
+                                            '<p>Horário: ' + event.horario + '</p>' +
+                                            '<p>Duração prevista: 30 min</p>' +
+                                            '<h3 class="left-text">Dados Pessoais</h3>' +
+                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' +
+                                            '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
+                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
+                                             <a href="#" class="btn btn-danger">cancelar consulta</a>',
+                                    showCloseButton: true,
+                                    showConfirmButton: false,
+                                    width: 600,
+                                    padding: 50
+                                })
                             },
                             header: {
                                 left: 'prev,next today myCustomButton',
@@ -118,6 +131,24 @@
                             columnFormat: 'ddd DD/MM',
                             scrollTime: time,
                             height: 600,
+                            defaultTimedEventDuration: '00:30:00',
+                            eventTextColor: '#fff',
+                            events: [
+                                <c:if test="${consultas.size() > 0}">
+                                    <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                                        {
+                                            id: '${i}',
+                                            title: '${consultas.get(i).paciente.nome}',
+                                            sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                                            sexo: '${consultas.get(i).paciente.sexo}',
+                                            status: '${consultas.get(i).status}',
+                                            nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                                            horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                        },
+                                    </c:forEach>
+                                </c:if>
+                            ]
                         });
                     });
                     if ($(window).width() > 1400) {

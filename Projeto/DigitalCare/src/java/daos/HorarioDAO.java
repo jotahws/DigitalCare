@@ -15,6 +15,7 @@ import beans.MedicoHorario;
 import beans.Login;
 import beans.Medico;
 import beans.MedicoFalta;
+import beans.Paciente;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -22,6 +23,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,35 +39,41 @@ public class HorarioDAO {
     private final String inserirHorario = "INSERT INTO medico_horarios (id_medico_clinica, dia_semana, horario_inicio, horario_fim) \n"
             + "VALUES ((select id from medico_clinica mc where mc.id_medico = ? AND mc.id_clinica_endereco = ?),\n"
             + " ?, ?, ?);";
-    
+
     private final String apagarHorario = "DELETE FROM medico_horarios WHERE id=?;";
+
+    private final String buscaConsultasMedico = "SELECT * FROM consulta c \n "
+            + "INNER JOIN medico m ON c.id_medico = m.id \n "
+            + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
+            + "WHERE m.id = ?;";
 
     private final String listaHorariosPorMedico = "select * from medico_horarios mh \n"
             + "INNER JOIN medico_clinica mc ON mc.id = mh.id_medico_clinica \n"
             + "INNER JOIN medico m ON m.id = mc.id_medico \n"
             + "INNER JOIN clinica_endereco ce ON ce.id = mc.id_clinica_endereco \n"
             + "WHERE m.id = ? ORDER BY mh.horario_inicio;";
-    
-    private String buscaHorariosConsulta = "SELECT * FROM medico_horarios mh\n" +
-                                            "INNER JOIN medico_clinica mc ON mh.id_medico_clinica = mh.id\n" +
-                                            "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id\n" +
-                                            "INNER JOIN endereco en ON ce.id_endereco = en.id\n" +
-                                            "INNER JOIN cidade ci ON en.id_cidade = ci.id\n" +
-                                            "INNER JOIN estado st ON ci.id_estado = st.id/n" +
-                                            "INNER JOIN clinica cl ON ce.id_clinica = cl.id\n" +
-                                            "INNER JOIN login l ON cl.id_login = l.id\n" +
-                                            "INNER JOIN medico m ON mc.id_medico = m.id\n" +
-                                            "INNER JOIN medico_especialidade me ON me.id_medico = m.id\n" +
-                                            "INNER JOIN especialidade es ON me.id_especialidade = es.id\n" +
-                                            "WHERE es.nome = ? ";
-    
-    private final String buscaFaltasSemanaMedico = "SELECT * FROM medico_falta\n" +
-                                            "WHERE data_inicio >= ? AND " +
-                                            "(data_fim <= ? OR data_fim IS NULL) AND "+
-                                            "id_medico = ?\n";
-    
-    private final String buscaConsultasSemanaMedico = "SELECT * FROM consulta \n" +
-                                                "WHERE datahora BETWEEN ? AND ? AND id_medico = ?";
+
+    private String buscaHorariosConsulta = "SELECT * FROM medico_horarios mh \n "
+            + "INNER JOIN medico_clinica mc ON mh.id_medico_clinica = mh.id \n "
+            + "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id \n "
+            + "INNER JOIN endereco en ON ce.id_endereco = en.id \n "
+            + "INNER JOIN cidade ci ON en.id_cidade = ci.id \n "
+            + "INNER JOIN estado st ON ci.id_estado = st.id \n "
+            + "INNER JOIN clinica cl ON ce.id_clinica = cl.id \n "
+            + "INNER JOIN login l ON cl.id_login = l.id \n "
+            + "INNER JOIN medico m ON mc.id_medico = m.id \n "
+            + "INNER JOIN medico_especialidade me ON me.id_medico = m.id \n "
+            + "INNER JOIN especialidade es ON me.id_especialidade = es.id \n "
+            + "WHERE es.nome = ? ";
+
+    private final String buscaFaltasSemanaMedico = "SELECT * FROM medico_falta\n"
+            + "WHERE data_inicio >= ? AND "
+            + "(data_fim <= ? OR data_fim IS NULL) AND "
+            + "id_medico = ?\n";
+
+    private final String buscaConsultasSemanaMedico = "SELECT * FROM consulta \n"
+            + "WHERE datahora BETWEEN ? AND ? AND id_medico = ?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -91,15 +100,21 @@ public class HorarioDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
     }
-    
+
     public List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         List<MedicoFalta> lista = new ArrayList();
         try {
@@ -123,20 +138,28 @@ public class HorarioDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
     }
-    
+
     public List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
-        if (!("".equals(cidade)))
+        if (!("".equals(cidade))) {
             buscaHorariosConsulta += " AND ci.nome = " + cidade;
-        if (!("".equals(clinica)))
+        }
+        if (!("".equals(clinica))) {
             buscaHorariosConsulta += " AND cl.nome_fantasia = " + clinica;
+        }
         buscaHorariosConsulta += " ORDER BY m.id ";
         try {
             List<MedicoHorario> lista = new ArrayList();
@@ -190,15 +213,21 @@ public class HorarioDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
     }
-    
+
     public final MedicoHorario inserirHorario(MedicoHorario horario) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -218,9 +247,15 @@ public class HorarioDAO {
             }
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -236,9 +271,15 @@ public class HorarioDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -266,9 +307,48 @@ public class HorarioDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<Consulta> buscarConsultasMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        List<Consulta> lista = new ArrayList();
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaConsultasMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                lista.add(consulta);
+            }
+            return lista;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

@@ -17,7 +17,7 @@
             <c:choose>
                 <c:when test="${sessionLogin.perfil == 2}">
                     <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/dashboard.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ConsultaServlet?action=Dashboard">
                             <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>
@@ -35,10 +35,10 @@
                         </a>
                         <ul class="sidenav-second-level collapse" id="collapseComponents">
                             <li>
-                                <a href="${pageContext.request.contextPath}/calendario.jsp">Calendário Detalhado</a>
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=BuscaConsultasMedico">Calendário Detalhado</a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/indisponibilidade.jsp">Marcar Indisponibilidade</a>
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade">Marcar Indisponibilidade</a>
                             </li>
                         </ul>
                     </li>

@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet {
                         medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
                         medico.setLogin(login);
                         session.setAttribute("usuario", medico);
-                        response.sendRedirect("dashboard.jsp");
+                        response.sendRedirect("ConsultaServlet?action=Dashboard");
                         break;
                     case 3:
                         Clinica clinica = Facade.getClinicaPorLogin(login.getId());

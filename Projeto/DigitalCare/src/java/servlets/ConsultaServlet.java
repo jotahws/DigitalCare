@@ -94,8 +94,11 @@ public class ConsultaServlet extends HttpServlet {
                     String clinica = request.getParameter("clinica");
                     String cidade = request.getParameter("cidade");
                     SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date;
-                    date = sdfEntrada.parse(data);
+                    Date date = new Date();
+                    if (!"".equals(data)) {
+                        data = data.replace("/", "-");
+                        date = sdfEntrada.parse(data);
+                    }
                     GregorianCalendar cal = new GregorianCalendar();
                     cal.setTime(date);
                     cal.add(GregorianCalendar.DAY_OF_MONTH, -3);
@@ -107,8 +110,8 @@ public class ConsultaServlet extends HttpServlet {
                     Medico medico = listaMedicoHorario.get(0).getMedico();
                     List<MedicoHorario> listaAux = new ArrayList();
                     List<Medico> listaMedicos = new ArrayList();
-                    for (int i=0; i < listaMedicoHorario.size(); i++){
-                        if (listaMedicoHorario.get(i).getMedico().getId() == medico.getId()){
+                    for (int i = 0; i < listaMedicoHorario.size(); i++) {
+                        if (listaMedicoHorario.get(i).getMedico().getId() == medico.getId()) {
                             listaAux.add(listaMedicoHorario.get(i));
                         } else {
                             medico.setListaHorarios(listaAux);
@@ -120,40 +123,40 @@ public class ConsultaServlet extends HttpServlet {
                     medico.setListaHorarios(listaAux);
                     listaMedicos.add(medico);
                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                    String str = "08:00";  
+                    String str = "08:00";
                     String str2 = "20:00";
-                    Date hrInicial = format.parse(str); 
+                    Date hrInicial = format.parse(str);
                     Date hrFinal = format.parse(str2);
-                    
-                    for (Medico medicoAux : listaMedicos){
+
+                    for (Medico medicoAux : listaMedicos) {
                         medicoAux.setListaConsultas(Facade.buscarConsultasSemana(dtInicio, dtFim, medicoAux.getId()));
                         medicoAux.setListaFaltas(Facade.buscarFaltasSemana(dtInicio, dtFim, medicoAux.getId()));
                         List<List<String>> lista = Facade.instanciaListaHorarios(7);
-                        for (MedicoHorario medHor : medicoAux.getListaHorarios()){
+                        for (MedicoHorario medHor : medicoAux.getListaHorarios()) {
                             int index = (medHor.getDiaSemana() + iDomingo - 1) % 7;
-                            Facade.adicionarHorariosMedico(lista.get(index), medHor.getHoraInicio(), 
+                            Facade.adicionarHorariosMedico(lista.get(index), medHor.getHoraInicio(),
                                     medHor.getHoraFim(), Boolean.TRUE);
                         }
-                        for (MedicoFalta medFal : medicoAux.getListaFaltas()){
+                        for (MedicoFalta medFal : medicoAux.getListaFaltas()) {
                             Date dataI;
-                            if (dtInicio.after(medFal.getDataInicio())){
+                            if (dtInicio.after(medFal.getDataInicio())) {
                                 dataI = dtInicio;
                             } else {
                                 dataI = medFal.getDataInicio();
                             }
                             cal.setTime(dataI);
                             int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                            if (medFal.getDataFim() == null){
-                                if (medFal.getHoraInicio() == null){
+                            if (medFal.getDataFim() == null) {
+                                if (medFal.getHoraInicio() == null) {
                                     Facade.adicionarHorariosMedico(lista.get(indexDataInicio), hrInicial,
                                             hrFinal, Boolean.FALSE);
                                 } else {
-                                    Facade.adicionarHorariosMedico(lista.get(indexDataInicio), medFal.getHoraInicio(), 
+                                    Facade.adicionarHorariosMedico(lista.get(indexDataInicio), medFal.getHoraInicio(),
                                             medFal.getHoraFim(), Boolean.FALSE);
                                 }
                             } else {
-                                Date  dataF;
-                                if (dtFim.after(medFal.getDataInicio())){
+                                Date dataF;
+                                if (dtFim.after(medFal.getDataInicio())) {
                                     dataF = medFal.getDataFim();
                                 } else {
                                     dataF = dtFim;
@@ -166,31 +169,65 @@ public class ConsultaServlet extends HttpServlet {
                                         medFal.getHoraFim(), Boolean.FALSE);
                             }
                         }
-                        
-                        for(Consulta medCon : medicoAux.getListaConsultas()){
+
+                        for (Consulta medCon : medicoAux.getListaConsultas()) {
                             cal.setTime(medCon.getDataHora());
                             int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                            Facade.adicionarHorariosMedico(lista.get(indexDataConsulta), medCon.getDataHora(), 
+                            Facade.adicionarHorariosMedico(lista.get(indexDataConsulta), medCon.getDataHora(),
                                     medCon.getDataHora(), Boolean.FALSE);
                         }
                     }
-                    
-                    
-                    
+
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println(ex.getMessage());
+                    }
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
-                rd.forward(request, response);
-            } else if ("BuscaConsultasMedico".equals(action)) {
+//                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
+//                rd.forward(request, response);
+            } else if ("ClinicaBuscaConsultasMedico".equals(action)) {
                 try {
                     int idMedico = Integer.parseInt(request.getParameter("idMedico"));
                     Medico medico = Facade.buscarMedicoPorId(idMedico);
-                    //Facade.buscarConsultasMedico(medico); É PRECISO FAZER ESSE MÉTODO AINDA
+                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    request.setAttribute("consultas", consultas);
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario-clinica.jsp");
+                rd.forward(request, response);
+            } else if ("BuscaConsultasMedico".equals(action)) {
+                try {
+                    HttpSession session = request.getSession();
+                    Medico medico = (Medico) session.getAttribute("usuario");
+                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    request.setAttribute("consultas", consultas);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario.jsp");
+                rd.forward(request, response);
+            } else if ("Dashboard".equals(action)) {
+                try {
+                    HttpSession session = request.getSession();
+                    Medico medico = (Medico) session.getAttribute("usuario");
+                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    request.setAttribute("consultas", consultas);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard.jsp");
+                rd.forward(request, response);
+            } else if ("indisponibilidade".equals(action)) {
+                try {
+                    HttpSession session = request.getSession();
+                    Medico medico = (Medico) session.getAttribute("usuario");
+                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    request.setAttribute("consultas", consultas);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/indisponibilidade.jsp");
                 rd.forward(request, response);
             }
         }
