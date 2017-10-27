@@ -10,6 +10,7 @@ import beans.Convenio;
 import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Login;
+import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
@@ -253,6 +254,20 @@ public class PacienteServlet extends HttpServlet {
                     status = "erro-deleta";
                     response.sendRedirect("configuracoes-paciente" + status);
                 }
+            } else if ("perfilPacienteMedico".equals(action)) {
+                HttpSession session = request.getSession();
+                Medico medID = (Medico) session.getAttribute("usuario");
+                int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
+                try {
+                    PacienteUsuario pacienteUsuario;
+                    pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPaciente);
+                    request.setAttribute("perfilPaciente", pacienteUsuario);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "errorList";
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
+                rd.forward(request, response);
+
             }
         } else {
             response.sendRedirect("login.jsp");

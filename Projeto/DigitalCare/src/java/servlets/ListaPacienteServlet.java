@@ -57,8 +57,14 @@ public class ListaPacienteServlet extends HttpServlet {
                 List<PacienteUsuario> listaPacientes;
                 listaPacientes = facade.carregaListaPacientes(medID.getId());
                 request.setAttribute("listaPacientes", listaPacientes);
-            } catch (ClassNotFoundException | SQLException ex) {
-                status = "errorList";
+            } catch (ClassNotFoundException ex) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("Class not found: " + ex.getMessage());
+                }
+            } catch (SQLException ex) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("SQL not found: " + ex.getMessage());
+                }
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/pacientes.jsp");
             rd.forward(request, response);

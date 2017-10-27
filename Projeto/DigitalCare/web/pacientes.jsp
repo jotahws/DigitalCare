@@ -63,7 +63,7 @@
                                             <td>${item.paciente.nome}</td>
                                             <td>${item.paciente.dataNascimento}</td>
                                             <td>${item.login.email}</td>
-                                            <td><a href="perfil-paciente.jsp" class="btn btn-primary">Ver perfil</a></td>
+                                            <td><a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${item.id}" class="btn btn-primary">Ver perfil</a></td>
                                         </tr>                                                                               
                                     </tbody>
                                 </table>

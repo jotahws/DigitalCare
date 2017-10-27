@@ -366,9 +366,9 @@ public class Facade {
         return medico;
     }
 
-    public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
+    public PacienteUsuario carregaPerfilPaciente(int idMedico, int idPaciente) throws SQLException, ClassNotFoundException {
         PacienteDAO pacienteDAO = new PacienteDAO();
-        return pacienteDAO.listaPacientesNoMedico(idMedico);
+        return pacienteDAO.PacienteNoMedico(idMedico, idPaciente);
     }
     
     public static List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
@@ -414,5 +414,10 @@ public class Facade {
             listaMaster.add(listaDetail);
         }
         return listaMaster;
+    }
+
+    public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
+    PacienteDAO pacienteDAO = new PacienteDAO();
+    return pacienteDAO.ListPacienteNoMedico(idMedico);
     }
 }

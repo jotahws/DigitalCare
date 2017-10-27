@@ -42,8 +42,9 @@
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <div class="row container">
+                            <jsp:useBean id="pacientePerfil" class="beans.PacienteUsuario"/>
                             <div class="col-md-7">
-                                <h1 class="col-md-12">Perfil de ~paciente~</h1>
+                                <h1 class="col-md-12"><strong>Paciente: </strong>${perfilPaciente.paciente.nome}</h1>
                             </div>
                         </div>
                         <hr>
@@ -51,24 +52,24 @@
                             <div class="container">
                                 <div class="row">
                                     <legend class="dados">Dados</legend>
-                                    <p class="col-md-12 dados">Nome: ${paciente.nome} </p>                                            
-                                    <p class="col-md-4 dados">CPF: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Data de Nascimento: <strong>13/05/1997</strong> </p>
-                                    <p class="col-md-4 dados">Sexo: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Email: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Telefone 1: <strong>${paciente.telefone}</strong> </p>
-                                    <p class="col-md-4 dados">Telefone 2: <strong>Algum dado</strong> </p>
+                                    <p class="col-md-12 dados">Nome:<strong> ${perfilPaciente.paciente.nome}  ${perfilPaciente.paciente.sobrenome}</strong></p>                                            
+                                    <p class="col-md-4 dados">CPF: <strong>${perfilPaciente.paciente.cpf}</strong> </p>
+                                    <p class="col-md-4 dados">Data de Nascimento: <strong>${perfilPaciente.paciente.dataNascimento}</strong> </p>
+                                    <p class="col-md-4 dados">Sexo: <strong>${perfilPaciente.paciente.sexo}</strong> </p>
+                                    <p class="col-md-4 dados">Email: <strong>${perfilPaciente.login.email}</strong> </p>
+                                    <p class="col-md-4 dados">Telefone 1: <strong>${perfilPaciente.telefone}</strong> </p>
+                                    <p class="col-md-4 dados">Telefone 2: <strong>${perfilPaciente.telefone2}</strong> </p>
                                     <legend class="dados"><hr>Dados Médicos</legend>
                                     <p class="col-md-4 dados">Plano de Saúde: <strong>Algum dado</strong> </p>
                                     <p class="col-md-4 dados">Tipo sanguíneo: <strong>Algum dado</strong> </p>
                                     <legend class="dados"><hr>Endereço</legend>
-                                    <p class="col-md-12 dados">CEP: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Rua: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Número: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Complemento: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Bairro: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Cidade: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Estado: <strong>Algum dado</strong> </p>
+                                    <p class="col-md-12 dados">CEP: <strong>${perfilPaciente.endereco.cep}</strong> </p>
+                                    <p class="col-md-4 dados">Rua: <strong>${perfilPaciente.endereco.rua}</strong> </p>
+                                    <p class="col-md-4 dados">Número: <strong>${perfilPaciente.endereco.numero}</strong> </p>
+                                    <p class="col-md-4 dados">Complemento: <strong>${perfilPaciente.endereco.complemento}o</strong> </p>
+                                    <p class="col-md-4 dados">Bairro: <strong>${perfilPaciente.endereco.bairro}</strong> </p>
+                                    <p class="col-md-4 dados">Cidade: <strong>${perfilPaciente.endereco.cidade.nome}</strong> </p>
+                                    <p class="col-md-4 dados">Estado: <strong>${perfilPaciente.endereco.cidade.estado.uf}</strong> </p>
                                 </div>
                             </div>
                         </div>
