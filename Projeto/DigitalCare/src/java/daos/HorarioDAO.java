@@ -16,6 +16,7 @@ import beans.Login;
 import beans.Medico;
 import beans.MedicoFalta;
 import beans.Paciente;
+import beans.PacienteUsuario;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -47,6 +48,12 @@ public class HorarioDAO {
             + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
             + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
             + "WHERE m.id = ?;";
+    
+    private final String buscaConsultasPaciente = "SELECT * FROM consulta c \n "
+            + "INNER JOIN medico m ON c.id_medico = m.id \n "
+            + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
+            + "WHERE p.id = ?;";
 
     private final String listaHorariosPorMedico = "select * from medico_horarios mh \n"
             + "INNER JOIN medico_clinica mc ON mc.id = mh.id_medico_clinica \n"
@@ -55,7 +62,7 @@ public class HorarioDAO {
             + "WHERE m.id = ? ORDER BY mh.horario_inicio;";
 
     private String buscaHorariosConsulta = "SELECT * FROM medico_horarios mh \n "
-            + "INNER JOIN medico_clinica mc ON mh.id_medico_clinica = mh.id \n "
+            + "INNER JOIN medico_clinica mc ON mh.id_medico_clinica = mc.id \n "
             + "INNER JOIN clinica_endereco ce ON mc.id_clinica_endereco = ce.id \n "
             + "INNER JOIN endereco en ON ce.id_endereco = en.id \n "
             + "INNER JOIN cidade ci ON en.id_cidade = ci.id \n "
@@ -65,7 +72,7 @@ public class HorarioDAO {
             + "INNER JOIN medico m ON mc.id_medico = m.id \n "
             + "INNER JOIN medico_especialidade me ON me.id_medico = m.id \n "
             + "INNER JOIN especialidade es ON me.id_especialidade = es.id \n "
-            + "WHERE es.nome = ? ";
+            + "WHERE es.id = ? ";
 
     private final String buscaFaltasSemanaMedico = "SELECT * FROM medico_falta\n"
             + "WHERE data_inicio >= ? AND "
@@ -155,10 +162,10 @@ public class HorarioDAO {
 
     public List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
         if (!("".equals(cidade))) {
-            buscaHorariosConsulta += " AND ci.nome = " + cidade;
+            buscaHorariosConsulta += " AND ci.id = " + cidade;
         }
         if (!("".equals(clinica))) {
-            buscaHorariosConsulta += " AND cl.nome_fantasia = " + clinica;
+            buscaHorariosConsulta += " AND cl.id = " + clinica;
         }
         buscaHorariosConsulta += " ORDER BY m.id ";
         try {
@@ -333,6 +340,40 @@ public class HorarioDAO {
                 Timestamp timestamp = rs.getTimestamp("c.datahora");
                 Date datahora = timestamp;
                 Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                lista.add(consulta);
+            }
+            return lista;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<Consulta> buscarConsultasPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        List<Consulta> lista = new ArrayList();
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaConsultasPaciente);
+            stmt.setInt(1, pacienteUsuario.getPaciente().getId());
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                Medico medico = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
                 ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
                 Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
                 lista.add(consulta);

@@ -153,6 +153,11 @@ public class Facade {
         return dao.buscarConsultasMedico(medico);
     }
 
+    public static List<Consulta> buscarConsultasPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultasPaciente(pacienteUsuario);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
@@ -412,8 +417,10 @@ public class Facade {
             Date hrInicial = format.parse(str);
             Date hrFinal = format.parse(str2);
             GregorianCalendar cal = new GregorianCalendar();
+            GregorianCalendar calFinal = new GregorianCalendar();
             cal.setTime(hrInicial);
-            while (!(cal.getTime() == hrFinal)){
+            calFinal.setTime(hrFinal);
+            while (!(cal.getTime().getTime() == calFinal.getTime().getTime())){
                 HorarioDisponivelDTO horario = new HorarioDisponivelDTO();
                 horario.setHorario(cal.getTime());
                 diaDisponivel.getListaHorariosDisponiveis().add(horario);
@@ -429,10 +436,14 @@ public class Facade {
         consultaDTO.setClinica(medHor.getClinicaEndereco());
         consultaDTO.setMedico(medHor.getMedico());
         GregorianCalendar cal = new GregorianCalendar();
+        GregorianCalendar calFinal = new GregorianCalendar();
         cal.setTime(medHor.getHoraInicio());
-        while (!(cal.getTime() == medHor.getHoraFim())){
+        calFinal.setTime(medHor.getHoraFim());
+        while (!(cal.getTime().getTime() == calFinal.getTime().getTime())){
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
-            horarioDTO.getListaConsultasDisponiveis().add(consultaDTO);
+            if (horarioDTO != null) {
+                horarioDTO.getListaConsultasDisponiveis().add(consultaDTO);
+            }
             cal.add(GregorianCalendar.MINUTE, 30);
         }
     }

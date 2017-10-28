@@ -54,7 +54,7 @@ public class PacienteDAO {
             "   INNER JOIN endereco 	    endP ON (endP.id 			= pusu.id_endereco)" +
             "   INNER JOIN login 	    logP ON (logP.id 			= pusu.id_login)" +
             "   INNER JOIN cidade            cid ON (cid.id  			= endP.id_cidade)" +
-            "   INEER JOIN estado             es ON (es.id			= cid.id_estado)" +
+            "   INNER JOIN estado             es ON (es.id			= cid.id_estado)" +
             "   INNER JOIN consulta          con ON (con.id_paciente		= pac.id)" +
             "   INNER JOIN medico              m ON (m.id			= con.id_medico)" +
             "   where m.id=? AND con.status = 'Marcado'";

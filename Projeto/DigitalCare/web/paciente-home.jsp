@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,11 +47,12 @@
                                                placeholder='Tipo da consulta'
                                                class='flexdatalist form-control'
                                                data-min-length='0'
-                                               list='tiposConsulta'
+                                               data-search-in='nome'
+                                               data-visible-properties='nome'
+                                               data-text-property='{nome}'
+                                               data-value-property='id'
                                                data-selection-required='true'
                                                required>
-                                        <datalist id="tiposConsulta">
-                                        </datalist>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -68,10 +70,13 @@
                                                placeholder='Clínica desejada'
                                                class='flexdatalist form-control'
                                                data-min-length='0'
-                                               list='listaClinicas'
-                                               data-selection-required='true'>
-
-                                        <datalist id="listaClinicas"></datalist>
+                                               data-search-in='nomeFantasia'
+                                               data-visible-properties='nomeFantasia'
+                                               data-text-property='{nomeFantasia}'
+                                               data-value-property='id'
+                                               data-selection-required='true'
+                                               noResultsText='Sem resultados para "{keyword}"'>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -80,9 +85,11 @@
                                         <input id="cidade" type='text' autocomplete="off"
                                                placeholder='Cidade'
                                                class='flexdatalist form-control'
-                                               data-min-length='1'
-                                               list='listaCidades'
+                                               data-min-length='3'
                                                name='cidade'
+                                               data-search-in='nome'
+                                               data-visible-properties='["nome"]'
+                                               data-value-property='id'
                                                data-selection-required='true'>
 
                                         <datalist id="listaCidades"></datalist>
@@ -118,63 +125,108 @@
         </c:choose>
     </body>
     <script>
+        new Date($.now());
+        var dt = new Date();
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        $('#calendar').fullCalendar({
+            locale: 'pt-br',
+            editable: false,
+            eventClick: function (event) {
+                swal({
+                    title: event.nome+' '+event.sobrenome,
+                    html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
+                            '<p>Status: Confirmado</p>' +
+                            '<p>Horário: ' + event.horario + '</p>' +
+                            '<p>Duração prevista: 30 min</p>' +
+                            '<p><b>Local: '+ event.local +'</b></p>' +
+                            '<p><b>Médico: Dr(a). '+ event.medico +'</b></p></div>' +
+                            '<div class="text-right"><br><a href="#" class="btn btn-sm btn-outline-danger">cancelar consulta</a></div>',
+                    showCloseButton: true,
+                    showConfirmButton: false,
+                    allowEnterKey: false,
+                    width: 600,
+                    padding: 50
+                });
+            },
+            header: {
+                left: 'prev,next today myCustomButton',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            timeFormat: 'H(:mm)',
+            buttonText: {
+                today: 'Hoje',
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                list: 'Lista'
+            },
+            allDaySlot: false,
+            slotLabelFormat: "HH:mm",
+            defaultView: 'month',
+            columnFormat: 'ddd DD/MM',
+            scrollTime: time,
+            height: 600,
+            eventTextColor: '#fff',
+            events: [
+                <c:if test="${consultas.size() > 0}">
+                    <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                        {
+                            id: '${i}',
+                            title: '${consultas.get(i).paciente.nome}',
+                            medico: '${consultas.get(i).medico.nome} ${consultas.get(i).medico.sobrenome}',
+                            nome: '${consultas.get(i).paciente.nome}',
+                            sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                            sexo: '${consultas.get(i).paciente.sexo}',
+                            status: '${consultas.get(i).status}',
+                            local: '${consultas.get(i).clinicaEndereco.endereco.rua}, ${consultas.get(i).clinicaEndereco.endereco.numero} - ${consultas.get(i).clinicaEndereco.endereco.bairro}',
+                            nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                            horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                        },
+                    </c:forEach>
+                </c:if>
+            ]
+        });
+
+            
+            
         $(document).ready(function () {
-            new Date($.now());
-            var dt = new Date();
-            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-            $('#calendar').fullCalendar({
-                locale: 'pt-br',
-                editable: false,
-                eventClick: function (event) {
-                    swal({
-                        title: event.title,
-                        html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
-                                '<p>Status: Confirmado</p>' +
-                                '<p>Horário: ' + event.start.toString() + '</p>' +
-                                '<p>Duração prevista: 30 min</p>' +
-                                '<p><b>Local: Clínica Lucano</b></p>' +
-                                '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10095.611312493658!2d-49.28693809014179!3d-25.45570653704176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4eb0012a30701491!2sCl%C3%ADnica+Lucano!5e0!3m2!1spt-BR!2sbr!4v1506433178013" width="500" height="250" frameborder="0" style="border:0" allowfullscreen="false"></iframe>' +
-                                '<br><br><a href="#" class="btn btn-sm btn-digital-green">OK!</a> \n\
-                                             <a href="#" class="btn btn-sm btn-danger">cancelar consulta</a>',
-                        showCloseButton: true,
-                        showConfirmButton: false,
-                        width: 600,
-                        padding: 50
-                    });
-                },
-                header: {
-                    left: 'prev,next today myCustomButton',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                timeFormat: 'H(:mm)',
-                buttonText: {
-                    today: 'Hoje',
-                    month: 'Mês',
-                    week: 'Semana',
-                    day: 'Dia',
-                    list: 'Lista'
-                },
-                allDaySlot: false,
-                slotLabelFormat: "HH:mm",
-                defaultView: 'month',
-                columnFormat: 'ddd DD/MM',
-                scrollTime: time,
-                height: 600,
-                events: [
-        <c:forEach items="${consultas}" var='consulta'>
-                    {
-                        title: "${consulta.especialidade}",
-                        id: "${consulta.id}",
-                        start: '2017-08-30T13:30:00'
-                    },
-        </c:forEach>
-                    {
-                        title: 'Dermatologia',
-                                start: '2017-08-30T13:30:00'
-                    },
-                ]
+
+            listaNovaConsulta();
+            function listaNovaConsulta() {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaTiposConsulta'}, //meaasge you want to send
+                        function (result) {
+                            $('#tipoConsulta').flexdatalist('data', result);
+                        });
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaClinicas'}, //meaasge you want to send
+                        function (result) {
+                            $('#clinica').flexdatalist('data', result);
+                        });
+            }
+            
+            function buscaCidades(nome) {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaCidades', nome: nome}, 
+                        function (result) {
+                            $('#cidade').flexdatalist('data', result);
+                        });
+            }
+
+            $("#cidade-flexdatalist").on("keyup", function (e) {
+                if ($(this).val().length > 2 && $(this).val().length < 6) {
+                    $('#listaCidades').empty();
+                    buscaCidades($(this).val());
+                }
             });
+            
+            
+            
             if ($(window).width() < 1200) {
                 if ($(window).width() < 992) {
                     $('.agendamento .data-box').addClass('col-md-8');
@@ -184,47 +236,10 @@
                     $('.agendamento .data-box').removeClass('col-md-5');
                 }
             }
-
-            listaNovaConsulta();
-            function listaNovaConsulta() {
-                $.post(
-                        "ConsultaServlet",
-                        {action: 'ListaTiposConsulta'}, //meaasge you want to send
-                        function (result) {
-                            $.each(result, function (index, tipo) {
-                                $("<option>").appendTo($("#tiposConsulta")).append(tipo.nome).val(tipo.id);
-                            });
-                        });
-                $.post(
-                        "ConsultaServlet",
-                        {action: 'ListaClinicas'}, //meaasge you want to send
-                        function (result) {
-                            $.each(result, function (index, clinica) {
-                                $("<option>").appendTo($("#listaClinicas")).append(clinica.nomeFantasia).val(clinica.id);
-                            });
-                        });
-            }
-
-            function buscaCidades(nome) {
-                $.post(
-                        "ConsultaServlet",
-                        {action: 'ListaCidades', nome: nome}, //meaasge you want to send
-                        function (result) {
-                            $.each(result, function (index, cidade) {
-                                $("<option>").appendTo($("#listaCidades")).append(cidade.nome).val(cidade.id);
-                            });
-                        });
-            }
-
-            $("#cidade-flexdatalist").on("keyup", function (e) {
-                if ($(this).val().length > 2 && $(this).val().length < 6) {
-                    //if ($(this).val().length < 6) {
-                    $('#listaCidades').empty();
-                    //}
-                    buscaCidades($(this).val());
-                }
-            });
         });
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_IoScyyrkE8QdU231FPFR926DrLybJUE&callback=initMap">
     </script>
 
 </html>

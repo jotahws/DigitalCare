@@ -18,7 +18,7 @@
     <body>
         <c:choose>
             <c:when test="${(sessionLogin.perfil == 1)}">
-                <c:redirect url="/paciente-home.jsp"/>
+                <c:redirect url="/ConsultaServlet?action=homePaciente"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 2)}">
                 <c:redirect url="/ConsultaServlet?action=Dashboard"/>

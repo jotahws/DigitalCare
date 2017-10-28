@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
                         PacienteUsuario pacienteUsuario = Facade.buscarPacienteUsuarioPorIdLogin(login.getId());
                         pacienteUsuario.setLogin(login);
                         session.setAttribute("usuario", pacienteUsuario);
-                        response.sendRedirect("paciente-home.jsp");
+                        response.sendRedirect("ConsultaServlet?action=homePaciente");
                         break;
                     case 2:
                         Medico medico = Facade.getMedicoPorLogin(login.getId());

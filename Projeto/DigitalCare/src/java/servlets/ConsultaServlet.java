@@ -9,6 +9,7 @@ import beans.Consulta;
 import beans.MedicoHorario;
 import beans.Medico;
 import beans.MedicoFalta;
+import beans.PacienteUsuario;
 import com.google.gson.Gson;
 import dtos.DiaDisponivelDTO;
 import facade.Facade;
@@ -232,6 +233,17 @@ public class ConsultaServlet extends HttpServlet {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/indisponibilidade.jsp");
+                rd.forward(request, response);
+            } else if ("homePaciente".equals(action)) {
+                try {
+                    HttpSession session = request.getSession();
+                    PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
+                    List<Consulta> consultas = Facade.buscarConsultasPaciente(pacienteUsuario);
+                    request.setAttribute("consultas", consultas);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/paciente-home.jsp");;
                 rd.forward(request, response);
             }
         }
