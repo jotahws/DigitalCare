@@ -7,17 +7,18 @@ package dtos;
 
 import beans.ClinicaEndereco;
 import beans.Medico;
+import java.util.Date;
 
 /**
  *
  * @author Gabriel
  */
-public class HorarioVagoDTO {
+public class ConsultaDisponivelDTO {
     
     private Medico medico;
-    private ClinicaEndereco clinicaEndereco;
+    private ClinicaEndereco clinica;
 
-    public HorarioVagoDTO() {
+    public ConsultaDisponivelDTO() {
     }
 
     public Medico getMedico() {
@@ -28,12 +29,12 @@ public class HorarioVagoDTO {
         this.medico = medico;
     }
 
-    public ClinicaEndereco getClinicaEndereco() {
-        return clinicaEndereco;
+    public ClinicaEndereco getClinica() {
+        return clinica;
     }
 
-    public void setClinicaEndereco(ClinicaEndereco clinicaEndereco) {
-        this.clinicaEndereco = clinicaEndereco;
+    public void setClinica(ClinicaEndereco clinica) {
+        this.clinica = clinica;
     }
     
 }

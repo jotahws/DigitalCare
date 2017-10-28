@@ -32,7 +32,12 @@ import daos.LoginDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
+import dtos.ConsultaDisponivelDTO;
+import dtos.DiaDisponivelDTO;
+import dtos.HorarioDisponivelDTO;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -386,34 +391,50 @@ public class Facade {
         return hDAO.buscarConsultasSemana(dataInicio, dataFim, idMedicos);
     }
     
-    public static void adicionarHorariosMedico(List<String> lista, Date horaIni, Date horaFim, Boolean add){
+    public static void removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico){
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(horaIni);
-        Integer hIni = cal.get(GregorianCalendar.HOUR_OF_DAY);
-        Integer mIni = cal.get(GregorianCalendar.MINUTE);
-        cal.setTime(horaFim);
-        Integer hFim = cal.get(GregorianCalendar.HOUR_OF_DAY);
-        Integer mFim = cal.get(GregorianCalendar.MINUTE);
-        
-        for (Integer i=hIni; i<=hFim; i++){
-            for (Integer j=mIni; j<=mFim; j+=30){
-                String sAux = String.valueOf(i) +":"+ String.valueOf(j);
-                if ((add) && (!lista.contains(sAux))){
-                    lista.add(sAux);
-                } else if (!add){
-                    lista.remove(sAux);
-                }
-            }
+        while (!(cal.getTime() == horaFim)){
+            HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
+            ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
+            horarioDTO.getListaConsultasDisponiveis().remove(consultaDTO);
+            cal.add(GregorianCalendar.MINUTE, 30);
         }
     }
     
-    public static List<List<String>> instanciaListaHorarios(int dias){
-        List<List<String>> listaMaster = new ArrayList();
+    public static List<DiaDisponivelDTO> instanciaListaDias(int dias) throws ParseException{
+        List<DiaDisponivelDTO> listaMaster = new ArrayList();
         for (Integer i=1; i<=dias; i++){
-            List<String> listaDetail = new ArrayList();
-            listaMaster.add(listaDetail);
+            DiaDisponivelDTO diaDisponivel = new DiaDisponivelDTO();
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            String str = "08:00";
+            String str2 = "20:00";
+            Date hrInicial = format.parse(str);
+            Date hrFinal = format.parse(str2);
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.setTime(hrInicial);
+            while (!(cal.getTime() == hrFinal)){
+                HorarioDisponivelDTO horario = new HorarioDisponivelDTO();
+                horario.setHorario(cal.getTime());
+                diaDisponivel.getListaHorariosDisponiveis().add(horario);
+                cal.add(GregorianCalendar.MINUTE, 30);
+            }
+            listaMaster.add(diaDisponivel);
         }
         return listaMaster;
+    }
+
+    public static void adicionarHorariosMedico(DiaDisponivelDTO dia, MedicoHorario medHor) {
+        ConsultaDisponivelDTO consultaDTO = new ConsultaDisponivelDTO();
+        consultaDTO.setClinica(medHor.getClinicaEndereco());
+        consultaDTO.setMedico(medHor.getMedico());
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(medHor.getHoraInicio());
+        while (!(cal.getTime() == medHor.getHoraFim())){
+            HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
+            horarioDTO.getListaConsultasDisponiveis().add(consultaDTO);
+            cal.add(GregorianCalendar.MINUTE, 30);
+        }
     }
 
     public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {

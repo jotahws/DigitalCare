@@ -10,6 +10,7 @@ import beans.MedicoHorario;
 import beans.Medico;
 import beans.MedicoFalta;
 import com.google.gson.Gson;
+import dtos.DiaDisponivelDTO;
 import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -127,15 +128,14 @@ public class ConsultaServlet extends HttpServlet {
                     String str2 = "20:00";
                     Date hrInicial = format.parse(str);
                     Date hrFinal = format.parse(str2);
-
+                    List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7);
                     for (Medico medicoAux : listaMedicos) {
                         medicoAux.setListaConsultas(Facade.buscarConsultasSemana(dtInicio, dtFim, medicoAux.getId()));
                         medicoAux.setListaFaltas(Facade.buscarFaltasSemana(dtInicio, dtFim, medicoAux.getId()));
-                        List<List<String>> lista = Facade.instanciaListaHorarios(7);
+                        List<List<String>> lista = new ArrayList();
                         for (MedicoHorario medHor : medicoAux.getListaHorarios()) {
                             int index = (medHor.getDiaSemana() + iDomingo - 1) % 7;
-                            Facade.adicionarHorariosMedico(lista.get(index), medHor.getHoraInicio(),
-                                    medHor.getHoraFim(), Boolean.TRUE);
+                            Facade.adicionarHorariosMedico(listaDiasSemana.get(index), medHor);
                         }
                         for (MedicoFalta medFal : medicoAux.getListaFaltas()) {
                             Date dataI;
@@ -148,11 +148,11 @@ public class ConsultaServlet extends HttpServlet {
                             int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
                             if (medFal.getDataFim() == null) {
                                 if (medFal.getHoraInicio() == null) {
-                                    Facade.adicionarHorariosMedico(lista.get(indexDataInicio), hrInicial,
-                                            hrFinal, Boolean.FALSE);
+                                    Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), hrInicial,
+                                            hrFinal, medicoAux);
                                 } else {
-                                    Facade.adicionarHorariosMedico(lista.get(indexDataInicio), medFal.getHoraInicio(),
-                                            medFal.getHoraFim(), Boolean.FALSE);
+                                    Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
+                                            medFal.getHoraFim(), medicoAux);
                                 }
                             } else {
                                 Date dataF;
@@ -163,28 +163,32 @@ public class ConsultaServlet extends HttpServlet {
                                 }
                                 cal.setTime(dataF);
                                 int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                                Facade.adicionarHorariosMedico(lista.get(indexDataInicio), medFal.getHoraInicio(),
-                                        hrFinal, Boolean.FALSE);
-                                Facade.adicionarHorariosMedico(lista.get(indexDataFinal), hrInicial,
-                                        medFal.getHoraFim(), Boolean.FALSE);
+                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
+                                        hrFinal, medicoAux);
+                                for (Integer i = indexDataInicio+1; i < indexDataFinal; i++)
+                                    Facade.removerHorariosMedico(listaDiasSemana.get(i), hrInicial,
+                                        hrFinal, medicoAux);
+                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataFinal), hrInicial,
+                                        medFal.getHoraFim(), medicoAux);
                             }
                         }
 
                         for (Consulta medCon : medicoAux.getListaConsultas()) {
                             cal.setTime(medCon.getDataHora());
                             int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                            Facade.adicionarHorariosMedico(lista.get(indexDataConsulta), medCon.getDataHora(),
-                                    medCon.getDataHora(), Boolean.FALSE);
+                            Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
+                                    medCon.getDataHora(), medicoAux);
                         }
                     }
+                    request.setAttribute("horarios",listaDiasSemana);
 
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     try (PrintWriter out = response.getWriter()) {
                         out.println(ex.getMessage());
                     }
                 }
-//                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
-//                rd.forward(request, response);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
+                rd.forward(request, response);
             } else if ("ClinicaBuscaConsultasMedico".equals(action)) {
                 try {
                     int idMedico = Integer.parseInt(request.getParameter("idMedico"));
