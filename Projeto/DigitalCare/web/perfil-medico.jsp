@@ -165,13 +165,10 @@
                     text: "O médico desvinculado não poderá mais realizar consultas nesta clínica",
                     type: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: 'bfd9d2',
                     confirmButtonText: 'desvincular',
-                    cancelButtonText: 'cancelar',
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false
+                    cancelButtonText: 'cancelar'
                 }).then(function () {
                     window.location.href = "MedicoServlet?action=desvinculaMedico&idMedico=" + idMedico + "&idClinica=" + idClinica;
                 }, function (dismiss) {

@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 
 /**
@@ -13,12 +14,18 @@ import java.io.Serializable;
  */
 public class Endereco implements Serializable{
     
+    @Expose
     private int id;
+    @Expose
     private Cidade cidade;
     private String cep;
+    @Expose
     private String rua;
+    @Expose
     private String numero;
+    @Expose
     private String complemento;
+    @Expose
     private String bairro;
 
     public Endereco() {

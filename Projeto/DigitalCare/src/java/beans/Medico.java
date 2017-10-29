@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +20,12 @@ public class Medico implements Serializable {
     private Login login;
     private Estado estadoCrm;
     private String numeroCrm;
+    @Expose
     private String nome;
+    @Expose
     private String sobrenome;
     private String cpf;
+    @Expose
     private Double precoConsulta;
     private Date dataNascimento;
     private String telefone1;

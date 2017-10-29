@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,11 +15,17 @@ import java.util.List;
  */
 public class ClinicaEndereco implements Serializable{
     
+    @Expose
     private int id;
+    @Expose
     private Clinica clinica;
+    @Expose
     private Endereco endereco;
+    @Expose
     private String telefone1;
+    @Expose
     private String telefone2;
+    @Expose
     private String nome;
     private List<Medico> listaMedicos;
 

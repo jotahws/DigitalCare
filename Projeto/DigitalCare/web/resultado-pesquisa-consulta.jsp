@@ -96,60 +96,73 @@
                                         <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">
                                             <fmt:formatDate pattern = "dd/MM/yyyy" value = "${horarios.get(i).dia}" />
                                         </a>
-                                        </li>
+                                    </li>
                                 </c:forEach>
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <c:forEach begin="0" end="${horarios.size()-1}" var="i">
                                     <div class="tab-pane fade <c:if test="${i == 3}">show active</c:if>" id="content${i}" role="tabpanel" aria-labelledby="profile-tab">
                                         <div id="horarios${i}" data-children=".item${i}">
-                                            <h5 class="mt-3">Selecione um horário</h5>
-                                            <div class="row">
-                                                <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
-                                                    <div class="item${i} col-md-2">
-                                                        <a data-toggle="collapse" data-parent="#horarios${i}" href="#hora${k}-${i}" aria-expanded="true" aria-controls="hora${k}-${i}">
-                                                            <fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" />
-                                                        </a>
-                                                    </div>
-                                                </c:forEach>
-                                            </div>
-                                            <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
-                                                <div class="item${i}">
-                                                    <div id="hora${k}-${i}" class="collapse" role="tabpanel">
-                                                        <hr class="invisible-divider">
-                                                        <h4><fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" /></h4>
-                                                        <c:choose>
-                                                            <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() > 0}">
-                                                                <table id="tabela" class="table table-sm">
-                                                                    <thead class="thead-default">
-                                                                        <tr>
-                                                                            <th>Clínica</th>
-                                                                            <th>Médico</th>
-                                                                            <th></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size()-1}" var="j">
-                                                                            <tr>
-                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).clinica.nome}</td>
-                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.nome} ${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.sobrenome}</td>
-                                                                                <td>
-                                                                                    <div class="col-md-12 text-right">
-                                                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </c:forEach>
-                                                                    </tbody>
-                                                                </table>
-                                                            </c:when>
-                                                            <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() <= 0}">
-                                                                <h5 class="text-muted">Não há consultas disponíveis para esse horário</h5>
-                                                            </c:when>
-                                                        </c:choose>
-                                                    </div>
-                                                </div>
+                                            <c:set var="diaVazio" value="true"/>
+                                            <c:forEach items="${horarios.get(i).listaHorariosDisponiveis}" var="horarioVazio">
+                                                <c:if test="${horarioVazio.listaConsultasDisponiveis.size() > 0}">
+                                                    <c:set var="diaVazio" value="false"/>
+                                                </c:if>
                                             </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${diaVazio == 'true'}">
+                                                    <h3 class="mt-4 text-muted">Não há consultas disponíveis para este dia.</h3>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <h5 class="mt-3">Selecione um horário</h5>
+                                                    <div class="row">
+                                                        <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
+                                                            <div class="item${i} col-md-2">
+                                                                <a data-toggle="collapse" data-parent="#horarios${i}" href="#hora${k}-${i}" aria-expanded="true" aria-controls="hora${k}-${i}">
+                                                                    <fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" />
+                                                                </a>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+                                                    <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
+                                                        <div class="item${i}">
+                                                            <div id="hora${k}-${i}" class="collapse" role="tabpanel">
+                                                                <hr class="invisible-divider">
+                                                                <h4><fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" /></h4>
+                                                                <c:choose>
+                                                                    <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() > 0}">
+                                                                        <table id="tabela" class="table table-sm">
+                                                                            <thead class="thead-default">
+                                                                                <tr>
+                                                                                    <th>Clínica</th>
+                                                                                    <th>Médico</th>
+                                                                                    <th></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size()-1}" var="j">
+                                                                                    <tr>
+                                                                                        <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).clinica.nome}</td>
+                                                                                        <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.nome} ${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.sobrenome}</td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 text-right">
+                                                                                                <a id="detalhe" onclick="Detalhe(${i}, ${k}, ${j})" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </c:forEach>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </c:when>
+                                                                    <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() <= 0}">
+                                                                        <h5 class="text-muted">Não há consultas disponíveis para esse horário</h5>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -163,22 +176,66 @@
     </body>
     <script>
         $(document).ready(function () {
-            $('#detalhe').click(function () {
-                swal({
-                    title: 'Cardiologia',
-                    html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
-                            '<p>Status: Confirmado</p>' +
-                            '<p>Horário: </p>' +
-                            '<p>Duração prevista: 30 min</p>' +
-                            '<p><b>Local: Clínica Lucano</b></p>' +
-                            '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10095.611312493658!2d-49.28693809014179!3d-25.45570653704176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4eb0012a30701491!2sCl%C3%ADnica+Lucano!5e0!3m2!1spt-BR!2sbr!4v1506433178013" width="500" height="250" frameborder="0" style="border:0" allowfullscreen="false"></iframe>' +
-                            '<br><br><a href="#" class="btn btn-digital-green">Marcar Consulta</a>',
-                    showCloseButton: true,
-                    showConfirmButton: false,
-                    width: 600,
-                    padding: 50
-                });
-            });
+
         });
+        var horarios = '${horariosJSON}';
+        horarios = $.parseJSON(horarios);
+        function Detalhe(i, k, j) {
+            swal({
+                title: horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.nome,
+                html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                        '<p>Data: ' + getFormattedDate(new Date(horarios[i].dia)) + ', ' + getFormattedHour(new Date(horarios[i].listaHorariosDisponiveis[k].horario)) + '</p>' +
+                        '<p>Duração prevista: 30 min</p>' +
+                        '<h3>Clínica</h3>' +
+                        '<p><strong>Local: ' + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.nome + '</strong></p>' +
+                        '<p>Endereço: ' + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.endereco.rua + ', ' +
+                        horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.endereco.numero + ' ' +
+                        horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.endereco.complemento + ' - ' +
+                        horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.endereco.bairro + ', ' +
+                        horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.endereco.cidade.nome + '</p>' +
+                        '<p>Telefone: ' + getFormattedPhone(horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.telefone1) + '</p>' +
+                        '<p>Site: ' + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.clinica.site + '</p>' +
+                        '<h3>Médico</h3>' +
+                        '<p>Nome: ' + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].medico.nome + ' ' +
+                        horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].medico.sobrenome + '</p>' +
+                        '<p>Preço particular: R$' + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].medico.precoConsulta + '</p>',
+                showCloseButton: true,
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#68c4af',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Marcar consulta',
+                width: 600,
+                padding: 30
+            });
+        }
+
+        function getFormattedDate(date) {
+            var year = date.getFullYear();
+
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+
+            return day + '/' + month + '/' + year;
+        }
+
+        function getFormattedHour(hour) {
+
+            var h = hour.getHours();
+            h = (h < 10) ? ("0" + h) : h;
+
+            var m = hour.getMinutes();
+            m = (m < 10) ? ("0" + m) : m;
+
+            return h + ':' + m;
+        }
+
+        function getFormattedPhone(number) {
+            return number.replace(/(\d{2})(\d{4})(\d{4})/, '($1)$2-$3');
+        }
     </script>
 </html>

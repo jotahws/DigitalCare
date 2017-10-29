@@ -12,6 +12,7 @@ import beans.Medico;
 import beans.MedicoFalta;
 import beans.PacienteUsuario;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dtos.DiaDisponivelDTO;
 import facade.Facade;
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class ConsultaServlet extends HttpServlet {
                     Date dtFim = cal.getTime();
                     List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7, dtInicio);
                     List<MedicoHorario> listaMedicoHorario = Facade.buscarHorariosConsulta(tipo, cidade, clinica);
-                    if (listaMedicoHorario.size() > 0){
+                    if (listaMedicoHorario.size() > 0) {
                         Medico medico = listaMedicoHorario.get(0).getMedico();
                         List<MedicoHorario> listaAux = new ArrayList();
                         List<Medico> listaMedicos = new ArrayList();
@@ -168,9 +169,10 @@ public class ConsultaServlet extends HttpServlet {
                                     int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
                                     Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
                                             hrFinal, medicoAux);
-                                    for (Integer i = indexDataInicio+1; i < indexDataFinal; i++)
+                                    for (Integer i = indexDataInicio + 1; i < indexDataFinal; i++) {
                                         Facade.removerHorariosMedico(listaDiasSemana.get(i), hrInicial,
-                                            hrFinal, medicoAux);
+                                                hrFinal, medicoAux);
+                                    }
                                     Facade.removerHorariosMedico(listaDiasSemana.get(indexDataFinal), hrInicial,
                                             medFal.getHoraFim(), medicoAux);
                                 }
@@ -183,18 +185,25 @@ public class ConsultaServlet extends HttpServlet {
                                         medCon.getDataHora(), medicoAux);
                             }
                         }
-                        
-                    }
-                    request.setAttribute("horarios",listaDiasSemana);
-                    request.setAttribute("tipoConsulta", especialidade);
 
-                } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                    } else {
+                        throw new Exception("Nao ha medicos disponiveis");
+                    }
+                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                    String horariosJSON = gson.toJson(listaDiasSemana);
+                    request.setAttribute("horarios", listaDiasSemana);
+                    request.setAttribute("horariosJSON", horariosJSON);
+                    request.setAttribute("tipoConsulta", especialidade);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
+                    rd.forward(request, response);
+                } catch (Exception ex) {
+                    if (ex.getMessage().equals("Nao ha medicos disponiveis")) {
+                        response.sendRedirect("ConsultaServlet?action=homePaciente&status=semMedicos");
+                    }
                     try (PrintWriter out = response.getWriter()) {
                         out.println(ex.getMessage());
                     }
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/resultado-pesquisa-consulta.jsp");
-                rd.forward(request, response);
             } else if ("ClinicaBuscaConsultasMedico".equals(action)) {
                 try {
                     int idMedico = Integer.parseInt(request.getParameter("idMedico"));

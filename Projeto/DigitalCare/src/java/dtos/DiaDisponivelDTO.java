@@ -5,6 +5,7 @@
  */
 package dtos;
 
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,9 @@ import java.util.List;
  */
 public class DiaDisponivelDTO {
     
+    @Expose
     private Date dia;
+    @Expose
     private List<HorarioDisponivelDTO> listaHorariosDisponiveis;
 
     public DiaDisponivelDTO() {

@@ -6,6 +6,7 @@
 package dtos;
 
 import beans.Medico;
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import java.util.List;
  */
 public class HorarioDisponivelDTO {
     
+    @Expose
     private Date horario;
+    @Expose
     private List<ConsultaDisponivelDTO> listaConsultasDisponiveis;
 
     public HorarioDisponivelDTO() {

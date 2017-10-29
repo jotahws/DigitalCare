@@ -7,6 +7,7 @@ package dtos;
 
 import beans.ClinicaEndereco;
 import beans.Medico;
+import com.google.gson.annotations.Expose;
 import java.util.Date;
 
 /**
@@ -15,7 +16,9 @@ import java.util.Date;
  */
 public class ConsultaDisponivelDTO {
     
+    @Expose
     private Medico medico;
+    @Expose
     private ClinicaEndereco clinica;
 
     public ConsultaDisponivelDTO() {
