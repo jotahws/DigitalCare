@@ -32,7 +32,7 @@
                 <div class="container paciente">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1>Consultas de ~Cardiologia~</h1>
+                            <h1>Horários disponíveis para ${tipoConsulta.nome}</h1>
                         </div>
                     </div>
                 </div>
@@ -63,19 +63,19 @@
                                                 <div class="form-check">
                                                     <label class="form-check-label">
                                                         <input class="form-check-input" type="checkbox" value="">
-                                                        Apeas minha cidade
+                                                        Apenas minha cidade
                                                     </label>
                                                 </div><hr>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
                                                         <input class="form-check-input" type="checkbox" value="">
-                                                        Clínica 1
+                                                        ~Clínica 1~
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
                                                         <input class="form-check-input" type="checkbox" value="">
-                                                        Clínica 2
+                                                        ~Clínica 2~
                                                     </label>
                                                 </div><hr class="invisible-divider">
                                                 <div class="form-check">
@@ -91,63 +91,66 @@
                         </div>
                         <div class="col-md-9">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link link-digital-green active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">02/07/2017</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link link-digital-green " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">03/07/2017</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link link-digital-green " id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">04/07/2017</a>
-                                </li>
+                                <c:forEach begin="0" end="${horarios.size()-1}" var="i">
+                                    <li class="nav-item">
+                                        <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">02/07/2017</a>
+                                        </li>
+                                </c:forEach>
                             </ul>
                             <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <table id="tabela" class="table table-sm">
-                                        <thead class="thead-default">
-                                            <tr>
-                                                <th>Clínica</th>
-                                                <th>Data</th>
-                                                <th>Doutor</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>DADO</td>
-                                                <td>03/06/2017 13:30</td>
-                                                <td>DADO</td>
-                                                <td>
-                                                    <div class="col-md-12 text-right">
-                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                <c:forEach begin="0" end="${horarios.size()-1}" var="i">
+                                    <div class="tab-pane fade <c:if test="${i == 3}">show active</c:if>" id="content${i}" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div id="horarios${i}" data-children=".item${i}">
+                                            <h5 class="mt-3">Selecione um horário</h5>
+                                            <div class="row">
+                                                <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
+                                                    <div class="item${i} col-md-2">
+                                                        <a data-toggle="collapse" data-parent="#horarios${i}" href="#hora${k}-${i}" aria-expanded="true" aria-controls="hora${k}-${i}">
+                                                            <fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" />
+                                                        </a>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>DADO</td>
-                                                <td>03/06/2017 13:30</td>
-                                                <td>DADO</td>
-                                                <td>
-                                                    <div class="col-md-12 text-right">
-                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                </c:forEach>
+                                            </div>
+                                            <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.size()-1}" var="k">
+                                                <div class="item${i}">
+                                                    <div id="hora${k}-${i}" class="collapse" role="tabpanel">
+                                                        <hr class="invisible-divider">
+                                                        <h4><fmt:formatDate pattern = "HH:mm" value = "${horarios.get(i).listaHorariosDisponiveis.get(k).horario}" /></h4>
+                                                        <c:choose>
+                                                            <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() > 0}">
+                                                                <table id="tabela" class="table table-sm">
+                                                                    <thead class="thead-default">
+                                                                        <tr>
+                                                                            <th>Clínica</th>
+                                                                            <th>Médico</th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size()-1}" var="j">
+                                                                            <tr>
+                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).clinicaEndereco.nome}</td>
+                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.nome}</td>
+                                                                                <td>
+                                                                                    <div class="col-md-12 text-right">
+                                                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                    </tbody>
+                                                                </table>
+                                                            </c:when>
+                                                            <c:when test="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size() <= 0}">
+                                                                <h5 class="text-muted">Não há consultas disponíveis para esse horário</h5>
+                                                            </c:when>
+                                                        </c:choose>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>DADO</td>
-                                                <td>03/06/2017 13:30</td>
-                                                <td>DADO</td>
-                                                <td>
-                                                    <div class="col-md-12 text-right">
-                                                        <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>

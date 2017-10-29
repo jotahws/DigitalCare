@@ -6,6 +6,7 @@
 package servlets;
 
 import beans.Consulta;
+import beans.Especialidade;
 import beans.MedicoHorario;
 import beans.Medico;
 import beans.MedicoFalta;
@@ -92,6 +93,7 @@ public class ConsultaServlet extends HttpServlet {
             } else if ("BuscaConsultas".equals(action)) {
                 try {
                     String tipo = request.getParameter("tipoConsulta");
+                    Especialidade especialidade = Facade.buscarEspecialidadePorId(Integer.parseInt(tipo));
                     String data = request.getParameter("data");
                     String clinica = request.getParameter("clinica");
                     String cidade = request.getParameter("cidade");
@@ -182,6 +184,7 @@ public class ConsultaServlet extends HttpServlet {
                         }
                     }
                     request.setAttribute("horarios",listaDiasSemana);
+                    request.setAttribute("tipoConsulta", especialidade);
 
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     try (PrintWriter out = response.getWriter()) {
