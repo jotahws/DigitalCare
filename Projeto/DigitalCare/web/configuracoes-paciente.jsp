@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="dtnsc">Data de Nascimento:</label>
-                                            <input type="text" id="dtnsc" name="dtnsc" class="required form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${item.paciente.dataNascimento}'/>" >
+                                            <input type="text" id="dtnsc" name="dtnsc" class="required data form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${item.paciente.dataNascimento}'/>" >
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>

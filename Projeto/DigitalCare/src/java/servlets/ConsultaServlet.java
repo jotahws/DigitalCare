@@ -97,7 +97,7 @@ public class ConsultaServlet extends HttpServlet {
                     String data = request.getParameter("data");
                     String clinica = request.getParameter("clinica");
                     String cidade = request.getParameter("cidade");
-                    SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdfEntrada = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date();
                     if (!"".equals(data)) {
                         data = data.replace("/", "-");

@@ -75,7 +75,7 @@
                                             <div class="form-group col-md-4">
                                                 <label for="data" class="col-form-label">Data preferecial</label>
                                                 <div class="">
-                                                    <input type="date" name="data" class="data form-control" id="data" >
+                                                    <input type="text" name="data" class="data form-control" id="data" >
                                                 </div>
                                             </div>
                                         </div>
