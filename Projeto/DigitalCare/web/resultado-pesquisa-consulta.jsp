@@ -93,7 +93,9 @@
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <c:forEach begin="0" end="${horarios.size()-1}" var="i">
                                     <li class="nav-item">
-                                        <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">${horarios.get(i).dia}</a>
+                                        <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">
+                                            <fmt:formatDate pattern = "dd/MM/yyyy" value = "${horarios.get(i).dia}" />
+                                        </a>
                                         </li>
                                 </c:forEach>
                             </ul>
@@ -129,8 +131,8 @@
                                                                     <tbody>
                                                                         <c:forEach begin="0" end="${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.size()-1}" var="j">
                                                                             <tr>
-                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).clinicaEndereco.nome}</td>
-                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.nome}</td>
+                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).clinica.nome}</td>
+                                                                                <td>${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.nome} ${horarios.get(i).listaHorariosDisponiveis.get(k).listaConsultasDisponiveis.get(j).medico.sobrenome}</td>
                                                                                 <td>
                                                                                     <div class="col-md-12 text-right">
                                                                                         <a id="detalhe" class="clickable btn btn-sm btn-outline-secondary ">Detalhes</a>
