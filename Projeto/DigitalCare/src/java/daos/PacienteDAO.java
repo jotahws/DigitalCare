@@ -49,15 +49,15 @@ public class PacienteDAO {
             + "   INNER JOIN estado                  es ON (es.id               = cid.id_estado)"    
             + "where m.id=? and pusu.id=? and pac.id = pcab.id_paciente and cend.id = con.id_clinica_endereco;";
 
-    private final String listPacientes = "SELECT *FROM paciente pac" +
-            "   INNER JOIN paciente_usuario pusu ON (pac.id  			= pusu.id_paciente)" +
-            "   INNER JOIN endereco 	    endP ON (endP.id 			= pusu.id_endereco)" +
-            "   INNER JOIN login 	    logP ON (logP.id 			= pusu.id_login)" +
-            "   INNER JOIN cidade            cid ON (cid.id  			= endP.id_cidade)" +
-            "   INNER JOIN estado             es ON (es.id			= cid.id_estado)" +
-            "   INNER JOIN consulta          con ON (con.id_paciente		= pac.id)" +
-            "   INNER JOIN medico              m ON (m.id			= con.id_medico)" +
-            "   where m.id=? AND con.status = 'Marcado'";
+    private final String listPacientes = "SELECT distinct logP.*, pusu.*, pac.*, endP.*, cid.*, es.* FROM paciente pac" +
+              "   INNER JOIN paciente_usuario       pusu ON (pac.id  			= pusu.id_paciente)" +
+              "   INNER JOIN endereco   	    endP ON (endP.id 			= pusu.id_endereco)" +
+              "   INNER JOIN login 	            logP ON (logP.id 			= pusu.id_login)" +
+              "   INNER JOIN cidade                  cid ON (cid.id  			= endP.id_cidade)" +
+              "   INNER JOIN estado                   es ON (es.id			= cid.id_estado)" +
+              "   INNER JOIN consulta                con ON (con.id_paciente		= pac.id)" +
+              "   INNER JOIN medico                    m ON (m.id			= con.id_medico)" +
+              "   where m.id =? AND con.status = 'Marcado';";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -194,15 +194,6 @@ public class PacienteDAO {
                 Endereco endereco = new Endereco();
                 Cidade cidade = new Cidade();
                 Estado estado = new Estado();
-                Consulta consulta = new Consulta();
-                
-                consulta.setDataHora(rs.getDate("con.datahora"));
-                consulta.setId(rs.getInt("con.id"));
-                consulta.setIdClinicaEndereco(rs.getInt("con.id_clinica_endereco"));
-                consulta.setIdMedico(rs.getInt("con.id_medico"));
-                consulta.setIdPaciente(rs.getInt("con.id_paciente"));
-                consulta.setObservacao(rs.getString("con.observacao"));
-                consulta.setStatus(rs.getString("con.status"));
                 
                 paciente.setCpf(rs.getString("pac.cpf"));
                 paciente.setDataNascimento(rs.getDate("pac.data_nascimento"));

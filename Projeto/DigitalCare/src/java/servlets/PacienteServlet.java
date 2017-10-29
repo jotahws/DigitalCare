@@ -15,6 +15,7 @@ import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -257,13 +258,23 @@ public class PacienteServlet extends HttpServlet {
             } else if ("perfilPacienteMedico".equals(action)) {
                 HttpSession session = request.getSession();
                 Medico medID = (Medico) session.getAttribute("usuario");
-                int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
+                int idPacienteUsu = Integer.parseInt(request.getParameter("id"));
+                int idPaciente = Integer.parseInt(request.getParameter("idPac"));
                 try {
-                    PacienteUsuario pacienteUsuario;
-                    pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPaciente);
+                    PacienteUsuario pacienteUsuario = new PacienteUsuario();
+                    List<ConvenioPaciente> convenioPacientes;
+                    pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPacienteUsu);
+                    convenioPacientes = facade.getListaConveniosPaciente(idPaciente);
                     request.setAttribute("perfilPaciente", pacienteUsuario);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    status = "errorList";
+                    request.setAttribute("listConveniosPac", convenioPacientes);
+                } catch (ClassNotFoundException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("Class not found: " + ex.getMessage());
+                    }
+                } catch (SQLException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("SQL not found: " + ex.getMessage());
+                    }
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
                 rd.forward(request, response);

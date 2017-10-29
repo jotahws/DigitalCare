@@ -60,8 +60,11 @@
                                     <p class="col-md-4 dados">Telefone 1: <strong>${perfilPaciente.telefone}</strong> </p>
                                     <p class="col-md-4 dados">Telefone 2: <strong>${perfilPaciente.telefone2}</strong> </p>
                                     <legend class="dados"><hr>Dados Médicos</legend>
-                                    <p class="col-md-4 dados">Plano de Saúde: <strong>Algum dado</strong> </p>
-                                    <p class="col-md-4 dados">Tipo sanguíneo: <strong>Algum dado</strong> </p>
+                                    <c:forEach var="item" items="${listConveniosPac}">
+                                        <p class="col-md-4 dados">Plano de Saúde: <strong>${item.convenio.nome}</strong> </p>
+                                        <p class="col-md-4 dados">Validade: <strong>${item.validade}</strong> </p>
+                                        <p class="col-md-4 dados">Número: <strong>${item.numero}</strong> </p>
+                                    </c:forEach>
                                     <legend class="dados"><hr>Endereço</legend>
                                     <p class="col-md-12 dados">CEP: <strong>${perfilPaciente.endereco.cep}</strong> </p>
                                     <p class="col-md-4 dados">Rua: <strong>${perfilPaciente.endereco.rua}</strong> </p>

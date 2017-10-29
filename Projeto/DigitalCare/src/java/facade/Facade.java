@@ -142,7 +142,7 @@ public class Facade {
     public static List<Medico> getMedicosPorNome(String nome) throws ClassNotFoundException, SQLException {
         MedicoDAO dao = new MedicoDAO();
         List<Medico> medicos = dao.buscarMedicosPorNome(nome);
-        for(Medico medico : medicos){
+        for (Medico medico : medicos) {
             medico.setListaClinicaEndereco(dao.buscarMedicoClinicas(medico.getId()));
         }
         return medicos;
@@ -380,38 +380,38 @@ public class Facade {
         PacienteDAO pacienteDAO = new PacienteDAO();
         return pacienteDAO.PacienteNoMedico(idMedico, idPaciente);
     }
-    
+
     public static List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarHorariosConsulta(especialidade, cidade, clinica);
     }
-    
+
     public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
     }
-    
+
     public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarConsultasSemana(dataInicio, dataFim, idMedicos);
     }
-    
-    public static void removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico){
+
+    public static void removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(horaIni);
-        while (!(cal.getTime() == horaFim)){
+        while (!(cal.getTime() == horaFim)) {
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
             ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
             horarioDTO.getListaConsultasDisponiveis().remove(consultaDTO);
             cal.add(GregorianCalendar.MINUTE, 30);
         }
     }
-    
-    public static List<DiaDisponivelDTO> instanciaListaDias(int dias, Date dataInicio) throws ParseException{
+
+    public static List<DiaDisponivelDTO> instanciaListaDias(int dias, Date dataInicio) throws ParseException {
         List<DiaDisponivelDTO> listaMaster = new ArrayList();
         GregorianCalendar calDia = new GregorianCalendar();
         calDia.setTime(dataInicio);
-        for (Integer i=1; i<=dias; i++){
+        for (Integer i = 1; i <= dias; i++) {
             DiaDisponivelDTO diaDisponivel = new DiaDisponivelDTO();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
             String str = "08:00";
@@ -422,7 +422,7 @@ public class Facade {
             GregorianCalendar calFinal = new GregorianCalendar();
             cal.setTime(hrInicial);
             calFinal.setTime(hrFinal);
-            while (!(cal.getTime().getTime() == calFinal.getTime().getTime())){
+            while (!(cal.getTime().getTime() == calFinal.getTime().getTime())) {
                 HorarioDisponivelDTO horario = new HorarioDisponivelDTO();
                 horario.setHorario(cal.getTime());
                 diaDisponivel.getListaHorariosDisponiveis().add(horario);
@@ -443,7 +443,7 @@ public class Facade {
         GregorianCalendar calFinal = new GregorianCalendar();
         cal.setTime(medHor.getHoraInicio());
         calFinal.setTime(medHor.getHoraFim());
-        while (!(cal.getTime().getTime() == calFinal.getTime().getTime())){
+        while (!(cal.getTime().getTime() == calFinal.getTime().getTime())) {
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
             if (horarioDTO != null) {
                 horarioDTO.getListaConsultasDisponiveis().add(consultaDTO);
@@ -453,7 +453,7 @@ public class Facade {
     }
 
     public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
-    PacienteDAO pacienteDAO = new PacienteDAO();
-    return pacienteDAO.ListPacienteNoMedico(idMedico);
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.ListPacienteNoMedico(idMedico);
     }
 }
