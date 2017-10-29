@@ -93,7 +93,7 @@
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <c:forEach begin="0" end="${horarios.size()-1}" var="i">
                                     <li class="nav-item">
-                                        <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">02/07/2017</a>
+                                        <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">${horarios.get(i).dia}</a>
                                         </li>
                                 </c:forEach>
                             </ul>

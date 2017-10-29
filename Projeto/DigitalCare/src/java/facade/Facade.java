@@ -407,8 +407,10 @@ public class Facade {
         }
     }
     
-    public static List<DiaDisponivelDTO> instanciaListaDias(int dias) throws ParseException{
+    public static List<DiaDisponivelDTO> instanciaListaDias(int dias, Date dataInicio) throws ParseException{
         List<DiaDisponivelDTO> listaMaster = new ArrayList();
+        GregorianCalendar calDia = new GregorianCalendar();
+        calDia.setTime(dataInicio);
         for (Integer i=1; i<=dias; i++){
             DiaDisponivelDTO diaDisponivel = new DiaDisponivelDTO();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
@@ -426,7 +428,9 @@ public class Facade {
                 diaDisponivel.getListaHorariosDisponiveis().add(horario);
                 cal.add(GregorianCalendar.MINUTE, 30);
             }
+            diaDisponivel.setDia(calDia.getTime());
             listaMaster.add(diaDisponivel);
+            calDia.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
         return listaMaster;
     }

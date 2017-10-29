@@ -110,78 +110,80 @@ public class ConsultaServlet extends HttpServlet {
                     Date dtInicio = cal.getTime();
                     cal.add(GregorianCalendar.DAY_OF_MONTH, 6);
                     Date dtFim = cal.getTime();
+                    List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7, dtInicio);
                     List<MedicoHorario> listaMedicoHorario = Facade.buscarHorariosConsulta(tipo, cidade, clinica);
-                    Medico medico = listaMedicoHorario.get(0).getMedico();
-                    List<MedicoHorario> listaAux = new ArrayList();
-                    List<Medico> listaMedicos = new ArrayList();
-                    for (int i = 0; i < listaMedicoHorario.size(); i++) {
-                        if (listaMedicoHorario.get(i).getMedico().getId() == medico.getId()) {
-                            listaAux.add(listaMedicoHorario.get(i));
-                        } else {
-                            medico.setListaHorarios(listaAux);
-                            listaMedicos.add(medico);
-                            medico = listaMedicoHorario.get(i).getMedico();
-                            listaAux.clear();
-                        }
-                    }
-                    medico.setListaHorarios(listaAux);
-                    listaMedicos.add(medico);
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                    String str = "08:00";
-                    String str2 = "20:00";
-                    Date hrInicial = format.parse(str);
-                    Date hrFinal = format.parse(str2);
-                    List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7);
-                    for (Medico medicoAux : listaMedicos) {
-                        medicoAux.setListaConsultas(Facade.buscarConsultasSemana(dtInicio, dtFim, medicoAux.getId()));
-                        medicoAux.setListaFaltas(Facade.buscarFaltasSemana(dtInicio, dtFim, medicoAux.getId()));
-                        List<List<String>> lista = new ArrayList();
-                        for (MedicoHorario medHor : medicoAux.getListaHorarios()) {
-                            int index = (medHor.getDiaSemana() + iDomingo - 1) % 7;
-                            Facade.adicionarHorariosMedico(listaDiasSemana.get(index), medHor);
-                        }
-                        for (MedicoFalta medFal : medicoAux.getListaFaltas()) {
-                            Date dataI;
-                            if (dtInicio.after(medFal.getDataInicio())) {
-                                dataI = dtInicio;
+                    if (listaMedicoHorario.size() > 0){
+                        Medico medico = listaMedicoHorario.get(0).getMedico();
+                        List<MedicoHorario> listaAux = new ArrayList();
+                        List<Medico> listaMedicos = new ArrayList();
+                        for (int i = 0; i < listaMedicoHorario.size(); i++) {
+                            if (listaMedicoHorario.get(i).getMedico().getId() == medico.getId()) {
+                                listaAux.add(listaMedicoHorario.get(i));
                             } else {
-                                dataI = medFal.getDataInicio();
+                                medico.setListaHorarios(listaAux);
+                                listaMedicos.add(medico);
+                                medico = listaMedicoHorario.get(i).getMedico();
+                                listaAux.clear();
                             }
-                            cal.setTime(dataI);
-                            int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                            if (medFal.getDataFim() == null) {
-                                if (medFal.getHoraInicio() == null) {
-                                    Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), hrInicial,
-                                            hrFinal, medicoAux);
+                        }
+                        medico.setListaHorarios(listaAux);
+                        listaMedicos.add(medico);
+                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                        String str = "08:00";
+                        String str2 = "20:00";
+                        Date hrInicial = format.parse(str);
+                        Date hrFinal = format.parse(str2);
+                        for (Medico medicoAux : listaMedicos) {
+                            medicoAux.setListaConsultas(Facade.buscarConsultasSemana(dtInicio, dtFim, medicoAux.getId()));
+                            medicoAux.setListaFaltas(Facade.buscarFaltasSemana(dtInicio, dtFim, medicoAux.getId()));
+                            for (MedicoHorario medHor : medicoAux.getListaHorarios()) {
+                                int index = (medHor.getDiaSemana() + iDomingo - 1) % 7;
+                                Facade.adicionarHorariosMedico(listaDiasSemana.get(index), medHor);
+                            }
+                            for (MedicoFalta medFal : medicoAux.getListaFaltas()) {
+                                Date dataI;
+                                if (dtInicio.after(medFal.getDataInicio())) {
+                                    dataI = dtInicio;
                                 } else {
+                                    dataI = medFal.getDataInicio();
+                                }
+                                cal.setTime(dataI);
+                                int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
+                                if (medFal.getDataFim() == null) {
+                                    if (medFal.getHoraInicio() == null) {
+                                        Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), hrInicial,
+                                                hrFinal, medicoAux);
+                                    } else {
+                                        Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
+                                                medFal.getHoraFim(), medicoAux);
+                                    }
+                                } else {
+                                    Date dataF;
+                                    if (dtFim.after(medFal.getDataInicio())) {
+                                        dataF = medFal.getDataFim();
+                                    } else {
+                                        dataF = dtFim;
+                                    }
+                                    cal.setTime(dataF);
+                                    int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
                                     Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
+                                            hrFinal, medicoAux);
+                                    for (Integer i = indexDataInicio+1; i < indexDataFinal; i++)
+                                        Facade.removerHorariosMedico(listaDiasSemana.get(i), hrInicial,
+                                            hrFinal, medicoAux);
+                                    Facade.removerHorariosMedico(listaDiasSemana.get(indexDataFinal), hrInicial,
                                             medFal.getHoraFim(), medicoAux);
                                 }
-                            } else {
-                                Date dataF;
-                                if (dtFim.after(medFal.getDataInicio())) {
-                                    dataF = medFal.getDataFim();
-                                } else {
-                                    dataF = dtFim;
-                                }
-                                cal.setTime(dataF);
-                                int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
-                                        hrFinal, medicoAux);
-                                for (Integer i = indexDataInicio+1; i < indexDataFinal; i++)
-                                    Facade.removerHorariosMedico(listaDiasSemana.get(i), hrInicial,
-                                        hrFinal, medicoAux);
-                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataFinal), hrInicial,
-                                        medFal.getHoraFim(), medicoAux);
+                            }
+
+                            for (Consulta medCon : medicoAux.getListaConsultas()) {
+                                cal.setTime(medCon.getDataHora());
+                                int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
+                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
+                                        medCon.getDataHora(), medicoAux);
                             }
                         }
-
-                        for (Consulta medCon : medicoAux.getListaConsultas()) {
-                            cal.setTime(medCon.getDataHora());
-                            int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                            Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
-                                    medCon.getDataHora(), medicoAux);
-                        }
+                        
                     }
                     request.setAttribute("horarios",listaDiasSemana);
                     request.setAttribute("tipoConsulta", especialidade);

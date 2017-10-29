@@ -36,7 +36,7 @@ public class DiaDisponivelDTO {
     
     public HorarioDisponivelDTO getDtoPorHorario(Date hr){
         for (HorarioDisponivelDTO h : listaHorariosDisponiveis)
-            if (h.getHorario() == hr)
+            if (h.getHorario().equals(hr))
                 return h;
         return null;
     }
