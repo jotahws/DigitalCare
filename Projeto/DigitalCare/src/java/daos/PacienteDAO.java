@@ -34,20 +34,18 @@ public class PacienteDAO {
 
     private final String inserePaciente = "INSERT INTO paciente (cpf, nome, sobrenome, data_nascimento, sexo) "
             + "VALUES (?,?,?,?,?)";
-    private final String perfilPaciente = "SELECT * FROM paciente pac"
-            + "   INNER JOIN paciente_usuario        pusu ON (pac.id  		= pusu.id_paciente)"
-            + "   INNER JOIN endereco     	   endP	ON (endP.id 		= pusu.id_endereco)"
-            + "   INNER JOIN login 		   logP	ON (logP.id 		= pusu.id_login)"
-            + "   INNER JOIN consulta 		    con ON (con.id_paciente	= pac.id)"
-            + "   INNER JOIN prontuario_item      pitem	ON (pitem.id_consulta	= con.id)"
-            + "   INNER JOIN prontuario_cab        pcab	ON (pcab.id		= pitem.id_prontuario_cab)"
-            + "   INNER JOIN clinica                cli ON (pcab.id_clinica	= cli.id)"
-            + "   INNER JOIN clinica_endereco      cend	ON (cend.id_clinica	= cli.id)"
-            + "   INNER JOIN endereco 		 endCli	ON (cend.id_endereco	= endCli.id)"
-            + "   INNER JOIN medico                   m	ON (con.id_medico	= m.id)"
-            + "   INNER JOIN cidade                 cid ON (cid.id              = endP.id_cidade)"
-            + "   INNER JOIN estado                  es ON (es.id               = cid.id_estado)"    
-            + "where m.id=? and pusu.id=? and pac.id = pcab.id_paciente and cend.id = con.id_clinica_endereco;";
+    private final String perfilPaciente = "SELECT * FROM  paciente pac" +
+              " INNER JOIN paciente_usuario  pusu ON (pac.id  		= pusu.id_paciente)" +
+              " INNER JOIN endereco          endP ON (endP.id 		= pusu.id_endereco)" +
+              " INNER JOIN login 	     logP ON (logP.id 		= pusu.id_login)" +
+              " INNER JOIN consulta 	      con ON (con.id_paciente	= pac.id)" +
+              " INNER JOIN clinica            cli " +
+              " INNER JOIN clinica_endereco  cend ON (cend.id_clinica	= cli.id)" +
+              " INNER JOIN endereco 	   endCli ON (cend.id_endereco	= endCli.id)" +
+              " INNER JOIN medico               m ON (con.id_medico	= m.id)" +
+              " INNER JOIN cidade             cid ON (cid.id             = endP.id_cidade)" +
+              " INNER JOIN estado              es ON (es.id              = cid.id_estado)" +
+              " where m.id=? and pusu.id=? and cend.id = con.id_clinica_endereco;";
 
     private final String listPacientes = "SELECT distinct logP.*, pusu.*, pac.*, endP.*, cid.*, es.* FROM paciente pac" +
               "   INNER JOIN paciente_usuario       pusu ON (pac.id  			= pusu.id_paciente)" +
@@ -115,22 +113,7 @@ public class PacienteDAO {
                 consulta.setObservacao(rs.getString("con.observacao"));
                 consulta.setStatus(rs.getString("con.status"));
                 
-                prontuarioItem.setConsulta(consulta);
-                prontuarioItem.setAtestado(rs.getBlob("pitem.atestado"));
-                prontuarioItem.setDescricao(rs.getBlob("pitem.descricao"));
-                prontuarioItem.setExame(rs.getBlob("pitem.exame"));
-                prontuarioItem.setReceita(rs.getBlob("pitem.receita"));
-                prontuarioItem.setId(rs.getInt("pitem.id"));
-                prontuarioItem.setIdConsulta(rs.getInt("pitem.id_consulta"));
-                prontuarioItem.setIdProntuarioCab(rs.getInt("pitem.id_prontuario_cab"));
-
                 
-                prontuarioCab.setProntuarioItem(prontuarioItem);                
-                prontuarioCab.setId(rs.getInt("pcab.id"));
-                prontuarioCab.setIdClinica(rs.getInt("pcab.id_clinica"));
-                prontuarioCab.setIdPaciente(rs.getInt("pcab.id_paciente")); 
-                
-                paciente.setProntuarioCab(prontuarioCab);
                 paciente.setCpf(rs.getString("pac.cpf"));
                 paciente.setDataNascimento(rs.getDate("pac.data_nascimento"));
                 paciente.setId(rs.getInt("pac.id"));
