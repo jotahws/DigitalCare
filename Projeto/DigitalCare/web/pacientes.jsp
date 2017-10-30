@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,30 +46,28 @@
                             <h1 class="col-9">Pacientes</h1>
                         </div>
                         <hr>
-                        <div class="row">
-                            <c:forEach var="item" items="${listaPacientes}">
-                                <table class="table">
-                                    <thead class="thead-inverse">
+                        <div class="container">
+                            <table class="table">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Idade</th>
+                                        <th>Email</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="item" items="${listaPacientes}">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Nome</th>
-                                            <th>Idade</th>
-                                            <th>Email</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>${item.paciente.nome}</td>
-                                            <td>${item.paciente.dataNascimento}</td>
+                                            <td>${item.paciente.nome} ${item.paciente.sobrenome}</td>
+                                            <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.paciente.dataNascimento}"/></td>
                                             <td>${item.login.email}</td>
                                             <td><a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${item.id}&idPac=${item.paciente.id}" class="btn btn-primary">Ver perfil</a></td>
-                                        </tr>                                                                               
-                                    </tbody>
-                                </table>
-                            </div>
-                        </c:forEach>
+                                        </tr> 
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div> 
 

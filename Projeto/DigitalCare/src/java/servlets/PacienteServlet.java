@@ -264,7 +264,7 @@ public class PacienteServlet extends HttpServlet {
                     PacienteUsuario pacienteUsuario = new PacienteUsuario();
                     List<ConvenioPaciente> convenioPacientes;
                     pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPacienteUsu);
-                    convenioPacientes = facade.getListaConveniosPaciente(idPaciente);
+                    convenioPacientes = Facade.getListaConveniosPaciente(idPaciente);
                     request.setAttribute("perfilPaciente", pacienteUsuario);
                     request.setAttribute("listConveniosPac", convenioPacientes);
                 } catch (ClassNotFoundException ex) {

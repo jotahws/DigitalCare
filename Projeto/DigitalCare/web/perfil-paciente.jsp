@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,12 +60,14 @@
                                     <p class="col-md-4 dados">Email: <strong>${perfilPaciente.login.email}</strong> </p>
                                     <p class="col-md-4 dados">Telefone 1: <strong>${perfilPaciente.telefone}</strong> </p>
                                     <p class="col-md-4 dados">Telefone 2: <strong>${perfilPaciente.telefone2}</strong> </p>
-                                    <legend class="dados"><hr>Dados Médicos</legend>
-                                    <c:forEach var="item" items="${listConveniosPac}">
-                                        <p class="col-md-4 dados">Plano de Saúde: <strong>${item.convenio.nome}</strong> </p>
-                                        <p class="col-md-4 dados">Validade: <strong>${item.validade}</strong> </p>
-                                        <p class="col-md-4 dados">Número: <strong>${item.numero}</strong> </p>
-                                    </c:forEach>
+                                    <c:if test="${listConveniosPac.size() > 0}">
+                                        <legend class="dados"><hr>Dados Médicos</legend>
+                                        <c:forEach var="item" items="${listConveniosPac}">
+                                            <p class="col-md-4 dados">Plano de Saúde: <strong>${item.convenio.nome}</strong> </p>
+                                            <p class="col-md-4 dados">Validade: <strong><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.validade}"/></strong> </p>
+                                            <p class="col-md-4 dados">Número: <strong>${item.numero}</strong> </p>
+                                        </c:forEach>
+                                    </c:if>
                                     <legend class="dados"><hr>Endereço</legend>
                                     <p class="col-md-12 dados">CEP: <strong>${perfilPaciente.endereco.cep}</strong> </p>
                                     <p class="col-md-4 dados">Rua: <strong>${perfilPaciente.endereco.rua}</strong> </p>
