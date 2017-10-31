@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class Medico implements Serializable {
 
+    @Expose
     private int id;
     private Login login;
     private Estado estadoCrm;

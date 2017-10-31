@@ -40,7 +40,7 @@ public class HorarioDisponivelDTO {
     
     public ConsultaDisponivelDTO getConsultaDisponivelPorMedico(Medico medico){
         for (ConsultaDisponivelDTO c : listaConsultasDisponiveis)
-            if (c.getMedico() == medico)
+            if (c.getMedico().equals(medico))
                 return c;
         return null;
     }

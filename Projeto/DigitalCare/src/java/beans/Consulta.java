@@ -46,6 +46,14 @@ public class Consulta implements Serializable {
         this.clinicaEndereco = clinicaEndereco;
     }
 
+    public Consulta(Date dataHora, String status, Medico medico, Paciente paciente, ClinicaEndereco clinicaEndereco) {
+        this.dataHora = dataHora;
+        this.status = status;
+        this.medico = medico;
+        this.paciente = paciente;
+        this.clinicaEndereco = clinicaEndereco;
+    }
+    
     public ClinicaEndereco getClinicaEndereco() {
         return clinicaEndereco;
     }

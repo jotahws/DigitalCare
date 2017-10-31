@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,6 +53,7 @@
                         <div class="row">
                             <div class="container">
                                 <div class="row">
+                                    <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
                                     <legend class="dados">Dados</legend>
                                     <p class="col-md-12 dados">Nome:<strong> ${perfilPaciente.paciente.nome}  ${perfilPaciente.paciente.sobrenome}</strong></p>                                            
                                     <p class="col-md-4 dados">CPF: <strong>${perfilPaciente.paciente.cpf}</strong> </p>

@@ -112,23 +112,17 @@ public class ConsultaServlet extends HttpServlet {
                     cal.add(GregorianCalendar.DAY_OF_MONTH, 6);
                     Date dtFim = cal.getTime();
                     List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7, dtInicio);
-                    List<MedicoHorario> listaMedicoHorario = Facade.buscarHorariosConsulta(tipo, cidade, clinica);
-                    if (listaMedicoHorario.size() > 0) {
-                        Medico medico = listaMedicoHorario.get(0).getMedico();
-                        List<MedicoHorario> listaAux = new ArrayList();
-                        List<Medico> listaMedicos = new ArrayList();
-                        for (int i = 0; i < listaMedicoHorario.size(); i++) {
-                            if (listaMedicoHorario.get(i).getMedico().getId() == medico.getId()) {
-                                listaAux.add(listaMedicoHorario.get(i));
-                            } else {
-                                medico.setListaHorarios(listaAux);
-                                listaMedicos.add(medico);
-                                medico = listaMedicoHorario.get(i).getMedico();
-                                listaAux.clear();
-                            }
+                    List<Medico> medicoLista = Facade.getMedicosPorNome("");
+                    List<MedicoHorario> listaMedicoHorario = new ArrayList();
+                    List<Medico> listaMedicos = new ArrayList();
+                    for (Medico medicoAux : medicoLista) {
+                        listaMedicoHorario = Facade.buscarHorariosConsulta(tipo, cidade, clinica, medicoAux);
+                        if (listaMedicoHorario.size() > 0) {
+                            medicoAux.setListaHorarios(listaMedicoHorario);
+                            listaMedicos.add(medicoAux);
                         }
-                        medico.setListaHorarios(listaAux);
-                        listaMedicos.add(medico);
+                    }
+                    if (listaMedicos.size() > 0) {
                         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                         String str = "08:00";
                         String str2 = "20:00";
@@ -181,8 +175,9 @@ public class ConsultaServlet extends HttpServlet {
                             for (Consulta medCon : medicoAux.getListaConsultas()) {
                                 cal.setTime(medCon.getDataHora());
                                 int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
-                                Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
+                                 DiaDisponivelDTO diaDisponivel = Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
                                         medCon.getDataHora(), medicoAux);
+                                 listaDiasSemana.set(indexDataConsulta, diaDisponivel);
                             }
                         }
 

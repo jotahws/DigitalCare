@@ -36,16 +36,16 @@
                             &nbsp;
                         </div>
                         <div class="data-box col-md-5 data-box-white">
-                        <c:choose>
-                            <c:when test="${(param.status == 'semMedicos')}">
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>Opa! </strong> Não há médicos disponíveis para essa especialidade.
-                                </div>
-                            </c:when>
-                        </c:choose>
+                            <c:choose>
+                                <c:when test="${(param.status == 'semMedicos')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Opa! </strong> Não há médicos disponíveis para essa especialidade.
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <h1>Buscar Nova Consulta</h1>
                             <form action="${pageContext.request.contextPath}/ConsultaServlet?action=BuscaConsultas" method="POST">
                                 <div class="form-group row">
@@ -107,7 +107,7 @@
                                         <small>(<span style="color:red;">*</span>)Obrigatório</small>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div id="pesquisar" class="form-group row">
                                     <div class="col-sm-12">
                                         <button type="submit" class="form-control btn btn-digital-green">
                                             <i class="fa fa-fw fa-search "></i> Pesquisar Consultas
@@ -122,8 +122,16 @@
                     <div class="featurette-divider"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="somediv"></div>
-
+                            <c:choose>
+                                <c:when test="${(param.status == 'consulta-marcada')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Sua consulta foi marcada! </strong> Verifique os dados da sua consulta no calendário.
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <h1 class="">Suas próximas consultas</h1><br>
                             <div style="" id="calendar"></div>
 

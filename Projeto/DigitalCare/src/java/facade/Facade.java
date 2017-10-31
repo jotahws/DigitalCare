@@ -23,6 +23,7 @@ import beans.PacienteUsuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
 import daos.ClinicaEnderecoDAO;
+import daos.ConsultaDAO;
 import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
@@ -156,6 +157,11 @@ public class Facade {
     public static List<Consulta> buscarConsultasPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultasPaciente(pacienteUsuario);
+    }
+
+    public static Consulta marcaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.insereConsulta(consulta);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
@@ -381,9 +387,9 @@ public class Facade {
         return pacienteDAO.PacienteNoMedico(idMedico, idPaciente);
     }
 
-    public static List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
+    public static List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica, Medico medico) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
-        return hDAO.buscarHorariosConsulta(especialidade, cidade, clinica);
+        return hDAO.buscarHorariosConsulta(especialidade, cidade, clinica, medico);
     }
 
     public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
@@ -396,15 +402,17 @@ public class Facade {
         return hDAO.buscarConsultasSemana(dataInicio, dataFim, idMedicos);
     }
 
-    public static void removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
+    public static DiaDisponivelDTO removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(horaIni);
-        while (!(cal.getTime() == horaFim)) {
+        cal.add(GregorianCalendar.MINUTE, -30);
+        do {
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
             ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
-            horarioDTO.getListaConsultasDisponiveis().remove(consultaDTO);
+            dia.getDtoPorHorario(cal.getTime()).getListaConsultasDisponiveis().remove(consultaDTO);
             cal.add(GregorianCalendar.MINUTE, 30);
-        }
+        } while(!(cal.getTime().equals(horaFim)));
+        return dia;
     }
 
     public static List<DiaDisponivelDTO> instanciaListaDias(int dias, Date dataInicio) throws ParseException {

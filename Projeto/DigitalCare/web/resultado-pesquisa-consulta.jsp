@@ -208,6 +208,10 @@
                 confirmButtonText: 'Marcar consulta',
                 width: 600,
                 padding: 30
+            }).then(function () {
+                window.location.href = "EstadoConsultaServlet?action=MarcaConsulta&idClinicaEnd=" + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].clinica.id + 
+                        "&idMedico=" + horarios[i].listaHorariosDisponiveis[k].listaConsultasDisponiveis[j].medico.id + 
+                        "&datahora=" + DateToServlet(new Date(horarios[i].dia), new Date(horarios[i].listaHorariosDisponiveis[k].horario));
             });
         }
 
@@ -221,6 +225,24 @@
             day = day.length > 1 ? day : '0' + day;
 
             return day + '/' + month + '/' + year;
+        }
+        
+        function DateToServlet(date, hour) {
+            var year = date.getFullYear();
+
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+
+            var h = hour.getHours();
+            h = (h < 10) ? ("0" + h) : h;
+
+            var m = hour.getMinutes();
+            m = (m < 10) ? ("0" + m) : m;
+
+            return year + '-' + month + '-' + day + " " + h + ':' + m + ":00";
         }
 
         function getFormattedHour(hour) {

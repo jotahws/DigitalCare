@@ -24,7 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,7 +98,7 @@ public class HorarioDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Consulta consulta = new Consulta();
-                Date datahora = rs.getDate("datahora"); // aqui você passa o Date para converter
+                Timestamp datahora = rs.getTimestamp("datahora");
                 consulta.setIdMedico(rs.getInt("id_medico"));
                 consulta.setDataHora(datahora);
                 lista.add(consulta);
@@ -160,14 +159,14 @@ public class HorarioDAO {
         }
     }
 
-    public List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica) throws ClassNotFoundException, SQLException {
+    public List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica, Medico medico1) throws ClassNotFoundException, SQLException {
         if (!("".equals(cidade))) {
             buscaHorariosConsulta += " AND ci.id = " + cidade;
         }
         if (!("".equals(clinica))) {
-            buscaHorariosConsulta += " AND cl.id = " + clinica;
+            buscaHorariosConsulta += " AND cl.id = " + clinica + " ";
         }
-        buscaHorariosConsulta += " ORDER BY m.id ";
+        buscaHorariosConsulta += "\n  AND m.id="+ medico1.getId() +"\n ORDER BY m.id ";
         try {
             List<MedicoHorario> lista = new ArrayList();
             con = new ConnectionFactory().getConnection();
@@ -201,10 +200,12 @@ public class HorarioDAO {
                 ClinicaEndereco cliEnd = new ClinicaEndereco();
                 cliEnd.setClinica(cli);
                 cliEnd.setEndereco(end);
+                cliEnd.setId(rs.getInt("ce.id"));
                 cliEnd.setNome(rs.getString("ce.nome"));
                 cliEnd.setTelefone1(rs.getString("ce.telefone1"));
                 cliEnd.setTelefone2(rs.getString("ce.telefone2"));
                 Medico medico = new Medico();
+                medico.setId(rs.getInt("m.id"));
                 medico.setAvaliacao(rs.getDouble("m.avaliacao"));
                 medico.setNome(rs.getString("m.nome"));
                 medico.setSobrenome(rs.getString("m.sobrenome"));
