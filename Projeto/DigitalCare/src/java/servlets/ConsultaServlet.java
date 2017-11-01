@@ -18,10 +18,8 @@ import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -107,9 +105,11 @@ public class ConsultaServlet extends HttpServlet {
                     GregorianCalendar cal = new GregorianCalendar();
                     cal.setTime(date);
                     cal.add(GregorianCalendar.DAY_OF_MONTH, -3);
-                    int iDomingo = cal.get(GregorianCalendar.SUNDAY);
+                    cal.set(GregorianCalendar.HOUR_OF_DAY, 8);
+                    int iDiaSemana = cal.get(GregorianCalendar.DAY_OF_WEEK);
                     Date dtInicio = cal.getTime();
                     cal.add(GregorianCalendar.DAY_OF_MONTH, 6);
+                    cal.set(GregorianCalendar.HOUR_OF_DAY, 20);
                     Date dtFim = cal.getTime();
                     List<DiaDisponivelDTO> listaDiasSemana = Facade.instanciaListaDias(7, dtInicio);
                     List<Medico> medicoLista = Facade.getMedicosPorNome("");
@@ -132,7 +132,8 @@ public class ConsultaServlet extends HttpServlet {
                             medicoAux.setListaConsultas(Facade.buscarConsultasSemana(dtInicio, dtFim, medicoAux.getId()));
                             medicoAux.setListaFaltas(Facade.buscarFaltasSemana(dtInicio, dtFim, medicoAux.getId()));
                             for (MedicoHorario medHor : medicoAux.getListaHorarios()) {
-                                int index = (medHor.getDiaSemana() + iDomingo - 1) % 7;
+                                int index = (medHor.getDiaSemana() - iDiaSemana);
+                                if (index < 0) index +=7;
                                 Facade.adicionarHorariosMedico(listaDiasSemana.get(index), medHor);
                             }
                             for (MedicoFalta medFal : medicoAux.getListaFaltas()) {
@@ -143,7 +144,8 @@ public class ConsultaServlet extends HttpServlet {
                                     dataI = medFal.getDataInicio();
                                 }
                                 cal.setTime(dataI);
-                                int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
+                                int indexDataInicio = (cal.get(GregorianCalendar.DAY_OF_WEEK) - iDiaSemana);
+                                if (indexDataInicio < 0) indexDataInicio +=7;
                                 if (medFal.getDataFim() == null) {
                                     if (medFal.getHoraInicio() == null) {
                                         Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), hrInicial,
@@ -160,7 +162,8 @@ public class ConsultaServlet extends HttpServlet {
                                         dataF = dtFim;
                                     }
                                     cal.setTime(dataF);
-                                    int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
+                                    int indexDataFinal = (cal.get(GregorianCalendar.DAY_OF_WEEK) - iDiaSemana);
+                                    if (indexDataFinal < 0) indexDataFinal +=7;
                                     Facade.removerHorariosMedico(listaDiasSemana.get(indexDataInicio), medFal.getHoraInicio(),
                                             hrFinal, medicoAux);
                                     for (Integer i = indexDataInicio + 1; i < indexDataFinal; i++) {
@@ -174,7 +177,8 @@ public class ConsultaServlet extends HttpServlet {
 
                             for (Consulta medCon : medicoAux.getListaConsultas()) {
                                 cal.setTime(medCon.getDataHora());
-                                int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) + iDomingo - 1) % 7;
+                                int indexDataConsulta = (cal.get(GregorianCalendar.DAY_OF_WEEK) - iDiaSemana);
+                                if (indexDataConsulta < 0) indexDataConsulta +=7;
                                  DiaDisponivelDTO diaDisponivel = Facade.removerHorariosMedico(listaDiasSemana.get(indexDataConsulta), medCon.getDataHora(),
                                         medCon.getDataHora(), medicoAux);
                                  listaDiasSemana.set(indexDataConsulta, diaDisponivel);

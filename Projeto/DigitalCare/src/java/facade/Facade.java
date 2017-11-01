@@ -405,13 +405,12 @@ public class Facade {
     public static DiaDisponivelDTO removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(horaIni);
-        cal.add(GregorianCalendar.MINUTE, -30);
-        do {
+        while(!(cal.getTime().after(horaFim))){
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
             ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
             dia.getDtoPorHorario(cal.getTime()).getListaConsultasDisponiveis().remove(consultaDTO);
             cal.add(GregorianCalendar.MINUTE, 30);
-        } while(!(cal.getTime().equals(horaFim)));
+        }
         return dia;
     }
 

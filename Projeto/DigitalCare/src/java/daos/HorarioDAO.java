@@ -90,10 +90,10 @@ public class HorarioDAO {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaConsultasSemanaMedico);
-            java.sql.Date dataISql = new java.sql.Date(dataInicio.getTime());
-            java.sql.Date dataFSql = new java.sql.Date(dataFim.getTime());
-            stmt.setDate(1, dataISql);
-            stmt.setDate(2, dataFSql);
+            java.sql.Timestamp dataISql = new java.sql.Timestamp(dataInicio.getTime());
+            java.sql.Timestamp dataFSql = new java.sql.Timestamp(dataFim.getTime());
+            stmt.setTimestamp(1, dataISql);
+            stmt.setTimestamp(2, dataFSql);
             stmt.setInt(3, idMedicos);
             rs = stmt.executeQuery();
             while (rs.next()) {
