@@ -7,6 +7,7 @@ package servlets;
 
 import beans.Clinica;
 import beans.ClinicaEndereco;
+import beans.Consulta;
 import beans.Estado;
 import beans.Login;
 import beans.Medico;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -79,7 +81,20 @@ public class ListaClinicaServlet extends HttpServlet {
             } catch (Exception ex) {
                 status = "ListaMedico-erro";
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/vincular-medico.jsp?status="+status);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/vincular-medico.jsp?status=" + status);
+            rd.forward(request, response);
+        } else if ("dashboardClinica".equals(action)) {
+            try {
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                //List<Consulta> consultas = Facade.buscarConsultasClinica(clinica); FAZER AINDA
+                List<String[]> statusConsultas = Facade.buscarStatusPorClinicaNoDia(clinica);
+                //request.setAttribute("consultas", consultas); AAAAAAA FAZER AINDA
+                request.setAttribute("statusConsultas", statusConsultas);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard-clinica.jsp");
             rd.forward(request, response);
         }
 

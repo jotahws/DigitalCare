@@ -274,6 +274,11 @@ Cinza escuro: #2e2e2e
     background-color: #f1b0b7;
 }
 
+.bg-blue-light{
+    background-color: #3fc3ee;
+}
+
+
 .bg-warning-light{
     background-color: #ffef8f; 
 }

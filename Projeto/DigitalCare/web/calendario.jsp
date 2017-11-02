@@ -156,6 +156,12 @@
                             locale: 'pt-br',
                             editable: false,
                             eventClick: function (event) {
+                                var botoes='';
+                                if (event.status == 'Marcado' || event.status == 'Em espera') {
+                                     botoes = '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
+                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>'
+                                }
                                 swal({
                                     title: event.title,
                                     html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
@@ -164,10 +170,7 @@
                                             '<p>Duração prevista: 30 min</p>' +
                                             '<h3 class="left-text">Dados Pessoais</h3>' +
                                             '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' +
-                                            '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>',
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
                                     showCloseButton: true,
                                     showConfirmButton: false,
                                     width: 600,

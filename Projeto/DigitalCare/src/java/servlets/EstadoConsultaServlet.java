@@ -98,6 +98,17 @@ public class EstadoConsultaServlet extends HttpServlet {
                     status = "erro-cancela-consulta";
                 }
                 response.sendRedirect("ConsultaServlet?action=Dashboard&status=" + status);
+            }else if ("CancelaConsultaClinica".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.cancelaConsulta(consulta);
+                    status = "consulta-cancelada";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-cancela-consulta";
+                }
+                response.sendRedirect("calendario-clinica.jsp?status=" + status);
             }
         }
     }

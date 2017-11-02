@@ -58,6 +58,16 @@
                                 </div>
                             </div>
                             <div class="col-md-9">
+                                <c:choose>
+                                    <c:when test="${(param.status == 'consulta-cancelada')}">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <strong>A consulta foi cancelada! </strong>
+                                        </div>
+                                    </c:when>
+                                </c:choose>
                                 <div style="" id="calendar"></div>
                             </div>
                         </div>
@@ -67,6 +77,20 @@
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
                 <script>
+                    
+                    function confirmaCancela(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Desmarcar consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=CancelaConsultaClinica&idConsulta="+consultaId;
+                        });
+                    }
                     
                     function getCorStatus(status){
                         var cor = '#fff';
@@ -97,20 +121,26 @@
                             locale: 'pt-br',
                             editable: false,
                             eventClick: function (event) {
+                                var botoes='';
+                                if (event.status == 'Marcado' || event.status == 'Em espera') {
+                                     botoes = '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
+                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>'
+                                }
                                 swal({
-                                    title: event.title +' '+ event.sobrenome,
+                                    title: event.title,
                                     html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
                                             '<p>Status: '+ event.status +'</p>' +
                                             '<p>Horário: ' + event.horario + '</p>' +
                                             '<p>Duração prevista: 30 min</p>' +
                                             '<h3 class="left-text">Dados Pessoais</h3>' +
                                             '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p>',
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
                                     showCloseButton: true,
-                                    showConfirmButton: true,
+                                    showConfirmButton: false,
                                     width: 600,
                                     padding: 50
-                                });
+                                })
                             },
                             header: {
                                 left: 'prev,next today myCustomButton',

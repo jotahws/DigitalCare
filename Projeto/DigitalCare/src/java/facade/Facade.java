@@ -174,6 +174,11 @@ public class Facade {
         return dao.buscarStatusPorMedicoNoDia(medico);
     }
 
+    public static List<String[]> buscarStatusPorClinicaNoDia(Clinica clinica) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarStatusPorClinicaNoDia(clinica);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();

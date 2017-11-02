@@ -38,27 +38,80 @@
                     <div class="container-fluid">
                         <h1>Dashboard</h1>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
+                        <div class="row dash-row">
+                            <h2 class="mb-0 mt-0">Resumo de hoje</h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="data-box data-box-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes em espera</p>
+                                <div class="data-box data-box-sm bg-warning-light ">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Em espera'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) em espera</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box bg-warning-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes marcados</p>
+                                <div class="data-box data-box-sm bg-blue-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Marcado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) marcado(s)</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box bg-danger-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes cancelados</p>
+                                <div class="data-box data-box-sm bg-danger-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Cancelado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) cancelado(s)</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="data-box data-box-sm data-box-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Concluído'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) concluído(s)</p>
                                 </div>
                             </div>
                         </div>
+
                         <hr>
                         <div class="row dash-row">
                             <h2>Consultas em andamento</h2>

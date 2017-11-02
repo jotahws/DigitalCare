@@ -24,7 +24,7 @@
                 <c:redirect url="/ConsultaServlet?action=Dashboard"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 3)}">
-                <c:redirect url="/dashboard-clinica.jsp"/>
+                <c:redirect url="/ListaClinicaServlet?action=dashboardClinica"/>
             </c:when>
         </c:choose>
         <%@include file="/includes/header.jsp" %>

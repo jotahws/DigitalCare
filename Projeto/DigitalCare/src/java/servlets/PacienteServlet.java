@@ -278,7 +278,6 @@ public class PacienteServlet extends HttpServlet {
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
                 rd.forward(request, response);
-
             }
         } else {
             response.sendRedirect("login.jsp");

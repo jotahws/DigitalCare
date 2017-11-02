@@ -51,7 +51,7 @@
                 </c:when>
                 <c:when test="${sessionLogin.perfil == 3}">
                     <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/dashboard-clinica.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaClinicaServlet?action=dashboardClinica">
                             <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>

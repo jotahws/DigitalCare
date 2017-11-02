@@ -5,6 +5,7 @@
  */
 package daos;
 
+import beans.Clinica;
 import beans.Consulta;
 import beans.Medico;
 import conexao.ConnectionFactory;
@@ -30,6 +31,12 @@ public class ConsultaDAO {
     private final String deletaConsulta = "UPDATE consulta SET status='Cancelado' WHERE id=?";
 
     private final String countStatusPorMedicoNoDia = "SELECT c.status, COUNT(c.id) as qtdd FROM consulta c WHERE c.id_medico=? AND date(c.datahora) =  curdate() GROUP BY c.status;";
+
+    private final String countStatusPorClinicaNoDia = "SELECT c.status, COUNT(c.id) as qtdd \n"
+            + "FROM consulta c INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id\n"
+            + "INNER JOIN clinica cli ON cli.id = ce.id_clinica\n"
+            + "WHERE cli.id=? AND date(c.datahora) = curdate() \n"
+            + "GROUP BY c.status;";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -95,6 +102,35 @@ public class ConsultaDAO {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(countStatusPorMedicoNoDia);
             stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> status = new ArrayList();
+            while (rs.next()) {
+                String[] item = {rs.getString("status"), rs.getString("qtdd")};
+                status.add(item);
+            }
+            return status;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<String[]> buscarStatusPorClinicaNoDia(Clinica clinica) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(countStatusPorClinicaNoDia);
+            stmt.setInt(1, clinica.getId());
             rs = stmt.executeQuery();
             List<String[]> status = new ArrayList();
             while (rs.next()) {

@@ -78,7 +78,7 @@ public class LoginServlet extends HttpServlet {
                         clinica.setListaEnderecos(Facade.getListaEnderecosClinica(clinica.getId()));
                         clinica.setLogin(login);
                         session.setAttribute("usuario", clinica);
-                        response.sendRedirect("dashboard-clinica.jsp");
+                        response.sendRedirect("ListaClinicaServlet?action=dashboardClinica");
                         break;
                 }
 
