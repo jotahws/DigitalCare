@@ -86,6 +86,27 @@
                 <script src="js/dash.js"></script>
                 <!--Calendario-->
                 <script>
+                    function getCorStatus(status){
+                        var cor = '#fff';
+                        switch(status) {
+                            case 'Cancelado':
+                                cor = 'crimson';
+                                break;
+                            case 'Marcado':
+                                cor = 'dodgerblue';
+                                break;
+                            case 'Em espera':
+                                cor = 'goldenrod';
+                                break;
+                            case 'Concluído':
+                                cor = 'green';
+                                break;
+                            default:
+                                cor = '#000';
+                        }
+                        return cor
+                    }
+                    
                     $(document).ready(function () {
                         new Date($.now());
                         var dt = new Date();
@@ -93,31 +114,12 @@
                         $('#calendar').fullCalendar({
                             locale: 'pt-br',
                             editable: false,
-                            eventClick: function (event) {
-                                swal({
-                                    title: event.title + ' <a href="#" class="btn btn-sm btn-digital-green">Ver perfil</a>',
-                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
-                                            '<p>Status: '+ event.status +'</p>' +
-                                            '<p>Horário: ' + event.horario + '</p>' +
-                                            '<p>Duração prevista: 30 min</p>' +
-                                            '<h3 class="left-text">Dados Pessoais</h3>' +
-                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' +
-                                            '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a href="#" class="btn btn-danger">cancelar consulta</a>',
-                                    showCloseButton: true,
-                                    showConfirmButton: false,
-                                    width: 600,
-                                    padding: 50
-                                })
-                            },
                             header: {
                                 left: 'prev,next today myCustomButton',
                                 center: 'title',
                                 right: 'month,agendaWeek,agendaDay'
                             },
-                            timeFormat: 'H(:mm)',
+                            timeFormat: 'H:mm',
                             buttonText: {
                                 today: 'Hoje',
                                 month: 'Mês',
@@ -137,14 +139,15 @@
                                 <c:if test="${consultas.size() > 0}">
                                     <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
                                         {
-                                            id: '${i}',
+                                            id: '${consultas.get(i).id}',
                                             title: '${consultas.get(i).paciente.nome}',
                                             sobrenome: '${consultas.get(i).paciente.sobrenome}',
                                             sexo: '${consultas.get(i).paciente.sexo}',
                                             status: '${consultas.get(i).status}',
                                             nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
-                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
+                                            color: getCorStatus('${consultas.get(i).status}')
                                         },
                                     </c:forEach>
                                 </c:if>

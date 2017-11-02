@@ -6,6 +6,7 @@
 package daos;
 
 import beans.Consulta;
+import beans.Medico;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -15,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +27,9 @@ public class ConsultaDAO {
 
     private final String insereNovaConsulta = "INSERT INTO consulta (id_medico, id_paciente, id_clinica_endereco, datahora, status) "
             + "VALUES (?, ?, ?, ?, ?);";
+    private final String deletaConsulta = "UPDATE consulta SET status='Cancelado' WHERE id=?";
+
+    private final String countStatusPorMedicoNoDia = "SELECT c.status, COUNT(c.id) as qtdd FROM consulta c WHERE c.id_medico=? AND date(c.datahora) =  curdate() GROUP BY c.status;";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -62,5 +68,54 @@ public class ConsultaDAO {
             }
         }
         return null;
+    }
+
+    public void cancelaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deletaConsulta);
+            stmt.setInt(1, consulta.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<String[]> buscarStatusPorMedicoNoDia(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(countStatusPorMedicoNoDia);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> status = new ArrayList();
+            while (rs.next()) {
+                String[] item = {rs.getString("status"), rs.getString("qtdd")};
+                status.add(item);
+            }
+            return status;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 }

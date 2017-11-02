@@ -67,6 +67,28 @@
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
                 <script>
+                    
+                    function getCorStatus(status){
+                        var cor = '#fff';
+                        switch(status) {
+                            case 'Cancelado':
+                                cor = 'crimson';
+                                break;
+                            case 'Marcado':
+                                cor = 'dodgerblue';
+                                break;
+                            case 'Em espera':
+                                cor = 'goldenrod';
+                                break;
+                            case 'Concluído':
+                                cor = 'green';
+                                break;
+                            default:
+                                cor = '#000';
+                        }
+                        return cor
+                    }
+                    
                     $(document).ready(function () {
                         new Date($.now());
                         var dt = new Date();
@@ -95,7 +117,7 @@
                                 center: 'title',
                                 right: 'month,agendaWeek,agendaDay'
                             },
-                            timeFormat: 'H(:mm)',
+                            timeFormat: 'H:mm',
                             buttonText: {
                                 today: 'Hoje',
                                 month: 'Mês',
@@ -110,18 +132,20 @@
                             scrollTime: time,
                             height: 800,
                             defaultTimedEventDuration: '00:30:00',
+                            eventTextColor: '#fff',
                             events: [
                                 <c:if test="${consultas.size() > 0}">
                                     <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
                                         {
-                                            id: '${i}',
+                                            id: '${consultas.get(i).id}',
                                             title: '${consultas.get(i).paciente.nome}',
                                             sobrenome: '${consultas.get(i).paciente.sobrenome}',
                                             sexo: '${consultas.get(i).paciente.sexo}',
                                             status: '${consultas.get(i).status}',
                                             nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
-                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
+                                            color: getCorStatus('${consultas.get(i).status}')
                                         },
                                     </c:forEach>
                                 </c:if>

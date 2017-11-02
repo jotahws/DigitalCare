@@ -35,6 +35,42 @@
             <c:otherwise>
                 <!--Calendario-->
                 <script>
+                    
+                    function confirmaCancela(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Desmarcar consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=CancelaConsultaMedico&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function getCorStatus(status){
+                        var cor = '#fff';
+                        switch(status) {
+                            case 'Cancelado':
+                                cor = 'crimson';
+                                break;
+                            case 'Marcado':
+                                cor = 'dodgerblue';
+                                break;
+                            case 'Em espera':
+                                cor = 'goldenrod';
+                                break;
+                            case 'Concluído':
+                                cor = 'green';
+                                break;
+                            default:
+                                cor = '#000';
+                        }
+                        return cor
+                    }
+                    
                     $(document).ready(function () {
                         new Date($.now());
                         var dt = new Date();
@@ -44,7 +80,7 @@
                             editable: false,
                             eventClick: function (event) {
                                 swal({
-                                    title: event.title + ' <a href="#" class="btn btn-sm btn-digital-green">Ver perfil</a>',
+                                    title: event.title,
                                     html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
                                             '<p>Status: '+ event.status +'</p>' +
                                             '<p>Horário: ' + event.horario + '</p>' +
@@ -54,7 +90,7 @@
                                             '<p><b>Sexo: '+ event.sexo +'</b></p></div>' +
                                             '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
                                              <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a href="#" class="btn btn-danger">cancelar consulta</a>',
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>',
                                     showCloseButton: true,
                                     showConfirmButton: false,
                                     width: 600,
@@ -69,7 +105,7 @@
                             listDayFormat: 'dddd',
                             listDayAltFormat: 'DD [de] MMMM [de] YYYY',
                             titleFormat: "[Resumo para hoje]",
-                            timeFormat: 'H(:mm)',
+                            timeFormat: 'H:mm',
                             allDaySlot: false,
                             height: 350,
                             slotLabelFormat: "HH:mm",
@@ -77,17 +113,20 @@
                             columnFormat: 'ddd DD/MM',
                             scrollTime: time,
                             defaultTimedEventDuration: '00:30:00',
+                            eventTextColor: '#fff',
                             events: [
                                 <c:if test="${consultas.size() > 0}">
                                     <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
                                         {
-                                            id: '${i}',
+                                            id: '${consultas.get(i).id}',
+                                            idPusu: '${consultas.get(i).paciente.id}',
                                             title: '${consultas.get(i).paciente.nome} ${consultas.get(i).paciente.sobrenome}',
                                             sexo: '${consultas.get(i).paciente.sexo}',
                                             status: '${consultas.get(i).status}',
                                             nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
-                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
+                                            color: getCorStatus('${consultas.get(i).status}')
                                         },
                                     </c:forEach>
                                 </c:if>
@@ -105,6 +144,16 @@
                     <div class="container-fluid">
                         <h1>Dashboard</h1>
                         <hr>
+                        <c:choose>
+                                <c:when test="${(param.status == 'consulta-cancelada')}">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Sua consulta foi cancelada! </strong>
+                                    </div>
+                                </c:when>
+                            </c:choose>
                         <div style="" class="table-striped " id="resumo-dia"></div>
                         <div class="row">
                             <div class="col-md-3">

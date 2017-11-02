@@ -421,6 +421,22 @@ legend.dados{
     color: #fff !important;
 }
 
+.clickable.btn-outline-danger{
+    color: #dc3545 !important;
+}
+
+.clickable.btn-outline-danger:hover{
+    color: #fff !important;
+}
+
+.clickable.btn-danger{
+    color: #fff !important;
+}
+
+.clickable.btn-danger:hover{
+    color: #fff !important;
+}
+
 .listgroup-medicos{
     max-height: 800px;
     overflow-y: scroll; 

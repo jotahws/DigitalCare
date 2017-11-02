@@ -55,7 +55,7 @@ public class PacienteDAO {
               "   INNER JOIN estado                   es ON (es.id			= cid.id_estado)" +
               "   INNER JOIN consulta                con ON (con.id_paciente		= pac.id)" +
               "   INNER JOIN medico                    m ON (m.id			= con.id_medico)" +
-              "   where m.id =? AND con.status = 'Marcado';";
+              "   where m.id =? AND con.status != 'Concluído';";
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;

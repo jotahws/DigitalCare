@@ -53,15 +53,15 @@
                         <div class="row">
                             <div class="container">
                                 <div class="row">
-                                    <c:out value="(${fn:substring(tel, 0, 2)})${fn:substring(tel, 2, 7)}-${fn:substring(tel, 7, fn:length(tel))}"/>
+                                    
                                     <legend class="dados">Dados</legend>
                                     <p class="col-md-12 dados">Nome:<strong> ${perfilPaciente.paciente.nome}  ${perfilPaciente.paciente.sobrenome}</strong></p>                                            
-                                    <p class="col-md-4 dados">CPF: <strong>${perfilPaciente.paciente.cpf}</strong> </p>
-                                    <p class="col-md-4 dados">Data de Nascimento: <strong>${perfilPaciente.paciente.dataNascimento}</strong> </p>
+                                    <p class="col-md-4 dados">CPF: <strong><c:out value="${fn:substring(perfilPaciente.paciente.cpf, 0, 3)}.${fn:substring(perfilPaciente.paciente.cpf, 3, 6)}.${fn:substring(perfilPaciente.paciente.cpf, 6, 9)}-${fn:substring(perfilPaciente.paciente.cpf, 9, 11)}"/></strong> </p>
+                                    <p class="col-md-4 dados">Data de Nascimento: <strong><fmt:formatDate pattern = "dd/MM/yyyy" value = "${perfilPaciente.paciente.dataNascimento}"/></strong> </p>
                                     <p class="col-md-4 dados">Sexo: <strong>${perfilPaciente.paciente.sexo}</strong> </p>
                                     <p class="col-md-4 dados">Email: <strong>${perfilPaciente.login.email}</strong> </p>
-                                    <p class="col-md-4 dados">Telefone 1: <strong>${perfilPaciente.telefone}</strong> </p>
-                                    <p class="col-md-4 dados">Telefone 2: <strong>${perfilPaciente.telefone2}</strong> </p>
+                                    <p class="col-md-4 dados">Telefone 1: <strong><c:out value="(${fn:substring(perfilPaciente.telefone, 0, 2)})${fn:substring(perfilPaciente.telefone, 2, 7)}-${fn:substring(perfilPaciente.telefone, 7, fn:length(perfilPaciente.telefone))}"/></strong> </p>
+                                    <p class="col-md-4 dados">Telefone 2: <strong><c:out value="(${fn:substring(perfilPaciente.telefone2, 0, 2)})${fn:substring(perfilPaciente.telefone2, 2, 7)}-${fn:substring(perfilPaciente.telefone2, 7, fn:length(perfilPaciente.telefone2))}"/></strong> </p>
                                     <c:if test="${listConveniosPac.size() > 0}">
                                         <legend class="dados"><hr>Dados Médicos</legend>
                                         <c:forEach var="item" items="${listConveniosPac}">
@@ -71,10 +71,10 @@
                                         </c:forEach>
                                     </c:if>
                                     <legend class="dados"><hr>Endereço</legend>
-                                    <p class="col-md-12 dados">CEP: <strong>${perfilPaciente.endereco.cep}</strong> </p>
+                                    <p class="col-md-12 dados">CEP: <strong><c:out value="${fn:substring(perfilPaciente.endereco.cep, 0, 2)}.${fn:substring(perfilPaciente.endereco.cep, 2, 5)}-${fn:substring(perfilPaciente.endereco.cep, 5, fn:length(perfilPaciente.endereco.cep))}"/></strong> </p>
                                     <p class="col-md-4 dados">Rua: <strong>${perfilPaciente.endereco.rua}</strong> </p>
                                     <p class="col-md-4 dados">Número: <strong>${perfilPaciente.endereco.numero}</strong> </p>
-                                    <p class="col-md-4 dados">Complemento: <strong>${perfilPaciente.endereco.complemento}o</strong> </p>
+                                    <p class="col-md-4 dados">Complemento: <strong>${perfilPaciente.endereco.complemento}</strong> </p>
                                     <p class="col-md-4 dados">Bairro: <strong>${perfilPaciente.endereco.bairro}</strong> </p>
                                     <p class="col-md-4 dados">Cidade: <strong>${perfilPaciente.endereco.cidade.nome}</strong> </p>
                                     <p class="col-md-4 dados">Estado: <strong>${perfilPaciente.endereco.cidade.estado.uf}</strong> </p>

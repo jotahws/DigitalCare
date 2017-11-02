@@ -42,30 +42,63 @@
                     <div class="container-fluid">
                         <div class="row">
                             <h1 class="col-9">Calendário</h1>
-                            <a href="${pageContext.request.contextPath}/indisponibilidade.jsp" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
+                            <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
                         </div>
                         <hr>
                         <div class="row">
 
                             <div class="col-md-3">
                                 <div class="data-box-sm data-box data-box-light ">
-                                    <h2>2</h2>
-                                    <p>Paciente(s) em espera</p>
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Em espera'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) na sala de espera</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="data-box bg-warning-light data-box-sm">
-                                    <h2>10</h2>
-                                    <p>Paciente(s) Restante(s)</p>
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Marcado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) Restante(s) para hoje</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="data-box bg-danger-light data-box-sm">
-                                    <h2>1</h2>
-                                    <p>Paciente(s) Cancelado(s)</p>
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Cancelado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) Cancelado(s) para hoje</p>
                                 </div>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-3">
                                 <a href="" class="btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar Próximo Paciente</a>
                             </div>
                         </div>
@@ -79,6 +112,42 @@
                 <script src="js/dash.js"></script>
                 <!--Calendario-->
                 <script>
+                    
+                    function confirmaCancela(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Desmarcar consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=CancelaConsultaMedico&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function getCorStatus(status){
+                        var cor = '#fff';
+                        switch(status) {
+                            case 'Cancelado':
+                                cor = 'crimson';
+                                break;
+                            case 'Marcado':
+                                cor = 'dodgerblue';
+                                break;
+                            case 'Em espera':
+                                cor = 'goldenrod';
+                                break;
+                            case 'Concluído':
+                                cor = 'green';
+                                break;
+                            default:
+                                cor = '#000';
+                        }
+                        return cor
+                    }
+                    
                     $(document).ready(function () {
                         new Date($.now());
                         var dt = new Date();
@@ -88,26 +157,29 @@
                             editable: false,
                             eventClick: function (event) {
                                 swal({
-                                    title: event.title +' '+ event.sobrenome,
+                                    title: event.title,
                                     html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
                                             '<p>Status: '+ event.status +'</p>' +
                                             '<p>Horário: ' + event.horario + '</p>' +
                                             '<p>Duração prevista: 30 min</p>' +
                                             '<h3 class="left-text">Dados Pessoais</h3>' +
                                             '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p>',
+                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' +
+                                            '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
+                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>',
                                     showCloseButton: true,
-                                    showConfirmButton: true,
+                                    showConfirmButton: false,
                                     width: 600,
                                     padding: 50
-                                });
+                                })
                             },
                             header: {
                                 left: 'prev,next today myCustomButton',
                                 center: 'title',
                                 right: 'month,agendaWeek,agendaDay'
                             },
-                            timeFormat: 'H(:mm)',
+                            timeFormat: 'H:mm',
                             buttonText: {
                                 today: 'Hoje',
                                 month: 'Mês',
@@ -127,14 +199,15 @@
                                 <c:if test="${consultas.size() > 0}">
                                     <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
                                         {
-                                            id: '${i}',
+                                            id: '${consultas.get(i).id}',
                                             title: '${consultas.get(i).paciente.nome}',
                                             sobrenome: '${consultas.get(i).paciente.sobrenome}',
                                             sexo: '${consultas.get(i).paciente.sexo}',
                                             status: '${consultas.get(i).status}',
                                             nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
-                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
+                                            color: getCorStatus('${consultas.get(i).status}')
                                         },
                                     </c:forEach>
                                 </c:if>

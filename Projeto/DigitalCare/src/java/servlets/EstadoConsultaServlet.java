@@ -69,13 +69,35 @@ public class EstadoConsultaServlet extends HttpServlet {
                     paciente.setId(pacienteUsuario.getPaciente().getId());
                     clinicaEndereco.setId(idClinicaEnd);
                     Consulta consulta = new Consulta(datahora, "Marcado", medico, paciente, clinicaEndereco);
-                    consulta = Facade.marcaConsulta(consulta);
+                    Facade.marcaConsulta(consulta);
                     status = "consulta-marcada";
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "erro-nova-consulta";
                 }
                 response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status +"#pesquisar");
 
+            }else if ("CancelaConsulta".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.cancelaConsulta(consulta);
+                    status = "consulta-cancelada";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-cancela-consulta";
+                }
+                response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status +"#pesquisar");
+            }else if ("CancelaConsultaMedico".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.cancelaConsulta(consulta);
+                    status = "consulta-cancelada";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-cancela-consulta";
+                }
+                response.sendRedirect("ConsultaServlet?action=Dashboard&status=" + status);
             }
         }
     }

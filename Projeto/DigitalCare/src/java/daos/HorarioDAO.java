@@ -52,7 +52,7 @@ public class HorarioDAO {
             + "INNER JOIN medico m ON c.id_medico = m.id \n "
             + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
             + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
-            + "WHERE p.id = ?;";
+            + "WHERE p.id = ? AND status != 'Cancelado';";
 
     private final String listaHorariosPorMedico = "select * from medico_horarios mh \n"
             + "INNER JOIN medico_clinica mc ON mc.id = mh.id_medico_clinica \n"

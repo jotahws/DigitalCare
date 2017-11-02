@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="container">
-                    <div class="featurette-divider"></div>
+                    <hr class="invisible-divider">
                     <div class="row">
                         <div class="col-md-12">
                             <c:choose>
@@ -129,6 +129,14 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <strong>Sua consulta foi marcada! </strong> Verifique os dados da sua consulta no calendário.
+                                    </div>
+                                </c:when>
+                                <c:when test="${(param.status == 'consulta-cancelada')}">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Sua consulta foi cancelada! </strong> Para marcar uma nova consulta, faça uma busca no quadro acima.
                                     </div>
                                 </c:when>
                             </c:choose>
@@ -146,32 +154,33 @@
         new Date($.now());
         var dt = new Date();
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+
         $('#calendar').fullCalendar({
         locale: 'pt-br',
                 editable: false,
                 eventClick: function (event) {
-                swal({
-                title: event.nome + ' ' + event.sobrenome,
-                        html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
-                        '<p>Status: Confirmado</p>' +
-                        '<p>Horário: ' + event.horario + '</p>' +
-                        '<p>Duração prevista: 30 min</p>' +
-                        '<p><b>Local: ' + event.local + '</b></p>' +
-                        '<p><b>Médico: Dr(a). ' + event.medico + '</b></p></div>' +
-                        '<div class="text-right"><br><a href="#" class="btn btn-sm btn-outline-danger">cancelar consulta</a></div>',
-                        showCloseButton: true,
-                        showConfirmButton: false,
-                        allowEnterKey: false,
-                        width: 600,
-                        padding: 50
-                });
+                    swal({
+                    title: event.nome + ' ' + event.sobrenome,
+                            html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
+                            '<p>Status: Confirmado</p>' +
+                            '<p>Horário: ' + event.horario + '</p>' +
+                            '<p>Duração prevista: 30 min</p>' +
+                            '<p><b>Local: ' + event.local + '</b></p>' +
+                            '<p><b>Médico: Dr(a). ' + event.medico + '</b></p></div>' +
+                            '<div class="text-right"><br><a onclick="confirmaCancela('+ event.id +')" class="btn btn-sm btn-outline-danger clickable">cancelar consulta</a></div>',
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            allowEnterKey: false,
+                            width: 600,
+                            padding: 50
+                    });
                 },
                 header: {
                 left: 'prev,next today myCustomButton',
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
                 },
-                timeFormat: 'H(:mm)',
+                timeFormat: 'H:mm',
                 buttonText: {
                 today: 'Hoje',
                         month: 'Mês',
@@ -187,71 +196,84 @@
                 height: 600,
                 eventTextColor: '#fff',
                 events: [
-        <c:if test="${consultas.size() > 0}">
-            <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
-                {
-                id: '${i}',
-                        title: '${consultas.get(i).paciente.nome}',
-                        medico: '${consultas.get(i).medico.nome} ${consultas.get(i).medico.sobrenome}',
-                                            nome: '${consultas.get(i).paciente.nome}',
-                                            sobrenome: '${consultas.get(i).paciente.sobrenome}',
-                                            sexo: '${consultas.get(i).paciente.sexo}',
-                                            status: '${consultas.get(i).status}',
-                                            local: '${consultas.get(i).clinicaEndereco.endereco.rua}, ${consultas.get(i).clinicaEndereco.endereco.numero} - ${consultas.get(i).clinicaEndereco.endereco.bairro}',
-                                                                nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
-                                                                horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
-                                                                start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
-                                                                            },
-            </c:forEach>
-        </c:if>
-                                                                            ]
-                                                                    });
-                                                                    $(document).ready(function () {
+                    <c:if test="${consultas.size() > 0}">
+                        <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                            {
+                                id: '${consultas.get(i).id}',
+                                title: '${consultas.get(i).paciente.nome}',
+                                medico: '${consultas.get(i).medico.nome} ${consultas.get(i).medico.sobrenome}',
+                                nome: '${consultas.get(i).paciente.nome}',
+                                sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                                sexo: '${consultas.get(i).paciente.sexo}',
+                                status: '${consultas.get(i).status}',
+                                local: '${consultas.get(i).clinicaEndereco.endereco.rua}, ${consultas.get(i).clinicaEndereco.endereco.numero} - ${consultas.get(i).clinicaEndereco.endereco.bairro}',
+                                nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                                horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                                start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                            },
+                        </c:forEach>
+                    </c:if>
+                ]
+        });
+                 
+        function confirmaCancela(consultaId){
+                swal({
+                    title: 'Você tem certeza?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#bfd9d2',
+                    confirmButtonText: 'Desmarcar consulta',
+                    cancelButtonText: 'Cancelar',
+                  }).then(function () {
+                    window.location.href = "EstadoConsultaServlet?action=CancelaConsulta&idConsulta="+consultaId;
+                  });
+        }
 
-                                                                    listaNovaConsulta();
-                                                                    function listaNovaConsulta() {
-                                                                    $.post(
-                                                                            "ConsultaServlet",
-                                                                    {action: 'ListaTiposConsulta'}, //meaasge you want to send
-                                                                            function (result) {
-                                                                            $('#tipoConsulta').flexdatalist('data', result);
-                                                                            });
-                                                                    $.post(
-                                                                            "ConsultaServlet",
-                                                                    {action: 'ListaClinicas'}, //meaasge you want to send
-                                                                            function (result) {
-                                                                            $('#clinica').flexdatalist('data', result);
-                                                                            });
-                                                                    }
+        $(document).ready(function () {
 
-                                                                    function buscaCidades(nome) {
-                                                                    $.post(
-                                                                            "ConsultaServlet",
-                                                                    {action: 'ListaCidades', nome: nome},
-                                                                            function (result) {
-                                                                            $('#cidade').flexdatalist('data', result);
-                                                                            });
-                                                                    }
+            
 
-                                                                    $("#cidade-flexdatalist").on("keyup", function (e) {
-                                                                    if ($(this).val().length > 2 && $(this).val().length < 6) {
-                                                                    $('#listaCidades').empty();
-                                                                    buscaCidades($(this).val());
-                                                                    }
-                                                                    });
-                                                                    if ($(window).width() < 1200) {
-                                                                    if ($(window).width() < 992) {
-                                                                    $('.agendamento .data-box').addClass('col-md-8');
-                                                                    $('.agendamento .data-box').removeClass('col-md-5');
-                                                                    } else {
-                                                                    $('.agendamento .data-box').addClass('col-md-6');
-                                                                    $('.agendamento .data-box').removeClass('col-md-5');
-                                                                    }
-                                                                    }
-                                                                    });
+            listaNovaConsulta();
+            function listaNovaConsulta() {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaTiposConsulta'}, //meaasge you want to send
+                        function (result) {
+                            $('#tipoConsulta').flexdatalist('data', result);
+                        });
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaClinicas'}, //meaasge you want to send
+                        function (result) {
+                            $('#clinica').flexdatalist('data', result);
+                        });
+            }
+
+            function buscaCidades(nome) {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaCidades', nome: nome},
+                        function (result) {
+                            $('#cidade').flexdatalist('data', result);
+                        });
+            }
+
+            $("#cidade-flexdatalist").on("keyup", function (e) {
+                if ($(this).val().length > 2 && $(this).val().length < 6) {
+                    $('#listaCidades').empty();
+                    buscaCidades($(this).val());
+                }
+            });
+            if ($(window).width() < 1200) {
+                if ($(window).width() < 992) {
+                    $('.agendamento .data-box').addClass('col-md-8');
+                    $('.agendamento .data-box').removeClass('col-md-5');
+                } else {
+                    $('.agendamento .data-box').addClass('col-md-6');
+                    $('.agendamento .data-box').removeClass('col-md-5');
+                }
+            }
+        });
     </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_IoScyyrkE8QdU231FPFR926DrLybJUE&callback=initMap">
-    </script>
-
 </html>

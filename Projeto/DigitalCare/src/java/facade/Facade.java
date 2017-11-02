@@ -164,6 +164,16 @@ public class Facade {
         return dao.insereConsulta(consulta);
     }
 
+    public static void cancelaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.cancelaConsulta(consulta);
+    }
+
+    public static List<String[]> buscarStatusPorMedicoNoDia(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarStatusPorMedicoNoDia(medico);
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
