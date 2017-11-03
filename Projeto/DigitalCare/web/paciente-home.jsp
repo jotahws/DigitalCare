@@ -42,7 +42,7 @@
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> Não há médicos disponíveis para essa especialidade.
+                                        <strong>Opa! </strong> Não há médicos disponíveis para esse filtro de pesquisa.
                                     </div>
                                 </c:when>
                             </c:choose>
@@ -160,19 +160,19 @@
                 editable: false,
                 eventClick: function (event) {
                     swal({
-                    title: event.nome + ' ' + event.sobrenome,
-                            html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
-                            '<p>Status: Confirmado</p>' +
-                            '<p>Horário: ' + event.horario + '</p>' +
-                            '<p>Duração prevista: 30 min</p>' +
-                            '<p><b>Local: ' + event.local + '</b></p>' +
-                            '<p><b>Médico: Dr(a). ' + event.medico + '</b></p></div>' +
-                            '<div class="text-right"><br><a onclick="confirmaCancela('+ event.id +')" class="btn btn-sm btn-outline-danger clickable">cancelar consulta</a></div>',
-                            showCloseButton: true,
-                            showConfirmButton: false,
-                            allowEnterKey: false,
-                            width: 600,
-                            padding: 50
+                        title: event.nome + ' ' + event.sobrenome,
+                        html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
+                        '<p>Status: Confirmado</p>' +
+                        '<p>Horário: ' + event.horario + '</p>' +
+                        '<p>Duração prevista: 30 min</p>' +
+                        '<p><b>Local: ' + event.local + '</b></p>' +
+                        '<p><b>Médico: Dr(a). ' + event.medico + '</b></p></div>' +
+                        '<div class="text-right"><br><a onclick="confirmaCancela('+ event.id +')" class="btn btn-sm btn-outline-danger clickable">cancelar consulta</a></div>',
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                        allowEnterKey: false,
+                        width: 600,
+                        padding: 50
                     });
                 },
                 header: {
@@ -191,6 +191,7 @@
                 allDaySlot: false,
                 slotLabelFormat: "HH:mm",
                 defaultView: 'month',
+                defaultTimedEventDuration: '00:30:00',
                 columnFormat: 'ddd DD/MM',
                 scrollTime: time,
                 height: 600,
@@ -200,7 +201,7 @@
                         <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
                             {
                                 id: '${consultas.get(i).id}',
-                                title: '${consultas.get(i).paciente.nome}',
+                                title: '${consultas.get(i).clinicaEndereco.nome}',
                                 medico: '${consultas.get(i).medico.nome} ${consultas.get(i).medico.sobrenome}',
                                 nome: '${consultas.get(i).paciente.nome}',
                                 sobrenome: '${consultas.get(i).paciente.sobrenome}',

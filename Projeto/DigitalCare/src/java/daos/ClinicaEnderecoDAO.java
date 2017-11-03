@@ -163,6 +163,7 @@ public class ClinicaEnderecoDAO {
                 end.setBairro(rs.getString("e.bairro"));
                 ClinicaEndereco clinicaEnd = new ClinicaEndereco();
                 clinicaEnd.setId(idClinicaEnd);
+                clinicaEnd.setNome(rs.getString("ce.nome"));
                 clinicaEnd.setEndereco(end);
                 return clinicaEnd;
             }

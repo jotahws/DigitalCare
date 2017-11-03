@@ -438,7 +438,11 @@ legend.dados{
     color: #fff !important;
 }
 
-.clickable.btn-danger:hover{
+.clickable.btn-digital-green{
+    color: #fff !important;
+}
+
+.clickable.btn-info{
     color: #fff !important;
 }
 
@@ -449,4 +453,12 @@ legend.dados{
 
 .color-disabled{
     color: #aaa;
+}
+
+.fc-event{
+    cursor: pointer;
+}
+
+.fc-list-item {
+    cursor: pointer;
 }

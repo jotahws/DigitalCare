@@ -50,6 +50,34 @@
                         });
                     }
                     
+                    function confirmaConclui(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Concluir consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function confirmaInicia(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: 'dodgerblue',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Iniciar consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=iniciaConsulta&idConsulta="+consultaId;
+                        });
+                    }
+                    
                     function getCorStatus(status){
                         var cor = '#fff';
                         switch(status) {
@@ -65,8 +93,11 @@
                             case 'Concluído':
                                 cor = 'green';
                                 break;
+                            case 'Em andamento':
+                                cor = '#68c4af';
+                                break;
                             default:
-                                cor = '#000';
+                                cor = 'dodgerblue';
                         }
                         return cor
                     }
@@ -81,14 +112,16 @@
                             eventClick: function (event) {
                                 var botoes='';
                                 if (event.status == 'Marcado' || event.status == 'Em espera') {
-                                     botoes = '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>'
+                                     botoes = '<br><a onclick="confirmaInicia('+ event.id +')" class="btn btn-info clickable">Iniciar consulta</a> \n\
+                                             <a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Consulta concluída</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">Cancelar consulta</a>';
+                                }else if(event.status == 'Em andamento'){
+                                    botoes = '<br><a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Concluir Consulta</a>';
                                 }
                                 swal({
                                     title: event.title,
                                     html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
-                                            '<p>Status: '+ event.status +'</p>' +
+                                            '<h5>Status: <strong>'+ event.status +'</strong></h5>' +
                                             '<p>Horário: ' + event.horario + '</p>' +
                                             '<p>Duração prevista: 30 min</p>' +
                                             '<h3 class="left-text">Dados Pessoais</h3>' +
@@ -105,6 +138,7 @@
                                 center: '',
                                 right: ''
                             },
+                            noEventsMessage: 'Não há consultas para hoje',
                             listDayFormat: 'dddd',
                             listDayAltFormat: 'DD [de] MMMM [de] YYYY',
                             titleFormat: "[Resumo para hoje]",
@@ -157,28 +191,31 @@
                                 </div>
                             </c:when>
                         </c:choose>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
+                        <div style="" class="table-striped " id="resumo-dia"></div><hr class="invisible-divider">
+                        <div class="row">
+                            <h2 class="col-md-12">Estatísticas</h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="data-box data-box-dark">
+                                <div class="data-box data-box-dark mt-2">
                                     <h2>10</h2>
                                     <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box data-box-light">
+                                <div class="data-box data-box-light mt-2">
                                     <h2>10</h2>
                                     <p>Texto texto texto texto texto texto texto texto texto </p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box data-box-dark">
+                                <div class="data-box data-box-dark mt-2">
                                     <h2>10</h2>
                                     <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box data-box-light">
+                                <div class="data-box data-box-light mt-2">
                                     <h2>10</h2>
                                     <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
                                 </div>
