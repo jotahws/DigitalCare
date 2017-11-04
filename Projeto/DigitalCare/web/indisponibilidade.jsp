@@ -101,8 +101,11 @@
                             case 'Concluído':
                                 cor = 'green';
                                 break;
+                            case 'Em andamento':
+                                cor = '#68c4af';
+                                break;
                             default:
-                                cor = '#000';
+                                cor = 'dodgerblue';
                         }
                         return cor
                     }

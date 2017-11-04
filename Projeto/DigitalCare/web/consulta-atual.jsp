@@ -99,9 +99,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <form class="form">
+                                        <form id="prontuarioForm" class="form">
                                             <div class="form-group">
-                                                <textarea class="form-control" cols="51" rows="7"></textarea>
+                                                <textarea id="prontuario" class="form-control" cols="50" rows="13"></textarea>
                                             </div>
                                         </form>
                                     </div>
@@ -157,6 +157,20 @@
                 <script src="js/dash.js"></script>
 
                 <script>
+                    //colocar temporariamente na sessão o que ele digitou até ele voltar para a pagina
+                    window.onbeforeunload = function () {
+                        sessionStorage.setItem('prontuarioSession', $('#prontuario').val());
+                    };
+                    window.onload = function () {
+                        var name = sessionStorage.getItem('prontuarioSession');
+                        if (name !== null)
+                            $('#prontuario').val(name);
+                    };
+                    $('#prontuarioForm').submit(function () {
+                        sessionStorage.removeItem('prontuarioSession');
+                    });
+                    //fim sessão
+
                     $(document).ready(function () {
                         $('#receita').click(function () {
                             swal({

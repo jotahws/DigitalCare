@@ -78,6 +78,35 @@
                 <script src="js/dash.js"></script>
                 <script>
                     
+                    function confirmaEmEspera(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            text: 'Você estará avisando o médico que o paciente se encontra na sala de espera',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: 'goldenrod',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Mudar status',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=pacienteEmEspera&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function confirmaConclui(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Concluir consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=concluiConsultaClinica&idConsulta="+consultaId;
+                        });
+                    }
+                    
                     function confirmaCancela(consultaId){
                         swal({
                             title: 'Você tem certeza?',
@@ -107,8 +136,11 @@
                             case 'Concluído':
                                 cor = 'green';
                                 break;
+                            case 'Em andamento':
+                                cor = '#68c4af';
+                                break;
                             default:
-                                cor = '#000';
+                                cor = 'dodgerblue';
                         }
                         return cor
                     }
@@ -123,9 +155,10 @@
                             eventClick: function (event) {
                                 var botoes='';
                                 if (event.status == 'Marcado' || event.status == 'Em espera') {
-                                     botoes = '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>'
+                                     botoes = '<br><a onclick="confirmaEmEspera('+ event.id +')" class="btn btn-warning clickable">Paciente em espera</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">Cancelar consulta</a>';
+                                }else if(event.status == 'Em andamento'){
+                                    botoes = '<br><a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Concluir Consulta</a>';
                                 }
                                 swal({
                                     title: event.title,

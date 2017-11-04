@@ -48,6 +48,18 @@ public class HorarioDAO {
             + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
             + "WHERE m.id = ?;";
     
+    private final String buscaConsultaPorId = "SELECT * FROM consulta c \n "
+            + "INNER JOIN medico m ON c.id_medico = m.id \n "
+            + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
+            + "WHERE c.id = ?;";
+    
+    private final String buscaConsultaAtualPorMedico = "SELECT * FROM consulta c \n "
+            + "INNER JOIN medico m ON c.id_medico = m.id \n "
+            + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id \n "
+            + "WHERE m.id=? AND c.status = 'Em andamento';";
+    
     private final String buscaConsultasPaciente = "SELECT * FROM consulta c \n "
             + "INNER JOIN medico m ON c.id_medico = m.id \n "
             + "INNER JOIN paciente p ON c.id_paciente = p.id \n "
@@ -395,5 +407,59 @@ public class HorarioDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+    
+    public Consulta buscarConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaConsultaPorId);
+            stmt.setInt(1, consulta.getId());
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                Medico medico = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                return consulta;
+            }
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    public Consulta buscarConsultaAtualPorMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaConsultaAtualPorMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                Medico medico2 = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico2, paciente, clinicaEndereco);
+                return consulta;
+            }
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 }

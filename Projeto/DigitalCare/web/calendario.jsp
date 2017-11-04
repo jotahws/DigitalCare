@@ -127,6 +127,34 @@
                         });
                     }
                     
+                    function confirmaConclui(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Concluir consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function confirmaInicia(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: 'dodgerblue',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Iniciar consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=iniciaConsulta&idConsulta="+consultaId;
+                        });
+                    }
+                    
                     function getCorStatus(status){
                         var cor = '#fff';
                         switch(status) {
@@ -142,8 +170,11 @@
                             case 'Concluído':
                                 cor = 'green';
                                 break;
+                            case 'Em andamento':
+                                cor = '#68c4af';
+                                break;
                             default:
-                                cor = '#000';
+                                cor = 'dodgerblue';
                         }
                         return cor
                     }
@@ -158,9 +189,11 @@
                             eventClick: function (event) {
                                 var botoes='';
                                 if (event.status == 'Marcado' || event.status == 'Em espera') {
-                                     botoes = '<br><a href="#" class="btn btn-digital-green">iniciar consulta</a> \n\
-                                             <a href="#" class="btn btn-info">consulta concluída</a> \n\
-                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">cancelar consulta</a>'
+                                     botoes = '<br><a onclick="confirmaInicia('+ event.id +')" class="btn btn-info clickable">Iniciar consulta</a> \n\
+                                             <a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Consulta concluída</a> \n\
+                                             <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">Cancelar consulta</a>';
+                                }else if(event.status == 'Em andamento'){
+                                    botoes = '<br><a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Concluir Consulta</a>';
                                 }
                                 swal({
                                     title: event.title,

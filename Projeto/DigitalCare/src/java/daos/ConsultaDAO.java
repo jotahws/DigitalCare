@@ -28,7 +28,13 @@ public class ConsultaDAO {
 
     private final String insereNovaConsulta = "INSERT INTO consulta (id_medico, id_paciente, id_clinica_endereco, datahora, status) "
             + "VALUES (?, ?, ?, ?, ?);";
-    private final String deletaConsulta = "UPDATE consulta SET status='Cancelado' WHERE id=?";
+    private final String cancelaConsulta = "UPDATE consulta SET status='Cancelado' WHERE id=?";
+    
+    private final String concluiConsulta = "UPDATE consulta SET status='Concluído' WHERE id=?";
+    
+    private final String iniciaConsulta = "UPDATE consulta SET status='Em andamento' WHERE id=?";
+    
+    private final String pacienteEmEspera = "UPDATE consulta SET status='Em espera' WHERE id=?";
 
     private final String countStatusPorMedicoNoDia = "SELECT c.status, COUNT(c.id) as qtdd FROM consulta c WHERE c.id_medico=? AND date(c.datahora) =  curdate() GROUP BY c.status;";
 
@@ -80,7 +86,67 @@ public class ConsultaDAO {
     public void cancelaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
-            stmt = con.prepareStatement(deletaConsulta);
+            stmt = con.prepareStatement(cancelaConsulta);
+            stmt.setInt(1, consulta.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public void concluiConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(concluiConsulta);
+            stmt.setInt(1, consulta.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public void iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(iniciaConsulta);
+            stmt.setInt(1, consulta.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public void pacienteEmEspera(Consulta consulta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(pacienteEmEspera);
             stmt.setInt(1, consulta.getId());
             stmt.executeUpdate();
         } finally {

@@ -6,6 +6,7 @@
 package servlets;
 
 import beans.Clinica;
+import beans.Consulta;
 import beans.Login;
 import beans.Medico;
 import beans.PacienteUsuario;
@@ -70,6 +71,8 @@ public class LoginServlet extends HttpServlet {
                         medico.setListaEspecialidades(Facade.getListaEspecialidadesMedico(medico.getId()));
                         medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
                         medico.setLogin(login);
+                        Consulta consultaAtual = Facade.getConsultaAtual(medico);
+                        session.setAttribute("consultaAtual", consultaAtual);
                         session.setAttribute("usuario", medico);
                         response.sendRedirect("ConsultaServlet?action=Dashboard");
                         break;
@@ -91,7 +94,7 @@ public class LoginServlet extends HttpServlet {
                 session.invalidate();
             }
             response.sendRedirect("index.jsp");
-        } 
+        }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

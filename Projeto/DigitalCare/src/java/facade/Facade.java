@@ -169,6 +169,22 @@ public class Facade {
         dao.cancelaConsulta(consulta);
     }
 
+    public static Consulta iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.iniciaConsulta(consulta);
+        return Facade.getConsultaPorId(consulta);
+    }
+
+    public static void concluiConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.concluiConsulta(consulta);
+    }
+
+    public static void pacienteEmEspera(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.pacienteEmEspera(consulta);
+    }
+
     public static List<String[]> buscarStatusPorMedicoNoDia(Medico medico) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         return dao.buscarStatusPorMedicoNoDia(medico);
@@ -177,6 +193,16 @@ public class Facade {
     public static List<String[]> buscarStatusPorClinicaNoDia(Clinica clinica) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         return dao.buscarStatusPorClinicaNoDia(clinica);
+    }
+
+    private static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultaPorId(consulta);
+    }
+
+    public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultaAtualPorMedico(medico);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {

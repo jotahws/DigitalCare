@@ -74,9 +74,9 @@ public class EstadoConsultaServlet extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "erro-nova-consulta";
                 }
-                response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status +"#pesquisar");
+                response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status + "#pesquisar");
 
-            }else if ("CancelaConsulta".equals(action)) {
+            } else if ("CancelaConsulta".equals(action)) {
                 try {
                     int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
                     Consulta consulta = new Consulta();
@@ -86,8 +86,8 @@ public class EstadoConsultaServlet extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "erro-cancela-consulta";
                 }
-                response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status +"#pesquisar");
-            }else if ("CancelaConsultaMedico".equals(action)) {
+                response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status + "#pesquisar");
+            } else if ("CancelaConsultaMedico".equals(action)) {
                 try {
                     int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
                     Consulta consulta = new Consulta();
@@ -98,7 +98,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                     status = "erro-cancela-consulta";
                 }
                 response.sendRedirect("ConsultaServlet?action=Dashboard&status=" + status);
-            }else if ("CancelaConsultaClinica".equals(action)) {
+            } else if ("CancelaConsultaClinica".equals(action)) {
                 try {
                     int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
                     Consulta consulta = new Consulta();
@@ -107,6 +107,71 @@ public class EstadoConsultaServlet extends HttpServlet {
                     status = "consulta-cancelada";
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "erro-cancela-consulta";
+                }
+                response.sendRedirect("calendario-clinica.jsp?status=" + status);
+            } else if ("iniciaConsulta".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    HttpSession session = request.getSession();
+                    Medico medico = (Medico) session.getAttribute("usuario");
+                    //CONCLUIR OUTRA CONSULTA SE ESTIVER EM ANDAMENTO
+                    Consulta consultaAtual = Facade.getConsultaAtual(medico);
+                    if (consultaAtual != null) {
+                        Facade.concluiConsulta(consultaAtual);
+                    }
+                    consulta = Facade.iniciaConsulta(consulta);
+                    //COLOCAR A CONSULTA INICIADA NA SESSAO
+                    session.setAttribute("consultaAtual", consulta);
+                    status = "consulta-iniciada";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-inicia-consulta";
+                }
+                response.sendRedirect("consulta-atual.jsp?status=" + status);
+            } else if ("concluiConsulta".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.concluiConsulta(consulta);
+                    HttpSession session = request.getSession();
+                    //TIRAR A CONSULTA INICIADA DA SESSAO
+                    Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
+                    if (consultaAtual != null) {
+                        if (consulta.getId() == consultaAtual.getId()) {
+                            session.setAttribute("consultaAtual", null);
+                        }
+                    }
+                    status = "consulta-concluida";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-conclui-consulta";
+                }
+                response.sendRedirect("ConsultaServlet?action=BuscaConsultasMedico&status=" + status);
+            } else if ("concluiConsultaClinica".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.concluiConsulta(consulta);
+                    HttpSession session = request.getSession();
+                    //TIRAR A CONSULTA INICADA DA SESSAO
+                    session.setAttribute("consultaAtual", null);
+                    status = "consulta-concluida";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-conclui-consulta";
+                }
+                response.sendRedirect("calendario-clinica.jsp?status=" + status);
+            } else if ("pacienteEmEspera".equals(action)) {
+                try {
+                    int idConsulta = Integer.parseInt(request.getParameter("idConsulta"));
+                    Consulta consulta = new Consulta();
+                    consulta.setId(idConsulta);
+                    Facade.pacienteEmEspera(consulta);
+                    status = "consulta-em-espera";
+                    //TIRAR A CONSULTA INICADA DA SESSAO
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-consulta-em-espera";
                 }
                 response.sendRedirect("calendario-clinica.jsp?status=" + status);
             }
