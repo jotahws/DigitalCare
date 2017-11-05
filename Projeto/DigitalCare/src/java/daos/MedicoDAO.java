@@ -57,6 +57,13 @@ public class MedicoDAO {
             + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
             + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
             + "AND en.id = ce.id_endereco   AND cli.id=? ORDER BY m.nome;";
+
+    private final String listMedicosUnique = "SELECT DISTINCT m.*, cli.*, l.*, e.*\n"
+            + "FROM medico m, login l, clinica cli, medico_clinica mc, clinica_endereco ce, estado e, endereco en\n"
+            + "WHERE m.id   = mc.id_medico  AND cli.id = ce.id_clinica AND mc.id_clinica_endereco  = ce.id \n"
+            + "AND cli.id = ce.id_clinica AND l.id   = m.id_login    AND e.id   = m.id_estado_crm \n"
+            + "AND en.id = ce.id_endereco   AND cli.id=? ORDER BY m.nome;";
+
     private final String listarMedicosPorNome = "SELECT DISTINCT * FROM medico m INNER JOIN login l ON l.id=m.id_login \n"
             + "WHERE m.nome LIKE ? ORDER BY m.nome;";
     private final String desvinculaMedicoClinica = "DELETE FROM medico_clinica where id_medico=? "
@@ -118,9 +125,15 @@ public class MedicoDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -134,9 +147,15 @@ public class MedicoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -176,9 +195,15 @@ public class MedicoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -194,9 +219,15 @@ public class MedicoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -218,9 +249,15 @@ public class MedicoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -238,9 +275,15 @@ public class MedicoDAO {
             }
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -269,9 +312,15 @@ public class MedicoDAO {
             }
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -310,9 +359,15 @@ public class MedicoDAO {
             }
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -363,9 +418,62 @@ public class MedicoDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<Medico> listaMedicosNaClinicaUnique(int idClinica) throws ClassNotFoundException, SQLException {
+        try {
+            List<Medico> lista = new ArrayList();
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(listMedicosUnique);
+            stmt.setInt(1, idClinica);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Medico medico = new Medico();
+                Login login = new Login();
+                Estado estado = new Estado();
+
+                estado.setUf(rs.getString("e.uf"));
+                login.setEmail(rs.getString("l.email"));
+                login.setId(rs.getInt("l.id"));
+                medico.setLogin(login);
+                medico.setEstadoCrm(estado);
+                medico.setId(rs.getInt("m.id"));
+                medico.setNome(rs.getString("m.nome"));
+                medico.setSobrenome(rs.getString("m.sobrenome"));
+                medico.setCpf(rs.getString("m.cpf"));
+                medico.setNumeroCrm(rs.getString("m.num_crm"));
+                medico.setPrecoConsulta(rs.getDouble("m.preco_consulta"));
+                medico.setAvaliacao(rs.getDouble("m.avaliacao"));
+                medico.setTelefone1(rs.getString("m.telefone"));
+                medico.setTelefone2(rs.getString("m.telefone2"));
+                medico.setDataNascimento(rs.getDate("m.data_nascimento"));
+                lista.add(medico);
+            }
+            return lista;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -381,9 +489,15 @@ public class MedicoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -420,9 +534,15 @@ public class MedicoDAO {
             }
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -458,9 +578,15 @@ public class MedicoDAO {
             return lista;
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

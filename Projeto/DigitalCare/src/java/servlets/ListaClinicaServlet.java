@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -87,9 +88,21 @@ public class ListaClinicaServlet extends HttpServlet {
             try {
                 HttpSession session = request.getSession();
                 Clinica clinica = (Clinica) session.getAttribute("usuario");
-                //List<Consulta> consultas = Facade.buscarConsultasClinica(clinica); FAZER AINDA
+                //busca consultas atuais
+                List<Consulta> consultas = Facade.buscarConsultasAtuaisPorClinica(clinica);
+                //busca próximas consultas
+                List<Consulta> proximasConsultas = new ArrayList();
+                List<Medico> medicosDaClinica = facade.carregaListaMedicosUnique(clinica.getId());
+                for (Medico medico : medicosDaClinica) {
+                    Consulta consulta = Facade.buscarProximaConsultaPorMedico(medico);
+                    if (consulta != null) {
+                        proximasConsultas.add(consulta);
+                    }
+                }
+                //busca os status de todos os medicos da clinica
                 List<String[]> statusConsultas = Facade.buscarStatusPorClinicaNoDia(clinica);
-                //request.setAttribute("consultas", consultas); AAAAAAA FAZER AINDA
+                request.setAttribute("consultasAtuais", consultas);
+                request.setAttribute("proximasConsultas", proximasConsultas);
                 request.setAttribute("statusConsultas", statusConsultas);
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -462,3 +462,16 @@ legend.dados{
 .fc-list-item {
     cursor: pointer;
 }
+
+/*DATATABLE*/
+table#dataTable thead td{
+    border-bottom: none;
+}
+table#dataTable tfoot td{
+    border-bottom: none;
+}
+table#dataTable.no-footer{
+    border-bottom: none;
+}
+
+/*FIM DATATABLE*/

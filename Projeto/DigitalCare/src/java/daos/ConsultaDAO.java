@@ -6,8 +6,10 @@
 package daos;
 
 import beans.Clinica;
+import beans.ClinicaEndereco;
 import beans.Consulta;
 import beans.Medico;
+import beans.Paciente;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +32,11 @@ public class ConsultaDAO {
     private final String insereNovaConsulta = "INSERT INTO consulta (id_medico, id_paciente, id_clinica_endereco, datahora, status) "
             + "VALUES (?, ?, ?, ?, ?);";
     private final String cancelaConsulta = "UPDATE consulta SET status='Cancelado' WHERE id=?";
-    
+
     private final String concluiConsulta = "UPDATE consulta SET status='Concluído' WHERE id=?";
-    
+
     private final String iniciaConsulta = "UPDATE consulta SET status='Em andamento' WHERE id=?";
-    
+
     private final String pacienteEmEspera = "UPDATE consulta SET status='Em espera' WHERE id=?";
 
     private final String countStatusPorMedicoNoDia = "SELECT c.status, COUNT(c.id) as qtdd FROM consulta c WHERE c.id_medico=? AND date(c.datahora) =  curdate() GROUP BY c.status;";
@@ -43,6 +46,24 @@ public class ConsultaDAO {
             + "INNER JOIN clinica cli ON cli.id = ce.id_clinica\n"
             + "WHERE cli.id=? AND date(c.datahora) = curdate() \n"
             + "GROUP BY c.status;";
+
+    private final String consultasAtuaisPorClinica = "SELECT * FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "INNER JOIN paciente p ON c.id_paciente = p.id\n"
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id\n"
+            + "INNER JOIN clinica cli ON ce.id_clinica = cli.id\n"
+            + "WHERE cli.id=? AND c.status = 'Em andamento';";
+
+    private final String proximasConsultasPorClinica = "SELECT * FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "INNER JOIN paciente p ON c.id_paciente = p.id\n"
+            + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id\n"
+            + "INNER JOIN clinica cli ON ce.id_clinica = cli.id\n"
+            + "WHERE m.id=?\n"
+            + "AND c.datahora > (SELECT c.datahora FROM consulta c INNER JOIN medico m ON c.id_medico = m.id WHERE m.id=? AND c.status = 'Em andamento')\n"
+            + "AND date(c.datahora) = curdate()\n"
+            + "ORDER BY c.datahora \n"
+            + "LIMIT 1;";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -122,7 +143,7 @@ public class ConsultaDAO {
             }
         }
     }
-    
+
     public void iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -142,7 +163,7 @@ public class ConsultaDAO {
             }
         }
     }
-    
+
     public void pacienteEmEspera(Consulta consulta) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
@@ -219,5 +240,72 @@ public class ConsultaDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public List<Consulta> buscarConsultasEmAndamentoPorClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
+        List<Consulta> lista = new ArrayList();
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(consultasAtuaisPorClinica);
+            stmt.setInt(1, clinica.getId());
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                java.util.Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                Medico medico = Facade.getMedicoPorCPF(rs.getString("m.cpf"));
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                lista.add(consulta);
+            }
+            return lista;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public Consulta buscarProximasConsultasPorClinica(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(proximasConsultasPorClinica);
+            stmt.setInt(1, medico.getId());
+            stmt.setInt(2, medico.getId());
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("c.datahora");
+                java.util.Date datahora = timestamp;
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                return consulta;
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 }

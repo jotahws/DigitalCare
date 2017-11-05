@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -56,7 +57,7 @@
                                             0
                                         </c:if>
                                     </h2>
-                                    <p>Paciente(s) em espera</p>
+                                    <p>Paciente(s) na sala de espera</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -73,7 +74,7 @@
                                             0
                                         </c:if>
                                     </h2>
-                                    <p>Paciente(s) marcado(s)</p>
+                                    <p>Paciente(s) agendado(s) para hoje</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -90,7 +91,7 @@
                                             0
                                         </c:if>
                                     </h2>
-                                    <p>Paciente(s) cancelado(s)</p>
+                                    <p>Paciente(s) cancelado(s) para hoje</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -107,7 +108,7 @@
                                             0
                                         </c:if>
                                     </h2>
-                                    <p>Paciente(s) concluído(s)</p>
+                                    <p>Paciente(s) concluído(s) hoje</p>
                                 </div>
                             </div>
                         </div>
@@ -116,116 +117,72 @@
                         <div class="row dash-row">
                             <h2>Consultas em andamento</h2>
                             <div class="col-md-12">
-                                <table class="table">
-                                    <thead class="thead-inverse">
-                                        <tr>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                        </tr>
-                                    </thead>
-                                </table>
                                 <div class="tabela-dash">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <c:choose>
+                                        <c:when test="${consultasAtuais.size() > 0}">
+                                            <table id="dataTable" class="dataTable table">
+                                                <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th>Médico</th>
+                                                        <th>Paciente</th>
+                                                        <th>Horário da consulta</th>
+                                                        <th>Matriz</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${consultasAtuais}" var="consulta">
+                                                        <tr>
+                                                            <td>Dr. ${consulta.medico.nome} ${consulta.medico.sobrenome}</td>
+                                                            <td>${consulta.paciente.nome} ${consulta.paciente.sobrenome}</td>
+                                                            <td><fmt:formatDate pattern = "HH:mm" value = "${consulta.dataHora}"/></td>
+                                                            <td>${consulta.clinicaEndereco.nome}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-secondary" role="alert">
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há consultas em andamento.</h4>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row dash-row">
                             <h2>Próximos pacientes</h2>
                             <div class="col-md-12">
-                                <table class="table">
-                                    <thead class="thead-inverse">
-                                        <tr>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                        </tr>
-                                    </thead>
-                                </table>
                                 <div class="tabela-dash">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <c:choose>
+                                        <c:when test="${proximasConsultas.size() > 0}">
+                                            <table id="dataTable" class="dataTable table">
+                                                <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th>Médico</th>
+                                                        <th>Paciente</th>
+                                                        <th>Horário da consulta</th>
+                                                        <th>Status da consulta</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${proximasConsultas}" var="consulta">
+                                                        <tr>
+                                                            <td>Dr. ${consulta.medico.nome} ${consulta.medico.sobrenome}</td>
+                                                            <td>${consulta.paciente.nome} ${consulta.paciente.sobrenome}</td>
+                                                            <td><fmt:formatDate pattern = "HH:mm" value = "${consulta.dataHora}"/></td>
+                                                            <td>${consulta.status}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-secondary" role="alert">
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há próximas consultas.</h4>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
@@ -236,6 +193,15 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.dataTable').DataTable({
+                            "paging": false,
+                            "searching": false,
+                            "info": false
+                        });
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

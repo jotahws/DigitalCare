@@ -153,6 +153,16 @@ public class Facade {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultasMedico(medico);
     }
+    
+    public static List<Consulta> buscarConsultasAtuaisPorClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarConsultasEmAndamentoPorClinica(clinica);
+    }
+    
+    public static Consulta buscarProximaConsultaPorMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarProximasConsultasPorClinica(medico);
+    }
 
     public static List<Consulta> buscarConsultasPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
@@ -396,9 +406,14 @@ public class Facade {
         Facade.deletarEndereco(clinicaEndereco.getEndereco());
     }
 
-    public List<Medico> carregaListaMedicos(int id) throws ClassNotFoundException, SQLException {
+    public List<Medico> carregaListaMedicos(int idClinica) throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
-        return medicoDAO.listaMedicosNaClinica(id);
+        return medicoDAO.listaMedicosNaClinica(idClinica);
+    }
+    
+    public List<Medico> carregaListaMedicosUnique(int idClinica) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.listaMedicosNaClinicaUnique(idClinica);
     }
 
     public void desvinculaMedicoClinica(int idMedico, int idClinica) throws ClassNotFoundException, SQLException {
