@@ -231,8 +231,10 @@ public class ConsultaServlet extends HttpServlet {
                 try {
                     HttpSession session = request.getSession();
                     Medico medico = (Medico) session.getAttribute("usuario");
+                    List<List<String[]>> estatisticas = Facade.getEstatisticasMedico(medico);
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
                     request.setAttribute("consultas", consultas);
+                    request.setAttribute("stats", estatisticas);
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

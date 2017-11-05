@@ -61,6 +61,9 @@
                                 <c:choose>
                                     <c:when test="${(param.status == 'consulta-cancelada')}">
                                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                             <strong>A consulta foi cancelada! </strong>
                                         </div>
                                     </c:when>

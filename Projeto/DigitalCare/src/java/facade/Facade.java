@@ -37,6 +37,7 @@ import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -153,12 +154,12 @@ public class Facade {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultasMedico(medico);
     }
-    
+
     public static List<Consulta> buscarConsultasAtuaisPorClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         return dao.buscarConsultasEmAndamentoPorClinica(clinica);
     }
-    
+
     public static Consulta buscarProximaConsultaPorMedico(Medico medico) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         return dao.buscarProximasConsultasPorClinica(medico);
@@ -213,6 +214,43 @@ public class Facade {
     public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaAtualPorMedico(medico);
+    }
+
+    public static List<List<String[]>> getEstatisticasMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        List<List<String[]>> estatisticas = new ArrayList();
+        estatisticas.add(dao.getPacientesDaUltimaSemana(medico)); //retorna uma lista com 2 itens dentro
+        estatisticas.add(dao.getTotalConcluido(medico)); //retorna uma lista com 1 item dentro
+        estatisticas.add(dao.getDiaSemanaMaisConsultas(medico)); //retorna uma lista com 1 item dentro
+        switch (Integer.parseInt(estatisticas.get(2).get(0)[0])) {
+            case 1:
+                estatisticas.get(2).get(0)[0] = "Domingo";
+                break;//dom
+            case 2:
+                estatisticas.get(2).get(0)[0] = "Segunda-feira";
+                break;//seg
+            case 3:
+                estatisticas.get(2).get(0)[0] = "Terça-feira";
+                break;//ter
+            case 4:
+                estatisticas.get(2).get(0)[0] = "Quarta-feira";
+                break;//qua
+            case 5:
+                estatisticas.get(2).get(0)[0] = "Quinta-feira";
+                break;//qui
+            case 6:
+                estatisticas.get(2).get(0)[0] = "Sexta-feira";
+                break;//sex
+            case 7:
+                estatisticas.get(2).get(0)[0] = "Sábado";
+                break;//sab
+        }
+        estatisticas.add(dao.getTotalCancelado(medico)); //retorna uma lista com 1 item dentro
+        int totalConsultas = Integer.parseInt(estatisticas.get(1).get(0)[0]) + Integer.parseInt(estatisticas.get(3).get(0)[0]);
+        float percent = (Integer.parseInt(estatisticas.get(3).get(0)[0]) * 100.0f) / totalConsultas;
+        DecimalFormat df = new DecimalFormat("#.#");
+        estatisticas.get(3).get(0)[0] = df.format(percent);
+        return estatisticas;
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
@@ -410,7 +448,7 @@ public class Facade {
         MedicoDAO medicoDAO = new MedicoDAO();
         return medicoDAO.listaMedicosNaClinica(idClinica);
     }
-    
+
     public List<Medico> carregaListaMedicosUnique(int idClinica) throws ClassNotFoundException, SQLException {
         MedicoDAO medicoDAO = new MedicoDAO();
         return medicoDAO.listaMedicosNaClinicaUnique(idClinica);
@@ -461,7 +499,7 @@ public class Facade {
     public static DiaDisponivelDTO removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(horaIni);
-        while(!(cal.getTime().after(horaFim))){
+        while (!(cal.getTime().after(horaFim))) {
             HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
             ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
             dia.getDtoPorHorario(cal.getTime()).getListaConsultasDisponiveis().remove(consultaDTO);

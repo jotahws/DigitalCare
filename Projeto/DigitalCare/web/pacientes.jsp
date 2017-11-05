@@ -47,7 +47,7 @@
                         </div>
                         <hr>
                         <div class="container">
-                            <table class="table">
+                            <table id="dataTable" class="dataTable table">
                                 <thead class="thead-inverse">
                                     <tr>
                                         <th>Nome</th>
@@ -75,6 +75,15 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.dataTable').DataTable({
+                            "paging": false,
+                            "searching": false,
+                            "info": false
+                        });
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

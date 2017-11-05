@@ -65,6 +65,33 @@ public class ConsultaDAO {
             + "ORDER BY c.datahora \n"
             + "LIMIT 1;";
 
+    private final String pacientesUltimaSemanaPorMedico = "SELECT p.sexo, count(DISTINCT p.id) as no_pacientes\n"
+            + "FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "INNER JOIN paciente p ON c.id_paciente = p.id\n"
+            + "WHERE m.id=? AND c.status = 'Concluído'\n"
+            + "AND date(c.datahora) BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()\n"
+            + "group by p.sexo \n"
+            + "ORDER BY p.sexo;";
+
+    private final String totalConcluidoPorMedico = "SELECT count(c.id) as no_consultas\n"
+            + "FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "WHERE m.id=?\n"
+            + "AND c.status = 'Concluído';";
+
+    private final String diaComMaisConsultasPorMedico = "SELECT DAYOFWEEK(c.datahora) as dia_semana, count(DAYOFWEEK(c.datahora)) as consultas\n"
+            + "FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "WHERE m.id=?\n"
+            + "GROUP BY DAYOFWEEK(c.datahora);";
+
+    private final String TotalCanceladoPorMedico = "SELECT count(c.id) as no_consultas\n"
+            + "FROM consulta c\n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "WHERE m.id=?\n"
+            + "AND c.status = 'Cancelado';";
+
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -307,5 +334,128 @@ public class ConsultaDAO {
             }
         }
         return null;
+    }
+
+    public List<String[]> getPacientesDaUltimaSemana(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(pacientesUltimaSemanaPorMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> sexo = new ArrayList();
+            int totalInt = 0;
+            while (rs.next()) {
+                String[] item = {rs.getString("sexo"), rs.getString("no_pacientes")};
+                sexo.add(item);
+                totalInt += Integer.parseInt(item[1]);
+            }
+            String[] totalStr = {"total", String.valueOf(totalInt)};
+            sexo.add(totalStr);
+            return sexo;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<String[]> getTotalConcluido(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(totalConcluidoPorMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> total = new ArrayList();
+            while (rs.next()) {
+                String[] item = {rs.getString("no_consultas")};
+                total.add(item);
+            }
+            return total;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<String[]> getTotalCancelado(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(TotalCanceladoPorMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> total = new ArrayList();
+            while (rs.next()) {
+                String[] item = {rs.getString("no_consultas")};
+                total.add(item);
+            }
+            return total;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
+    public List<String[]> getDiaSemanaMaisConsultas(Medico medico) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(diaComMaisConsultasPorMedico);
+            stmt.setInt(1, medico.getId());
+            rs = stmt.executeQuery();
+            List<String[]> diaSemana = new ArrayList();
+            String[] aux = {"0"};
+            while (rs.next()) {
+                String[] item = {rs.getString("dia_semana"), rs.getString("consultas")};
+                if(Integer.parseInt(item[1]) > Integer.parseInt(aux[0]))
+                    aux = item;
+            }
+            diaSemana.add(aux);
+            return diaSemana;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
     }
 }

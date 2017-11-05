@@ -99,7 +99,7 @@
                                             <div id="collapse${endereco.id}" class="collapse  <c:if test="${listaEndClinica.get(0).id == endereco.id}">show</c:if>" role="tabpanel" aria-labelledby="TituloEnd${endereco.id}" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <h4 class="card-title">${endereco.endereco.rua}, ${endereco.endereco.numero} - ${endereco.endereco.bairro}, ${endereco.endereco.cidade.nome} (${endereco.endereco.cidade.estado.uf})</h4>
-                                                    <table id="tabela" class="table">
+                                                    <table id="dataTable" class="dataTable table">
                                                         <thead class="thead-inverse">
                                                             <tr>
                                                                 <th>Nome</th>
@@ -149,6 +149,16 @@
                 <%@include file="/includes/footer.jsp" %>
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.dataTable').DataTable({
+                            "paging": false,
+                            "searching": false,
+                            "info": false
+                        });
+                    });
+                </script>
+                
             </c:otherwise>
         </c:choose>
     </body>

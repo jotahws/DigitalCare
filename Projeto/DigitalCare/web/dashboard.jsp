@@ -35,7 +35,6 @@
             <c:otherwise>
                 <!--Calendario-->
                 <script>
-                    
                     function confirmaCancela(consultaId){
                         swal({
                             title: 'Você tem certeza?',
@@ -169,7 +168,10 @@
                                 </c:if>
                             ]
                         });
-                        
+                        if ($(window).width() <= 1338) {
+                            $('.stats').removeClass('col-md-3');
+                            $('.stats').addClass('col-md-6');
+                        }
                     });
                 </script>
                 <!--FIM Calendario-->
@@ -196,28 +198,56 @@
                             <h2 class="col-md-12">Estatísticas</h2>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-6 stats">
                                 <div class="data-box data-box-dark mt-2">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                    <h2>
+                                        <c:forEach items="${stats.get(0)}" var="item">
+                                            <c:if test="${item[0] == 'total'}">
+                                                ${item[1]}
+                                            </c:if>
+                                        </c:forEach> pacientes
+                                    </h2>
+                                    <p>foram consultados por você nos últimos 7 dias pela DigitalCare, sendo eles 
+                                        <strong>
+                                            <c:set var="vazioM" value="true"/>
+                                            <c:forEach items="${stats.get(0)}" var="item">
+                                                <c:if test="${item[0] == 'M'}">
+                                                    ${item[1]}
+                                                    <c:set var="vazioM" value="false"/>
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:if test="${vazioM == 'true'}">0</c:if>
+                                        </strong>
+                                        do sexo masculino e 
+                                        <strong>
+                                            <c:set var="vazioF" value="true"/>
+                                            <c:forEach items="${stats.get(0)}" var="item">
+                                                <c:if test="${item[0] == 'F'}">
+                                                    ${item[1]}
+                                                    <c:set var="vazioM" value="false"/>
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:if test="${vazioF == 'true'}">0</c:if>
+                                        </strong> 
+                                        do sexo feminino.</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-6 stats">
                                 <div class="data-box data-box-light mt-2">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto </p>
+                                    <h2>${stats.get(1).get(0)[0]} consultas</h2>
+                                    <p>foram realizadas ao todo por você pela DigitalCare</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-6 stats">
                                 <div class="data-box data-box-dark mt-2">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                    <h2>${stats.get(2).get(0)[0]}</h2>
+                                    <p>é, na maioria das vezes, o dia da semana que você mais tem consultas marcadas. Você já realizou ${stats.get(2).get(0)[1]} consultas nesse dia!</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-6 stats">
                                 <div class="data-box data-box-light mt-2">
-                                    <h2>10</h2>
-                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                    <h2>${stats.get(3).get(0)[0]}%</h2>
+                                    <p>dos pacientes que marcaram um horário com você desmarcaram a consulta.</p>
                                 </div>
                             </div>
                         </div>
@@ -230,4 +260,5 @@
                 <script src="js/dash.js"></script>
             </c:otherwise>
         </c:choose>
+                <!--1338-->
 </html>
