@@ -53,7 +53,7 @@
                                 <hr class="small-invisible-divider">
                                 <div id="listaMedicos" class="list-group listgroup-medicos">
                                     <div class="text-center">
-                                        <h3 class="color-disabled">Médicos</h3>
+                                        <i class="text-muted fa fa-spinner fa-spin fa-pulse fa-3x fa-fw"></i>
                                     </div>
                                 </div>
                             </div>
@@ -61,14 +61,28 @@
                                 <c:choose>
                                     <c:when test="${(param.status == 'consulta-cancelada')}">
                                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
                                             <strong>A consulta foi cancelada! </strong>
                                         </div>
                                     </c:when>
                                 </c:choose>
-                                <div style="" id="calendar"></div>
+                                <c:choose>
+                                    <c:when test="${(param.idMedico == null)}">
+                                        <div class="card text-center">
+                                            <div class="card-header">
+                                              Calendário
+                                            </div>
+                                            <div class="card-body">
+                                              <h4 class="card-title">Selecione um médico ao lado</h4>
+                                              <i class="text-muted fa fa-fw fa-5x fa-hand-o-left"></i>
+                                              <p class="card-text">O calendário mostra apenas os médicos que estão cadastrados em sua clínica.</p>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div style="" id="calendar"></div>
+                                    </c:otherwise>
+                                </c:choose>
+                                
                             </div>
                         </div>
                     </div>
