@@ -74,9 +74,11 @@ public class ListaMedicoServlet extends HttpServlet {
                 Medico medico = (Medico) session.getAttribute("usuario");
                 List<Especialidade> especMedico = facade.buscarEspecialidadesMedico(medico.getId());
                 List<Especialidade> espec = Facade.listarEspecialidades();
+                List<ClinicaEndereco> clinicas = Facade.getClinicaEnderecoPorMedico(medico);
                 List<Convenio> convenios = Facade.getListaConvenios();
                 List<Convenio> conveniosMedico = Facade.getListaConveniosMedico(medico.getId());
                 request.setAttribute("espec", espec);
+                request.setAttribute("clinicas", clinicas);
                 request.setAttribute("especMedico", especMedico);
                 request.setAttribute("convenios", convenios);
                 request.setAttribute("conveniosMedico", conveniosMedico);

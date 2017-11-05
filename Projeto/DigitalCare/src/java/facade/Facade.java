@@ -36,6 +36,7 @@ import daos.PacienteUsuarioDAO;
 import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
+import static java.lang.Float.NaN;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -124,6 +125,11 @@ public class Facade {
     public static ClinicaEndereco getClinicaEnderecoPorId(int idClinicaEnd) throws SQLException, ClassNotFoundException {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
         return dao.buscaClinicaEnderecoPorId(idClinicaEnd);
+    }
+    
+    public static List<ClinicaEndereco> getClinicaEnderecoPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        return dao.buscaClinicaEnderecoPorMedico(medico);
     }
 
     public static MedicoHorario inserirHorarioDisponivel(MedicoHorario horarioDisponivel) throws SQLException, ClassNotFoundException {
@@ -248,8 +254,12 @@ public class Facade {
         estatisticas.add(dao.getTotalCancelado(medico)); //retorna uma lista com 1 item dentro
         int totalConsultas = Integer.parseInt(estatisticas.get(1).get(0)[0]) + Integer.parseInt(estatisticas.get(3).get(0)[0]);
         float percent = (Integer.parseInt(estatisticas.get(3).get(0)[0]) * 100.0f) / totalConsultas;
-        DecimalFormat df = new DecimalFormat("#.#");
-        estatisticas.get(3).get(0)[0] = df.format(percent);
+        if (Float.isNaN(percent)) {
+            estatisticas.get(3).get(0)[0] = "0";
+        } else {
+            DecimalFormat df = new DecimalFormat("#.#");
+            estatisticas.get(3).get(0)[0] = df.format(percent);
+        }
         return estatisticas;
     }
 

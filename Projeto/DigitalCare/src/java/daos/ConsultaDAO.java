@@ -83,7 +83,7 @@ public class ConsultaDAO {
     private final String diaComMaisConsultasPorMedico = "SELECT DAYOFWEEK(c.datahora) as dia_semana, count(DAYOFWEEK(c.datahora)) as consultas\n"
             + "FROM consulta c\n"
             + "INNER JOIN medico m ON c.id_medico = m.id\n"
-            + "WHERE m.id=?\n"
+            + "WHERE m.id=? AND c.status = 'Concluído'\n"
             + "GROUP BY DAYOFWEEK(c.datahora);";
 
     private final String TotalCanceladoPorMedico = "SELECT count(c.id) as no_consultas\n"

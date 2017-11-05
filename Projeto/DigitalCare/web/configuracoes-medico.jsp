@@ -140,64 +140,64 @@
                                                                     <label class="col-md-12" for="especialidade">Especialidade(s):
                                                                     </label>
                                                                     <jsp:useBean id="especialidade" class="beans.Especialidade"/>
-                                                                    
+
                                                                     <div class='col-md-12'>
                                                                         <input type='text'
                                                                                value='<c:forEach items="${especMedico}" var="item">${item.id}, </c:forEach>'
-                                                                               class='flexdatalist form-control'
-                                                                               data-data='[<c:forEach begin='0' end="${espec.size()-1}" var="i"> {"id":"${espec.get(i).id}","nome":"${espec.get(i).nome}"}<c:if test="${i != espec.size()-1}">,</c:if></c:forEach>]'
-                                                                               data-search-in='nome'
-                                                                               data-visible-properties='nome'
-                                                                               data-selection-required='true'
-                                                                               data-value-property='id'
-                                                                               data-text-property='{nome}'
-                                                                               data-min-length='0'
-                                                                               multiple='multiple'
-                                                                               name='especialidades'>
-                                                                    </div>
-                                                                </div><hr class='invisible-divider'>
-                                                                <div class="row">
-                                                                    <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s):
-                                                                    </label>
+                                                                                   class='flexdatalist form-control'
+                                                                                   data-data='[<c:forEach begin='0' end="${espec.size()-1}" var="i"> {"id":"${espec.get(i).id}","nome":"${espec.get(i).nome}"}<c:if test="${i != espec.size()-1}">,</c:if></c:forEach>]'
+                                                                                       data-search-in='nome'
+                                                                                       data-visible-properties='nome'
+                                                                                       data-selection-required='true'
+                                                                                       data-value-property='id'
+                                                                                       data-text-property='{nome}'
+                                                                                       data-min-length='0'
+                                                                                       multiple='multiple'
+                                                                                       name='especialidades'>
+                                                                               </div>
+                                                                        </div><hr class='invisible-divider'>
+                                                                        <div class="row">
+                                                                            <label class="col-md-12" for="planos">Plano(s) de Saúde Aceito(s):
+                                                                            </label>
                                                                     <jsp:useBean id="conveniosM" class="beans.Convenio"/>
 
                                                                     <div class='col-md-12'>
                                                                         <input type='text'
                                                                                value='<c:forEach items="${conveniosMedico}" var="item">${item.id}, </c:forEach>'
-                                                                               class='flexdatalist form-control'
-                                                                               data-data='[<c:forEach begin='0' end="${convenios.size()-1}" var="i"> {"id":"${convenios.get(i).id}","nome":"${convenios.get(i).nome}"}<c:if test="${i != convenios.size()-1}">,</c:if></c:forEach>]'
-                                                                               data-search-in='nome'
-                                                                               data-visible-properties='nome'
-                                                                               data-selection-required='true'
-                                                                               data-value-property='id'
-                                                                               data-text-property='{nome}'
-                                                                               data-min-length='0'
-                                                                               multiple='multiple'
-                                                                               name='convenios'>
+                                                                                   class='flexdatalist form-control'
+                                                                                   data-data='[<c:forEach begin='0' end="${convenios.size()-1}" var="i"> {"id":"${convenios.get(i).id}","nome":"${convenios.get(i).nome}"}<c:if test="${i != convenios.size()-1}">,</c:if></c:forEach>]'
+                                                                                       data-search-in='nome'
+                                                                                       data-visible-properties='nome'
+                                                                                       data-selection-required='true'
+                                                                                       data-value-property='id'
+                                                                                       data-text-property='{nome}'
+                                                                                       data-min-length='0'
+                                                                                       multiple='multiple'
+                                                                                       name='convenios'>
+                                                                               </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 border-divider">
+                                                                        <div class="form-group col-md-12">
+                                                                            <label for="clinicas">Clínica(s) Vinculada(s)</label>
+                                                                        <c:forEach items="${clinicas}" var="clinica">
+                                                                            <h5>${clinica.nome}</h5>
+                                                                        </c:forEach>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4 border-divider">
-                                                                <div class="form-group col-md-12">
-                                                                    <label for="clinicas">Clínica(s) Vinculada(s)</label>
-                                                                    <h5>Clinica X</h5>
-                                                                </div>
-                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12 text-right">
+                                                            <input type="submit" id="VerificaDados"  value="Salvar Alteralções" class="btn btn-lg btn-digital-green ">
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group col-md-12 text-right">
-                                                    <input type="submit" id="VerificaDados"  value="Salvar Alteralções" class="btn btn-lg btn-digital-green ">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <hr class="dashed-divider">
-
-                            <h3>Avançado</h3>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <hr class="dashed-divider">
+                                    <h3>Avançado</h3>
                             <c:choose>
                                 <c:when test="${(param.status == 'alterSenha-error')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
