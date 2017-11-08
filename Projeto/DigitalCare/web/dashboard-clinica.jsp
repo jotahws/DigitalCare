@@ -5,9 +5,11 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Dashboard - DigitalCare</title>
@@ -37,141 +39,150 @@
                     <div class="container-fluid">
                         <h1>Dashboard</h1>
                         <hr>
-                        <div style="" class="table-striped " id="resumo-dia"></div>
+                        <div class="row dash-row">
+                            <h2 class="mb-0 mt-0">Resumo de hoje</h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="data-box data-box-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes em espera</p>
+                                <div class="data-box data-box-sm bg-warning-light ">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Em espera'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) na sala de espera</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box bg-warning-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes marcados</p>
+                                <div class="data-box data-box-sm bg-blue-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Marcado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) agendado(s) para hoje</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="data-box bg-danger-light">
-                                    <h2>10</h2>
-                                    <p>Pacientes cancelados</p>
+                                <div class="data-box data-box-sm bg-danger-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Cancelado'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) cancelado(s) para hoje</p>
                                 </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="row dash-row">
-                            <h2>Consultas em andamento</h2>
-                            <div class="col-md-12">
-                                <table class="table">
-                                    <thead class="thead-inverse">
-                                        <tr>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                                <div class="tabela-dash">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="col-md-3">
+                                <div class="data-box data-box-sm data-box-light">
+                                    <h2>
+                                        <c:set var="isNull" value="true"/>
+                                        <c:forEach items="${statusConsultas}" var="status">
+                                            <c:if test="${status[0] == 'Concluído'}">
+                                                ${status[1]}
+                                                <c:set var="isNull" value="false"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${isNull == 'true'}">
+                                            0
+                                        </c:if>
+                                    </h2>
+                                    <p>Paciente(s) concluído(s) hoje</p>
                                 </div>
                             </div>
                         </div>
 
+                        <hr>
+                        <div class="row dash-row">
+                            <h2>Consultas em andamento</h2>
+                            <div class="col-md-12">
+                                <div class="tabela-dash">
+                                    <c:choose>
+                                        <c:when test="${consultasAtuais.size() > 0}">
+                                            <table id="dataTable" class="dataTable table">
+                                                <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th>Médico</th>
+                                                        <th>Paciente</th>
+                                                        <th>Horário da consulta</th>
+                                                        <th>Matriz</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${consultasAtuais}" var="consulta">
+                                                        <tr>
+                                                            <td>Dr. ${consulta.medico.nome} ${consulta.medico.sobrenome}</td>
+                                                            <td>${consulta.paciente.nome} ${consulta.paciente.sobrenome}</td>
+                                                            <td><fmt:formatDate pattern = "HH:mm" value = "${consulta.dataHora}"/></td>
+                                                            <td>${consulta.clinicaEndereco.nome}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-secondary" role="alert">
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há consultas em andamento.</h4>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row dash-row">
                             <h2>Próximos pacientes</h2>
                             <div class="col-md-12">
-                                <table class="table">
-                                    <thead class="thead-inverse">
-                                        <tr>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                        </tr>
-                                    </thead>
-                                </table>
                                 <div class="tabela-dash">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <c:choose>
+                                        <c:when test="${proximasConsultas.size() > 0}">
+                                            <table id="dataTable" class="dataTable table">
+                                                <thead class="thead-inverse">
+                                                    <tr>
+                                                        <th>Médico</th>
+                                                        <th>Paciente</th>
+                                                        <th>Horário da consulta</th>
+                                                        <th>Status da consulta</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${proximasConsultas}" var="consulta">
+                                                        <tr>
+                                                            <td>Dr. ${consulta.medico.nome} ${consulta.medico.sobrenome}</td>
+                                                            <td>${consulta.paciente.nome} ${consulta.paciente.sobrenome}</td>
+                                                            <td><fmt:formatDate pattern = "HH:mm" value = "${consulta.dataHora}"/></td>
+                                                            <td>${consulta.status}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-secondary" role="alert">
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há próximas consultas.</h4>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
@@ -182,6 +193,15 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.dataTable').DataTable({
+                            "paging": false,
+                            "searching": false,
+                            "info": false
+                        });
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

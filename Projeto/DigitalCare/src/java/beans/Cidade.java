@@ -8,6 +8,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 
 /**
@@ -16,8 +17,10 @@ import java.io.Serializable;
  */
 public class Cidade implements Serializable{
     
+    @Expose
     private int id;
     private Estado estado;
+    @Expose
     private String nome;
 
     public Cidade(int id, Estado estado, String nome) {

@@ -19,9 +19,16 @@
         <!--Masks-->
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskedinput.js"></script>
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskMoney.js"></script>
+        <!--POPPER-->
+        <script src="${pageContext.request.contextPath}/components/popper.js/dist/popper.min.js" ></script>
         <!--Bootstrap-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/bootstrap/dist/css/bootstrap.min.css" >
         <script src="${pageContext.request.contextPath}/components/bootstrap/dist/js/bootstrap.min.js" ></script>
+        <script src="${pageContext.request.contextPath}/components/bootstrap/js/dist/util.js" ></script>
+        <script src="${pageContext.request.contextPath}/components/bootstrap/js/dist/tab.js" ></script>
+        <!--FlexDatalist-->
+        <script src="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.js" ></script>
+        <link href="${pageContext.request.contextPath}/components/jquery-flexdatalist-2.2.1/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <!--Font Awesome-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/font-awesome/css/font-awesome.css" >
         <!--Customizacao-->
@@ -29,3 +36,6 @@
         <script src="${pageContext.request.contextPath}/js/customjs.js"></script>
         <!--Icone Aba-->
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/miniatura.png" type="image/x-png"/>
+        <!--DataTable-->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/components/DataTables/datatables.min.css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/components/DataTables/datatables.min.js"></script>

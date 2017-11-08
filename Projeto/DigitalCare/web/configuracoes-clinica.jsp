@@ -5,9 +5,11 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Configurações - DigitalCare</title>
@@ -118,18 +120,23 @@
                                     <table id="tabela" class="table">
                                         <thead class="thead-inverse">
                                             <tr class="row">
-                                                <th class="col-md-3">CEP</th>
-                                                <th class="col-md-4">Rua</th>
-                                                <th class="col-md-2">Número</th>
+                                                <th class="col-md-3">Nome</th>
+                                                <th class="col-md-2">CEP</th>
+                                                <th class="col-md-3">Rua</th>
+                                                <th class="col-md-1">Número</th>
                                                 <th class="col-md-3"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach var="item" items="${usuario.listaEnderecos}">
                                                 <tr class="row">
-                                                    <td class="col-md-3">${item.endereco.cep}</td>
-                                                    <td class="col-md-4">${item.endereco.rua}</td>
-                                                    <td class="col-md-2">${item.endereco.numero}</td>
+                                                    <td class="col-md-3">${item.nome}</td>
+                                                    <td class="col-md-2">
+                                                        <c:set var="cep" value="${item.endereco.cep}"/>
+                                                        <c:out value="${fn:substring(cep, 0, 2)}.${fn:substring(cep, 2, 5)}-${fn:substring(cep, 5, fn:length(cep))}"/>
+                                                    </td>
+                                                    <td class="col-md-3">${item.endereco.rua}</td>
+                                                    <td class="col-md-1">${item.endereco.numero}</td>
                                                     <td class="col-md-3">
                                                         <div class="col-md-12">
                                                             <a href="${pageContext.request.contextPath}/endereco-clinica.jsp?id=${item.id}" class="btn btn-outline-warning col-md-4">Alterar</a>
@@ -165,7 +172,8 @@
                                         <strong>Nova Senha Editada com Sucesso!</strong> 
                                     </div>
                                 </c:when>
-                            </c:choose>                            <div id="accordion" role="tablist">
+                            </c:choose>                            
+                            <div id="accordion" role="tablist">
                                 <div class="card" style="margin: 20px 0px 50px">
                                     <div class="card-header " role="tab" id="headingOne">
                                         <h5 class="mb-0">

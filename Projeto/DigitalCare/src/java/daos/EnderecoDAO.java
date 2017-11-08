@@ -68,14 +68,16 @@ public class EnderecoDAO {
                 clinicaEndereco.setEndereco(endereco);
                 clinicaEndereco.setTelefone1(rs.getString("ce.telefone1"));
                 clinicaEndereco.setTelefone2(rs.getString("ce.telefone2"));
+                clinicaEndereco.setNome(rs.getString("ce.nome"));
                 clinicaEndereco.setId(rs.getInt("ce.id"));
                 lista.add(clinicaEndereco);
             }
             return lista;
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -96,8 +98,9 @@ public class EnderecoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -121,8 +124,9 @@ public class EnderecoDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -138,8 +142,9 @@ public class EnderecoDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

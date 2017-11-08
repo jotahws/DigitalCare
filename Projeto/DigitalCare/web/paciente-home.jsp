@@ -6,9 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
@@ -29,44 +31,87 @@
             <c:otherwise>
                 <%@include file="/includes/header.jsp" %>
                 <div class="agendamento">
-                    <div class="container">
+                    <div class="container" style="padding-bottom: 50px">
                         <div>
-                            &nbsp
+                            &nbsp;
                         </div>
                         <div class="data-box col-md-5 data-box-white">
+                            <c:choose>
+                                <c:when test="${(param.status == 'semMedicos')}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Opa! </strong> Não há médicos disponíveis para esse filtro de pesquisa.
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <h1>Buscar Nova Consulta</h1>
-                            <form>
+                            <form action="${pageContext.request.contextPath}/ConsultaServlet?action=BuscaConsultas" method="POST">
                                 <div class="form-group row">
-                                    <label for="tipoConsulta" class="col-sm-4 col-form-label">Tipo da consulta</label>
+                                    <label for="tipoConsulta" class="col-sm-4 col-form-label ">Especialidade<span style="color:red;">*</span></label>
                                     <div class="col-sm-8" >
-                                        <select id="tipoConsulta" name="sexo" class="col-md-10 custom-select">
-                                            <option value="dermato">Dermatologia</option>
-                                            <option value="endo">Endocrinologia</option>
-                                        </select>
+                                        <input id="tipoConsulta"
+                                               name="tipoConsulta"
+                                               type='text'
+                                               placeholder='Tipo da consulta'
+                                               class='flexdatalist form-control'
+                                               data-min-length='0'
+                                               data-search-in='nome'
+                                               data-visible-properties='nome'
+                                               data-text-property='{nome}'
+                                               data-value-property='id'
+                                               data-selection-required='true'
+                                               required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="data" class="col-sm-4 col-form-label">Data preferecial</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="data form-control" id="data" placeholder="12/02/2017">
+                                        <input type="text" name="data" class="data form-control" id="data" >
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="clinica" placeholder="Clínica desejada">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="cidade" placeholder="Cidade">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
+                                    <label for="clinica" class="col-sm-4 col-form-label">Clínica desejada</label>
+                                    <div class="col-sm-8" >
+                                        <input id="clinica"
+                                               name="clinica"
+                                               type='text'
+                                               placeholder='Clínica desejada'
+                                               class='flexdatalist form-control'
+                                               data-min-length='0'
+                                               data-search-in='nomeFantasia'
+                                               data-visible-properties='nomeFantasia'
+                                               data-text-property='{nomeFantasia}'
+                                               data-value-property='id'
+                                               data-selection-required='true'
+                                               noResultsText='Sem resultados para "{keyword}"'>
 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="cidade" class="col-sm-4 col-form-label">Cidade</label>
+                                    <div class="col-sm-8" >
+                                        <input id="cidade" type='text' autocomplete="off"
+                                               placeholder='Cidade'
+                                               class='flexdatalist form-control'
+                                               data-min-length='3'
+                                               name='cidade'
+                                               data-search-in='nome'
+                                               data-visible-properties='["nome"]'
+                                               data-value-property='id'
+                                               data-selection-required='true'>
+
+                                        <datalist id="listaCidades"></datalist>
+
+                                        <small>(<span style="color:red;">*</span>)Obrigatório</small>
+                                    </div>
+                                </div>
+                                <div id="pesquisar" class="form-group row">
                                     <div class="col-sm-12">
                                         <button type="submit" class="form-control btn btn-digital-green">
-                                            <i class="fa fa-fw fa-search "></i> Pesquisar Clínicas
-                                        </button>   
+                                            <i class="fa fa-fw fa-search "></i> Pesquisar Consultas
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -74,9 +119,27 @@
                     </div>
                 </div>
                 <div class="container">
-                    <div class="featurette-divider"></div>
+                    <hr class="invisible-divider">
                     <div class="row">
                         <div class="col-md-12">
+                            <c:choose>
+                                <c:when test="${(param.status == 'consulta-marcada')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Sua consulta foi marcada! </strong> Verifique os dados da sua consulta no calendário.
+                                    </div>
+                                </c:when>
+                                <c:when test="${(param.status == 'consulta-cancelada')}">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Sua consulta foi cancelada! </strong> Para marcar uma nova consulta, faça uma busca no quadro acima.
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <h1 class="">Suas próximas consultas</h1><br>
                             <div style="" id="calendar"></div>
 
@@ -88,83 +151,120 @@
         </c:choose>
     </body>
     <script>
-        $(document).ready(function () {
-            new Date($.now());
-            var dt = new Date();
-            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-            $('#calendar').fullCalendar({
-                locale: 'pt-br',
+        new Date($.now());
+        var dt = new Date();
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+
+        $('#calendar').fullCalendar({
+        locale: 'pt-br',
                 editable: false,
                 eventClick: function (event) {
                     swal({
-                        title: event.title,
+                        title: event.nome + ' ' + event.sobrenome,
                         html: '<div class="left-text"><br><h3 class="left-text">Consulta</h3>' +
-                                '<p>Status: Confirmado</p>' +
-                                '<p>Horário: ' + event.start.toString() + '</p>' +
-                                '<p>Duração prevista: 30 min</p>' +
-                                '<p><b>Local: Clínica Lucano</b></p>' +
-                                '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10095.611312493658!2d-49.28693809014179!3d-25.45570653704176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4eb0012a30701491!2sCl%C3%ADnica+Lucano!5e0!3m2!1spt-BR!2sbr!4v1506433178013" width="500" height="250" frameborder="0" style="border:0" allowfullscreen="false"></iframe>' +
-                                '<br><br><a href="#" class="btn-sm btn-digital-green">OK!</a> \n\
-                                             <a href="#" class="btn-sm btn-danger">cancelar consulta</a>',
+                        '<p>Status: Confirmado</p>' +
+                        '<p>Horário: ' + event.horario + '</p>' +
+                        '<p>Duração prevista: 30 min</p>' +
+                        '<p><b>Local: ' + event.local + '</b></p>' +
+                        '<p><b>Médico: Dr(a). ' + event.medico + '</b></p></div>' +
+                        '<div class="text-right"><br><a onclick="confirmaCancela('+ event.id +')" class="btn btn-sm btn-outline-danger clickable">cancelar consulta</a></div>',
                         showCloseButton: true,
                         showConfirmButton: false,
+                        allowEnterKey: false,
                         width: 600,
                         padding: 50
                     });
                 },
                 header: {
-                    left: 'prev,next today myCustomButton',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+                left: 'prev,next today myCustomButton',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
                 },
-                timeFormat: 'H(:mm)',
+                timeFormat: 'H:mm',
                 buttonText: {
-                    today: 'Hoje',
-                    month: 'Mês',
-                    week: 'Semana',
-                    day: 'Dia',
-                    list: 'Lista'
+                today: 'Hoje',
+                        month: 'Mês',
+                        week: 'Semana',
+                        day: 'Dia',
+                        list: 'Lista'
                 },
                 allDaySlot: false,
                 slotLabelFormat: "HH:mm",
                 defaultView: 'month',
+                defaultTimedEventDuration: '00:30:00',
                 columnFormat: 'ddd DD/MM',
                 scrollTime: time,
                 height: 600,
+                eventTextColor: '#fff',
                 events: [
-                    {
-                        title: 'Dermatologia',
-                        start: '2017-08-30T13:30:00'
-                    },
-                    {
-                        title: 'Endocrinologia',
-                        start: '2017-08-30T13:30:00',
-                        end: '2017-08-21T14:00:00'
-                    },
-                    {
-                        title: 'Geriatria',
-                        start: '2017-08-23T12:00:00',
-                        end: '2017-08-21T13:00:00'
-                    },
-                    {
-                        id: '1',
-                        title: 'Dermatologia',
-                        start: '2017-09-14T09:30:00',
-                        end: '2017-09-14T10:00:00'
-                    },
-                    {
-                        id: '2',
-                        title: 'Consulta X',
-                        start: '2017-09-14T10:30:00',
-                        end: '2017-09-14T11:00:00'
-                    },
-                    {
-                        id: '9',
-                        title: 'Dermatologia',
-                        start: '2017-09-14T17:30:00',
-                        end: '2017-09-14T18:00:00'
-                    }
+                    <c:if test="${consultas.size() > 0}">
+                        <c:forEach begin="0" end="${consultas.size()-1}" var="i" >
+                            {
+                                id: '${consultas.get(i).id}',
+                                title: '${consultas.get(i).clinicaEndereco.nome}',
+                                medico: '${consultas.get(i).medico.nome} ${consultas.get(i).medico.sobrenome}',
+                                nome: '${consultas.get(i).paciente.nome}',
+                                sobrenome: '${consultas.get(i).paciente.sobrenome}',
+                                sexo: '${consultas.get(i).paciente.sexo}',
+                                status: '${consultas.get(i).status}',
+                                local: '${consultas.get(i).clinicaEndereco.endereco.rua}, ${consultas.get(i).clinicaEndereco.endereco.numero} - ${consultas.get(i).clinicaEndereco.endereco.bairro}',
+                                nascimento: '<fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultas.get(i).paciente.dataNascimento}" />',
+                                horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
+                                start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />'
+                            },
+                        </c:forEach>
+                    </c:if>
                 ]
+        });
+                 
+        function confirmaCancela(consultaId){
+                swal({
+                    title: 'Você tem certeza?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#bfd9d2',
+                    confirmButtonText: 'Desmarcar consulta',
+                    cancelButtonText: 'Cancelar',
+                  }).then(function () {
+                    window.location.href = "EstadoConsultaServlet?action=CancelaConsulta&idConsulta="+consultaId;
+                  });
+        }
+
+        $(document).ready(function () {
+
+            
+
+            listaNovaConsulta();
+            function listaNovaConsulta() {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaTiposConsulta'}, //meaasge you want to send
+                        function (result) {
+                            $('#tipoConsulta').flexdatalist('data', result);
+                        });
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaClinicas'}, //meaasge you want to send
+                        function (result) {
+                            $('#clinica').flexdatalist('data', result);
+                        });
+            }
+
+            function buscaCidades(nome) {
+                $.post(
+                        "ConsultaServlet",
+                        {action: 'ListaCidades', nome: nome},
+                        function (result) {
+                            $('#cidade').flexdatalist('data', result);
+                        });
+            }
+
+            $("#cidade-flexdatalist").on("keyup", function (e) {
+                if ($(this).val().length > 2 && $(this).val().length < 6) {
+                    $('#listaCidades').empty();
+                    buscaCidades($(this).val());
+                }
             });
             if ($(window).width() < 1200) {
                 if ($(window).width() < 992) {
@@ -177,5 +277,4 @@
             }
         });
     </script>
-
 </html>

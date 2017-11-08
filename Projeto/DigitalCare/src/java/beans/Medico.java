@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -13,15 +14,19 @@ import java.util.List;
  *
  * @author Gabriel
  */
-public class Medico implements Serializable{
-    
+public class Medico implements Serializable {
+
+    @Expose
     private int id;
     private Login login;
     private Estado estadoCrm;
     private String numeroCrm;
+    @Expose
     private String nome;
+    @Expose
     private String sobrenome;
     private String cpf;
+    @Expose
     private Double precoConsulta;
     private Date dataNascimento;
     private String telefone1;
@@ -29,6 +34,11 @@ public class Medico implements Serializable{
     private Double avaliacao;
     private List<Especialidade> listaEspecialidades;
     private List<Convenio> listaConvenios;
+    private List<ClinicaEndereco> listaClinicaEndereco;
+    private List<MedicoHorario> listaHorarios;
+    private String idade;
+    private List<Consulta> listaConsultas;
+    private List<MedicoFalta> listaFaltas;
 
     public Medico() {
     }
@@ -53,6 +63,34 @@ public class Medico implements Serializable{
         this.telefone2 = telefone2;
     }
 
+    public Medico(String nome, String cpf, String idade) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.idade = idade;
+    }
+
+    public Medico(String nome, String cpf, String idade, Login login) {
+        this.nome = nome;
+        this.idade = idade;
+        this.login = login;
+    }
+
+    public List<Consulta> getListaConsultas() {
+        return listaConsultas;
+    }
+
+    public void setListaConsultas(List<Consulta> listaConsultas) {
+        this.listaConsultas = listaConsultas;
+    }
+
+    public List<MedicoFalta> getListaFaltas() {
+        return listaFaltas;
+    }
+
+    public void setListaFaltas(List<MedicoFalta> listaFaltas) {
+        this.listaFaltas = listaFaltas;
+    }
+    
     public int getId() {
         return id;
     }
@@ -164,5 +202,25 @@ public class Medico implements Serializable{
     public void setListaConvenios(List<Convenio> listaConvenios) {
         this.listaConvenios = listaConvenios;
     }
+
+    public void setIdade(String idade) {
+        this.idade = idade;
+    }
     
+    public List<ClinicaEndereco> getListaClinicaEndereco() {
+        return listaClinicaEndereco;
+    }
+
+    public void setListaClinicaEndereco(List<ClinicaEndereco> listaClinicaEndereco) {
+        this.listaClinicaEndereco = listaClinicaEndereco;
+    }
+
+    public List<MedicoHorario> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setListaHorarios(List<MedicoHorario> listaHorarios) {
+        this.listaHorarios = listaHorarios;
+    }
+
 }

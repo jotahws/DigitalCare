@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,6 +27,7 @@ public class ClinicaDAO {
     private final String updateClinica = "UPDATE clinica SET razao_social = ?, nome_fantasia = ?, "
             + "site = ? WHERE id = ?";
     private final String buscaClinicaPorLogin = "SELECT * FROM clinica WHERE id_login = ?";
+    private final String listaClinicas = "SELECT * FROM clinica";
     
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -48,8 +51,9 @@ public class ClinicaDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -68,8 +72,9 @@ public class ClinicaDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -93,13 +98,40 @@ public class ClinicaDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
         return 0;
     }
-    
+
+    public List<Clinica> listarClinicas() throws ClassNotFoundException, SQLException {
+        try {
+            List<Clinica> lista = new ArrayList();
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(listaClinicas);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Clinica clinica = new Clinica();
+                clinica.setId(rs.getInt("id"));
+                clinica.setNomeFantasia(rs.getString("nome_fantasia"));
+                clinica.setSite(rs.getString("site"));
+                clinica.setAvaliacao(rs.getDouble("avaliacao"));
+                lista.add(clinica);
+            }
+            return lista;
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+
 }

@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/head.jsp" %>
         <title>Cadastrar - DigitalCare</title>
@@ -86,7 +87,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="numero">Número:</label>
-                                <input type="text" id="numero" name="numero"  class="required">
+                                <input type="text" id="numero" name="numero"  class="numero required">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="compl">Complemento:</label>
@@ -105,7 +106,7 @@
                                 <input type="text" id="estado" name="estado" placeholder="" readonly="true" class="locked required">
                             </div>
                             <div class="form-group col-md-12">
-                                <input type="submit" value="Cadastrar" class="btn btn-digital-green">
+                                <input id="VerificaDados" type="submit" value="Cadastrar" class="btn btn-digital-green">
                                 <div class="text-right">
                                     <a href="${pageContext.request.contextPath}/cadastroClinica.jsp">Deseja cadastrar sua clínica?</a>
                                 </div>
@@ -117,4 +118,53 @@
         </div>
 
     </body>
+    <script>
+        $(document).ready(function () {
+
+
+            $('#VerificaDados').click(function (e) {
+                if ($('#cpf').val() != '') {
+                    if (!TestaCPF($('#cpf').val())) {
+                        $('#cpf').css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            function TestaCPF(strCPF) {
+                strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                var Soma;
+                var Resto;
+                Soma = 0;
+                if (strCPF == "00000000000")
+                    return false;
+
+                for (i = 1; i <= 9; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(9, 10)))
+                    return false;
+
+                Soma = 0;
+                for (i = 1; i <= 10; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(10, 11)))
+                    return false;
+                return true;
+            }
+
+        });
+    </script>
 </html>

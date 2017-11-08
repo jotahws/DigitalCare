@@ -7,7 +7,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/images/logo-peq-branco.png"></a>
+    <a class="navbar-brand" href="${pageContext.request.contextPath}"><img src="${pageContext.request.contextPath}/images/logo-peq-branco.png"/></a>
+    <c:choose>
+        <c:when test="${consultaAtual != null && pageContext.request.servletPath != '/consulta-atual.jsp'}">
+            <a class="btn btn-dark" href="${pageContext.request.contextPath}/consulta-atual.jsp">Voltar para a consulta em andamento</a>        
+        </c:when>
+    </c:choose>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,33 +21,33 @@
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <c:choose>
                 <c:when test="${sessionLogin.perfil == 2}">
-                    <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/dashboard.jsp">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/dashboard.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ConsultaServlet?action=Dashboard">
                             <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="pacientes">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/pacientes.jsp">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/pacientes.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="pacientes">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaPacienteServlet?action=listPacientes">
                             <i class="fa fa-fw fa-users"></i>
                             <span class="nav-link-text">Pacientes</span>
                         </a>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-calendar"></i>
-                            <span class="nav-link-text">Calendário</span>
-                        </a>
-                        <ul class="sidenav-second-level collapse" id="collapseComponents">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/calendario.jsp">Calendário Detalhado</a>
+                        <a class="nav-link nav-link-collapse <c:if test="${pageContext.request.servletPath != '/calendario.jsp' && pageContext.request.servletPath != '/indisponibilidade.jsp'}">collapsed</c:if>" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                                <i class="fa fa-fw fa-calendar"></i>
+                                <span class="nav-link-text">Calendário</span>
+                            </a>
+                            <ul class="sidenav-second-level <c:if test="${pageContext.request.servletPath != '/calendario.jsp' && pageContext.request.servletPath != '/indisponibilidade.jsp'}">collapse</c:if>" id="collapseComponents">
+                            <li class=" <c:if test="${pageContext.request.servletPath == '/calendario.jsp'}">active</c:if>">
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=BuscaConsultasMedico">Calendário Detalhado</a>
                             </li>
-                            <li>
-                                <a href="${pageContext.request.contextPath}/indisponibilidade.jsp">Marcar Indisponibilidade</a>
+                            <li class=" <c:if test="${pageContext.request.servletPath == '/indisponibilidade.jsp'}">active</c:if>">
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade">Marcar Indisponibilidade</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/configuracoes-medico.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Components">
                         <a class="nav-link" href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaConfigMedico">
                             <i class="fa fa-fw fa-wrench"></i>
                             <span class="nav-link-text">Configurações</span>
@@ -50,31 +55,31 @@
                     </li>
                 </c:when>
                 <c:when test="${sessionLogin.perfil == 3}">
-                    <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/dashboard-clinica.jsp">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/dashboard-clinica.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaClinicaServlet?action=dashboardClinica">
                             <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/medicos.jsp">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/medicos.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Charts">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaMedicos">
                             <i class="fa fa-fw fa-user-md"></i>
                             <span class="nav-link-text">Médicos</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/calendario-clinica.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Tables">
                         <a class="nav-link" href="${pageContext.request.contextPath}/calendario-clinica.jsp">
                             <i class="fa fa-fw fa-calendar-o"></i>
                             <span class="nav-link-text">Calendário</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/agendar-consulta.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Components">
                         <a class="nav-link" href="${pageContext.request.contextPath}/agendar-consulta.jsp">
                             <i class="fa fa-fw fa-calendar-plus-o"></i>
                             <span class="nav-link-text">Agendar Consulta</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <li class="nav-item <c:if test="${pageContext.request.servletPath == '/configuracoes-clinica.jsp'}">active</c:if>" data-toggle="tooltip" data-placement="right" title="Components">
                         <a class="nav-link" href="${pageContext.request.contextPath}/ListaClinicaServlet?action=listaConfiguracao">
                             <i class="fa fa-fw fa-wrench"></i>
                             <span class="nav-link-text">Configurações</span>

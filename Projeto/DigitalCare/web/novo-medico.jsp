@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Novo Médico - DigitalCare</title>
@@ -83,7 +84,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="datanasc">CRM:</label>
-                                            <input type="text" id="numeroCrm" name="numeroCrm" class="required form-control">
+                                            <input type="text" id="numeroCrm" name="numeroCrm" class="numero required form-control">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="expedicao">Expedição</label>
@@ -95,18 +96,28 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="senha1">Senha:</label>
                                             <input type="password" id="pssw" name="senha1" class="required form-control">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="senha2">Confirmar Senha:</label>
                                             <input type="password" id="pssw2" name="senha2" class="required form-control">
                                         </div>
-                                        <div class="form-group col-md-4 ">
+                                        <div class="form-group col-md-3">
+                                            <label for="endereco">Clínica:</label>
+                                            <jsp:useBean id="endereco" class="beans.ClinicaEndereco"/>
+                                            <c:set var="lista" value="${enderecos}"/>
+                                            <select id="endereco" name="endereco" class="custom-select">
+                                                <c:forEach var="item" items="${lista}">
+                                                    <option value="<c:out value="${item.id}"/>">${item.endereco.rua}, ${item.endereco.numero}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-3">
                                             <label for="">&nbsp;</label>
                                             <div class="form-group col-md-6 ">
-                                                <input type="submit" value="Cadastrar" class="btn btn-digital-green form-control">
+                                                <input type="submit" value="Cadastrar" class="VerificaDados btn btn-digital-green form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -120,6 +131,55 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+
+
+                        $('.VerificaDados').click(function (e) {
+                            if ($('#cpf').val() != '') {
+                                if (!TestaCPF($('#cpf').val())) {
+                                    $('#cpf').css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+                                    $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                                    e.preventDefault();
+                                }
+                            }
+                        });
+
+                        function TestaCPF(strCPF) {
+                            strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                            var Soma;
+                            var Resto;
+                            Soma = 0;
+                            if (strCPF == "00000000000")
+                                return false;
+
+                            for (i = 1; i <= 9; i++)
+                                Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                            Resto = (Soma * 10) % 11;
+
+                            if ((Resto == 10) || (Resto == 11))
+                                Resto = 0;
+                            if (Resto != parseInt(strCPF.substring(9, 10)))
+                                return false;
+
+                            Soma = 0;
+                            for (i = 1; i <= 10; i++)
+                                Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                            Resto = (Soma * 10) % 11;
+
+                            if ((Resto == 10) || (Resto == 11))
+                                Resto = 0;
+                            if (Resto != parseInt(strCPF.substring(10, 11)))
+                                return false;
+                            return true;
+                        }
+
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

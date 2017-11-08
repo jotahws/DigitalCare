@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,11 +46,10 @@
                             <h1 class="col-9">Pacientes</h1>
                         </div>
                         <hr>
-                        <div class="row">
-                            <table class="table">
+                        <div class="container">
+                            <table id="dataTable" class="dataTable table">
                                 <thead class="thead-inverse">
                                     <tr>
-                                        <th>#</th>
                                         <th>Nome</th>
                                         <th>Idade</th>
                                         <th>Email</th>
@@ -57,27 +57,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark Zukerzinho</td>
-                                        <td>38</td>
-                                        <td>marcos@gmail.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob Vampirinho</td>
-                                        <td>105</td>
-                                        <td>jakobson@gmail.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry Passarinho</td>
-                                        <td>17</td>
-                                        <td>larry@yahoo.com</td>
-                                        <td><a href="" class="btn btn-primary">Ver perfil</a></td>
-                                    </tr>
+                                    <c:forEach var="item" items="${listaPacientes}">
+                                        <tr>
+                                            <td>${item.paciente.nome} ${item.paciente.sobrenome}</td>
+                                            <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.paciente.dataNascimento}"/></td>
+                                            <td>${item.login.email}</td>
+                                            <td><a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${item.id}&idPac=${item.paciente.id}" class="btn btn-primary">Ver perfil</a></td>
+                                        </tr> 
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -88,6 +75,15 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('.dataTable').DataTable({
+                            "paging": false,
+                            "searching": false,
+                            "info": false
+                        });
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </body>

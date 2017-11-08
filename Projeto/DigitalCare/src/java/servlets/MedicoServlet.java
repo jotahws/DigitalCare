@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import beans.Clinica;
 import beans.Convenio;
 import beans.Especialidade;
 import beans.Estado;
@@ -12,10 +13,12 @@ import beans.Login;
 import beans.Medico;
 import facade.Facade;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -43,9 +46,11 @@ public class MedicoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
-        String status;
+        String status = "";
 
         if ("register".equals(action)) {
             try {
@@ -57,18 +62,25 @@ public class MedicoServlet extends HttpServlet {
                 String dataNascimento = request.getParameter("dtnsc");
                 String estadoCrm = request.getParameter("expedicao");
                 String senha = request.getParameter("senha1");
+                String endereco = request.getParameter("endereco");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date dataNasc = formatter.parse(dataNascimento);
                 cpf = cpf.replace("-", "");
                 cpf = cpf.replace(".", "");
-                Login login = new Login(email, senha, 2);
+
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                login = new Login(email, senha, 2);
                 Estado estado = Facade.buscarEstadoPorId(Integer.parseInt(estadoCrm));
                 Medico medico = new Medico(login, estado, numeroCrm, nome, sobrenome, cpf, dataNasc);
-                Facade.inserirMedico(medico);
+                Integer idMedico = Facade.inserirMedico(medico);
+                Facade.vincularMedicoClinica(idMedico, Integer.parseInt(endereco));
 
                 status = "cadastro-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
                 status = "cadastro-erro";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "error-criptografa";
             }
             response.sendRedirect("novo-medico.jsp?status=" + status);
         } else if ("edit".equals(action)) {
@@ -99,53 +111,49 @@ public class MedicoServlet extends HttpServlet {
                 medico.setTelefone2(telefone2);
                 Facade.atualizarMedico(medico);
                 List<Integer> listaIdEspecialidade = new ArrayList();
-                
-                //Coletando os id's das especialidades selecionadas
-                if (!"0".equals(request.getParameter("especialidade1")))
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade1")));
-                if (!"0".equals(request.getParameter("especialidade2")))
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade2")));
-                if (!"0".equals(request.getParameter("especialidade3")))
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade3")));
-                if (!"0".equals(request.getParameter("especialidade4")))
-                    listaIdEspecialidade.add(Integer.parseInt(request.getParameter("especialidade4")));
-                
+
+                String especialidades = request.getParameter("especialidades");
+                List<String> listaIdEspecialidadeString = Arrays.asList(especialidades.split(","));
+                if (listaIdEspecialidadeString.get(0) != "") {
+                    for (String espec : listaIdEspecialidadeString) {
+                        listaIdEspecialidade.add(Integer.parseInt(espec));
+                    }
+                }
+
                 //Deletando todas as especialidades do médico
                 Facade.deletarEspecialidadesMedico(medico.getId());
-                
+
                 List<Especialidade> listaEspecialidadesMedico = new ArrayList();
-                
+
                 //Inserindo as especialidades selecionadas
-                for (int idEspecialidade : listaIdEspecialidade){
+                for (int idEspecialidade : listaIdEspecialidade) {
                     listaEspecialidadesMedico.add(Facade.buscarEspecialidadePorId(idEspecialidade));
                     Facade.inserirEspecialidadeMedico(medico.getId(), idEspecialidade);
                 }
                 medico.setListaEspecialidades(listaEspecialidadesMedico);
-                
+
                 List<Integer> listaIdConvenios = new ArrayList();
-                
-                //Coletando os id's das especialidades selecionadas
-                if (!("0".equals(request.getParameter("convenio1"))))
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio1")));
-                if (!"0".equals(request.getParameter("convenio2")))
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio2")));
-                if (!"0".equals(request.getParameter("convenio3")))
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio3")));
-                if (!"0".equals(request.getParameter("convenio4")))
-                    listaIdConvenios.add(Integer.parseInt(request.getParameter("convenio4")));
-                
+
+                String convenios = request.getParameter("convenios");
+                List<String> listaIdConveniosString = Arrays.asList(convenios.split(","));
+                if (listaIdConveniosString.get(0) != "") {
+                    for (String espec : listaIdConveniosString) {
+                        listaIdConvenios.add(Integer.parseInt(espec));
+                    }
+                }
+
                 //Deletando todas as especialidades do médico
                 Facade.deletarConveniosMedico(medico.getId());
-                
+
                 List<Convenio> listaConveniosMedico = new ArrayList();
-                
+
                 //Inserindo as especialidades selecionadas
-                for (int idConvenio : listaIdConvenios){
+                for (int idConvenio : listaIdConvenios) {
                     listaConveniosMedico.add(Facade.buscarConvenioPorId(idConvenio));
                     Facade.inserirConvenioMedico(medico.getId(), idConvenio);
                 }
                 medico.setListaConvenios(listaConveniosMedico);
-                
+
                 session.setAttribute("usuario", medico);
                 status = "edit-ok";
             } catch (ClassNotFoundException | SQLException | ParseException ex) {
@@ -159,6 +167,9 @@ public class MedicoServlet extends HttpServlet {
             String senha = request.getParameter("senha-antiga");
             String novaSenha = request.getParameter("nova-senha");
             try {
+                Login login = new Login();
+                senha = login.criptografa(senha);
+                novaSenha = login.criptografa(novaSenha);
                 if (facade.senhaVerificada(medico.getLogin().getId(), senha)) {
                     facade.editaSenha(medico.getLogin().getId(), novaSenha);
                     medico.getLogin().setSenha(novaSenha);
@@ -169,8 +180,40 @@ public class MedicoServlet extends HttpServlet {
                 }
             } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
                 status = "alterSenha-error";
+            } catch (NoSuchAlgorithmException ex) {
+                status = "error-criptografa";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status + "#convenios1");
+
+        } else if ("desvinculaMedico".equals(action)) {
+            Facade facade = new Facade();
+            int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+            int idClinica = Integer.parseInt(request.getParameter("idClinica"));
+            HttpSession session = request.getSession();
+            Clinica clinica = (Clinica) session.getAttribute("usuario");
+            try {
+                facade.desvinculaMedicoClinica(idMedico, idClinica);
+                status = "desvincular-ok";
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "desvincular-error";
+            }
+            response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
+        } else if ("excluir".equals(action)) {
+            HttpSession session = request.getSession();
+            Medico medico = (Medico) session.getAttribute("usuario");
+            try {
+                Facade.deletarLogin(medico.getLogin().getId());
+                status = "excluir-ok";
+                session = request.getSession(false);
+
+                if (session != null) {
+                    session.invalidate();
+                    response.sendRedirect("index.jsp?status=" + status);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                status = "erro-deleta";
+                response.sendRedirect("configuracoes-medico" + status);
+            }
         }
     }
 

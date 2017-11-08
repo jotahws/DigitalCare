@@ -8,27 +8,42 @@ package facade;
 import beans.Cidade;
 import beans.Clinica;
 import beans.ClinicaEndereco;
+import beans.Consulta;
 import beans.Convenio;
 import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
+import beans.MedicoHorario;
 import beans.Login;
 import beans.Medico;
+import beans.MedicoFalta;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
 import daos.ClinicaEnderecoDAO;
+import daos.ConsultaDAO;
 import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
+import daos.HorarioDAO;
 import daos.LoginDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
+import dtos.ConsultaDisponivelDTO;
+import dtos.DiaDisponivelDTO;
+import dtos.HorarioDisponivelDTO;
+import static java.lang.Float.NaN;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -87,6 +102,167 @@ public class Facade {
         return convenioDAO.buscarConveniosPorPaciente(id);
     }
 
+    public static List<Clinica> listarClinicas() throws ClassNotFoundException, SQLException {
+        ClinicaDAO dao = new ClinicaDAO();
+        return dao.listarClinicas();
+    }
+
+    public static List<Cidade> getCidadesPorNomeParcial(String nome) throws ClassNotFoundException, SQLException {
+        CidadeDAO dao = new CidadeDAO();
+        return dao.buscarCidadesPorNomeParcial(nome);
+    }
+
+    public static Medico getMedicoPorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        MedicoDAO dao = new MedicoDAO();
+        return dao.getMedicoPorCPF(cpf);
+    }
+
+    public static void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        dao.vincularMedicoClinica(idMedico, idClinicaEndereco);
+    }
+
+    public static ClinicaEndereco getClinicaEnderecoPorId(int idClinicaEnd) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        return dao.buscaClinicaEnderecoPorId(idClinicaEnd);
+    }
+    
+    public static List<ClinicaEndereco> getClinicaEnderecoPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
+        ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
+        return dao.buscaClinicaEnderecoPorMedico(medico);
+    }
+
+    public static MedicoHorario inserirHorarioDisponivel(MedicoHorario horarioDisponivel) throws SQLException, ClassNotFoundException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.inserirHorario(horarioDisponivel);
+    }
+
+    public static void deletarHorarioDisponivel(MedicoHorario horarioDisponivel) throws SQLException, ClassNotFoundException {
+        HorarioDAO dao = new HorarioDAO();
+        dao.apagarHorario(horarioDisponivel);
+    }
+
+    public static List<MedicoHorario> ListaHorariosPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.listaHorariosPorMedico(medico);
+    }
+
+    public static List<Medico> getMedicosPorNome(String nome) throws ClassNotFoundException, SQLException {
+        MedicoDAO dao = new MedicoDAO();
+        List<Medico> medicos = dao.buscarMedicosPorNome(nome);
+        for (Medico medico : medicos) {
+            medico.setListaClinicaEndereco(dao.buscarMedicoClinicas(medico.getId()));
+        }
+        return medicos;
+    }
+
+    public static List<Consulta> buscarConsultasMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultasMedico(medico);
+    }
+
+    public static List<Consulta> buscarConsultasAtuaisPorClinica(Clinica clinica) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarConsultasEmAndamentoPorClinica(clinica);
+    }
+
+    public static Consulta buscarProximaConsultaPorMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarProximasConsultasPorClinica(medico);
+    }
+
+    public static List<Consulta> buscarConsultasPaciente(PacienteUsuario pacienteUsuario) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultasPaciente(pacienteUsuario);
+    }
+
+    public static Consulta marcaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.insereConsulta(consulta);
+    }
+
+    public static void cancelaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.cancelaConsulta(consulta);
+    }
+
+    public static Consulta iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.iniciaConsulta(consulta);
+        return Facade.getConsultaPorId(consulta);
+    }
+
+    public static void concluiConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.concluiConsulta(consulta);
+    }
+
+    public static void pacienteEmEspera(Consulta consulta) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        dao.pacienteEmEspera(consulta);
+    }
+
+    public static List<String[]> buscarStatusPorMedicoNoDia(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarStatusPorMedicoNoDia(medico);
+    }
+
+    public static List<String[]> buscarStatusPorClinicaNoDia(Clinica clinica) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.buscarStatusPorClinicaNoDia(clinica);
+    }
+
+    private static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultaPorId(consulta);
+    }
+
+    public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
+        HorarioDAO dao = new HorarioDAO();
+        return dao.buscarConsultaAtualPorMedico(medico);
+    }
+
+    public static List<List<String[]>> getEstatisticasMedico(Medico medico) throws ClassNotFoundException, SQLException {
+        ConsultaDAO dao = new ConsultaDAO();
+        List<List<String[]>> estatisticas = new ArrayList();
+        estatisticas.add(dao.getPacientesDaUltimaSemana(medico)); //retorna uma lista com 2 itens dentro
+        estatisticas.add(dao.getTotalConcluido(medico)); //retorna uma lista com 1 item dentro
+        estatisticas.add(dao.getDiaSemanaMaisConsultas(medico)); //retorna uma lista com 1 item dentro
+        switch (Integer.parseInt(estatisticas.get(2).get(0)[0])) {
+            case 1:
+                estatisticas.get(2).get(0)[0] = "Domingo";
+                break;//dom
+            case 2:
+                estatisticas.get(2).get(0)[0] = "Segunda-feira";
+                break;//seg
+            case 3:
+                estatisticas.get(2).get(0)[0] = "Terça-feira";
+                break;//ter
+            case 4:
+                estatisticas.get(2).get(0)[0] = "Quarta-feira";
+                break;//qua
+            case 5:
+                estatisticas.get(2).get(0)[0] = "Quinta-feira";
+                break;//qui
+            case 6:
+                estatisticas.get(2).get(0)[0] = "Sexta-feira";
+                break;//sex
+            case 7:
+                estatisticas.get(2).get(0)[0] = "Sábado";
+                break;//sab
+        }
+        estatisticas.add(dao.getTotalCancelado(medico)); //retorna uma lista com 1 item dentro
+        int totalConsultas = Integer.parseInt(estatisticas.get(1).get(0)[0]) + Integer.parseInt(estatisticas.get(3).get(0)[0]);
+        float percent = (Integer.parseInt(estatisticas.get(3).get(0)[0]) * 100.0f) / totalConsultas;
+        if (Float.isNaN(percent)) {
+            estatisticas.get(3).get(0)[0] = "0";
+        } else {
+            DecimalFormat df = new DecimalFormat("#.#");
+            estatisticas.get(3).get(0)[0] = df.format(percent);
+        }
+        return estatisticas;
+    }
+
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
@@ -131,7 +307,7 @@ public class Facade {
         ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
         return clinicaEnderecoDAO.novaClinicaEndereco(clinicaEndereco);
     }
-    
+
     public void inserirClinicaEndereco(ClinicaEndereco clinicaEndereco) throws ClassNotFoundException, SQLException {
         ClinicaEnderecoDAO clinicaEnderecoDAO = new ClinicaEnderecoDAO();
         clinicaEnderecoDAO.inserirClinicaEndereco(clinicaEndereco);
@@ -140,6 +316,11 @@ public class Facade {
     public Login verificaLogin(Login login) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
         return loginDAO.buscarLogin(login);
+    }
+
+    public static Login buscaLoginPorId(int id) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        return loginDAO.buscarLoginPorId(id);
     }
 
     public PacienteUsuario getPacientePorIdLogin(int id) throws ClassNotFoundException, SQLException {
@@ -197,9 +378,9 @@ public class Facade {
         enderecoDAO.atualizarEndereco(endereco);
     }
 
-    public String verificaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
+    public Boolean verificaSenhaPacienteUsuario(int id, String senha) throws ClassNotFoundException, SQLException {
         LoginDAO loginDAO = new LoginDAO();
-        return loginDAO.verificaSenhaAtual(pacienteUsuario, senha);
+        return loginDAO.verificaSenhaAtual(id, senha);
     }
 
     public void editaSenhaPacienteUsuario(PacienteUsuario pacienteUsuario, String novaSenha) throws ClassNotFoundException, SQLException {
@@ -271,5 +452,119 @@ public class Facade {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
         dao.removerClinicaEndereco(clinicaEndereco);
         Facade.deletarEndereco(clinicaEndereco.getEndereco());
+    }
+
+    public List<Medico> carregaListaMedicos(int idClinica) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.listaMedicosNaClinica(idClinica);
+    }
+
+    public List<Medico> carregaListaMedicosUnique(int idClinica) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.listaMedicosNaClinicaUnique(idClinica);
+    }
+
+    public void desvinculaMedicoClinica(int idMedico, int idClinica) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.desvincularMedicoClinica(idMedico, idClinica);
+    }
+
+    public static void deletarLogin(int id) throws ClassNotFoundException, SQLException {
+        LoginDAO loginDAO = new LoginDAO();
+        loginDAO.deletarLogin(id);
+    }
+
+    public static void deletarMedicosSemClinica() throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        medicoDAO.deletarMedicosSemClinica();
+    }
+
+    public static Medico buscarMedicoPorId(int idLogin) throws ClassNotFoundException, SQLException {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        Medico medico = medicoDAO.getMedicoPorLogin(idLogin);
+        medico.setListaClinicaEndereco(medicoDAO.buscarMedicoClinicas(medico.getId()));
+        return medico;
+    }
+
+    public PacienteUsuario carregaPerfilPaciente(int idMedico, int idPaciente) throws SQLException, ClassNotFoundException {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.PacienteNoMedico(idMedico, idPaciente);
+    }
+
+    public static List<MedicoHorario> buscarHorariosConsulta(String especialidade, String cidade, String clinica, Medico medico) throws ClassNotFoundException, SQLException {
+        HorarioDAO hDAO = new HorarioDAO();
+        return hDAO.buscarHorariosConsulta(especialidade, cidade, clinica, medico);
+    }
+
+    public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
+        HorarioDAO hDAO = new HorarioDAO();
+        return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
+    }
+
+    public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
+        HorarioDAO hDAO = new HorarioDAO();
+        return hDAO.buscarConsultasSemana(dataInicio, dataFim, idMedicos);
+    }
+
+    public static DiaDisponivelDTO removerHorariosMedico(DiaDisponivelDTO dia, Date horaIni, Date horaFim, Medico medico) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(horaIni);
+        while (!(cal.getTime().after(horaFim))) {
+            HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
+            ConsultaDisponivelDTO consultaDTO = horarioDTO.getConsultaDisponivelPorMedico(medico);
+            dia.getDtoPorHorario(cal.getTime()).getListaConsultasDisponiveis().remove(consultaDTO);
+            cal.add(GregorianCalendar.MINUTE, 30);
+        }
+        return dia;
+    }
+
+    public static List<DiaDisponivelDTO> instanciaListaDias(int dias, Date dataInicio) throws ParseException {
+        List<DiaDisponivelDTO> listaMaster = new ArrayList();
+        GregorianCalendar calDia = new GregorianCalendar();
+        calDia.setTime(dataInicio);
+        for (Integer i = 1; i <= dias; i++) {
+            DiaDisponivelDTO diaDisponivel = new DiaDisponivelDTO();
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            String str = "08:00";
+            String str2 = "20:00";
+            Date hrInicial = format.parse(str);
+            Date hrFinal = format.parse(str2);
+            GregorianCalendar cal = new GregorianCalendar();
+            GregorianCalendar calFinal = new GregorianCalendar();
+            cal.setTime(hrInicial);
+            calFinal.setTime(hrFinal);
+            while (!(cal.getTime().getTime() == calFinal.getTime().getTime())) {
+                HorarioDisponivelDTO horario = new HorarioDisponivelDTO();
+                horario.setHorario(cal.getTime());
+                diaDisponivel.getListaHorariosDisponiveis().add(horario);
+                cal.add(GregorianCalendar.MINUTE, 30);
+            }
+            diaDisponivel.setDia(calDia.getTime());
+            listaMaster.add(diaDisponivel);
+            calDia.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        }
+        return listaMaster;
+    }
+
+    public static void adicionarHorariosMedico(DiaDisponivelDTO dia, MedicoHorario medHor) {
+        ConsultaDisponivelDTO consultaDTO = new ConsultaDisponivelDTO();
+        consultaDTO.setClinica(medHor.getClinicaEndereco());
+        consultaDTO.setMedico(medHor.getMedico());
+        GregorianCalendar cal = new GregorianCalendar();
+        GregorianCalendar calFinal = new GregorianCalendar();
+        cal.setTime(medHor.getHoraInicio());
+        calFinal.setTime(medHor.getHoraFim());
+        while (!(cal.getTime().getTime() == calFinal.getTime().getTime())) {
+            HorarioDisponivelDTO horarioDTO = dia.getDtoPorHorario(cal.getTime());
+            if (horarioDTO != null) {
+                horarioDTO.getListaConsultasDisponiveis().add(consultaDTO);
+            }
+            cal.add(GregorianCalendar.MINUTE, 30);
+        }
+    }
+
+    public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.ListPacienteNoMedico(idMedico);
     }
 }

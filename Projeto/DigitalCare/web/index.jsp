@@ -7,8 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DigitalCare</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
@@ -17,13 +18,13 @@
     <body>
         <c:choose>
             <c:when test="${(sessionLogin.perfil == 1)}">
-                <c:redirect url="/paciente-home.jsp"/>
+                <c:redirect url="/ConsultaServlet?action=homePaciente"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 2)}">
-                <c:redirect url="/dashboard.jsp"/>
+                <c:redirect url="/ConsultaServlet?action=Dashboard"/>
             </c:when>
             <c:when test="${(sessionLogin.perfil == 3)}">
-                <c:redirect url="/dashboard-clinica.jsp"/>
+                <c:redirect url="/ListaClinicaServlet?action=dashboardClinica"/>
             </c:when>
         </c:choose>
         <%@include file="/includes/header.jsp" %>

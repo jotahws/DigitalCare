@@ -4,14 +4,15 @@
     Author     : JotaWind
 --%>
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Configurações - DigitalCare</title>
+        <title>ConfiguraÃ§Ãµes - DigitalCare</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheet/carousel.css">
         <%@include file="/includes/head.jsp" %>
     </head>
@@ -24,7 +25,7 @@
                 <div class="container" style="margin-top: 50px">
                     <%@include file="/includes/header.jsp" %>
                     <h1>Acesso Negado.</h1>
-                    <h2>Apenas pacientes podem acessar essa página</h2>
+                    <h2>Apenas pacientes podem acessar essa pÃ¡gina</h2>
                 </div>
             </c:when>
             <c:otherwise>
@@ -32,7 +33,7 @@
                 <div class="container paciente">
                     <div class="row">
                         <div class="col-md-7">
-                            <h1 class="">Configurações</h1>
+                            <h1 class="">ConfiguraÃ§Ãµes</h1>
                         </div>
                     </div>
                 </div>
@@ -44,7 +45,7 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <strong>Alteração efetuada com sucesso!</strong> 
+                                <strong>AlteraÃ§Ã£o efetuada com sucesso!</strong> 
                             </div>
                         </c:when>
                     </c:choose>
@@ -73,7 +74,7 @@
                                                 </div>
                                             </c:when>
                                         </c:choose>
-                                        <legend>Sobre Você</legend>
+                                        <legend>Sobre VocÃª</legend>
                                         <div class="form-group col-md-6">
                                             <label for="nome">Nome:</label>
                                             <input type="text" id="nome" name="nome"class="required form-control" value="${item.paciente.nome}">
@@ -90,7 +91,7 @@
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="dtnsc">Data de Nascimento:</label>
-                                            <input type="text" id="dtnsc" name="dtnsc" class="required form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${item.paciente.dataNascimento}'/>" >
+                                            <input type="text" id="dtnsc" name="dtnsc" class="required data form-control" value="<fmt:formatDate type='both' pattern='dd/MM/yyyy' value='${item.paciente.dataNascimento}'/>" >
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>
@@ -111,18 +112,18 @@
                                             <label for="email">E-mail:</label>
                                             <input type="email" id="email" name="email" class="required form-control" value="${item.login.email}">
                                         </div>
-                                        <legend><hr>Endereço</legend>
+                                        <legend><hr>EndereÃ§o</legend>
                                         <div class="form-group col-md-4">
                                             <label for="cep">CEP: <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><i class="fa fa-fw fa-question-circle-o"></i></a></label>
                                             <input type="text" id="cep" name="cep" placeholder="" class="required form-control" value="${item.endereco.cep}">
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label for="rua">Rua:</label>
-                                            <input type="text" id="rua" name="rua" readonly="true" class="locked form-control" value="${item.endereco.rua}">
+                                            <input type="text" id="rua" name="rua" readonly="true" class=" locked form-control" value="${item.endereco.rua}">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="numero">Número:</label>
-                                            <input type="text" id="numero" name="numero"  class="required form-control" value="${item.endereco.numero}">
+                                            <label for="numero">NÃºmero:</label>
+                                            <input type="text" id="numero" name="numero"  class="numero required form-control" value="${item.endereco.numero}">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="compl">Complemento:</label>
@@ -140,12 +141,12 @@
                                             <label for="estado">Estado:</label>
                                             <input type="text" id="estado" name="estado" readonly="true" class="locked form-control" value="${item.endereco.cidade.estado.uf}">
                                         </div>
-                                        <legend><hr>Plano(s) de Saúde</legend>
+                                        <legend><hr>Plano(s) de SaÃºde</legend>
                                             <jsp:useBean id="conveniosM" class="beans.Convenio"/>
                                             <c:if test="${conveniosPaciente.size() > 0}">
                                                 <c:forEach var = "i" begin = "0" end = "${conveniosPaciente.size()-1}">
                                                 <div id="especDiv2" class="form-group col-md-4">
-                                                    <label for="convenio">Convênio: </label>
+                                                    <label for="convenio">ConvÃªnio: </label>
                                                     <select id="convenios${i+1}" name="idconvenio${i+1}" class="custom-select">
                                                         <option value="0">Escolha...</option>
                                                         <option value="<c:out value="${conveniosPaciente.get(i).convenio.id}"/>" selected><c:out value="${conveniosPaciente.get(i).convenio.nome}"/></option>
@@ -157,8 +158,8 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <label for="convenio">Número: </label>
-                                                    <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${conveniosPaciente.get(i).numero}"/>
+                                                    <label for="convenio">NÃºmero: </label>
+                                                    <input type="text" id="convenio" name="nconvenio${i+1}" class="numero form-control" value="${conveniosPaciente.get(i).numero}"/>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="convenio">Validade: </label>
@@ -168,7 +169,7 @@
                                         </c:if>
                                         <c:forEach var = "i" begin = "${conveniosPaciente.size()}" end = "1">
                                             <div id="especDiv2" class="form-group col-md-4">
-                                                <label for="convenio">Convênio: </label>
+                                                <label for="convenio">ConvÃªnio: </label>
                                                 <select id="convenios${i+1}" name="idconvenio${i+1}" class="custom-select vazio">
                                                     <option value="0">Escolha...</option>
                                                     <c:forEach var="item" items="${convenios}">
@@ -177,16 +178,16 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="convenio">Número: </label>
-                                                <input type="text" id="convenio" name="nconvenio${i+1}" class=" form-control" value="${item.endereco.cep}">
+                                                <label for="convenio">NÃºmero: </label>
+                                                <input type="text" id="convenio" name="nconvenio${i+1}" class="numero form-control" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="convenio">Validade: </label>
-                                                <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" value="${item.endereco.cep}">
+                                                <input type="text" id="convenio" name="vconvenio${i+1}" class="data form-control" >
                                             </div>
                                         </c:forEach>
                                         <div class="form-group col-md-12 text-right">
-                                            <input type="submit" id="VerificaDados"  value="Salvar Alterações" class="btn btn-lg btn-digital-green ">
+                                            <input type="submit" id="VerificaDados"  value="Salvar AlteraÃ§Ãµes" class="btn btn-lg btn-digital-green ">
                                         </div>
 
                                     </div>
@@ -194,18 +195,18 @@
                             </form>
                             <hr class="dashed-divider">
 
-                            <h3>Avançado</h3>
+                            <h3>AvanÃ§ado</h3>
                             <c:choose>
-                                <c:when test="${(param.status == 'error')}">
+                                <c:when test="${(param.status == 'error-senha')}">
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Opa! </strong> A senha atual digitada está incorreta!
+                                        <strong>Opa! </strong> A senha atual digitada estÃ¡ incorreta!
                                     </div>
                                 </c:when>
 
-                                <c:when test="${(param.status == 'ok')}">
+                                <c:when test="${(param.status == 'alterar-senha-ok')}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -213,7 +214,17 @@
                                         <strong>Nova Senha Editada com Sucesso!</strong> 
                                     </div>
                                 </c:when>
+                                
+                                <c:when test="${(param.status == 'error-criptografa')}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Ocorreu algum erro ao criptografar a senha!</strong> 
+                                    </div>
+                                </c:when>
                             </c:choose>
+                            
                             <div id="accordion" role="tablist">
                                 <div class="card " style="margin: 20px 0px 50px">
                                     <div class="card-header" role="tab" id="headingOne">
@@ -261,7 +272,7 @@
                                     <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <p>
-                                                <span style="color: red;">Atenção:</span> Ao desativar a conta você estará <strong>excluindo</strong> todos os seus dados e não poderá desfazer essa ação. 
+                                                <span style="color: red;">AtenÃ§Ã£o:</span> Ao desativar a conta vocÃª estarÃ¡ <strong>excluindo</strong> todos os seus dados e nÃ£o poderÃ¡ desfazer essa aÃ§Ã£o. 
                                             </p>
                                             <div>
                                                 <a id="deletarPerfil" style="color: white; cursor: pointer" class="btn btn-danger">Excluir minha conta </a>
@@ -281,10 +292,56 @@
     <script>
         $(document).ready(function () {
 
+
+
+            $('#VerificaDados').click(function (e) {
+                if ($('#cpf').val() != '') {
+                    if (!TestaCPF($('#cpf').val())) {
+                        $('#cpf').css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        $('#cpf').after('<span class="clear" style="font-size:0.8em;"> CPF incorreto </span>');
+                        e.preventDefault();
+                    }
+
+                }
+            });
+
+            function TestaCPF(strCPF) {
+                strCPF = strCPF.replace(/[^\d]+/g, '');
+
+                var Soma;
+                var Resto;
+                Soma = 0;
+                if (strCPF == "00000000000")
+                    return false;
+
+                for (i = 1; i <= 9; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(9, 10)))
+                    return false;
+
+                Soma = 0;
+                for (i = 1; i <= 10; i++)
+                    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+                Resto = (Soma * 10) % 11;
+
+                if ((Resto == 10) || (Resto == 11))
+                    Resto = 0;
+                if (Resto != parseInt(strCPF.substring(10, 11)))
+                    return false;
+                return true;
+            }
+
             $("#deletarPerfil").click(function () {
                 swal({
-                    title: 'Você tem certeza?',
-                    text: "Você não poderá desfazer isso!",
+                    title: 'VocÃª tem certeza?',
+                    text: "VocÃª nÃ£o poderÃ¡ desfazer isso!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -299,17 +356,18 @@
                 }, function (dismiss) {
                     if (dismiss === 'cancel') {
                         swal(
-                                'Operação cancelada',
-                                'Sua conta não foi apagada :)',
+                                'OperaÃ§Ã£o cancelada',
+                                'Sua conta nÃ£o foi apagada :)',
                                 'error'
                                 )
                     }
                 })
 
-            })
+            });
 
         });
 
     </script>
+
 </html>
 

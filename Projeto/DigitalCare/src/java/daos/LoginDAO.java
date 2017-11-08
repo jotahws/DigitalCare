@@ -23,14 +23,33 @@ public class LoginDAO {
 
     private final String insereLogin = "INSERT INTO login (email, senha, perfil) VALUES (?,?,?)";
     private final String buscaLoginPorEmail = "select * from login l where l.email = ? AND l.senha = ?;";
+    private final String buscaLoginPorId = "select * from login l where l.id = ?;";
     private final String buscaSenhaAtual = "select * from login l where l.id=? and l.senha =?;";
     private final String updateSenha = "update login set login.senha = ? where login.id=?";
+    private final String deleteLogin = "DELETE FROM login WHERE id=?";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
-    public final int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
+    public void deletarLogin(int id) throws ClassNotFoundException, SQLException{
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(deleteLogin);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+    }
+    
+    public int inserirLogin(Login login) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(insereLogin, Statement.RETURN_GENERATED_KEYS);
@@ -44,8 +63,9 @@ public class LoginDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -70,9 +90,38 @@ public class LoginDAO {
             }
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    public Login buscarLoginPorId(int id) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaLoginPorId);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                //login
+                Login login = new Login();
+                int idLogin = rs.getInt("l.id");
+                int perfil = rs.getInt("l.perfil");
+                String email = rs.getString("l.email");
+                login.setId(idLogin);
+                login.setPerfil(perfil);
+                login.setEmail(email);
+                return login;
+            }
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -80,23 +129,19 @@ public class LoginDAO {
         return null;
     }
 
-    public String verificaSenhaAtual(PacienteUsuario pacienteUsuario, String senha) throws ClassNotFoundException, SQLException {
+    public Boolean verificaSenhaAtual(int id, String senha) throws ClassNotFoundException, SQLException {
         try {
             con = new ConnectionFactory().getConnection();
             stmt = con.prepareStatement(buscaSenhaAtual);
-            stmt.setInt(1, pacienteUsuario.getLogin().getId());
+            stmt.setInt(1, id);
             stmt.setString(2, senha);
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                return "ok";
-            } else {
-                return "error";
-            }
+            return rs.next();
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -112,8 +157,9 @@ public class LoginDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -130,9 +176,9 @@ public class LoginDAO {
             return rs.next();
         } finally {
             try {
-                stmt.close();
-                con.close();
-                rs.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
@@ -148,8 +194,9 @@ public class LoginDAO {
             stmt.executeUpdate();
         } finally {
             try {
-                stmt.close();
-                con.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException ex) {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }

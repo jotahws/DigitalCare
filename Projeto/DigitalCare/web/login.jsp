@@ -7,8 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
+        <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="includes/head.jsp" %>
         <title>Entrar - DigitalCare</title>
@@ -56,9 +57,9 @@
                 <form action="${pageContext.request.contextPath}/LoginServlet?action=login" method="POST">
                     <fieldset>
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="login">
+                        <input type="email" id="email" class="required" name="login"><br>
                         <label for="password">Senha:</label>
-                        <input type="password" id="password" name="senha">
+                        <input type="password" id="password" class="required" name="senha">
                         <input type="submit" value="Entrar" class="btn btn-digital-green">
                         <div class="text-right">
                             <a href="${pageContext.request.contextPath}/cadastroPaciente.jsp">Novo por aqui?</a>

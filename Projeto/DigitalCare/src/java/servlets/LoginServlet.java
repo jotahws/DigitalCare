@@ -6,6 +6,7 @@
 package servlets;
 
 import beans.Clinica;
+import beans.Consulta;
 import beans.Login;
 import beans.Medico;
 import beans.PacienteUsuario;
@@ -36,7 +37,8 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         Facade facade = new Facade();
         String action = request.getParameter("action");
@@ -48,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 Login login = new Login();
+                senha = login.criptografa(senha);
                 login.setEmail(email);
                 login.setSenha(senha);
 //                senha = login.criptografa(senha);;
@@ -61,22 +64,24 @@ public class LoginServlet extends HttpServlet {
                         PacienteUsuario pacienteUsuario = Facade.buscarPacienteUsuarioPorIdLogin(login.getId());
                         pacienteUsuario.setLogin(login);
                         session.setAttribute("usuario", pacienteUsuario);
-                        response.sendRedirect("paciente-home.jsp");
+                        response.sendRedirect("ConsultaServlet?action=homePaciente");
                         break;
                     case 2:
                         Medico medico = Facade.getMedicoPorLogin(login.getId());
                         medico.setListaEspecialidades(Facade.getListaEspecialidadesMedico(medico.getId()));
                         medico.setListaConvenios(Facade.getListaConveniosMedico(medico.getId()));
                         medico.setLogin(login);
+                        Consulta consultaAtual = Facade.getConsultaAtual(medico);
+                        session.setAttribute("consultaAtual", consultaAtual);
                         session.setAttribute("usuario", medico);
-                        response.sendRedirect("dashboard.jsp");
+                        response.sendRedirect("ConsultaServlet?action=Dashboard");
                         break;
                     case 3:
                         Clinica clinica = Facade.getClinicaPorLogin(login.getId());
                         clinica.setListaEnderecos(Facade.getListaEnderecosClinica(clinica.getId()));
                         clinica.setLogin(login);
                         session.setAttribute("usuario", clinica);
-                        response.sendRedirect("dashboard-clinica.jsp");
+                        response.sendRedirect("ListaClinicaServlet?action=dashboardClinica");
                         break;
                 }
 
@@ -89,7 +94,7 @@ public class LoginServlet extends HttpServlet {
                 session.invalidate();
             }
             response.sendRedirect("index.jsp");
-        } 
+        }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

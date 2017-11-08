@@ -10,10 +10,13 @@ import beans.Convenio;
 import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Login;
+import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import facade.Facade;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +49,8 @@ public class PacienteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         HttpSession verSession = request.getSession();
         if (verSession != null) {
@@ -86,10 +90,11 @@ public class PacienteServlet extends HttpServlet {
                     String cidadeString = request.getParameter("cidade");
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");;
                     Date dataNasc = formatter.parse(dtnsc);
-
+                    Login login = new Login();
+                    pssw = login.criptografa(pssw);
                     Paciente paciente = new Paciente(cpf, nome, sobrenome, dataNasc, sexo);
                     Cidade cidade = facade.getCidadePorNome(cidadeString);
-                    Login login = new Login(email, pssw, 1);
+                    login = new Login(email, pssw, 1);
                     Endereco endereco = new Endereco(cidade, cep, rua, numero, compl, bairro);
                     PacienteUsuario pacienteUsuario = new PacienteUsuario(paciente, login, endereco, tel1, tel2);
                     facade.inserirPacienteUsuario(pacienteUsuario);
@@ -97,6 +102,8 @@ public class PacienteServlet extends HttpServlet {
                     status = "cadastro-ok";
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     status = "cadastro-erro";
+                } catch (NoSuchAlgorithmException ex) {
+                    status = "criptografa-erro";
                 }
                 response.sendRedirect("login.jsp?status=" + status);
             } else if ("meuPerfil".equals(action)) {
@@ -188,7 +195,6 @@ public class PacienteServlet extends HttpServlet {
 //                        ConvenioPaciente convenioPaciente = new ConvenioPaciente(paciente, convenio, numeroConvenio, dataConvenio);
 //                        listaConveniosPaciente.add(convenioPaciente);
 //                    }
-
                     //Deletando todas as especialidades do médico
                     Facade.deletarConveniosPaciente(paciente.getId());
 
@@ -216,12 +222,22 @@ public class PacienteServlet extends HttpServlet {
                 String senha = request.getParameter("senha-antiga");
                 String novaSenha = request.getParameter("nova-senha");
                 try {
-                    status = facade.verificaSenhaPacienteUsuario(pacienteUsuario, senha);
-                    facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
-                    pacienteUsuario.getLogin().setSenha(novaSenha);
-                    session.setAttribute("usuario", pacienteUsuario);
+                    Login login = new Login();
+                    senha = login.criptografa(senha);
+                    novaSenha = login.criptografa(novaSenha);
+
+                    if (facade.verificaSenhaPacienteUsuario(pacienteUsuario.getLogin().getId(), senha)) {
+                        facade.editaSenhaPacienteUsuario(pacienteUsuario, novaSenha);
+                        pacienteUsuario.getLogin().setSenha(novaSenha);
+                        session.setAttribute("usuario", pacienteUsuario);
+                        status = "alterar-senha-ok";
+                    } else {
+                        status = "error-senha";
+                    }
                 } catch (ClassNotFoundException | SQLException ex) {
-                    status = "error";
+                    status = "error-senha";
+                } catch (NoSuchAlgorithmException ex) {
+                    status = "error-criptografa";
                 }
                 response.sendRedirect("PacienteServlet?action=meuPerfil&status=" + status + "#bairro");
             } else if ("deletaUsuario".equals(action)) {
@@ -239,6 +255,29 @@ public class PacienteServlet extends HttpServlet {
                     status = "erro-deleta";
                     response.sendRedirect("configuracoes-paciente" + status);
                 }
+            } else if ("perfilPacienteMedico".equals(action)) {
+                HttpSession session = request.getSession();
+                Medico medID = (Medico) session.getAttribute("usuario");
+                int idPacienteUsu = Integer.parseInt(request.getParameter("id"));
+                int idPaciente = Integer.parseInt(request.getParameter("idPac"));
+                try {
+                    PacienteUsuario pacienteUsuario = new PacienteUsuario();
+                    List<ConvenioPaciente> convenioPacientes;
+                    pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPacienteUsu);
+                    convenioPacientes = Facade.getListaConveniosPaciente(idPaciente);
+                    request.setAttribute("perfilPaciente", pacienteUsuario);
+                    request.setAttribute("listConveniosPac", convenioPacientes);
+                } catch (ClassNotFoundException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("Class not found: " + ex.getMessage());
+                    }
+                } catch (SQLException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("SQL not found: " + ex.getMessage());
+                    }
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
+                rd.forward(request, response);
             }
         } else {
             response.sendRedirect("login.jsp");

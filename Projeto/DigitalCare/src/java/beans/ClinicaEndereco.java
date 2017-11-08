@@ -5,7 +5,9 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -13,20 +15,29 @@ import java.io.Serializable;
  */
 public class ClinicaEndereco implements Serializable{
     
+    @Expose
     private int id;
+    @Expose
     private Clinica clinica;
+    @Expose
     private Endereco endereco;
+    @Expose
     private String telefone1;
+    @Expose
     private String telefone2;
+    @Expose
+    private String nome;
+    private List<Medico> listaMedicos;
 
     public ClinicaEndereco() {
     }
 
-    public ClinicaEndereco(Clinica clinica, Endereco endereco, String telefone1, String telefone2) {
+    public ClinicaEndereco(Clinica clinica, Endereco endereco, String telefone1, String telefone2, String nome) {
         this.clinica = clinica;
         this.endereco = endereco;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
+        this.nome = nome;
     }
 
     public int getId() {
@@ -67,6 +78,22 @@ public class ClinicaEndereco implements Serializable{
 
     public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
+    }
+    
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Medico> getListaMedicos() {
+        return listaMedicos;
+    }
+
+    public void setListaMedicos(List<Medico> listaMedicos) {
+        this.listaMedicos = listaMedicos;
     }
     
     

@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.google.gson.annotations.Expose;
 import java.util.List;
 
 /**
@@ -13,11 +14,14 @@ import java.util.List;
  */
 public class Clinica {
     
+    @Expose    
     private int id;
     private Login login;
     private String cnpj;
     private String razaoSocial;
+    @Expose
     private String nomeFantasia;
+    @Expose
     private String site;
     private Double avaliacao;
     private List<ClinicaEndereco> listaEnderecos;
