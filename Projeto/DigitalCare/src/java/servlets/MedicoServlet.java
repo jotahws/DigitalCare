@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -212,9 +214,25 @@ public class MedicoServlet extends HttpServlet {
                 }
             } catch (ClassNotFoundException | SQLException ex) {
                 status = "erro-deleta";
-                response.sendRedirect("configuracoes-medico" + status);
+                response.sendRedirect("configuracoes-medico.jsp" + status);
             }
-        }
+        }// else if ("indisponibilidade".equals(action)) {
+//            HttpSession session = request.getSession();
+//            String data = request.getParameter("data");
+//            Medico medico = (Medico) session.getAttribute("usuario");
+//            try {
+//                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//                Date dataDate = formatter.parse(data);
+//                Facade.marcarIndisponibilidade(medico);
+//                status = "indisponibilidade-ok";
+//                session = request.getSession(false);
+//            } catch (ClassNotFoundException | SQLException ex) {
+//                status = "erro-indisponibilidade";
+//                response.sendRedirect("configuracoes-medico" + status);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(MedicoServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

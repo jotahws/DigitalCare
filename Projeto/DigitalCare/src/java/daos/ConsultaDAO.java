@@ -60,8 +60,12 @@ public class ConsultaDAO {
             + "INNER JOIN clinica_endereco ce ON c.id_clinica_endereco = ce.id\n"
             + "INNER JOIN clinica cli ON ce.id_clinica = cli.id\n"
             + "WHERE m.id=?\n"
-            + "AND c.datahora > (SELECT c.datahora FROM consulta c INNER JOIN medico m ON c.id_medico = m.id WHERE m.id=? AND c.status = 'Em andamento')\n"
+            + "AND c.datahora > (SELECT c.datahora FROM consulta c \n"
+            + "INNER JOIN medico m ON c.id_medico = m.id\n"
+            + "WHERE m.id=? AND c.status IN  ( 'Em andamento', 'Concluído' ) \n"
+            + "ORDER BY c.datahora DESC LIMIT 1)\n"
             + "AND date(c.datahora) = curdate()\n"
+            + "AND c.status = 'Em andamento'\n"
             + "ORDER BY c.datahora \n"
             + "LIMIT 1;";
 
@@ -437,8 +441,9 @@ public class ConsultaDAO {
             String[] aux = {"0"};
             while (rs.next()) {
                 String[] item = {rs.getString("dia_semana"), rs.getString("consultas")};
-                if(Integer.parseInt(item[1]) > Integer.parseInt(aux[0]))
+                if (Integer.parseInt(item[1]) > Integer.parseInt(aux[0])) {
                     aux = item;
+                }
             }
             diaSemana.add(aux);
             return diaSemana;
