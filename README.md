@@ -10,6 +10,7 @@ O software foi desenvolvido como requisito para aprovação no curso de Análise
 * [NetBeans](https://netbeans.org/downloads/) - IDE utilizada
 * [Java EE](http://www.oracle.com/technetwork/java/javaee/overview/index.html) - Linguagem de Programação
 * [Tomcat](http://tomcat.apache.org) - Servidor Web
+* [MySQL](https://www.mysql.com) - Sistema de gerenciamento de banco de dados
 
 ## Autores
 
