@@ -120,7 +120,7 @@
                                 <div class="tabela-dash">
                                     <c:choose>
                                         <c:when test="${consultasAtuais.size() > 0}">
-                                            <table id="dataTable" class="dataTable table">
+                                            <table id="dataTableAndamento" class="dataTable table">
                                                 <thead class="thead-inverse">
                                                     <tr>
                                                         <th>Médico</th>
@@ -156,7 +156,7 @@
                                 <div class="tabela-dash">
                                     <c:choose>
                                         <c:when test="${proximasConsultas.size() > 0}">
-                                            <table id="dataTable" class="dataTable table">
+                                            <table id="dataTableProximos" class="dataTable table">
                                                 <thead class="thead-inverse">
                                                     <tr>
                                                         <th>Médico</th>

@@ -88,7 +88,7 @@
                                 </div>
                             </form>
                         </div>
-                                <hr class="invisible-divider">
+                        <hr class="invisible-divider">
                         <div class="row">
                             <table id="tabela" class="table">
                                 <thead class="thead-inverse">

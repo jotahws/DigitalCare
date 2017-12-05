@@ -20,7 +20,7 @@
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskedinput.js"></script>
         <script src="${pageContext.request.contextPath}/components/maskedinput/jquery.maskMoney.js"></script>
         <!--POPPER-->
-        <script src="${pageContext.request.contextPath}/components/popper.js/dist/popper.min.js" ></script>
+        <script src="${pageContext.request.contextPath}/components/popper.js/dist/umd/popper.min.js" ></script>
         <!--Bootstrap-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/components/bootstrap/dist/css/bootstrap.min.css" >
         <script src="${pageContext.request.contextPath}/components/bootstrap/dist/js/bootstrap.min.js" ></script>
