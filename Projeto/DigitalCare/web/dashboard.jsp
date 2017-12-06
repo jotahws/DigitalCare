@@ -206,6 +206,7 @@
                             <h2 class="col-md-12">Estatísticas</h2>
                         </div>
                         <div class="row">
+<<<<<<< HEAD
                             <div class="col-md-3 col-sm-6 stats">
                                 <div class="data-box data-box-dark mt-2">
                                     <h2>
@@ -256,6 +257,30 @@
                                 <div class="data-box data-box-light mt-2">
                                     <h2>${stats.get(3).get(0)[0]}%</h2>
                                     <p>dos pacientes que marcaram um horário com você desmarcaram a consulta.</p>
+=======
+                            <div class="col-md-3">
+                                <div class="data-box data-box-dark mt-2">
+                                    <h2>10</h2>
+                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="data-box data-box-light mt-2">
+                                    <h2>10</h2>
+                                    <p>Texto texto texto texto texto texto texto texto texto </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="data-box data-box-dark mt-2">
+                                    <h2>10</h2>
+                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="data-box data-box-light mt-2">
+                                    <h2>10</h2>
+                                    <p>Texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto </p>
+>>>>>>> origin/development
                                 </div>
                             </div>
                         </div>

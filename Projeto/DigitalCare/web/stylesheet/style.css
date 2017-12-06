@@ -461,6 +461,7 @@ legend.dados{
 
 .fc-list-item {
     cursor: pointer;
+<<<<<<< HEAD
 }
 
 /*DATATABLE*/
@@ -475,3 +476,6 @@ table.dataTable.no-footer{
 }
 
 /*FIM DATATABLE*/
+=======
+}
+>>>>>>> origin/development

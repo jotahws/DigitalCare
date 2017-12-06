@@ -222,6 +222,7 @@ public class Facade {
         return dao.buscarConsultaAtualPorMedico(medico);
     }
 
+<<<<<<< HEAD
     public static List<List<String[]>> getEstatisticasMedico(Medico medico) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         List<List<String[]>> estatisticas = new ArrayList();
@@ -272,6 +273,8 @@ public class Facade {
         return Facade.iniciaConsulta(consulta);
     }
 
+=======
+>>>>>>> origin/development
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
         EstadoDAO dao = new EstadoDAO();
         return dao.listarEstados();
