@@ -9,13 +9,16 @@ and open the template in the editor.
 */
 
 /*
+
 PALHETA DE CORES:
+
 Verde principal: #68c4af
 Verde secundario escuro: #bfd9d2
 Verde secundario claro: #96ead7
 Amarelo claro: #ffffcc
 Amarelo escuro: #f5e5ba
 Cinza escuro: #2e2e2e
+
 */
 
 /*BOTÃO VERDE DIGITAL CARE*/
@@ -462,13 +465,18 @@ legend.dados{
 
 /*DATATABLE*/
 table.dataTable thead td{
-    border-bottom: none;
+    border-bottom: none !important;
 }
 table.dataTable tfoot td{
-    border-bottom: none;
+    border-bottom: none !important;
 }
 table.dataTable.no-footer{
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
 /*FIM DATATABLE*/
+
+.dropdown-menu{
+    left:auto;
+    right: 0;
+}
