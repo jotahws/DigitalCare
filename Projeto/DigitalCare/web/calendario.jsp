@@ -127,7 +127,6 @@
                         });
                     }
                     
-<<<<<<< HEAD
                     function confirmaProximoPaciente(){
                         swal({
                             title: 'Chamar próximo paciente?',
@@ -142,8 +141,6 @@
                         });
                     }
                     
-=======
->>>>>>> origin/development
                     function confirmaConclui(consultaId){
                         swal({
                             title: 'Você tem certeza?',
