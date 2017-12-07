@@ -28,7 +28,7 @@
                                     </c:when>
                                 </c:choose>
                                 <li class="nav-item">
-                                    <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                                    <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link">
                                         <i class="fa fa-fw fa-sign-out"></i>
                                         Logout
                                     </a>

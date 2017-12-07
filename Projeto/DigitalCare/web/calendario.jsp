@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <a href="" class="btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar Próximo Paciente</a>
+                                <a onclick="confirmaProximoPaciente()" class="clickable btn-data-box-row btn btn-digital-green"><i class="fa fa-2x pull-right fa-arrow-circle-o-right"></i>Chamar Próximo Paciente</a>
                             </div>
                         </div>
                         <div style="" id="calendar"></div>
@@ -124,6 +124,20 @@
                             cancelButtonText: 'Cancelar',
                         }).then(function () {
                             window.location.href = "EstadoConsultaServlet?action=CancelaConsultaMedico&idConsulta="+consultaId;
+                        });
+                    }
+                    
+                    function confirmaProximoPaciente(){
+                        swal({
+                            title: 'Chamar próximo paciente?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Sim',
+                            cancelButtonText: 'Não',
+                        }).then(function () {
+                            window.location.href = "EstadoConsultaServlet?action=proximaConsulta";
                         });
                     }
                     

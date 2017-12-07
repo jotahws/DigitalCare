@@ -28,6 +28,9 @@
             <c:when test="${sessionLogin.email == null}">
                 <c:redirect url="/login.jsp"/>
             </c:when>
+            <c:when test="${param.status == 'sem-proxima-consulta'}">
+                <c:redirect url="/ConsultaServlet?action=Dashboard&status=sem-proxima-consulta"/>
+            </c:when>
             <c:when test="${(sessionLogin.perfil != 2)}">
                 <div class="content-wrapper">
                     <div class="container">

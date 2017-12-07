@@ -94,17 +94,17 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-fw fa-bell"></i>
+                    <i class="fa fa-fw fa-comment"></i>
                     <span class="d-lg-none">Alerts
-                        <span class="badge badge-pill badge-warning">Novas Notificações</span>
+                        <span class="badge badge-pill badge-danger">Novas Notificações</span>
                     </span>
-                    <span class="new-indicator text-warning d-none d-lg-block">
-                        <i class="fa fa-fw fa-circle"></i>
+                    <span class="new-indicator text-danger d-none d-lg-block">
+                        <i class="fa fa-fw fa-exclamation-circle"></i>
                         <span class="number"></span>
                     </span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                    <h6 class="dropdown-header">Alertas:</h6>
+                    <h6 class="dropdown-header">Alertas</h6>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
                         <span class="text-success">
@@ -122,7 +122,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link">
                     <i class="fa fa-fw fa-sign-out"></i>
                     Logout
                 </a>

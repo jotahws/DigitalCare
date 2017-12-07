@@ -464,14 +464,19 @@ legend.dados{
 }
 
 /*DATATABLE*/
-table#dataTable thead td{
-    border-bottom: none;
+table.dataTable thead td{
+    border-bottom: none !important;
 }
-table#dataTable tfoot td{
-    border-bottom: none;
+table.dataTable tfoot td{
+    border-bottom: none !important;
 }
-table#dataTable.no-footer{
-    border-bottom: none;
+table.dataTable.no-footer{
+    border-bottom: none !important;
 }
 
 /*FIM DATATABLE*/
+
+.dropdown-menu{
+    left:auto;
+    right: 0;
+}

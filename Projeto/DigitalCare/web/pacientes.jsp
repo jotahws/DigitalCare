@@ -47,7 +47,7 @@
                         </div>
                         <hr>
                         <div class="container">
-                            <table id="dataTable" class="dataTable table">
+                            <table id="dataTablePaciente" class="dataTable table">
                                 <thead class="thead-inverse">
                                     <tr>
                                         <th>Nome</th>

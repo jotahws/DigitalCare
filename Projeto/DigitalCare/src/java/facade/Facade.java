@@ -126,7 +126,7 @@ public class Facade {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
         return dao.buscaClinicaEnderecoPorId(idClinicaEnd);
     }
-    
+
     public static List<ClinicaEndereco> getClinicaEnderecoPorMedico(Medico medico) throws SQLException, ClassNotFoundException {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
         return dao.buscaClinicaEnderecoPorMedico(medico);
@@ -261,6 +261,15 @@ public class Facade {
             estatisticas.get(3).get(0)[0] = df.format(percent);
         }
         return estatisticas;
+    }
+
+    public static Consulta proximoPaciente(Medico medico) throws ClassNotFoundException, SQLException {
+        Consulta consulta = Facade.buscarProximaConsultaPorMedico(medico);
+        Consulta consultaAtual = Facade.getConsultaAtual(medico);
+        if (consultaAtual != null) {
+            Facade.concluiConsulta(consultaAtual);
+        }
+        return Facade.iniciaConsulta(consulta);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {

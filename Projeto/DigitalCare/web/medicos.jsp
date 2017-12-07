@@ -99,7 +99,7 @@
                                             <div id="collapse${endereco.id}" class="collapse  <c:if test="${listaEndClinica.get(0).id == endereco.id}">show</c:if>" role="tabpanel" aria-labelledby="TituloEnd${endereco.id}" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <h4 class="card-title">${endereco.endereco.rua}, ${endereco.endereco.numero} - ${endereco.endereco.bairro}, ${endereco.endereco.cidade.nome} (${endereco.endereco.cidade.estado.uf})</h4>
-                                                    <table id="dataTable" class="dataTable table">
+                                                    <table id="dataTable${endereco.id}" class="dataTable table">
                                                         <thead class="thead-inverse">
                                                             <tr>
                                                                 <th>Nome</th>

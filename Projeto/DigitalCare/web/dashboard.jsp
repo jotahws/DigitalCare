@@ -192,6 +192,14 @@
                                     <strong>Sua consulta foi cancelada! </strong>
                                 </div>
                             </c:when>
+                            <c:when test="${(param.status == 'sem-proxima-consulta')}">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Sem mais consultas para hoje! </strong>
+                                </div>
+                            </c:when>
                         </c:choose>
                         <div style="" class="table-striped " id="resumo-dia"></div><hr class="invisible-divider">
                         <div class="row">
