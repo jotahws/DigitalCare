@@ -169,15 +169,10 @@ public class EstadoConsultaServlet extends HttpServlet {
                     consulta.setId(idConsulta);
                     Facade.pacienteEmEspera(consulta);
                     status = "consulta-em-espera";
-<<<<<<< HEAD
-=======
-                    //TIRAR A CONSULTA INICADA DA SESSAO
->>>>>>> origin/development
                 } catch (ClassNotFoundException | SQLException ex) {
                     status = "erro-consulta-em-espera";
                 }
                 response.sendRedirect("calendario-clinica.jsp?status=" + status);
-<<<<<<< HEAD
             } else if ("proximaConsulta".equals(action)) {
                 try {
                     HttpSession session = request.getSession();
@@ -191,8 +186,6 @@ public class EstadoConsultaServlet extends HttpServlet {
                     status = "sem-proxima-consulta";
                 }
                 response.sendRedirect("consulta-atual.jsp?status="+status);
-=======
->>>>>>> origin/development
             }
         }
     }
