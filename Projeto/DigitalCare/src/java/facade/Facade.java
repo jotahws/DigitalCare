@@ -36,7 +36,6 @@ import daos.PacienteUsuarioDAO;
 import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
-import static java.lang.Float.NaN;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -56,7 +55,12 @@ public class Facade {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         return pacienteUsuarioDAO.buscarPacienteUsuarioPorIdLogin(id);
     }
-
+    
+    public static PacienteUsuario getPacienteUsuarioPorIdPaciente(int idPaciente) throws ClassNotFoundException, SQLException {
+        PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
+        return dao.buscarPacienteUsuarioPorIdPaciente(idPaciente);
+    }
+    
     public static Medico getMedicoPorLogin(int idLogin) throws SQLException, ClassNotFoundException {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorLogin(idLogin);
@@ -216,7 +220,7 @@ public class Facade {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaPorId(consulta);
     }
-
+    
     public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaAtualPorMedico(medico);

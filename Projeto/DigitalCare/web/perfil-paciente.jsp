@@ -60,8 +60,20 @@
                                     <p class="col-md-4 dados">Data de Nascimento: <strong><fmt:formatDate pattern = "dd/MM/yyyy" value = "${perfilPaciente.paciente.dataNascimento}"/></strong> </p>
                                     <p class="col-md-4 dados">Sexo: <strong>${perfilPaciente.paciente.sexo}</strong> </p>
                                     <p class="col-md-4 dados">Email: <strong>${perfilPaciente.login.email}</strong> </p>
-                                    <p class="col-md-4 dados">Telefone 1: <strong><c:out value="(${fn:substring(perfilPaciente.telefone, 0, 2)})${fn:substring(perfilPaciente.telefone, 2, 7)}-${fn:substring(perfilPaciente.telefone, 7, fn:length(perfilPaciente.telefone))}"/></strong> </p>
-                                    <p class="col-md-4 dados">Telefone 2: <strong><c:out value="(${fn:substring(perfilPaciente.telefone2, 0, 2)})${fn:substring(perfilPaciente.telefone2, 2, 7)}-${fn:substring(perfilPaciente.telefone2, 7, fn:length(perfilPaciente.telefone2))}"/></strong> </p>
+                                    <p class="col-md-4 dados">
+                                        Telefone 1: <strong>
+                                            <c:if test="${perfilPaciente.telefone != ''}">
+                                                <c:out value="(${fn:substring(perfilPaciente.telefone, 0, 2)})${fn:substring(perfilPaciente.telefone, 2, 7)}-${fn:substring(perfilPaciente.telefone, 7, fn:length(perfilPaciente.telefone))}"/>
+                                            </c:if>
+                                        </strong>
+                                    </p>
+                                    <p class="col-md-4 dados">Telefone 2: 
+                                        <strong>
+                                            <c:if test="${perfilPaciente.telefone2 != ''}">
+                                                <c:out value="(${fn:substring(perfilPaciente.telefone2, 0, 2)})${fn:substring(perfilPaciente.telefone2, 2, 7)}-${fn:substring(perfilPaciente.telefone2, 7, fn:length(perfilPaciente.telefone2))}"/>
+                                            </c:if>
+                                        </strong> 
+                                    </p>
                                     <c:if test="${listConveniosPac.size() > 0}">
                                         <legend class="dados"><hr>Dados Médicos</legend>
                                         <c:forEach var="item" items="${listConveniosPac}">

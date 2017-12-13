@@ -23,6 +23,7 @@ public class Consulta implements Serializable {
     private String observacao;
     private Medico medico;
     private Paciente paciente;
+    private PacienteUsuario pacienteUsuario;
     private ClinicaEndereco clinicaEndereco;
 
     public Consulta(int id, int idMedico, int idPaciente, int idClinicaEndereco, Date dataHora, String status, String observacao, Medico medico, Paciente paciente) {
@@ -138,6 +139,14 @@ public class Consulta implements Serializable {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public PacienteUsuario getPacienteUsuario() {
+        return pacienteUsuario;
+    }
+
+    public void setPacienteUsuario(PacienteUsuario pacienteUsuario) {
+        this.pacienteUsuario = pacienteUsuario;
     }
 
 }

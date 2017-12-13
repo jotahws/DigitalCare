@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +45,6 @@
             <c:otherwise>
                 <!-- Navigation -->
                 <%@include file="/includes/headerDash.jsp" %>
-
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <div class="row">
@@ -64,26 +65,33 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <h4 class="card-title">Nome: ~José da Silva~</h4><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">Sexo: ~Masculino~</h6><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">Data de nascimento: ~13/05/1997~</h6>
+                                        <h4 class="card-title">Nome: ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}</h4><hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">Sexo: ${consultaAtual.pacienteUsuario.paciente.sexo}</h6><hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            Telefone:
+                                            <c:if test="${consultaAtual.pacienteUsuario.telefone != ''}">
+                                                <c:out value="(${fn:substring(consultaAtual.pacienteUsuario.telefone, 0, 2)})${fn:substring(consultaAtual.pacienteUsuario.telefone, 2, 7)}-${fn:substring(consultaAtual.pacienteUsuario.telefone, 7, fn:length(consultaAtual.pacienteUsuario.telefone))}"/>
+                                            </c:if>
+                                        </h6>
+                                        <hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">Data de nascimento: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultaAtual.pacienteUsuario.paciente.dataNascimento}"/></h6>
                                     </div>
                                     <div id="collapseDados" class="collapse" role="tabpanel" aria-labelledby="dadosPaciente" data-parent="#accordion">
                                         <div class="card-body">
+                                            <label><strong>Plano(s) de saúde</strong></label>
                                             <table class='col-12'>
                                                 <tr>
-                                                    <th>Plano(s) de saúde</th>
-                                                    <th>Email</th>
+                                                    <th>Convênio</th>
+                                                    <th>Número</th>
                                                 </tr>
-                                                <tr>
-                                                    <td>~Plano 1~</td>
-                                                    <td>~email@email.com~</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>~Plano 2~</td>
-                                                </tr>
+                                                <c:forEach items="${consultaAtual.pacienteUsuario.paciente.listaConvenios}" var="item">
+                                                    <tr>
+                                                        <td>${item.convenio.nome}</td>
+                                                        <td>${item.numero}</td>
+                                                    </tr>
+                                                </c:forEach>
                                             </table><Br>
-                                            <a href="#" class="card-link">Ver perfil completo</a>
+                                            <a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${consultaAtual.pacienteUsuario.id}&idPac=${consultaAtual.pacienteUsuario.paciente.id}" class="card-link">Ver perfil completo</a>
                                         </div>
                                     </div>
                                 </div>
