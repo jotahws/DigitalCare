@@ -45,15 +45,12 @@
                     <div class="container-fluid">
                         <div class="row container">
                             <jsp:useBean id="pacientePerfil" class="beans.PacienteUsuario"/>
-                            <div class="col-md-7">
-                                <h1 class="col-md-12"><strong>Paciente: </strong>${perfilPaciente.paciente.nome}</h1>
-                            </div>
+                                <h1 ><strong>Paciente: </strong>${perfilPaciente.paciente.nome}</h1>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="container">
-                                <div class="row">
-                                    
+                                <div class="row col-md-12">
                                     <legend class="dados">Dados</legend>
                                     <p class="col-md-12 dados">Nome:<strong> ${perfilPaciente.paciente.nome}  ${perfilPaciente.paciente.sobrenome}</strong></p>                                            
                                     <p class="col-md-4 dados">CPF: <strong><c:out value="${fn:substring(perfilPaciente.paciente.cpf, 0, 3)}.${fn:substring(perfilPaciente.paciente.cpf, 3, 6)}.${fn:substring(perfilPaciente.paciente.cpf, 6, 9)}-${fn:substring(perfilPaciente.paciente.cpf, 9, 11)}"/></strong> </p>

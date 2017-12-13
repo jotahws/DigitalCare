@@ -59,7 +59,7 @@
                                             Dados do paciente
                                         </div>
                                         <div class='col-md-4 text-right'>
-                                            <a class='link-digital-green' data-toggle="collapse" href="#collapseDados" aria-expanded="true" aria-controls="collapseDados">
+                                            <a id="showMore" class='link-digital-green' data-toggle="collapse" href="#collapseDados" aria-expanded="true" aria-controls="collapseDados">
                                                 (Mostrar mais...)
                                             </a>
                                         </div>
@@ -109,14 +109,14 @@
                                             <h3>Prontuário atual</h3><a><i class="fa fa-fw fa-question-circle-o"></i></a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <form id="prontuarioForm" class="form">
+                                    <div class="row col-md-12 pl-0">
+                                        <form id="prontuarioForm" class="form w-100">
                                             <div class="form-group">
-                                                <textarea id="prontuario" class="form-control" cols="50" rows="13"></textarea>
+                                                <textarea id="prontuario" class="form-control" rows="13"></textarea>
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-12 text-right">
+                                    <div class="col-12 row justify-content-end">
                                         <button class="btn clickable btn-outline-success"><i class="fa fa-fw fa-files-o"></i> Anexar exame</button>                                            
                                     </div>
                                 </div>
@@ -156,7 +156,9 @@
                                 </div>
                             </div>
                             <div class="text-right mt-3">
-                                <button class="btn btn-lg clickable btn-digital-green"><i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta</button>
+                                <a href="javascript:void(0);" onclick="confirmaConclui(${consultaAtual.id});" class="btn btn-lg clickable btn-digital-green">
+                                    <i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -166,7 +168,6 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
-
                 <script>
                     //colocar temporariamente na sessão o que ele digitou até ele voltar para a pagina
                     window.onbeforeunload = function () {
@@ -181,7 +182,19 @@
                         sessionStorage.removeItem('prontuarioSession');
                     });
                     //fim sessão
-
+                    function confirmaConclui(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Concluir consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                                window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                        });
+                    }
                     $(document).ready(function () {
                         $('#receita').click(function () {
                             swal({
@@ -236,6 +249,12 @@
                                 cancelButtonText: 'Cancelar',
                                 confirmButtonText: 'Salvar Arquivo'
                             });
+                        });
+                        $('#collapseDados').on('hide.bs.collapse', function () {
+                            $('#showMore').html('(Mostrar mais...)');
+                        });
+                        $('#collapseDados').on('show.bs.collapse', function () {
+                            $('#showMore').html('(Mostrar menos...)');
                         });
                     });
                 </script>
