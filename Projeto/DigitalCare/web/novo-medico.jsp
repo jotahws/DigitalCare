@@ -116,7 +116,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="">&nbsp;</label>
-                                            <div class="form-group col-md-6 ">
+                                            <div class="form-group col-md-12 ">
                                                 <input type="submit" value="Cadastrar" class="VerificaDados btn btn-digital-green form-control">
                                             </div>
                                         </div>

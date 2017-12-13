@@ -58,26 +58,19 @@
                             <div class="col-md-12">
                                 <form action="${pageContext.request.contextPath}/ListaClinicaServlet?action=PesquisaVinculaMedico" method="POST">
                                     <fieldset>
-                                        <div class="form-row">
-                                            <legend></legend>
-                                            <div class="form-group col-md-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-4 align-self-end">
                                                 <label for="cpf">Digite o CPF do médico que deseja vincular</label>
                                                 <input type="text" id="cpf" value="${medico.cpf}" name="cpf" class="cpf required form-control">
                                             </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="">&nbsp;</label>
-                                                <div class="form-group col-md-12 ">
+                                            <div class="form-group col-md-2 px-0 align-self-end">
                                                     <input type="submit" value="Pesquisar" class="btn btn-digital-green form-control">
-                                                </div>
                                             </div>
-                                            <div class="col-md-6  form-group">
-                                                <label for="">&nbsp;</label>
-                                                <div class="form-group col-md-12 ">
+                                            <div class="col-md-6 form-group align-self-end">
                                                     ou&nbsp;&nbsp;&nbsp;
                                                     <a href="${pageContext.request.contextPath}/ListaMedicoServlet?action=listaRegisterMedico" class="btn btn-digital-yellow">
                                                         <i class="fa fa-fw fa-plus"></i>Cadastrar um novo Médico
                                                     </a>
-                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>

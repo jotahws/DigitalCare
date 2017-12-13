@@ -107,15 +107,16 @@
                                 </fieldset>
                             </form>
                             <hr class="normal-divider">
+
+                            <div class="row justify-content-between ml-1">       
+                                <h3>Endereço(s)</h3>
+                                <div class="align-self-center">           
+                                    <a href="${pageContext.request.contextPath}/endereco-clinica.jsp" class="adicionar mr-3">
+                                        <i class="fa fa-fw fa-plus-circle"></i>Adicionar um novo endereço
+                                    </a>
+                                </div>   
+                            </div>
                             <div class="form-row">
-                                <div class="row col-md-12">
-                                    <div class="col-md-8">
-                                        <h3>Endereço(s)</h3>
-                                    </div>
-                                    <div id="nova-localizacao" class="col-md-4 text-right">
-                                        <a href="${pageContext.request.contextPath}/endereco-clinica.jsp" class="adicionar"><i class="fa fa-fw fa-plus-circle"></i>Adicionar um novo endereço</a>
-                                    </div>
-                                </div>
                                 <div class=" col-md-12">
                                     <table id="tabela" class="table">
                                         <thead class="thead-inverse">

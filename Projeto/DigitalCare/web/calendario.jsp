@@ -19,7 +19,7 @@
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
     </head>
-
+    
     <body class="fixed-nav sticky-footer" id="page-top">
         <c:choose>
             <c:when test="${sessionLogin.email == null}">
@@ -40,9 +40,13 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <div class="row">
-                            <h1 class="col-9">Calendário</h1>
-                            <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
+                        <div class="row justify-content-between ml-1">       
+                            <h1 class="">Calendário</h1>       
+                            <div class="align-self-center">           
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade" class=" btn-lg pl-0">
+                                    <i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade
+                                </a>
+                            </div>   
                         </div>
                         <hr>
                         <div class="row">
