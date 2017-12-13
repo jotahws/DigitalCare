@@ -65,7 +65,7 @@ public class ConsultaDAO {
             + "WHERE m.id=? AND c.status IN  ( 'Em andamento', 'Concluído' ) \n"
             + "ORDER BY c.datahora DESC LIMIT 1)\n"
             + "AND date(c.datahora) = curdate()\n"
-            + "AND c.status = 'Em andamento'\n"
+            + "AND c.status IN ('Em espera', 'Marcado') \n"
             + "ORDER BY c.datahora \n"
             + "LIMIT 1;";
 
