@@ -14,6 +14,7 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
+import beans.Falta;
 import beans.MedicoHorario;
 import beans.Login;
 import beans.Medico;
@@ -28,6 +29,7 @@ import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
+import daos.FaltaDAO;
 import daos.HorarioDAO;
 import daos.LoginDAO;
 import daos.MedicoDAO;
@@ -274,6 +276,11 @@ public class Facade {
             Facade.concluiConsulta(consultaAtual);
         }
         return Facade.iniciaConsulta(consulta);
+    }
+
+    public static Falta setFalta(Falta falta) throws ClassNotFoundException, SQLException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.insereFalta(falta);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {

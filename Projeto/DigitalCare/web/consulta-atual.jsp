@@ -66,7 +66,21 @@
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title">Nome: ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}</h4><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">Sexo: ${consultaAtual.pacienteUsuario.paciente.sexo}</h6><hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            Sexo: 
+                                            <c:choose>
+                                                <c:when test="${consultaAtual.pacienteUsuario.paciente.sexo == 'M'}">
+                                                    Masculino
+                                                </c:when>
+                                                <c:when test="${consultaAtual.pacienteUsuario.paciente.sexo == 'F'}">
+                                                    Feminino
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${consultaAtual.pacienteUsuario.paciente.sexo}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </h6>
+                                        <hr class='small-invisible-divider'>
                                         <h6 class="card-subtitle mb-2 text-muted">
                                             Telefone:
                                             <c:if test="${consultaAtual.pacienteUsuario.telefone != ''}">
@@ -106,7 +120,11 @@
                                 <div class='col-md-6'>
                                     <div class="row">
                                         <div class='row col-12'>
-                                            <h3>Prontuário atual</h3><a><i class="fa fa-fw fa-question-circle-o"></i></a>
+                                            <h3>Prontuário atual</h3>
+                                            <a tabindex="0" class="clickable no-focus" role="button" 
+                                               data-toggle="popover" data-trigger="focus" title="Prontuário" data-content="Esta caixa de texto serve para anotar todos os dados da consulta.">
+                                                <i class="fa fa-fw fa-question-circle-o"></i>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row col-md-12 pl-0">
@@ -256,6 +274,7 @@
                         $('#collapseDados').on('show.bs.collapse', function () {
                             $('#showMore').html('(Mostrar menos...)');
                         });
+                        $("[data-toggle=popover]").popover();
                     });
                 </script>
             </c:otherwise>

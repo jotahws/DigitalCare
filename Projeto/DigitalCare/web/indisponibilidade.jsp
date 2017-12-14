@@ -15,7 +15,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        <style>
+            .fc-event{
+                cursor: default;
+            }
+        </style>
         <title>Marcar indisponibilidade - DigitalCare</title>
 
         <!-- Style customizado -->
@@ -46,20 +50,38 @@
                             <h1 class="col-10">Marcar Indisponibilidade</h1>
                         </div>
                         <hr>
+                        <c:choose>
+                            <c:when test="${(param.status == 'falta-erro')}">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Opa! </strong> Ocorreu um erro ao adicionar uma indisponibilidade. Tente novamente.
+                                </div>
+                            </c:when>
+                            <c:when test="${(param.status == 'falta-ok')}">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>A indisponibilidade foi adicionada com sucesso!</strong> 
+                                </div>
+                            </c:when>
+                        </c:choose>  
                         <div id="form" class="data-box data-box-yellow-light col-md-6">
-                            <form>
+                            <form method="POST" action="IndisponibilidadeServlet?action=InserirFalta">
                                 <div class="form-group">
-                                    <label for="data" class="col-form-label">Data</label>
-                                    <input type="text" class="form-control data" id="data" placeholder="Ex. 12/02/2017">
+                                    <label for="dataInicio" class="col-form-label">Data</label>
+                                    <input type="text" class="form-control data required" id="dataInicio" name="dataInicio" placeholder="Ex. 12/02/2017">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="de" class="col-form-label">De</label>
-                                        <input type="text" class="form-control" id="de" placeholder="Ex. 13:00" >
+                                        <input type="text" class="form-control required" id="de" name="de" placeholder="Ex. 13:00" >
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="ate" class="col-form-label">Até</label>
-                                        <input type="text" class="form-control" id="ate" placeholder="Ex. 16:00">
+                                        <input type="text" class="form-control required" id="ate" name="ate" placeholder="Ex. 16:00">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -70,7 +92,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6 text-right">
                                         <input type="submit" class="btn btn-primary" value="Salvar">
                                     </div>
                                 </div>

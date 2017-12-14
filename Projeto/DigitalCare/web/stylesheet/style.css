@@ -480,3 +480,7 @@ table.dataTable.no-footer{
     left:auto;
     right: 0;
 }
+
+.no-focus:focus{
+    outline: 0;
+}
