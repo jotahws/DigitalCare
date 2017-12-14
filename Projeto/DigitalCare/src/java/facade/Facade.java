@@ -520,6 +520,11 @@ public class Facade {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
     }
+    
+    public static List<Falta> buscarFaltas(Medico medico) throws ClassNotFoundException, SQLException, ParseException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.buscarFaltas(medico);
+    }
 
     public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();

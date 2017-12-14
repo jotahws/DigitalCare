@@ -7,6 +7,7 @@ package servlets;
 
 import beans.Consulta;
 import beans.Especialidade;
+import beans.Falta;
 import beans.MedicoHorario;
 import beans.Medico;
 import beans.MedicoFalta;
@@ -18,6 +19,7 @@ import facade.Facade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -208,8 +210,9 @@ public class ConsultaServlet extends HttpServlet {
                     int idMedico = Integer.parseInt(request.getParameter("idMedico"));
                     Medico medico = Facade.buscarMedicoPorId(idMedico);
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario-clinica.jsp");
@@ -220,9 +223,10 @@ public class ConsultaServlet extends HttpServlet {
                     Medico medico = (Medico) session.getAttribute("usuario");
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
                     List<String[]> statusConsultas = Facade.buscarStatusPorMedicoNoDia(medico);
+                    List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
                     request.setAttribute("statusConsultas", statusConsultas);
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario.jsp");
@@ -245,8 +249,9 @@ public class ConsultaServlet extends HttpServlet {
                     HttpSession session = request.getSession();
                     Medico medico = (Medico) session.getAttribute("usuario");
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                    List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/indisponibilidade.jsp");
