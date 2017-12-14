@@ -21,15 +21,15 @@ $(document).ready(function () {
     $('#ate').mask('99:99');
     $('#dia-inteiro').change(function () {
         if ($(this).is(':checked')) {
-            $('#de').attr('disabled', true);
-            $('#ate').attr('disabled', true);
+            $('#de').attr('readonly', true);
+            $('#ate').attr('readonly', true);
             $('#de').val("00:00");
             $('#ate').val("23:59");
             $('#de').removeAttr('placeholder');
             $('#ate').removeAttr('placeholder');
         } else {
-            $('#de').attr('disabled', false);
-            $('#ate').attr('disabled', false);
+            $('#de').attr('readonly', false);
+            $('#ate').attr('readonly', false);
             $('#de').val(null);
             $('#ate').val(null);
             $('#de').attr('placeholder', 'Ex. 13:00');

@@ -14,6 +14,7 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
+import beans.Falta;
 import beans.MedicoHorario;
 import beans.Login;
 import beans.Medico;
@@ -28,6 +29,7 @@ import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
+import daos.FaltaDAO;
 import daos.HorarioDAO;
 import daos.LoginDAO;
 import daos.MedicoDAO;
@@ -36,7 +38,6 @@ import daos.PacienteUsuarioDAO;
 import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
-import static java.lang.Float.NaN;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -56,7 +57,12 @@ public class Facade {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         return pacienteUsuarioDAO.buscarPacienteUsuarioPorIdLogin(id);
     }
-
+    
+    public static PacienteUsuario getPacienteUsuarioPorIdPaciente(int idPaciente) throws ClassNotFoundException, SQLException {
+        PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
+        return dao.buscarPacienteUsuarioPorIdPaciente(idPaciente);
+    }
+    
     public static Medico getMedicoPorLogin(int idLogin) throws SQLException, ClassNotFoundException {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorLogin(idLogin);
@@ -216,7 +222,7 @@ public class Facade {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaPorId(consulta);
     }
-
+    
     public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaAtualPorMedico(medico);
@@ -270,6 +276,11 @@ public class Facade {
             Facade.concluiConsulta(consultaAtual);
         }
         return Facade.iniciaConsulta(consulta);
+    }
+
+    public static Falta setFalta(Falta falta) throws ClassNotFoundException, SQLException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.insereFalta(falta);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
@@ -508,6 +519,11 @@ public class Facade {
     public static List<MedicoFalta> buscarFaltasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
+    }
+    
+    public static List<Falta> buscarFaltas(Medico medico) throws ClassNotFoundException, SQLException, ParseException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.buscarFaltas(medico);
     }
 
     public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {

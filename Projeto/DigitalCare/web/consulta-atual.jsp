@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +45,6 @@
             <c:otherwise>
                 <!-- Navigation -->
                 <%@include file="/includes/headerDash.jsp" %>
-
                 <div class="content-wrapper">
                     <div class="container-fluid">
                         <div class="row">
@@ -58,32 +59,53 @@
                                             Dados do paciente
                                         </div>
                                         <div class='col-md-4 text-right'>
-                                            <a class='link-digital-green' data-toggle="collapse" href="#collapseDados" aria-expanded="true" aria-controls="collapseDados">
+                                            <a id="showMore" class='link-digital-green' data-toggle="collapse" href="#collapseDados" aria-expanded="true" aria-controls="collapseDados">
                                                 (Mostrar mais...)
                                             </a>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <h4 class="card-title">Nome: ~José da Silva~</h4><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">Sexo: ~Masculino~</h6><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">Data de nascimento: ~13/05/1997~</h6>
+                                        <h4 class="card-title">Nome: ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}</h4><hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            Sexo: 
+                                            <c:choose>
+                                                <c:when test="${consultaAtual.pacienteUsuario.paciente.sexo == 'M'}">
+                                                    Masculino
+                                                </c:when>
+                                                <c:when test="${consultaAtual.pacienteUsuario.paciente.sexo == 'F'}">
+                                                    Feminino
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${consultaAtual.pacienteUsuario.paciente.sexo}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </h6>
+                                        <hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            Telefone:
+                                            <c:if test="${consultaAtual.pacienteUsuario.telefone != ''}">
+                                                <c:out value="(${fn:substring(consultaAtual.pacienteUsuario.telefone, 0, 2)})${fn:substring(consultaAtual.pacienteUsuario.telefone, 2, 7)}-${fn:substring(consultaAtual.pacienteUsuario.telefone, 7, fn:length(consultaAtual.pacienteUsuario.telefone))}"/>
+                                            </c:if>
+                                        </h6>
+                                        <hr class='small-invisible-divider'>
+                                        <h6 class="card-subtitle mb-2 text-muted">Data de nascimento: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${consultaAtual.pacienteUsuario.paciente.dataNascimento}"/></h6>
                                     </div>
                                     <div id="collapseDados" class="collapse" role="tabpanel" aria-labelledby="dadosPaciente" data-parent="#accordion">
                                         <div class="card-body">
+                                            <label><strong>Plano(s) de saúde</strong></label>
                                             <table class='col-12'>
                                                 <tr>
-                                                    <th>Plano(s) de saúde</th>
-                                                    <th>Email</th>
+                                                    <th>Convênio</th>
+                                                    <th>Número</th>
                                                 </tr>
-                                                <tr>
-                                                    <td>~Plano 1~</td>
-                                                    <td>~email@email.com~</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>~Plano 2~</td>
-                                                </tr>
+                                                <c:forEach items="${consultaAtual.pacienteUsuario.paciente.listaConvenios}" var="item">
+                                                    <tr>
+                                                        <td>${item.convenio.nome}</td>
+                                                        <td>${item.numero}</td>
+                                                    </tr>
+                                                </c:forEach>
                                             </table><Br>
-                                            <a href="#" class="card-link">Ver perfil completo</a>
+                                            <a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${consultaAtual.pacienteUsuario.id}&idPac=${consultaAtual.pacienteUsuario.paciente.id}" class="card-link">Ver perfil completo</a>
                                         </div>
                                     </div>
                                 </div>
@@ -98,17 +120,21 @@
                                 <div class='col-md-6'>
                                     <div class="row">
                                         <div class='row col-12'>
-                                            <h3>Prontuário atual</h3><a><i class="fa fa-fw fa-question-circle-o"></i></a>
+                                            <h3>Prontuário atual</h3>
+                                            <a tabindex="0" class="clickable no-focus" role="button" 
+                                               data-toggle="popover" data-trigger="focus" title="Prontuário" data-content="Esta caixa de texto serve para anotar todos os dados da consulta.">
+                                                <i class="fa fa-fw fa-question-circle-o"></i>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <form id="prontuarioForm" class="form">
+                                    <div class="row col-md-12 pl-0">
+                                        <form id="prontuarioForm" class="form w-100">
                                             <div class="form-group">
-                                                <textarea id="prontuario" class="form-control" cols="50" rows="13"></textarea>
+                                                <textarea id="prontuario" class="form-control" rows="13"></textarea>
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-12 text-right">
+                                    <div class="col-12 row justify-content-end">
                                         <button class="btn clickable btn-outline-success"><i class="fa fa-fw fa-files-o"></i> Anexar exame</button>                                            
                                     </div>
                                 </div>
@@ -148,7 +174,9 @@
                                 </div>
                             </div>
                             <div class="text-right mt-3">
-                                <button class="btn btn-lg clickable btn-digital-green"><i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta</button>
+                                <a href="javascript:void(0);" onclick="confirmaConclui(${consultaAtual.id});" class="btn btn-lg clickable btn-digital-green">
+                                    <i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -158,7 +186,6 @@
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
-
                 <script>
                     //colocar temporariamente na sessão o que ele digitou até ele voltar para a pagina
                     window.onbeforeunload = function () {
@@ -173,7 +200,19 @@
                         sessionStorage.removeItem('prontuarioSession');
                     });
                     //fim sessão
-
+                    function confirmaConclui(consultaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#68c4af',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Concluir consulta',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                                window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                        });
+                    }
                     $(document).ready(function () {
                         $('#receita').click(function () {
                             swal({
@@ -229,6 +268,13 @@
                                 confirmButtonText: 'Salvar Arquivo'
                             });
                         });
+                        $('#collapseDados').on('hide.bs.collapse', function () {
+                            $('#showMore').html('(Mostrar mais...)');
+                        });
+                        $('#collapseDados').on('show.bs.collapse', function () {
+                            $('#showMore').html('(Mostrar menos...)');
+                        });
+                        $("[data-toggle=popover]").popover();
                     });
                 </script>
             </c:otherwise>

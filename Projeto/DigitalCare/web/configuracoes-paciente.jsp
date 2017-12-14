@@ -96,17 +96,17 @@
                                         <div class="form-group col-md-2">
                                             <label for="sexo">Sexo:</label>
                                             <select id="sexo" name="sexo" class="custom-select" value="">
-                                                <option <c:if test="${item.paciente.sexo == 'M'}">selected</c:if> value='M'>Masculino</option>
-                                                <option <c:if test="${item.paciente.sexo == 'F'}">selected</c:if> value="F">Feminino</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
+                                                <option <c:if test="${item.paciente.sexo == 'M'}"> selected </c:if> value='M'>Masculino</option>
+                                                <option <c:if test="${item.paciente.sexo == 'F'}"> selected </c:if> value="F">Feminino</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
                                                 <label for="tel1">Telefone 1:</label>
-                                                <input type="text" id="tel1" class="telresidencial required form-control" name="tel1" placeholder="" value="${item.telefone}">
+                                                <input type="text" id="tel1" class="telefone required form-control" name="tel1" placeholder="" value="${item.telefone}">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tel2">Telefone 2:</label>
-                                            <input type="text" id="tel2" class="telresidencial form-control" name="tel2" placeholder="" value="${item.telefone2}">
+                                            <input type="text" id="tel2" class="telefone form-control" name="tel2" placeholder="" value="${item.telefone2}">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="email">E-mail:</label>

@@ -143,7 +143,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <div class="alert alert-secondary" role="alert">
-                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há consultas em andamento.</h4>
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há nenhuma consulta em andamento.</h4>
                                             </div>
                                         </c:otherwise>
                                     </c:choose>
@@ -179,7 +179,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <div class="alert alert-secondary" role="alert">
-                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há próximas consultas.</h4>
+                                                <h4 class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Não há próximas consultas hoje.</h4>
                                             </div>
                                         </c:otherwise>
                                     </c:choose>
