@@ -51,15 +51,8 @@
                                             <div class="form-group col-md-4">
                                                 <label for="tipoConsulta" class="col-form-label">Tipo da consulta<span style="color:red;">*</span></label>
                                                 <div class="" >
-                                                    <input id="tipoConsulta"
-                                                           name="tipoConsulta"
-                                                           type='text'
-                                                           placeholder='Tipo da consulta'
-                                                           class='flexdatalist form-control'
-                                                           data-min-length='0'
-                                                           list='tiposConsulta'
-                                                           data-selection-required='true'
-                                                           required>
+                                                    <input id="tipoConsulta" name="tipoConsulta" type='text' placeholder='Tipo da consulta'class='form-control' required>
+                                                    
                                                     <datalist id="tiposConsulta">
                                                     </datalist>
                                                     <small style="color:red;">Obrigatório</small>
@@ -68,7 +61,7 @@
                                             <div class="form-group col-md-4">
                                                 <label for="paciente" class=" col-form-label">CPF do Paciente<span style="color:red;">*</span></label>
                                                 <div class="" >
-                                                    <input id="cpf" type='text' class='form-control cpf' name='paciente'>
+                                                    <input id="cpf" type='text' class='form-control cpf ' required name='paciente'>
                                                     <small style="color:red;">Obrigatório</small>
                                                 </div>
                                             </div>
@@ -119,21 +112,43 @@
                 <%@include file="/includes/footer.jsp" %>
 
                 <!-- JS customizado -->
+                <!--<input id="tipoConsulta"
+                name="tipoConsulta"
+                type='text'
+                placeholder='Tipo da consulta'
+                class='flexdatalist form-control'
+                data-min-length='0'
+                list='tiposConsulta'
+                data-selection-required='true'
+                required>-->
                 <script src="js/dash.js"></script>
-
                 <script>
                     $(document).ready(function () {
                         listaNovaConsulta();
-
+                        $('#tipoConsulta').flexdatalist({
+                            minLength: 0,
+                            noResultsText: 'Sem resultados para "{keyword}"',
+                            multiple: false,
+                            focusFirstResult: true,
+                            selectionRequired: true,
+                            textProperty: '{nome}',
+                            visibleProperties: ['nome'],
+                            searchIn: ['nome'],
+                            valueProperty: 'id',
+                            data: ''
+                        });
                         function listaNovaConsulta() {
-                            $.post(
-                                    "ConsultaServlet",
-                                    {action: 'ListaTiposConsulta'}, //meaasge you want to send
-                                    function (result) {
-                                        $.each(result, function (index, tipo) {
-                                            $("<option>").appendTo($("#tiposConsulta")).append(tipo.nome).val(tipo.id);
-                                        });
-                                    });
+                            $.ajax({
+                                url: 'ConsultaServlet',
+                                type: 'GET',
+                                dataType: 'json',
+                                data: {
+                                    action: 'ListaTiposConsulta'
+                                },
+                                success: function (result) {
+                                    $('#tipoConsulta').flexdatalist('data', result);
+                                }
+                            });
                         }
                     });
                 </script>

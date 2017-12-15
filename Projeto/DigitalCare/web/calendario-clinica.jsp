@@ -42,14 +42,16 @@
                         <hr>
                         <div class="col-md-12 row">
                             <div class="col-md-3">
-                                <div class="row ">
-                                    <div class="col-md-9">
-                                        <input class="form-control" id="medicoInput" placeholder="Pesquisar...">
+                                <form id="buscaMedico">
+                                    <div class="row justify-content-between">
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="medicoInput" placeholder="Pesquisar...">
+                                        </div>
+                                        <div class="pr-3 text-right">
+                                            <button type="submit" id="" class="btn btn-digital-green"><i class="fa fa-search"></i></button>                                    
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 row text-right">
-                                        <button type="submit" id="buscaMedico" class="btn btn-digital-green"><i class="fa fa-search"></i></button>                                    
-                                    </div>
-                                </div>
+                                </form>
                                 <hr class="small-invisible-divider">
                                 <div id="listaMedicos" class="list-group listgroup-medicos">
                                     <div class="text-center">
@@ -276,9 +278,10 @@
 
                         $('#listaMedicos').empty();
                         buscaMedico($("#medicoInput").val());
-                        $("#buscaMedico").click(function (e) {
+                        $("#buscaMedico").on('submit', function () {
                             $('#listaMedicos').empty();
                             buscaMedico($("#medicoInput").val());
+                            return false;
                         });
                         if ($(window).width() < 992) {
                             $('#calendar').fullCalendar('changeView', 'agendaDay');
