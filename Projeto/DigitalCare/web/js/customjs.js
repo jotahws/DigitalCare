@@ -205,3 +205,32 @@ $(document).ready(function () {
     }
 
 });
+
+//-------------------GET COR DO CALENDARIO----------------------------
+
+function getCorStatus(status) {
+    var cor = '#fff';
+    switch (status) {
+        case 'Cancelado':
+            cor = 'crimson';
+            break;
+        case 'Marcado':
+            cor = 'dodgerblue';
+            break;
+        case 'Em espera':
+            cor = 'goldenrod';
+            break;
+        case 'Concluído':
+            cor = 'green';
+            break;
+        case 'Em andamento':
+            cor = '#68c4af';
+            break;
+        case 'Falta':
+            cor = '#68c4af';
+            break;
+        default:
+            cor = 'dodgerblue';
+    }
+    return cor;
+}

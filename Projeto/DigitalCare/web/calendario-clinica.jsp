@@ -156,6 +156,9 @@
                             case 'Em andamento':
                                 cor = '#68c4af';
                                 break;
+                            case 'Falta':
+                                cor = '#888';
+                                break;
                             default:
                                 cor = 'dodgerblue';
                         }
@@ -177,20 +180,31 @@
                                 }else if(event.status == 'Em andamento'){
                                     botoes = '<br><a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Concluir Consulta</a>';
                                 }
-                                swal({
-                                    title: event.title,
-                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
-                                            '<p>Status: '+ event.status +'</p>' +
-                                            '<p>Horário: ' + event.horario + '</p>' +
-                                            '<p>Duração prevista: 30 min</p>' +
-                                            '<h3 class="left-text">Dados Pessoais</h3>' +
-                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
-                                    showCloseButton: true,
-                                    showConfirmButton: false,
-                                    width: 600,
-                                    padding: 50
-                                })
+                                if (event.status != 'Falta') {
+                                    swal({
+                                        title: event.title,
+                                        html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                                                '<p>Status: '+ event.status +'</p>' +
+                                                '<p>Horário: ' + event.horario + '</p>' +
+                                                '<p>Duração prevista: 30 min</p>' +
+                                                '<h3 class="left-text">Dados Pessoais</h3>' +
+                                                '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
+                                                '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
+                                        showCloseButton: true,
+                                        showConfirmButton: false,
+                                        width: 600,
+                                        padding: 50
+                                    });
+                                }else{
+                                    swal({
+                                        title: event.title,
+                                        html: '<br><h5>O médico não estará disponível nesse horário.</h5></div>' + botoes,
+                                        showCloseButton: true,
+                                        showConfirmButton: false,
+                                        width: 600,
+                                        padding: 50
+                                    });
+                                }
                             },
                             header: {
                                 left: 'prev,next today myCustomButton',
@@ -226,6 +240,18 @@
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
                                             start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
                                             color: getCorStatus('${consultas.get(i).status}')
+                                        },
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${faltas.size() > 0}">
+                                    <c:forEach begin="0" end="${faltas.size()-1}" var="i" >
+                                        {
+                                            id: '${faltas.get(i).id}',
+                                            title: 'Indisponível',
+                                            status: 'Falta',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataInicio.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataInicio.time}" />',
+                                            end: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataFim.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataFim.time}" />',
+                                            color: getCorStatus('Falta')
                                         },
                                     </c:forEach>
                                 </c:if>

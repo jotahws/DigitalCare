@@ -213,6 +213,7 @@ public class ConsultaServlet extends HttpServlet {
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
                     List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
+                    request.setAttribute("faltas", faltas);
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -226,6 +227,7 @@ public class ConsultaServlet extends HttpServlet {
                     List<String[]> statusConsultas = Facade.buscarStatusPorMedicoNoDia(medico);
                     List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
+                    request.setAttribute("faltas", faltas);
                     request.setAttribute("statusConsultas", statusConsultas);
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -252,6 +254,7 @@ public class ConsultaServlet extends HttpServlet {
                     List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
                     List<Falta> faltas = Facade.buscarFaltas(medico);
                     request.setAttribute("consultas", consultas);
+                    request.setAttribute("faltas", faltas);
                 } catch (ClassNotFoundException | SQLException | ParseException ex) {
                     Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

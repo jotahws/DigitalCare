@@ -126,6 +126,9 @@
                             case 'Em andamento':
                                 cor = '#68c4af';
                                 break;
+                            case 'Falta':
+                                cor = '#888';
+                                break;
                             default:
                                 cor = 'dodgerblue';
                         }
@@ -173,6 +176,17 @@
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
                                             start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
                                             color: getCorStatus('${consultas.get(i).status}')
+                                        },
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${faltas.size() > 0}">
+                                    <c:forEach begin="0" end="${faltas.size()-1}" var="i" >
+                                        {
+                                            id: '${faltas.get(i).id}',
+                                            title: 'Indisponível',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataInicio.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataInicio.time}" />',
+                                            end: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataFim.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataFim.time}" />',
+                                            color: getCorStatus('Falta')
                                         },
                                     </c:forEach>
                                 </c:if>

@@ -32,6 +32,8 @@ public class FaltaDAO {
     
     private final String buscaFaltasMedico = "SELECT * FROM medico_falta \n"
             + "WHERE id_medico = ?\n";
+    
+    private final String apagarFalta = "DELETE FROM medico_falta WHERE id=?;";
 
     private Connection con = null;
     private PreparedStatement stmt = null;
@@ -103,5 +105,23 @@ public class FaltaDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public final Falta apagaFalta(Falta falta) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(apagarFalta);
+            stmt.setInt(1, falta.getId());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 }

@@ -49,8 +49,8 @@
                     <img class="second-slide" src="${pageContext.request.contextPath}/images/Doctor2.jpg" alt="Segundo slide">
                     <div class="container">
                         <div class="carousel-caption d-none d-md-block">
-                            <h1>Sua consulta em boas mãos.</h1>
-                            <p>Todas as clínicas parceiras da DigitalCare são cadastradas e aprovadas, para você não precisar se preocupar com a procedência do médico.</p><br><br><br>
+                            <h1>Sua vida em boas mãos.</h1>
+                            <p>Nós contamos com parceiros especializados em fazer o bem. Todos os médicos cadastrados devem apresentar seu CRM para garantir o seu bem-estar.</p><br><br><br>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             <div class="row featurette">
                 <div class="col-md-7">
                     <h2 class="featurette-heading">Agende quantas vezes quiser. <span class="text-muted">Cancele a hora que quiser.</span></h2>
-                    <p class="lead">Você pode agendar de acordo com a sua disponibilidade. Se tiver algum compromisso, simplesmente entre na DigitalCare e cancele, sem precisar sair do lugar ou mesmo fazer ligações.</p>
+                    <p class="lead">Você pode agendar de acordo com a sua disponibilidade. Se tiver algum compromisso, simplesmente entre na DigitalCare e cancele a consulta, sem precisar sair do lugar.</p>
                 </div>
                 <div class="col-md-5">
                     <img class="featurette-image img-fluid mx-auto" src="${pageContext.request.contextPath}/images/calendar.png" alt="calendário com um dia circulado">

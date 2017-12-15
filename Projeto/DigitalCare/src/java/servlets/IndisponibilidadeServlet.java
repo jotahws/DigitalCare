@@ -70,6 +70,16 @@ public class IndisponibilidadeServlet extends HttpServlet {
                     status = "falta-erro";
                 }
                 response.sendRedirect("ConsultaServlet?action=indisponibilidade&status="+status);
+            }else if ("deleteFalta".equals(action)) {
+                Falta falta = new Falta();
+                falta.setId(Integer.parseInt(request.getParameter("idFalta")));
+                try {
+                    Facade.apagarFaltas(falta);
+                    status="apagaFalta-ok";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status="apagaFalta-erro";
+                }
+                response.sendRedirect("ConsultaServlet?action=BuscaConsultasMedico&status="+status);
             }
         }
     }
