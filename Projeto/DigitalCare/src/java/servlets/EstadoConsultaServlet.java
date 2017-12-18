@@ -186,8 +186,29 @@ public class EstadoConsultaServlet extends HttpServlet {
                     status = "sem-proxima-consulta";
                 }
                 response.sendRedirect("consulta-atual.jsp?status="+status);
+            } else if ("ClinicaMarcaConsulta".equals(action)) {
+                try {
+                    PacienteUsuario pacienteUsuario = Facade.getPacienteUsuarioPorIdPaciente(Integer.parseInt(request.getParameter("idPaciente")));
+                    int idClinicaEnd = Integer.parseInt(request.getParameter("idClinicaEnd"));
+                    int idMedico = Integer.parseInt(request.getParameter("idMedico"));
+                    String datahoraString = request.getParameter("datahora");
+                    Date datahora = Timestamp.valueOf(datahoraString);
+                    Medico medico = new Medico();
+                    Paciente paciente = new Paciente();
+                    ClinicaEndereco clinicaEndereco = new ClinicaEndereco();
+                    medico.setId(idMedico);
+                    paciente.setId(pacienteUsuario.getPaciente().getId());
+                    clinicaEndereco.setId(idClinicaEnd);
+                    Consulta consulta = new Consulta(datahora, "Marcado", medico, paciente, clinicaEndereco);
+                    Facade.marcaConsulta(consulta);
+                    status = "consulta-marcada";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "erro-nova-consulta";
+                }
+                response.sendRedirect("agendar-consulta.jsp?status=" + status);
+
             }
-        }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

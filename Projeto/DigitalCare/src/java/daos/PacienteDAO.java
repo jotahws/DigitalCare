@@ -13,6 +13,7 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Estado;
 import beans.Login;
+import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import beans.Prontuario_cab;
@@ -56,6 +57,10 @@ public class PacienteDAO {
               "   INNER JOIN consulta                con ON (con.id_paciente		= pac.id)" +
               "   INNER JOIN medico                    m ON (m.id			= con.id_medico)" +
               "   where m.id =? AND con.status != 'Concluído';";
+
+    private final String buscaPacientePorCPF = "SELECT * FROM PACIENTE P\n"
+            + "WHERE p.cpf = ?;";
+    
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -226,6 +231,34 @@ public class PacienteDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public Paciente getPacientePorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaPacientePorCPF);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("sexo"));                
+                return paciente;
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 
 }

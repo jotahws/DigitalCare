@@ -12,6 +12,7 @@ import beans.Falta;
 import beans.MedicoHorario;
 import beans.Medico;
 import beans.MedicoFalta;
+import beans.Paciente;
 import beans.PacienteUsuario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -273,6 +274,13 @@ public class ConsultaServlet extends HttpServlet {
                 rd.forward(request, response);
             } else if ("ClinicaBuscaConsultas".equals(action)) {
                 try {
+                    String cpfPaciente = request.getParameter("pacienteCPF");
+                    cpfPaciente = cpfPaciente.replace(".", "");
+                    cpfPaciente = cpfPaciente.replace("-", "");
+                    Paciente paciente = Facade.getPacientePorCPF(cpfPaciente);
+                    if (paciente == null) {
+                        throw new Exception("Paciente não existe");
+                    }
                     String tipo = request.getParameter("tipoConsulta");
                     Especialidade especialidade = Facade.buscarEspecialidadePorId(Integer.parseInt(tipo));
                     HttpSession session = request.getSession();
@@ -373,15 +381,20 @@ public class ConsultaServlet extends HttpServlet {
                         throw new Exception("Nao ha medicos disponiveis");
                     }
                     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                    Gson gsonPaciente = new Gson();
                     String horariosJSON = gson.toJson(listaDiasSemana);
                     request.setAttribute("horarios", listaDiasSemana);
+                    request.setAttribute("pacienteJSON", gsonPaciente.toJson(paciente));
+                    request.setAttribute("paciente", paciente);
                     request.setAttribute("horariosJSON", horariosJSON);
                     request.setAttribute("tipoConsulta", especialidade);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/agendar-consulta.jsp");
                     rd.forward(request, response);
                 } catch (Exception ex) {
                     if (ex.getMessage().equals("Nao ha medicos disponiveis")) {
-                        response.sendRedirect("/agendar-consulta.jsp?status=semMedicos");
+                        response.sendRedirect("agendar-consulta.jsp?status=semMedicos");
+                    }else if (ex.getMessage().equals("Paciente não existe")) {
+                        response.sendRedirect("agendar-consulta.jsp?status=erro-paciente");
                     }
                 }
             }

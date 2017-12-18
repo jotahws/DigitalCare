@@ -484,3 +484,9 @@ table.dataTable.no-footer{
 .no-focus:focus{
     outline: 0;
 }
+
+.card.no-top{
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

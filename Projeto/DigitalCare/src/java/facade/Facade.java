@@ -122,6 +122,11 @@ public class Facade {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorCPF(cpf);
     }
+    
+    public static Paciente getPacientePorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        PacienteDAO dao = new PacienteDAO();
+        return dao.getPacientePorCPF(cpf);
+    }
 
     public static void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws SQLException, ClassNotFoundException {
         ClinicaEnderecoDAO dao = new ClinicaEnderecoDAO();
