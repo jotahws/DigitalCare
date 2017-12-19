@@ -39,3 +39,5 @@
         <!--DataTable-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/components/DataTables/datatables.min.css"/>
         <script type="text/javascript" src="${pageContext.request.contextPath}/components/DataTables/datatables.min.js"></script>
+        <!--Animate-->
+        <link href="${pageContext.request.contextPath}/components/animate.css" rel="stylesheet" type="text/css"/>
