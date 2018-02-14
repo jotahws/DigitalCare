@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title">Nome: ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}</h4><hr class='small-invisible-divider'>
-                                        <h6 class="card-subtitle mb-2 text-muted">
+                                        <h5 class="card-subtitle mb-2 text-muted">
                                             Sexo: 
                                             <c:choose>
                                                 <c:when test="${consultaAtual.pacienteUsuario.paciente.sexo == 'M'}">
@@ -110,9 +110,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <a id="receita" class="btn btn-lg btn-outline-dark clickable col-12"><i class="fa fa-fw fa-file-text-o"></i> Receita Médica</a><br><br>
-                                    <a id="atestado" class="btn btn-lg btn-outline-dark clickable col-12"><i class="fa fa-fw fa-stethoscope"></i> Atestado Médico</a><br><br>
-                                    <a id="exame" class="btn btn-lg btn-outline-dark clickable col-12"><i class="fa fa-fw fa-files-o"></i> Solicitar Exame</a>
+                                    <button id="receita" type="button" class="btn btn-lg btn-outline-dark clickable col-12" data-toggle="modal" data-target="#receitaModal">
+                                        <i class="fa fa-fw fa-file-text-o"></i> Receita Médica
+                                    </button><br><br>
+                                    <button id="atestado" type="button" class="btn btn-lg btn-outline-dark clickable col-12" data-toggle="modal" data-target="#atestadoModal">
+                                        <i class="fa fa-fw fa-stethoscope"></i> Atestado Médico
+                                    </button><br><br>
+                                    <button id="exame" type="button" class="btn btn-lg btn-outline-dark clickable col-12" data-toggle="modal" data-target="#exameModal">
+                                        <i class="fa fa-fw fa-files-o"></i> Solicitar Exame
+                                    </button>
                                 </div>
                             </div>
                             <hr class="invisible-divider">
@@ -122,7 +128,7 @@
                                         <div class='row col-12'>
                                             <h3>Prontuário atual</h3>
                                             <a tabindex="0" class="clickable no-focus" role="button" 
-                                               data-toggle="popover" data-trigger="focus" title="Prontuário" data-content="Esta caixa de texto serve para anotar todos os dados da consulta.">
+                                               data-toggle="popover" data-trigger="hover" title="Prontuário" data-content="É aqui que devem ser feitas todas as anotações sobre a consulta, como anamnese e exame físico.">
                                                 <i class="fa fa-fw fa-question-circle-o"></i>
                                             </a>
                                         </div>
@@ -178,6 +184,101 @@
                                     <i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta
                                 </a>
                             </div>
+                            <!--Modal receita-->
+                            <div class="modal" id="receitaModal" tabindex="-1" role="dialog" aria-labelledby="receitaModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="receitaModalLabel">Nova Receita Médica</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form">
+                                                <div class="form-group">
+                                                    <input class="form-control" cols="51" rows="7">
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea class="form-control" disabled cols="51" rows="7"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Modal Atestado-->
+                            <div class="modal" id="atestadoModal" tabindex="-1" role="dialog" aria-labelledby="atestadoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="atestadoModalLabel">Novo Atestado Médico</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-row mb-2">
+                                                <div class="form-group col-7">
+                                                    <div class="input-group">
+                                                        <input id="afastamentoForm" class="form-control" placeholder="Tempo de afastamento (dias)" required >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-5">
+                                                    <input id="cidForm" class="form-control" placeholder="CID-10 (Opcional)">
+                                                </div>
+                                            </form>
+                                            <div>
+                                                <h5 class="text-justify">
+                                                    <i class="fa fa-2x fa-quote-left"></i>
+                                                    &nbsp;&nbsp;Atesto que ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome} 
+                                                    foi atendido(a) nesta clínica, nesta data e que necessita de <span id="afastamentoSpan">________</span> dia(s) de afastamento do trabalho para tratamento de saúde.<br>
+                                                    CID: <span id="cidSpan">________</span>
+                                                </h5>
+                                                <div class="row">
+                                                    <jsp:useBean id="now" class="java.util.Date"/>
+                                                    <h5 class="col-6"><fmt:formatDate value="${now}" pattern="dd/MM/yyyy" /></h5>
+                                                    <i class="fa fa-2x fa-quote-right text-right col-6"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Modal Exame-->
+                            <div class="modal" id="exameModal" tabindex="-1" role="dialog" aria-labelledby="exameModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exameModalLabel">Solicitar exames ao paciente</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form">
+                                                <div class="form-group">
+                                                    <input id="examesForm" class="form-control" cols="51" rows="7">
+                                                    <strong class="text-muted">Use Enter ↵ ou vírgila para adicionar exames à lista</strong>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div> 
@@ -214,68 +315,38 @@
                         });
                     }
                     $(document).ready(function () {
-                        $('#receita').click(function () {
-                            swal({
-                                title: 'Nova receita',
-                                html: '<form class="form">' +
-                                        '<div class="form-group">' +
-                                        '<input class="form-control" cols="51" rows="7">' +
-                                        '</div>' +
-                                        '<div class="form-group">' +
-                                        '<textarea class="form-control" disabled cols="51" rows="7"></textarea>' +
-                                        '</div>' +
-                                        '</form>',
-                                showCancelButton: true,
-                                width: 600,
-                                confirmButtonColor: '#68c4af',
-                                cancelButtonColor: '#bfd9d2',
-                                cancelButtonText: 'Cancelar',
-                                confirmButtonText: 'Salvar Arquivo'
-                            });
-                        });
-                        $('#exame').click(function () {
-                            swal({
-                                title: 'Solicitar exame',
-                                html: '<form class="form">' +
-                                        '<div class="form-group">' +
-                                        '<input class="form-control" cols="51" rows="7">' +
-                                        '</div>' +
-                                        '</form>',
-                                showCancelButton: true,
-                                width: 600,
-                                confirmButtonColor: '#68c4af',
-                                cancelButtonColor: '#bfd9d2',
-                                cancelButtonText: 'Cancelar',
-                                confirmButtonText: 'Solicitar'
-                            });
-                        });
-                        $('#atestado').click(function () {
-                            swal({
-                                title: 'Novo Atestado',
-                                html: '<form class="form">' +
-                                        '<div class="form-group">' +
-                                        '<input class="form-control" cols="51" rows="7">' +
-                                        '</div>' +
-                                        '<div class="form-group">' +
-                                        '<textarea class="form-control" disabled cols="51" rows="7"></textarea>' +
-                                        '</div>' +
-                                        '</form>',
-                                showCancelButton: true,
-                                width: 600,
-                                confirmButtonColor: '#68c4af',
-                                cancelButtonColor: '#bfd9d2',
-                                cancelButtonText: 'Cancelar',
-                                confirmButtonText: 'Salvar Arquivo'
-                            });
-                        });
                         $('#collapseDados').on('hide.bs.collapse', function () {
                             $('#showMore').html('(Mostrar mais...)');
                         });
                         $('#collapseDados').on('show.bs.collapse', function () {
                             $('#showMore').html('(Mostrar menos...)');
                         });
+                        $('.modal').on('show.bs.modal', function (e) {
+                            $(this).addClass('animated').addClass('bounceIn').addClass('animate-faster');
+                        })
                         $("[data-toggle=popover]").popover();
+                        $('#afastamentoForm').on('keypress keyup', function(){
+                            if ($('#afastamentoForm').val() != '') {
+                                $('#afastamentoSpan').html($('#afastamentoForm').val());
+                            }else{
+                                $('#afastamentoSpan').html('________');
+                            }
+                        });
+                        $('#cidForm').on('keypress keyup', function(){
+                            if ($('#cidForm').val() != '') {
+                                $('#cidSpan').html($('#cidForm').val());
+                            }else{
+                                $('#cidSpan').html('________');
+                            }
+                        });
+                        
+                        $('#examesForm').flexdatalist({
+                            data: '',
+                            selectionRequired: 0,
+                            multiple: true
+                        });
                     });
+                    
                 </script>
             </c:otherwise>
         </c:choose>

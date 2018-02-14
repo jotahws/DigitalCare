@@ -490,3 +490,47 @@ table.dataTable.no-footer{
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.modal-dialog.modal-dialog-centered {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+}
+@media(max-width: 768px) {
+  .modal-dialog.modal-dialog-centered {
+    min-height: calc(100vh - 20px);
+  }
+}
+
+.animate-faster {
+  animation-duration: 0.4s !important;
+}
+
+span.input-group-text{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem
+}
+
+.input-group-append span.input-group-text{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+    border-left: none;
+}
