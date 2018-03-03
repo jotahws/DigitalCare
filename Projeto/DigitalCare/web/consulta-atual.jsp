@@ -197,7 +197,7 @@
                                         <div class="modal-body">
                                             <form class="form">
                                                 <div class="form-group">
-                                                    <input class="form-control" cols="51" rows="7">
+                                                    <input id="receitaForm" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <textarea class="form-control" disabled cols="51" rows="7"></textarea>
@@ -345,8 +345,40 @@
                             selectionRequired: 0,
                             multiple: true
                         });
+                        
+                        $('#receitaForm').flexdatalist({
+                            data: [{"id":0,"nome":"CLORIDRATO DE TRAMADOL+PARACETAMOL","principioAtivo":"CLORIDRATO DE TRAMADOL; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + FOSFATO DE CODEÍNA","principioAtivo":"FOSFATO DE CODEÍNA; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + CLORIDRATO DE PSEUDOEFEDRINA","principioAtivo":"CLORIDRATO DE PSEUDOEFEDRINA; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + CAFEÍNA","principioAtivo":"CAFEÍNA; PARACETAMOL"},{"id":0,"nome":"FUNED PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"FURP-PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"IQUEGO - PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"CLORIDRATO DE TRAMADOL + PARACETAMOL","principioAtivo":"CLORIDRATO DE TRAMADOL; PARACETAMOL"}],
+                            selectionRequired: 0,
+                            searchIn: 'nome',
+                            minLength: 0,
+                            multiple: true,
+                            searchByWord: true
+                        });
+                        
+                        $("#receitaForm-flexdatalist").on("keyup keypress", function() {
+                            if ($(this).val().length > 1 && $(this).val().length < 4) {
+                                buscaMedicamentos($(this).val());
+                            }
+                        });
                     });
                     
+                    function buscaMedicamentos(name){
+                        $.ajax({
+                            url: '<%=request.getContextPath()%>'+'/MedicamentoServlet?action=receitaAjax',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                'nome': name
+                            },
+                            success: function (result){
+                                console.log(result);
+                                $('#receitaForm').flexdatalist('data', result);
+                            },
+                            error: function (result){
+                                console.log(result);
+                            }
+                        })
+                    }
                 </script>
             </c:otherwise>
         </c:choose>

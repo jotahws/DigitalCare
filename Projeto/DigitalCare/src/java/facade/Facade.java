@@ -17,6 +17,7 @@ import beans.Estado;
 import beans.Falta;
 import beans.MedicoHorario;
 import beans.Login;
+import beans.Medicamento;
 import beans.Medico;
 import beans.MedicoFalta;
 import beans.Paciente;
@@ -32,6 +33,7 @@ import daos.EstadoDAO;
 import daos.FaltaDAO;
 import daos.HorarioDAO;
 import daos.LoginDAO;
+import daos.MedicamentoDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
@@ -601,5 +603,10 @@ public class Facade {
     public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
         PacienteDAO pacienteDAO = new PacienteDAO();
         return pacienteDAO.ListPacienteNoMedico(idMedico);
+    }
+    
+    public static List<Medicamento> getMedicamento(Medicamento medicamento) throws SQLException, ClassNotFoundException {
+        MedicamentoDAO dao = new MedicamentoDAO();
+        return dao.buscar(medicamento);
     }
 }
