@@ -40,8 +40,9 @@ public class MedicamentoDAO {
                 medicamento = new Medicamento();
 //                medicamento.setId(rs.getInt("id"));
 //                medicamento.setEan(rs.getString("ean"));
-                medicamento.setNome(rs.getString("nome"));
-                medicamento.setPrincipioAtivo(rs.getString("principio_ativo"));
+                String nome = Medicamento.capitalizeString(rs.getString("nome"));
+                medicamento.setNome(nome);
+                medicamento.setPrincipioAtivo(Medicamento.capitalizeString(rs.getString("principio_ativo")));
                 medicamentos.add(medicamento);
             }
             return medicamentos;

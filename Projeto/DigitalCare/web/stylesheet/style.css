@@ -534,3 +534,10 @@ span.input-group-text{
     margin-left: -1px;
     border-left: none;
 }
+
+.flexdatalist-results span:not(:first-child):not(.highlight){
+    padding-left: 10px;
+    display: inline-block;
+    font-size: 80%;
+    color: rgba(0, 0, 0, 0.50);
+}

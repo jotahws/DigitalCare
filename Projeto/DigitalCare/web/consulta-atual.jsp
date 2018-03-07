@@ -199,8 +199,8 @@
                                                 <div class="form-group">
                                                     <input id="receitaForm" class="form-control">
                                                 </div>
-                                                <div class="form-group">
-                                                    <textarea class="form-control" disabled cols="51" rows="7"></textarea>
+                                                <div id="medicamentosSelecionados" class="form-group">
+                                                    
                                                 </div>
                                             </form>
                                         </div>
@@ -284,6 +284,7 @@
                 </div> 
 
                 <%@include file="/includes/footer.jsp" %>
+                <script src="${pageContext.request.contextPath}/components/latinize.js" ></script>
 
                 <!-- JS customizado -->
                 <script src="js/dash.js"></script>
@@ -347,18 +348,37 @@
                         });
                         
                         $('#receitaForm').flexdatalist({
-                            data: [{"id":0,"nome":"CLORIDRATO DE TRAMADOL+PARACETAMOL","principioAtivo":"CLORIDRATO DE TRAMADOL; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + FOSFATO DE CODEÍNA","principioAtivo":"FOSFATO DE CODEÍNA; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + CLORIDRATO DE PSEUDOEFEDRINA","principioAtivo":"CLORIDRATO DE PSEUDOEFEDRINA; PARACETAMOL"},{"id":0,"nome":"PARACETAMOL + CAFEÍNA","principioAtivo":"CAFEÍNA; PARACETAMOL"},{"id":0,"nome":"FUNED PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"FURP-PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"IQUEGO - PARACETAMOL","principioAtivo":"PARACETAMOL"},{"id":0,"nome":"CLORIDRATO DE TRAMADOL + PARACETAMOL","principioAtivo":"CLORIDRATO DE TRAMADOL; PARACETAMOL"}],
-                            selectionRequired: 0,
+                            data: '',
                             searchIn: 'nome',
-                            minLength: 0,
+                            visibleProperties: ['nome', '({principioAtivo})'],
+                            minLength: 1,
                             multiple: true,
-                            searchByWord: true
+                            searchByWord: true,
+                            focusFirstResult: true,
+                            normalizeString: function (string) {
+                                string = string.replace(/(^|\s)\S/g, l => l.toUpperCase());
+                                return latinize(string);
+                            }
                         });
-                        
+                                                
                         $("#receitaForm-flexdatalist").on("keyup keypress", function() {
-                            if ($(this).val().length > 1 && $(this).val().length < 4) {
+                            if ($(this).val().length == 1) {
                                 buscaMedicamentos($(this).val());
                             }
+                        });
+                        
+                        $('#receitaForm').on('change:flexdatalist', function () {
+                            $('#medicamentosSelecionados').html('');
+                            $.each($(this).flexdatalist('value'), function(key, value){
+//                                console.log(key + value);
+                                $('#medicamentosSelecionados').append('<div class="form-inline justify-content-between mb-1">\n\
+                                                                            <h6>' + value + '</h6>\n\
+                                                                            <div class="">\n\
+                                                                                <input type="text" placeholder="Dose" name="dose[]" class="form-control">\n\
+                                                                                <input type="text" placeholder="Via" name="via[]" class="form-control">\n\
+                                                                            </div>\n\
+                                                                        </div>');
+                            });
                         });
                     });
                     
@@ -371,7 +391,6 @@
                                 'nome': name
                             },
                             success: function (result){
-                                console.log(result);
                                 $('#receitaForm').flexdatalist('data', result);
                             },
                             error: function (result){
@@ -379,6 +398,9 @@
                             }
                         })
                     }
+                    
+                   
+                    
                 </script>
             </c:otherwise>
         </c:choose>
