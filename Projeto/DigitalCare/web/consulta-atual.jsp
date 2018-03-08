@@ -123,7 +123,7 @@
                             </div>
                             <hr class="invisible-divider">
                             <div class='row'>
-                                <div class='col-md-6'>
+                                <div class='col-md-8'>
                                     <div class="row">
                                         <div class='row col-12'>
                                             <h3>Prontuário atual</h3>
@@ -144,11 +144,11 @@
                                         <button class="btn clickable btn-outline-success"><i class="fa fa-fw fa-files-o"></i> Anexar exame</button>                                            
                                     </div>
                                 </div>
-                                <div class="card col-md-6 row border-info">
-                                    <div class="card-header row">Prescrições</div>
-                                    <div class="card-body text-info">
-                                        <h4 class="card-title">Histórico de prontuários</h4>
-                                        <div class="tree row">
+                                <div class="card col-md-4 row border-info">
+                                    <div class="card-header row">Linha do Tempo</div>
+                                    <div class="card-body px-0 text-info">
+                                        <h4 class="card-title text-center">Histórico de prontuários</h4>
+                                        <div class="tree justify-content-center row">
                                             <ul>
                                                 <li>
                                                     <span><i class="fa fa-fw fa-folder"></i> 19/03/2017</span>
@@ -198,10 +198,9 @@
                                             <form class="form">
                                                 <div class="form-group">
                                                     <input id="receitaForm" class="form-control">
+                                                    <small class="text-muted">Use Enter ↵ ou vírgila para adicionar medicamentos à lista</small>
                                                 </div>
-                                                <div id="medicamentosSelecionados" class="form-group">
-                                                    
-                                                </div>
+                                                <div id="medicamentosSelecionados" class="form-group"></div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
@@ -268,7 +267,7 @@
                                             <form class="form">
                                                 <div class="form-group">
                                                     <input id="examesForm" class="form-control" cols="51" rows="7">
-                                                    <strong class="text-muted">Use Enter ↵ ou vírgila para adicionar exames à lista</strong>
+                                                    <small class="text-muted">Use Enter ↵ ou vírgila para adicionar exames à lista</small>
                                                 </div>
                                             </form>
                                         </div>
@@ -372,10 +371,11 @@
                             $.each($(this).flexdatalist('value'), function(key, value){
 //                                console.log(key + value);
                                 $('#medicamentosSelecionados').append('<div class="form-inline justify-content-between mb-1">\n\
-                                                                            <h6>' + value + '</h6>\n\
+                                                                            <div class="col-md-4 row"><h6>' + value + '</h6></div>\n\
                                                                             <div class="">\n\
-                                                                                <input type="text" placeholder="Dose" name="dose[]" class="form-control">\n\
-                                                                                <input type="text" placeholder="Via" name="via[]" class="form-control">\n\
+                                                                                <input type="text" placeholder="Dose" name="dose[]" class="form-control form-control-sm">\n\
+                                                                                <input type="text" placeholder="Via" name="via[]" class="form-control form-control-sm">\n\
+                                                                                <input type="text" placeholder="Quantidade" name="quantidade[]" class="form-control form-control-sm">\n\
                                                                             </div>\n\
                                                                         </div>');
                             });
