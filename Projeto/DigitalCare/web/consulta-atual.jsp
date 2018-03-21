@@ -232,7 +232,7 @@
                                                 </div>
                                             </form>
                                             <div>
-                                                <h5 class="text-justify">
+                                                <h5 class="text-justify" id="atestadoText">
                                                     <i class="fa fa-2x fa-quote-left"></i>
                                                     &nbsp;&nbsp;Atesto que ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome} 
                                                     foi atendido(a) nesta clínica, nesta data e que necessita de <span id="afastamentoSpan">________</span> dia(s) de afastamento do trabalho para tratamento de saúde.<br>
@@ -248,7 +248,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                            <button id="btnAtestado" type="button" class="btn btn-primary">Salvar arquivo</button>
                                         </div>
                                     </div>
                                 </div>
@@ -325,6 +325,7 @@
                             $(this).addClass('animated').addClass('bounceIn').addClass('animate-faster');
                         })
                         $("[data-toggle=popover]").popover();
+                        //Atestado----------------------------------------------
                         $('#afastamentoForm').on('keypress keyup', function(){
                             if ($('#afastamentoForm').val() != '') {
                                 $('#afastamentoSpan').html($('#afastamentoForm').val());
@@ -339,7 +340,28 @@
                                 $('#cidSpan').html('________');
                             }
                         });
-                        
+                        $('#btnAtestado').click(function(){
+                            $.ajax({
+                                url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=atestado',
+                                type: 'GET',
+                                dataType: 'text',
+                                contentType: 'application/pdf',
+                                data: {
+                                    "texto": $('#atestadoText').html()
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    window.open(data,'_blank');
+//                                    displayBook(opn);
+//                                    ebookStore.add(opn);
+//                                    ebookStore.sync();
+                                },
+                                error: function () {
+                                    
+                                }
+                            });
+                        });
+                        //Fim Atestado------------------------------------------
                         $('#examesForm').flexdatalist({
                             data: '',
                             selectionRequired: 0,
