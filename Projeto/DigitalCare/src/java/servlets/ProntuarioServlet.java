@@ -8,6 +8,7 @@ package servlets;
 
 import beans.Medicamento;
 import com.google.gson.Gson;
+import conexao.ConnectionFactory;
 import facade.Facade;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,11 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  *
@@ -56,33 +59,36 @@ public class ProntuarioServlet extends HttpServlet {
         if ("atestado".equals(action)) {
             //1. Emitir PDF
             //2. Salvar PDF no BD
+            //3. retornar PDF na jsp
             
-            //JASPER TEM QUE ADICIONAR TODAS AS BIBLIOTECAS
             try {
-                String htmlao = "html do extrato";
-
-                String jasper = request.getContextPath() + "/resources/reports/extrato_cfo.jasper";
+                Connection con = new ConnectionFactory().getConnection();
+                
+                String jasper = request.getContextPath() + "/jasper/atestado.jasper"; //request.getContextPath() + "/resources/reports/extrato_cfo.jasper";
                 String host = "http://" + request.getServerName() + ":" + request.getServerPort();
                 URL jasperURL = new URL(host + jasper);
                 HashMap params = new HashMap();
 
-                params.put("htmlao", htmlao);
-                params.put("candidato_nome", "nome");
-                params.put("candidato_curso", "curso");
-//                File ufpr_logo = new File(context.getRealPath("/resources/images/ufpr.png"));
-//                File pm_logo = new File(context.getRealPath("/resources/images/pmpr.png"));
-//                InputStream fi = new FileInputStream(ufpr_logo);
-//                params.put("UFPR_LOGO", fi);
-//                fi = new FileInputStream(pm_logo);
-//                params.put("PM_LOGO", fi);
+                params.put("ATESTADO", "ATESTADO");
+                params.put("CLINICA_NOME", "CLINICA_NOME");
+                params.put("PACIENTE_NOME", "PACIENTE_NOME");
+                params.put("PACIENTE_END", "PACIENTE_END");
+                params.put("CLINICA_NOME_ENDERECO", "CLINICA_NOME_ENDERECO");
+                params.put("CLINICA_ENDERECO", "CLINICA_ENDERECO");
+                params.put("CLINICA_TELEFONE", "CLINICA_TELEFONE");
+                params.put("CLINICA_CNPJ", "CLINICA_CNPJ");
+                ServletContext context = getServletContext();
+                File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                InputStream fi = new FileInputStream(digital_logo);
+                params.put("DIGITAL_LOGO", fi);
 
-                byte[] bytes = null;//JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
                 if (bytes != null) {
                     response.setContentType("application/pdf");
                     OutputStream ops = response.getOutputStream();
                     ops.write(bytes);
                 }
-            } catch (MalformedURLException ex) {
+            } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(ex.getMessage());
             }
@@ -101,7 +107,7 @@ public class ProntuarioServlet extends HttpServlet {
 //                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 //                response.getWriter().write(ex.getMessage());
 //            }
-        } 
+        }
         
     }
 

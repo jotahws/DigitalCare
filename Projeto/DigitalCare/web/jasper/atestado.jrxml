@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receituario" pageWidth="424" pageHeight="590" columnWidth="384" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="3c2ad69e-bc8b-40ac-98a9-581b87bdd4ae">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="CLINICA_NOME" class="java.lang.String"/>
 	<parameter name="PACIENTE_NOME" class="java.lang.String"/>
 	<parameter name="PACIENTE_END" class="java.lang.String"/>
@@ -10,9 +11,13 @@
 	<parameter name="CLINICA_TELEFONE" class="java.lang.String"/>
 	<parameter name="CLINICA_CNPJ" class="java.lang.String"/>
 	<parameter name="ATESTADO" class="java.lang.String"/>
+	<parameter name="DIGITAL_LOGO" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select 1 from dual]]>
 	</queryString>
+	<field name="1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -33,13 +38,13 @@
 				<text><![CDATA[Atestado]]></text>
 			</staticText>
 			<image>
-				<reportElement x="300" y="32" width="84" height="30" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
+				<reportElement x="300" y="28" width="84" height="30" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["../images/logo-peq.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{DIGITAL_LOGO}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="300" y="20" width="84" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
+				<reportElement x="300" y="16" width="84" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
