@@ -59,24 +59,24 @@ public class ProntuarioServlet extends HttpServlet {
         if ("atestado".equals(action)) {
             //1. Emitir PDF
             //2. Salvar PDF no BD
-            //3. retornar PDF na jsp
+            //3. Retornar STATUS na jsp
             
             try {
                 Connection con = new ConnectionFactory().getConnection();
-                
-                String jasper = request.getContextPath() + "/jasper/atestado.jasper"; //request.getContextPath() + "/resources/reports/extrato_cfo.jasper";
+
+                String jasper = request.getContextPath() + "/jasper/atestado.jasper";
                 String host = "http://" + request.getServerName() + ":" + request.getServerPort();
                 URL jasperURL = new URL(host + jasper);
                 HashMap params = new HashMap();
 
-                params.put("ATESTADO", "ATESTADO");
-                params.put("CLINICA_NOME", "CLINICA_NOME");
-                params.put("PACIENTE_NOME", "PACIENTE_NOME");
-                params.put("PACIENTE_END", "PACIENTE_END");
-                params.put("CLINICA_NOME_ENDERECO", "CLINICA_NOME_ENDERECO");
-                params.put("CLINICA_ENDERECO", "CLINICA_ENDERECO");
-                params.put("CLINICA_TELEFONE", "CLINICA_TELEFONE");
-                params.put("CLINICA_CNPJ", "CLINICA_CNPJ");
+                params.put("ATESTADO", request.getParameter("texto"));
+                params.put("CLINICA_NOME", request.getParameter("nomeClinica"));
+                params.put("PACIENTE_NOME", request.getParameter("nome"));
+                params.put("PACIENTE_END", request.getParameter("endereco"));
+                params.put("CLINICA_NOME_ENDERECO", request.getParameter("nomeClinicaEndereco"));
+                params.put("CLINICA_ENDERECO", request.getParameter("clinicaEndereco"));
+                params.put("CLINICA_TELEFONE", request.getParameter("clinicaTelefone"));
+                params.put("CLINICA_CNPJ", request.getParameter("clinicaCNPJ"));
                 ServletContext context = getServletContext();
                 File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
                 InputStream fi = new FileInputStream(digital_logo);
@@ -92,23 +92,42 @@ public class ProntuarioServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(ex.getMessage());
             }
+        } else if("atestadoPDF".equals(action)){
+            //1. Emitir PDF
+            //2. Retornar PDF na jsp
             
-            
-            //TRATANDO AJAX
-//            try {
-//                String nome = request.getParameter("nome");
-//                Medicamento medicamento = new Medicamento(nome);
-//                List<Medicamento> medicamentos = Facade.getMedicamento(medicamento);
-//                String json = new Gson().toJson(medicamentos);
-//                response.setContentType("application/json");
-//                response.setCharacterEncoding("UTF-8");
-//                response.getWriter().write(json);
-//            } catch (ClassNotFoundException | SQLException ex) {
-//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//                response.getWriter().write(ex.getMessage());
-//            }
+            try {
+                Connection con = new ConnectionFactory().getConnection();
+
+                String jasper = request.getContextPath() + "/jasper/atestado.jasper";
+                String host = "http://" + request.getServerName() + ":" + request.getServerPort();
+                URL jasperURL = new URL(host + jasper);
+                HashMap params = new HashMap();
+
+                params.put("ATESTADO", request.getParameter("texto"));
+                params.put("CLINICA_NOME", request.getParameter("nomeClinica"));
+                params.put("PACIENTE_NOME", request.getParameter("nome"));
+                params.put("PACIENTE_END", request.getParameter("endereco"));
+                params.put("CLINICA_NOME_ENDERECO", request.getParameter("nomeClinicaEndereco"));
+                params.put("CLINICA_ENDERECO", request.getParameter("clinicaEndereco"));
+                params.put("CLINICA_TELEFONE", request.getParameter("clinicaTelefone"));
+                params.put("CLINICA_CNPJ", request.getParameter("clinicaCNPJ"));
+                ServletContext context = getServletContext();
+                File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                InputStream fi = new FileInputStream(digital_logo);
+                params.put("DIGITAL_LOGO", fi);
+
+                byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                if (bytes != null) {
+                    response.setContentType("application/pdf");
+                    OutputStream ops = response.getOutputStream();
+                    ops.write(bytes);
+                }
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write(ex.getMessage());
+            }
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

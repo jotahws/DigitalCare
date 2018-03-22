@@ -89,6 +89,11 @@ public class Facade {
         ClinicaDAO clinicaDAO = new ClinicaDAO();
         return clinicaDAO.buscarClinicaPorLogin(idLogin);
     }
+    
+    public static Clinica getClinicaPorID(int idClinica) throws ClassNotFoundException, SQLException {
+        ClinicaDAO clinicaDAO = new ClinicaDAO();
+        return clinicaDAO.buscarClinicaPorID(idClinica);
+    }
 
     public static List<ClinicaEndereco> getListaEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
         EnderecoDAO enderecoDAO = new EnderecoDAO();

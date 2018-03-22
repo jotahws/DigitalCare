@@ -79,7 +79,7 @@
                                                     ${consultaAtual.pacienteUsuario.paciente.sexo}
                                                 </c:otherwise>
                                             </c:choose>
-                                        </h6>
+                                        </h5>
                                         <hr class='small-invisible-divider'>
                                         <h6 class="card-subtitle mb-2 text-muted">
                                             Telefone:
@@ -234,8 +234,8 @@
                                             <div>
                                                 <h5 class="text-justify" id="atestadoText">
                                                     <i class="fa fa-2x fa-quote-left"></i>
-                                                    &nbsp;&nbsp;Atesto que ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome} 
-                                                    foi atendido(a) nesta clínica, nesta data e que necessita de <span id="afastamentoSpan">________</span> dia(s) de afastamento do trabalho para tratamento de saúde.<br>
+                                                    Atesto que ${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome} 
+                                                    foi atendido(a) nesta clínica, nesta data e que necessita de <span id="afastamentoSpan">________</span> dia(s) de afastamento do trabalho para tratamento de saúde.<br><br>
                                                     CID: <span id="cidSpan">________</span>
                                                 </h5>
                                                 <div class="row">
@@ -249,6 +249,19 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                             <button id="btnAtestado" type="button" class="btn btn-primary">Salvar arquivo</button>
+                                            <form id="atestadoForm" action="${pageContext.request.contextPath}/ProntuarioServlet?action=atestadoPDF" target="_blank" method="POST">
+                                                <input type="hidden" name="texto" value="Atestado em branco" id="textoAtestadoForm">
+                                                <input type="hidden" name="nome" value="${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}">
+                                                <input type="hidden" name="endereco" value="${consultaAtual.pacienteUsuario.endereco.rua}, ${consultaAtual.pacienteUsuario.endereco.numero} - ${consultaAtual.pacienteUsuario.endereco.bairro} - ${consultaAtual.pacienteUsuario.endereco.cidade.nome}"> 
+                                                <input type="hidden" name="nomeClinicaEndereco" value="${consultaAtual.clinicaEndereco.nome}">
+                                                <input type="hidden" name="nomeClinica" value="${consultaAtual.clinicaEndereco.clinica.nomeFantasia}">
+                                                <input type="hidden" name="clinicaEndereco" value="${consultaAtual.clinicaEndereco.endereco.rua}, ${consultaAtual.clinicaEndereco.endereco.numero} ${consultaAtual.clinicaEndereco.endereco.complemento} - ${consultaAtual.clinicaEndereco.endereco.bairro}">
+                                                <c:if test="${consultaAtual.clinicaEndereco.telefone1 != ''}">
+                                                    <input type="hidden" name="clinicaTelefone" value="<c:out value="(${fn:substring(consultaAtual.clinicaEndereco.telefone1, 0, 2)})${fn:substring(consultaAtual.clinicaEndereco.telefone1, 2, 6)}-${fn:substring(consultaAtual.clinicaEndereco.telefone1, 6, fn:length(consultaAtual.clinicaEndereco.telefone1))}"/>">
+                                                </c:if>
+                                                <input type="hidden" name="clinicaTelefone" value="${consultaAtual.clinicaEndereco.telefone1}">
+                                                <input type="hidden" name="clinicaCNPJ" value="${consultaAtual.clinicaEndereco.clinica.cnpj}">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -325,6 +338,7 @@
                             $(this).addClass('animated').addClass('bounceIn').addClass('animate-faster');
                         })
                         $("[data-toggle=popover]").popover();
+                        
                         //Atestado----------------------------------------------
                         $('#afastamentoForm').on('keypress keyup', function(){
                             if ($('#afastamentoForm').val() != '') {
@@ -350,11 +364,13 @@
                                     "texto": $('#atestadoText').html()
                                 },
                                 success: function (data) {
-                                    console.log(data);
-                                    window.open(data,'_blank');
-//                                    displayBook(opn);
-//                                    ebookStore.add(opn);
-//                                    ebookStore.sync();
+                                    swal(
+                                        'Atestado Salvo!',
+                                        'O atestado foi salvo no histórico. Para substituí-lo, clique em "Salvar arquivo" novamente.',
+                                        'success'
+                                    );
+                                    $('#textoAtestadoForm').val($('#atestadoText').html());
+                                    $('#atestadoForm').submit();
                                 },
                                 error: function () {
                                     

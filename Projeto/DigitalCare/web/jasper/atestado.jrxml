@@ -24,7 +24,7 @@
 	<title>
 		<band height="84" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="14" width="300" height="40" uuid="f48c5054-fe3e-49c1-9e3b-15ec38f2d293"/>
+				<reportElement x="0" y="14" width="330" height="40" uuid="f48c5054-fe3e-49c1-9e3b-15ec38f2d293"/>
 				<textElement>
 					<font fontName="Arial Black" size="27"/>
 				</textElement>
@@ -38,15 +38,15 @@
 				<text><![CDATA[Atestado]]></text>
 			</staticText>
 			<image>
-				<reportElement x="300" y="28" width="84" height="30" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
+				<reportElement x="330" y="28" width="54" height="22" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<imageExpression><![CDATA[$P{DIGITAL_LOGO}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="300" y="16" width="84" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
+				<reportElement x="330" y="16" width="54" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
 				<textElement>
-					<font size="9"/>
+					<font size="7"/>
 				</textElement>
 				<text><![CDATA[Powered by]]></text>
 			</staticText>
@@ -69,8 +69,14 @@
 				<textFieldExpression><![CDATA[$P{PACIENTE_END}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="70" width="380" height="30" uuid="62974167-8203-444d-bee3-c3e923cf1ad0"/>
+				<reportElement x="0" y="70" width="380" height="110" uuid="62974167-8203-444d-bee3-c3e923cf1ad0"/>
+				<textElement textAlignment="Justified" markup="html"/>
 				<textFieldExpression><![CDATA[$P{ATESTADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="280" y="211" width="100" height="30" uuid="333ef3af-d6e9-4ac4-b044-62792da3a61e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -84,7 +90,7 @@
 				<textFieldExpression><![CDATA[$P{CLINICA_NOME_ENDERECO}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="41" width="180" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
+				<reportElement x="-11" y="41" width="261" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{CLINICA_ENDERECO}]]></textFieldExpression>
@@ -96,7 +102,7 @@
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="180" y="41" width="204" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
+				<reportElement x="250" y="41" width="144" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>

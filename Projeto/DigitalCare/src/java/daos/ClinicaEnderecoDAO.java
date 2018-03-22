@@ -5,6 +5,7 @@
  */
 package daos;
 
+import beans.Clinica;
 import beans.ClinicaEndereco;
 import beans.Endereco;
 import beans.Medico;
@@ -192,15 +193,19 @@ public class ClinicaEnderecoDAO {
             stmt.setInt(1, idClinicaEnd);
             rs = stmt.executeQuery();
             if (rs.next()) {
+                Clinica clin = Facade.getClinicaPorID(rs.getInt("ce.id_clinica"));
                 Endereco end = new Endereco();
                 end.setId(rs.getInt("e.id"));
                 end.setRua(rs.getString("e.rua"));
                 end.setNumero(rs.getString("e.numero"));
+                end.setComplemento(rs.getString("e.complemento"));
                 end.setBairro(rs.getString("e.bairro"));
                 ClinicaEndereco clinicaEnd = new ClinicaEndereco();
                 clinicaEnd.setId(idClinicaEnd);
                 clinicaEnd.setNome(rs.getString("ce.nome"));
+                clinicaEnd.setTelefone1(rs.getString("ce.telefone1"));
                 clinicaEnd.setEndereco(end);
+                clinicaEnd.setClinica(clin);
                 return clinicaEnd;
             }
         } finally {
