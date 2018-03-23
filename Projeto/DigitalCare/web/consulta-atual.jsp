@@ -184,7 +184,7 @@
                                     <i class="fa fa-fw fa-check-circle-o"></i> Encerrar Consulta
                                 </a>
                             </div>
-                            <!--Modal receita-->
+                            <!-- --------------Modal receita-------------- -->
                             <div class="modal" id="receitaModal" tabindex="-1" role="dialog" aria-labelledby="receitaModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
@@ -205,12 +205,15 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                            <button id="btnReceita" type="button" class="btn btn-primary">Salvar arquivo</button>
+                                            <form id="receitaPOST" action="${pageContext.request.contextPath}/ProntuarioServlet?action=receitaPDF" target="_blank" method="POST">
+                                                <input type="hidden" name="texto" value="Receita em branco" id="textoReceitaForm">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--Modal Atestado-->
+                            <!-- --------------Modal Atestado-------------- -->
                             <div class="modal" id="atestadoModal" tabindex="-1" role="dialog" aria-labelledby="atestadoModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
@@ -251,22 +254,16 @@
                                             <button id="btnAtestado" type="button" class="btn btn-primary">Salvar arquivo</button>
                                             <form id="atestadoForm" action="${pageContext.request.contextPath}/ProntuarioServlet?action=atestadoPDF" target="_blank" method="POST">
                                                 <input type="hidden" name="texto" value="Atestado em branco" id="textoAtestadoForm">
-                                                <input type="hidden" name="nome" value="${consultaAtual.pacienteUsuario.paciente.nome} ${consultaAtual.pacienteUsuario.paciente.sobrenome}">
-                                                <input type="hidden" name="endereco" value="${consultaAtual.pacienteUsuario.endereco.rua}, ${consultaAtual.pacienteUsuario.endereco.numero} - ${consultaAtual.pacienteUsuario.endereco.bairro} - ${consultaAtual.pacienteUsuario.endereco.cidade.nome}"> 
-                                                <input type="hidden" name="nomeClinicaEndereco" value="${consultaAtual.clinicaEndereco.nome}">
-                                                <input type="hidden" name="nomeClinica" value="${consultaAtual.clinicaEndereco.clinica.nomeFantasia}">
-                                                <input type="hidden" name="clinicaEndereco" value="${consultaAtual.clinicaEndereco.endereco.rua}, ${consultaAtual.clinicaEndereco.endereco.numero} ${consultaAtual.clinicaEndereco.endereco.complemento} - ${consultaAtual.clinicaEndereco.endereco.bairro}">
                                                 <c:if test="${consultaAtual.clinicaEndereco.telefone1 != ''}">
                                                     <input type="hidden" name="clinicaTelefone" value="<c:out value="(${fn:substring(consultaAtual.clinicaEndereco.telefone1, 0, 2)})${fn:substring(consultaAtual.clinicaEndereco.telefone1, 2, 6)}-${fn:substring(consultaAtual.clinicaEndereco.telefone1, 6, fn:length(consultaAtual.clinicaEndereco.telefone1))}"/>">
                                                 </c:if>
                                                 <input type="hidden" name="clinicaTelefone" value="${consultaAtual.clinicaEndereco.telefone1}">
-                                                <input type="hidden" name="clinicaCNPJ" value="${consultaAtual.clinicaEndereco.clinica.cnpj}">
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--Modal Exame-->
+                            <!-- --------------Modal Exame-------------- -->
                             <div class="modal" id="exameModal" tabindex="-1" role="dialog" aria-labelledby="exameModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
@@ -370,20 +367,25 @@
                                         'success'
                                     );
                                     $('#textoAtestadoForm').val($('#atestadoText').html());
+                                    console.log($('#textoAtestadoForm').val());
                                     $('#atestadoForm').submit();
                                 },
                                 error: function () {
-                                    
+                                    swal({
+                                        type: 'error',
+                                        title: 'Erro!',
+                                        text: response.responseText
+                                    });
                                 }
                             });
                         });
-                        //Fim Atestado------------------------------------------
+                        //Exame-------------------------------------------------
                         $('#examesForm').flexdatalist({
                             data: '',
                             selectionRequired: 0,
                             multiple: true
                         });
-                        
+                        //Receita-----------------------------------------------
                         $('#receitaForm').flexdatalist({
                             data: '',
                             searchIn: 'nome',
@@ -418,6 +420,49 @@
                                                                         </div>');
                             });
                         });
+                        
+                        $('#btnReceita').click(function(){
+                            var doses = [];          
+                            var vias = [];          
+                            var quantidades = [];          
+                            $('input[name^=dose]').each(function(){
+                                doses.push($(this).val());
+                            });
+                            $('input[name^=via]').each(function(){
+                                vias.push($(this).val());
+                            });
+                            $('input[name^=quantidade]').each(function(){
+                                quantidades.push($(this).val());
+                            });
+                            $.ajax({
+                                url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=receita',
+                                type: 'GET',
+                                dataType: 'text',
+                                contentType: 'application/pdf',
+                                data: {
+                                    "doses": doses,
+                                    "vias": vias,
+                                    "quantidades": quantidades
+                                },
+                                success: function (data) {
+                                    swal(
+                                        'Receita Salva!',
+                                        'A receita foi salva no histórico. Para substituí-la, clique em "Salvar arquivo" novamente.',
+                                        'success'
+                                    );
+                                    $('#textoReceitaForm').val($('#ReceitaText').html());
+                                    $('#receitaPOST').submit();
+                                },
+                                error: function (response) {
+                                    swal({
+                                        type: 'error',
+                                        title: 'Erro!',
+                                        text: response.responseText
+                                    });
+                                }
+                            });
+                        });
+                        //FIM Receita-------------------------------------------
                     });
                     
                     function buscaMedicamentos(name){
@@ -436,9 +481,7 @@
                             }
                         })
                     }
-                    
-                   
-                    
+
                 </script>
             </c:otherwise>
         </c:choose>

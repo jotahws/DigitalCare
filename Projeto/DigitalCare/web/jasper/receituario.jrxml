@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receituario" pageWidth="424" pageHeight="590" columnWidth="384" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="3c2ad69e-bc8b-40ac-98a9-581b87bdd4ae">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="CLINICA_NOME" class="java.lang.String"/>
 	<parameter name="PACIENTE_NOME" class="java.lang.String"/>
 	<parameter name="PACIENTE_END" class="java.lang.String"/>
@@ -9,16 +10,24 @@
 	<parameter name="CLINICA_ENDERECO" class="java.lang.String"/>
 	<parameter name="CLINICA_TELEFONE" class="java.lang.String"/>
 	<parameter name="CLINICA_CNPJ" class="java.lang.String"/>
+	<parameter name="MEDICAMENTO" class="java.lang.String"/>
+	<parameter name="DIGITAL_LOGO" class="java.io.InputStream"/>
+	<parameter name="DOSE" class="java.lang.String"/>
+	<parameter name="VIA" class="java.lang.String"/>
+	<parameter name="QUANTIDADE" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select 1 from dual]]>
 	</queryString>
+	<field name="1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="84" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="14" width="300" height="40" uuid="f48c5054-fe3e-49c1-9e3b-15ec38f2d293"/>
+				<reportElement x="0" y="14" width="330" height="40" uuid="f48c5054-fe3e-49c1-9e3b-15ec38f2d293"/>
 				<textElement>
 					<font fontName="Arial Black" size="27"/>
 				</textElement>
@@ -32,15 +41,15 @@
 				<text><![CDATA[Receituário]]></text>
 			</staticText>
 			<image>
-				<reportElement x="300" y="32" width="84" height="30" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
+				<reportElement x="330" y="28" width="54" height="22" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["../images/logo-peq.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{DIGITAL_LOGO}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="300" y="20" width="84" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
+				<reportElement x="330" y="16" width="54" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
 				<textElement>
-					<font size="9"/>
+					<font size="7"/>
 				</textElement>
 				<text><![CDATA[Powered by]]></text>
 			</staticText>
@@ -62,10 +71,37 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{PACIENTE_END}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="7" y="88" width="370" height="142" uuid="31f84307-1c02-4a08-a784-26978741301d"/>
-				<text><![CDATA[Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?]]></text>
-			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="0" y="90" width="130" height="95" uuid="62974167-8203-444d-bee3-c3e923cf1ad0"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA[$P{MEDICAMENTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="280" y="211" width="100" height="19" uuid="333ef3af-d6e9-4ac4-b044-62792da3a61e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="140" y="90" width="60" height="95" uuid="89a66e62-b250-49ea-a70e-a1b15d88ad60"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA[$P{DOSE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="310" y="115" width="74" height="70" uuid="cba45ab8-56ba-41af-994f-95e31a9b7cb2"/>
+				<textElement textAlignment="Right" markup="html"/>
+				<textFieldExpression><![CDATA[$P{QUANTIDADE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="310" y="90" width="74" height="25" uuid="c4765a8f-d58c-4b71-8921-449102ea21a9"/>
+				<textElement textAlignment="Right" markup="html"/>
+				<textFieldExpression><![CDATA[$P{VIA}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="204" y="100" width="100" height="1" forecolor="#000000" backcolor="#888888" uuid="1028fdf1-a25b-45f2-a969-35721915c925">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
 		</band>
 	</detail>
 	<pageFooter>
@@ -78,7 +114,7 @@
 				<textFieldExpression><![CDATA[$P{CLINICA_NOME_ENDERECO}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="41" width="180" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
+				<reportElement x="-11" y="41" width="261" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{CLINICA_ENDERECO}]]></textFieldExpression>
@@ -90,7 +126,7 @@
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="180" y="41" width="204" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
+				<reportElement x="250" y="41" width="144" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>

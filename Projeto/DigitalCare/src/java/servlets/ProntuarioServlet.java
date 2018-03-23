@@ -70,7 +70,7 @@ public class ProntuarioServlet extends HttpServlet {
                 Connection con = new ConnectionFactory().getConnection();
                 
                 HttpSession session = request.getSession();
-                Consulta consulta = (Consulta) session.getAttribute("consultaAtual");
+                Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
                 
                 String jasper = request.getContextPath() + "/jasper/atestado.jasper";
                 String host = "http://" + request.getServerName() + ":" + request.getServerPort();
@@ -78,13 +78,13 @@ public class ProntuarioServlet extends HttpServlet {
                 HashMap params = new HashMap();
 
                 params.put("ATESTADO", request.getParameter("texto"));
-                params.put("CLINICA_NOME", request.getParameter("nomeClinica"));
-                params.put("PACIENTE_NOME", request.getParameter("nome"));
-                params.put("PACIENTE_END", request.getParameter("endereco"));
-                params.put("CLINICA_NOME_ENDERECO", request.getParameter("nomeClinicaEndereco"));
-                params.put("CLINICA_ENDERECO", request.getParameter("clinicaEndereco"));
-                params.put("CLINICA_TELEFONE", request.getParameter("clinicaTelefone"));
-                params.put("CLINICA_CNPJ", request.getParameter("clinicaCNPJ"));
+                params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome()); 
+                params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome()); 
+                params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro()); 
+                params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
                 ServletContext context = getServletContext();
                 File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
                 InputStream fi = new FileInputStream(digital_logo);
@@ -96,7 +96,7 @@ public class ProntuarioServlet extends HttpServlet {
                     Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
                     Prontuario prontuario = new Prontuario();
                     prontuario.setAtestado(blob);
-                    prontuario.setConsulta(consulta);
+                    prontuario.setConsulta(consultaAtual);
                     Facade.inserirAtestado(prontuario);
                     response.setCharacterEncoding("UTF-8");
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -111,6 +111,9 @@ public class ProntuarioServlet extends HttpServlet {
             
             try {
                 Connection con = new ConnectionFactory().getConnection();
+                
+                HttpSession session = request.getSession();
+                Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
 
                 String jasper = request.getContextPath() + "/jasper/atestado.jasper";
                 String host = "http://" + request.getServerName() + ":" + request.getServerPort();
@@ -118,13 +121,13 @@ public class ProntuarioServlet extends HttpServlet {
                 HashMap params = new HashMap();
 
                 params.put("ATESTADO", request.getParameter("texto"));
-                params.put("CLINICA_NOME", request.getParameter("nomeClinica"));
-                params.put("PACIENTE_NOME", request.getParameter("nome"));
-                params.put("PACIENTE_END", request.getParameter("endereco"));
-                params.put("CLINICA_NOME_ENDERECO", request.getParameter("nomeClinicaEndereco"));
-                params.put("CLINICA_ENDERECO", request.getParameter("clinicaEndereco"));
-                params.put("CLINICA_TELEFONE", request.getParameter("clinicaTelefone"));
-                params.put("CLINICA_CNPJ", request.getParameter("clinicaCNPJ"));
+                params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome()); 
+                params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome()); 
+                params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro()); 
+                params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
                 ServletContext context = getServletContext();
                 File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
                 InputStream fi = new FileInputStream(digital_logo);
@@ -135,6 +138,90 @@ public class ProntuarioServlet extends HttpServlet {
                     response.setContentType("application/pdf");
                     OutputStream ops = response.getOutputStream();
                     ops.write(bytes);
+                }
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write(ex.getMessage());
+            }
+        } else if("receitaPDF".equals(action)){
+            //1. Emitir PDF
+            //2. Retornar PDF na jsp
+            
+            try {
+                Connection con = new ConnectionFactory().getConnection();
+
+                HttpSession session = request.getSession();
+                Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
+                
+                String jasper = request.getContextPath() + "/jasper/receituario.jasper";
+                String host = "http://" + request.getServerName() + ":" + request.getServerPort();
+                URL jasperURL = new URL(host + jasper);
+                HashMap params = new HashMap();
+
+                params.put("ATESTADO", request.getParameter("texto"));
+                params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome()); 
+                params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome()); 
+                params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro()); 
+                params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
+                ServletContext context = getServletContext();
+                File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                InputStream fi = new FileInputStream(digital_logo);
+                params.put("DIGITAL_LOGO", fi);
+
+                byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                if (bytes != null) {
+                    response.setContentType("application/pdf");
+                    OutputStream ops = response.getOutputStream();
+                    ops.write(bytes);
+                }
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write(ex.getMessage());
+            }
+        } else if("receita".equals(action)) {
+            //1. Emitir PDF
+            //2. Salvar PDF no BD
+            //3. Retornar STATUS na jsp
+            
+            try {
+                Connection con = new ConnectionFactory().getConnection();
+                
+                HttpSession session = request.getSession();
+                Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
+                
+                String jasper = request.getContextPath() + "/jasper/receituario.jasper";
+                String host = "http://" + request.getServerName() + ":" + request.getServerPort();
+                URL jasperURL = new URL(host + jasper);
+                HashMap params = new HashMap();
+                String[] doses = request.getParameterValues("doses[]");
+                String[] vias = request.getParameterValues("vias[]");
+                String[] quantidades = request.getParameterValues("quantidades[]");
+                params.put("ATESTADO", request.getParameter("texto"));
+                params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome()); 
+                params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome()); 
+                params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro()); 
+                params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
+                ServletContext context = getServletContext();
+                File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                InputStream fi = new FileInputStream(digital_logo);
+                params.put("DIGITAL_LOGO", fi);
+
+                byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                if (bytes != null) {
+                    //Coloca arquivo PDF no Banco de Dados
+                    Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                    Prontuario prontuario = new Prontuario();
+                    prontuario.setReceita(blob);
+                    prontuario.setConsulta(consultaAtual);
+                    Facade.inserirReceita(prontuario);
+                    response.setCharacterEncoding("UTF-8");
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
