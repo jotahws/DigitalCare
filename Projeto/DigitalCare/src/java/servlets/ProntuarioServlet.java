@@ -6,7 +6,10 @@
 package servlets;
 
 
+import beans.Consulta;
 import beans.Medicamento;
+import beans.Medico;
+import beans.Prontuario;
 import com.google.gson.Gson;
 import conexao.ConnectionFactory;
 import facade.Facade;
@@ -17,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -29,6 +33,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
@@ -63,7 +68,10 @@ public class ProntuarioServlet extends HttpServlet {
             
             try {
                 Connection con = new ConnectionFactory().getConnection();
-
+                
+                HttpSession session = request.getSession();
+                Consulta consulta = (Consulta) session.getAttribute("consultaAtual");
+                
                 String jasper = request.getContextPath() + "/jasper/atestado.jasper";
                 String host = "http://" + request.getServerName() + ":" + request.getServerPort();
                 URL jasperURL = new URL(host + jasper);
@@ -84,9 +92,14 @@ public class ProntuarioServlet extends HttpServlet {
 
                 byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
                 if (bytes != null) {
-                    response.setContentType("application/pdf");
-                    OutputStream ops = response.getOutputStream();
-                    ops.write(bytes);
+                    //Coloca arquivo PDF no Banco de Dados
+                    Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                    Prontuario prontuario = new Prontuario();
+                    prontuario.setAtestado(blob);
+                    prontuario.setConsulta(consulta);
+                    Facade.inserirAtestado(prontuario);
+                    response.setCharacterEncoding("UTF-8");
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

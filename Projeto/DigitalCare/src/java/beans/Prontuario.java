@@ -12,9 +12,8 @@ import java.sql.Blob;
  *
  * @author Mauricio
  */
-public class Prontuario_item implements Serializable {
+public class Prontuario implements Serializable {
     private int id;
-    private int idProntuarioCab;
     private int idConsulta;
     private Consulta consulta;
     private Blob atestado;
@@ -22,9 +21,8 @@ public class Prontuario_item implements Serializable {
     private Blob exame;
     private Blob descricao;
 
-    public Prontuario_item(int id, int idProntuarioCab, int idConsulta, Consulta consulta, Blob atestado, Blob receita, Blob exame, Blob descricao) {
+    public Prontuario(int id, int idProntuarioCab, int idConsulta, Consulta consulta, Blob atestado, Blob receita, Blob exame, Blob descricao) {
         this.id = id;
-        this.idProntuarioCab = idProntuarioCab;
         this.idConsulta = idConsulta;
         this.consulta = consulta;
         this.atestado = atestado;
@@ -33,7 +31,7 @@ public class Prontuario_item implements Serializable {
         this.descricao = descricao;
     }
 
-    public Prontuario_item() {
+    public Prontuario() {
         }
 
     public int getId() {
@@ -42,14 +40,6 @@ public class Prontuario_item implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdProntuarioCab() {
-        return idProntuarioCab;
-    }
-
-    public void setIdProntuarioCab(int idProntuarioCab) {
-        this.idProntuarioCab = idProntuarioCab;
     }
 
     public int getIdConsulta() {

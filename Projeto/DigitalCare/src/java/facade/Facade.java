@@ -22,6 +22,7 @@ import beans.Medico;
 import beans.MedicoFalta;
 import beans.Paciente;
 import beans.PacienteUsuario;
+import beans.Prontuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
 import daos.ClinicaEnderecoDAO;
@@ -37,6 +38,7 @@ import daos.MedicamentoDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
+import daos.ProntuarioDAO;
 import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
@@ -613,5 +615,15 @@ public class Facade {
     public static List<Medicamento> getMedicamento(Medicamento medicamento) throws SQLException, ClassNotFoundException {
         MedicamentoDAO dao = new MedicamentoDAO();
         return dao.buscar(medicamento);
+    }
+    
+    public static void inserirProntuario(Prontuario prontuario) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.criaProntuario(prontuario);
+    }
+    
+    public static void inserirAtestado(Prontuario prontuario) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateAtestado(prontuario);
     }
 }

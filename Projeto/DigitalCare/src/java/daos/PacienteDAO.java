@@ -17,7 +17,6 @@ import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import beans.Prontuario_cab;
-import beans.Prontuario_item;
 import conexao.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,7 +107,6 @@ public class PacienteDAO {
                 Estado estado = new Estado();
                 Consulta consulta = new Consulta();
                 Prontuario_cab prontuarioCab = new Prontuario_cab();
-                Prontuario_item prontuarioItem = new Prontuario_item();
                 
                 consulta.setDataHora(rs.getDate("con.datahora"));
                 consulta.setId(rs.getInt("con.id"));
