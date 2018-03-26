@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2018-03-23T17:32:21 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receituario" pageWidth="424" pageHeight="590" columnWidth="384" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="3c2ad69e-bc8b-40ac-98a9-581b87bdd4ae">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="CLINICA_NOME" class="java.lang.String"/>
 	<parameter name="PACIENTE_NOME" class="java.lang.String"/>
@@ -12,9 +13,11 @@
 	<parameter name="CLINICA_CNPJ" class="java.lang.String"/>
 	<parameter name="MEDICAMENTO" class="java.lang.String"/>
 	<parameter name="DIGITAL_LOGO" class="java.io.InputStream"/>
-	<parameter name="DOSE" class="java.lang.String"/>
-	<parameter name="VIA" class="java.lang.String"/>
-	<parameter name="QUANTIDADE" class="java.lang.String"/>
+	<parameter name="DOSE" class="java.lang.String[]">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="VIA" class="java.lang.String[]"/>
+	<parameter name="QUANTIDADE" class="java.lang.String[]"/>
 	<queryString>
 		<![CDATA[select 1 from dual]]>
 	</queryString>
@@ -84,7 +87,8 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="ContainerHeight" x="140" y="90" width="60" height="95" uuid="89a66e62-b250-49ea-a70e-a1b15d88ad60"/>
 				<textElement textAlignment="Justified" markup="html"/>
-				<textFieldExpression><![CDATA[$P{DOSE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{DOSE}
+]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="ContainerHeight" x="310" y="115" width="74" height="70" uuid="cba45ab8-56ba-41af-994f-95e31a9b7cb2"/>
