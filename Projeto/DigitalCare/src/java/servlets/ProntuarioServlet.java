@@ -160,6 +160,7 @@ public class ProntuarioServlet extends HttpServlet {
                     HashMap params = new HashMap();
                     
                     params.put("ATESTADO", request.getParameter("texto"));
+                    params.put("MEDICAMENTO", request.getParameter("html"));
                     params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
                     params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
                     params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());

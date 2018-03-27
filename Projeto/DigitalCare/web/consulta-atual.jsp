@@ -207,7 +207,7 @@
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                             <button id="btnReceita" type="button" class="btn btn-primary">Salvar arquivo</button>
                                             <form id="receitaPOST" action="${pageContext.request.contextPath}/ProntuarioServlet?action=receitaPDF" target="_blank" method="POST">
-                                                <input type="hidden" name="texto" value="Receita em branco" id="textoReceitaForm">
+                                                <input type="hidden" name="html" value="Receita em branco" id="textoReceitaForm">
                                             </form>
                                         </div>
                                     </div>
@@ -291,6 +291,9 @@
                         </div>
                     </div>
                 </div> 
+                <div id="ReceitaDivHTML">
+                    
+                </div>
 
                 <%@include file="/includes/footer.jsp" %>
                 <script src="${pageContext.request.contextPath}/components/latinize.js" ></script>
@@ -413,6 +416,7 @@
                                 $('#medicamentosSelecionados').append('<div class="form-inline justify-content-between mb-1">\n\
                                                                             <div class="col-md-4 row"><h6>' + value + '</h6></div>\n\
                                                                             <div class="">\n\
+                                                                                <input type="hidden" name="medicamento[]" value"'+value+'">\n\
                                                                                 <input type="text" placeholder="Dose" name="dose[]" class="form-control form-control-sm">\n\
                                                                                 <input type="text" placeholder="Via" name="via[]" class="form-control form-control-sm">\n\
                                                                                 <input type="text" placeholder="Quantidade" name="quantidade[]" class="form-control form-control-sm">\n\
@@ -422,6 +426,7 @@
                         });
                         
                         $('#btnReceita').click(function(){
+                            var medicamentos = [];          
                             var doses = [];          
                             var vias = [];          
                             var quantidades = [];          
@@ -434,15 +439,25 @@
                             $('input[name^=quantidade]').each(function(){
                                 quantidades.push($(this).val());
                             });
+                            $('input[name^=medicamento]').each(function(){
+                                medicamentos.push($(this).val());
+                            });
+                            $('#ReceitaDivHTML').html('');
+                            for (var i = 0; i < medicamentos.length; i++) {
+                                $('#ReceitaDivHTML').append(medicamentos[i]+' '+doses[i]+' '+vias[i]+' '+quantidades[i]);
+                            }
+                            console.log($('#ReceitaDivHTML').html());
+                            console.log(medicamentos);
+                            console.log(doses);
+                            console.log(vias);
+                            console.log(quantidades);
                             $.ajax({
                                 url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=receita',
                                 type: 'GET',
                                 dataType: 'text',
                                 contentType: 'application/pdf',
                                 data: {
-                                    "doses": doses,
-                                    "vias": vias,
-                                    "quantidades": quantidades
+                                    "html": $('#ReceitaDivHTML').html()
                                 },
                                 success: function (data) {
                                     swal(
@@ -450,7 +465,7 @@
                                         'A receita foi salva no histórico. Para substituí-la, clique em "Salvar arquivo" novamente.',
                                         'success'
                                     );
-                                    $('#textoReceitaForm').val($('#ReceitaText').html());
+                                    $('#textoReceitaForm').val($('#ReceitaDivHTML').html());
                                     $('#receitaPOST').submit();
                                 },
                                 error: function (response) {
