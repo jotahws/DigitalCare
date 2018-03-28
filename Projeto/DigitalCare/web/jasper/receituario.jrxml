@@ -12,11 +12,11 @@
 	<parameter name="CLINICA_CNPJ" class="java.lang.String"/>
 	<parameter name="MEDICAMENTO" class="java.lang.String"/>
 	<parameter name="DIGITAL_LOGO" class="java.io.InputStream"/>
-	<parameter name="DOSE" class="java.lang.String[]">
+	<parameter name="DOSE" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="VIA" class="java.lang.String"/>
-	<parameter name="QUANTIDADE" class="java.lang.String[]"/>
+	<parameter name="ESPACADOR" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select 1 from dual]]>
 	</queryString>
@@ -58,7 +58,7 @@
 		</band>
 	</title>
 	<detail>
-		<band height="272" splitType="Stretch">
+		<band height="239" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="21" width="380" height="20" uuid="3cad48ad-1ce0-43d3-9074-d238efd74522"/>
 				<textElement>
@@ -75,71 +75,65 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="ContainerHeight" x="0" y="90" width="130" height="95" uuid="62974167-8203-444d-bee3-c3e923cf1ad0"/>
-				<textElement textAlignment="Justified" markup="html"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$P{MEDICAMENTO}]]></textFieldExpression>
-			</textField>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="280" y="211" width="100" height="19" uuid="333ef3af-d6e9-4ac4-b044-62792da3a61e"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="ContainerHeight" x="140" y="90" width="60" height="95" uuid="89a66e62-b250-49ea-a70e-a1b15d88ad60"/>
-				<textElement textAlignment="Justified" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$P{DOSE}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="ContainerHeight" x="310" y="115" width="74" height="70" uuid="cba45ab8-56ba-41af-994f-95e31a9b7cb2"/>
-				<textElement textAlignment="Right" markup="html"/>
-				<textFieldExpression><![CDATA[$P{QUANTIDADE}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="ContainerHeight" x="310" y="90" width="74" height="25" uuid="c4765a8f-d58c-4b71-8921-449102ea21a9"/>
-				<textElement textAlignment="Right" markup="html"/>
+				<reportElement stretchType="ContainerHeight" x="320" y="90" width="64" height="95" uuid="c4765a8f-d58c-4b71-8921-449102ea21a9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$P{VIA}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement x="204" y="100" width="100" height="1" forecolor="#000000" backcolor="#888888" uuid="1028fdf1-a25b-45f2-a969-35721915c925">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-			</rectangle>
+			<textField>
+				<reportElement x="210" y="90" width="100" height="94" uuid="b3c76608-0c21-4213-b047-49283a305ecc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{ESPACADOR}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="66" splitType="Stretch">
+		<band height="108" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="25" width="380" height="13" uuid="7f9c7055-5901-4565-b38e-681128cd704f">
+				<reportElement x="0" y="66" width="380" height="13" uuid="7f9c7055-5901-4565-b38e-681128cd704f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{CLINICA_NOME_ENDERECO}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="-11" y="41" width="261" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
+				<reportElement x="-11" y="82" width="261" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{CLINICA_ENDERECO}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement positionType="FixRelativeToBottom" x="-20" y="20" width="424" height="1" forecolor="#888888" backcolor="#888888" uuid="a8b3c82b-c57f-4a36-8657-6547c1767703">
+				<reportElement positionType="FixRelativeToBottom" x="-20" y="61" width="424" height="1" forecolor="#888888" backcolor="#888888" uuid="a8b3c82b-c57f-4a36-8657-6547c1767703">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="250" y="41" width="144" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
+				<reportElement x="250" y="82" width="144" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{CLINICA_TELEFONE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="-10" y="4" width="404" height="13" uuid="44444d82-33f6-4ce3-b6f2-9bd6f16354a2">
+				<reportElement x="-10" y="45" width="404" height="13" uuid="44444d82-33f6-4ce3-b6f2-9bd6f16354a2">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA["CNPJ: "+$P{CLINICA_CNPJ}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="-11" y="2" width="404" height="19" uuid="333ef3af-d6e9-4ac4-b044-62792da3a61e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

@@ -541,3 +541,8 @@ span.input-group-text{
     font-size: 80%;
     color: rgba(0, 0, 0, 0.50);
 }
+
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}

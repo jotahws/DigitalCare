@@ -159,8 +159,11 @@ public class ProntuarioServlet extends HttpServlet {
                     URL jasperURL = new URL(host + jasper);
                     HashMap params = new HashMap();
                     
-                    params.put("ATESTADO", request.getParameter("texto"));
-                    params.put("MEDICAMENTO", request.getParameter("html"));
+//                    params.put("ATESTADO", request.getParameter("texto"));
+                    params.put("MEDICAMENTO", request.getParameter("nomeMedicacao"));
+                    params.put("DOSE", request.getParameter("dose"));
+                    params.put("ESPACADOR", request.getParameter("espacer"));
+                    params.put("VIA", request.getParameter("via"));
                     params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
                     params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
                     params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());

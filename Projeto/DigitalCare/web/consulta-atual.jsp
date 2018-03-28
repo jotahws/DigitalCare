@@ -207,7 +207,10 @@
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                             <button id="btnReceita" type="button" class="btn btn-primary">Salvar arquivo</button>
                                             <form id="receitaPOST" action="${pageContext.request.contextPath}/ProntuarioServlet?action=receitaPDF" target="_blank" method="POST">
-                                                <input type="hidden" name="html" value="Receita em branco" id="textoReceitaForm">
+                                                <input type="hidden" name="nomeMedicacao" value="" id="textoReceitaForm">
+                                                <input type="hidden" name="dose" value="" id="textoDoseForm">
+                                                <input type="hidden" name="via" value="" id="textoViaForm">
+                                                <input type="hidden" name="espacer" value="" id="espacerForm">
                                             </form>
                                         </div>
                                     </div>
@@ -290,10 +293,11 @@
                             </div>
                         </div>
                     </div>
+                    <div id="ReceitaDivHTML" class="hidden"></div>
+                    <div id="DoseDivHTML" class="hidden"></div>
+                    <div id="ViaQtddDivHTML" class="hidden"></div>
+                    <div id="espacerHTML" class="hidden"></div>
                 </div> 
-                <div id="ReceitaDivHTML">
-                    
-                </div>
 
                 <%@include file="/includes/footer.jsp" %>
                 <script src="${pageContext.request.contextPath}/components/latinize.js" ></script>
@@ -393,6 +397,7 @@
                             data: '',
                             searchIn: 'nome',
                             visibleProperties: ['nome', '({principioAtivo})'],
+                            valuesSeparator: '↵',
                             minLength: 1,
                             multiple: true,
                             searchByWord: true,
@@ -416,7 +421,7 @@
                                 $('#medicamentosSelecionados').append('<div class="form-inline justify-content-between mb-1">\n\
                                                                             <div class="col-md-4 row"><h6>' + value + '</h6></div>\n\
                                                                             <div class="">\n\
-                                                                                <input type="hidden" name="medicamento[]" value"'+value+'">\n\
+                                                                                <input type="hidden" name="medicamento[]" value="'+value+'">\n\
                                                                                 <input type="text" placeholder="Dose" name="dose[]" class="form-control form-control-sm">\n\
                                                                                 <input type="text" placeholder="Via" name="via[]" class="form-control form-control-sm">\n\
                                                                                 <input type="text" placeholder="Quantidade" name="quantidade[]" class="form-control form-control-sm">\n\
@@ -443,21 +448,25 @@
                                 medicamentos.push($(this).val());
                             });
                             $('#ReceitaDivHTML').html('');
+                            $('#DoseDivHTML').html('');
+                            $('#ViaQtddDivHTML').html('');
+                            $('#espacerHTML').html('');
                             for (var i = 0; i < medicamentos.length; i++) {
-                                $('#ReceitaDivHTML').append(medicamentos[i]+' '+doses[i]+' '+vias[i]+' '+quantidades[i]);
+                                $('#ReceitaDivHTML').append('<p>'+medicamentos[i]+'</p><br>');
+                                $('#DoseDivHTML').append('<p>'+doses[i]+'</p><Br>');
+                                $('#ViaQtddDivHTML').append('<p>'+vias[i]+'</p><p>'+quantidades[i]+'</p><br>');
+                                $('#espacerHTML').append('_________________\n\n');
                             }
-                            console.log($('#ReceitaDivHTML').html());
-                            console.log(medicamentos);
-                            console.log(doses);
-                            console.log(vias);
-                            console.log(quantidades);
                             $.ajax({
                                 url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=receita',
                                 type: 'GET',
                                 dataType: 'text',
                                 contentType: 'application/pdf',
                                 data: {
-                                    "html": $('#ReceitaDivHTML').html()
+                                    "nomeMedicacao": $('#ReceitaDivHTML').html(),
+                                    "dose": $('#DoseDivHTML').html(),
+                                    "via": $('#ViaQtddDivHTML').html(),
+                                    "espacer": $('#espacerHTML').html()
                                 },
                                 success: function (data) {
                                     swal(
@@ -466,6 +475,9 @@
                                         'success'
                                     );
                                     $('#textoReceitaForm').val($('#ReceitaDivHTML').html());
+                                    $('#textoDoseForm').val($('#DoseDivHTML').html());
+                                    $('#textoViaForm').val($('#ViaQtddDivHTML').html());
+                                    $('#espacerForm').val($('#espacerHTML').html());
                                     $('#receitaPOST').submit();
                                 },
                                 error: function (response) {
