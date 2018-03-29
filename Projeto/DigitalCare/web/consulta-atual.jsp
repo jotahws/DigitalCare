@@ -136,7 +136,12 @@
                                     <div class="row col-md-12 pl-0">
                                         <form id="prontuarioForm" class="form w-100">
                                             <div class="form-group">
-                                                <textarea id="prontuario" class="form-control" rows="13"></textarea>
+                                                <div id="summernote">
+                                                    <h4>Anamnese</h4>
+                                                    <p><br></p>
+                                                    <hr>
+                                                    <h4>Exame Físico</h4>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -198,7 +203,7 @@
                                             <form class="form">
                                                 <div class="form-group">
                                                     <input id="receitaForm" class="form-control">
-                                                    <small class="text-muted">Use Enter ↵ ou vírgila para adicionar medicamentos à lista</small>
+                                                    <small class="text-muted">Use Enter ↵ para adicionar medicamentos à lista</small>
                                                 </div>
                                                 <div id="medicamentosSelecionados" class="form-group"></div>
                                             </form>
@@ -208,9 +213,9 @@
                                             <button id="btnReceita" type="button" class="btn btn-primary">Salvar arquivo</button>
                                             <form id="receitaPOST" action="${pageContext.request.contextPath}/ProntuarioServlet?action=receitaPDF" target="_blank" method="POST">
                                                 <input type="hidden" name="nomeMedicacao" value="" id="textoReceitaForm">
-                                                <input type="hidden" name="dose" value="" id="textoDoseForm">
-                                                <input type="hidden" name="via" value="" id="textoViaForm">
-                                                <input type="hidden" name="espacer" value="" id="espacerForm">
+                                                <input type="hidden" name="nomeDose" value="" id="textoDoseForm">
+                                                <input type="hidden" name="nomeVia" value="" id="textoViaForm">
+                                                <input type="hidden" name="nomeQuantidade" value="" id="textoQtddForm">
                                             </form>
                                         </div>
                                     </div>
@@ -295,8 +300,8 @@
                     </div>
                     <div id="ReceitaDivHTML" class="hidden"></div>
                     <div id="DoseDivHTML" class="hidden"></div>
-                    <div id="ViaQtddDivHTML" class="hidden"></div>
-                    <div id="espacerHTML" class="hidden"></div>
+                    <div id="ViaDivHTML" class="hidden"></div>
+                    <div id="QtddDivHTML" class="hidden"></div>
                 </div> 
 
                 <%@include file="/includes/footer.jsp" %>
@@ -342,7 +347,16 @@
                             $(this).addClass('animated').addClass('bounceIn').addClass('animate-faster');
                         })
                         $("[data-toggle=popover]").popover();
-                        
+                        $('#summernote').summernote({
+                            placeholder: 'Digite aqui o Prontuário do paciente',
+                            tabsize: 2,
+                            height: 300,
+                            toolbar: [
+                                ['style', ['bold', 'italic', 'underline', 'hr','style']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['undo', ['undo', 'redo', 'help']],
+                            ]
+                        });
                         //Atestado----------------------------------------------
                         $('#afastamentoForm').on('keypress keyup', function(){
                             if ($('#afastamentoForm').val() != '') {
@@ -449,24 +463,28 @@
                             });
                             $('#ReceitaDivHTML').html('');
                             $('#DoseDivHTML').html('');
-                            $('#ViaQtddDivHTML').html('');
-                            $('#espacerHTML').html('');
+                            $('#ViaDivHTML').html('');
+                            $('#QtddDivHTML').html('');
                             for (var i = 0; i < medicamentos.length; i++) {
-                                $('#ReceitaDivHTML').append('<p>'+medicamentos[i]+'</p><br>');
-                                $('#DoseDivHTML').append('<p>'+doses[i]+'</p><Br>');
-                                $('#ViaQtddDivHTML').append('<p>'+vias[i]+'</p><p>'+quantidades[i]+'</p><br>');
-                                $('#espacerHTML').append('_________________\n\n');
+                                $('#ReceitaDivHTML').append(medicamentos[i]+';');
+                                $('#DoseDivHTML').append(doses[i]+';');
+                                $('#ViaDivHTML').append(vias[i]+';');
+                                $('#QtddDivHTML').append(quantidades[i]+';');
                             }
+                            console.log(medicamentos);
+                            console.log(doses);
+                            console.log(vias);
+                            console.log(quantidades);
                             $.ajax({
                                 url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=receita',
                                 type: 'GET',
                                 dataType: 'text',
                                 contentType: 'application/pdf',
                                 data: {
-                                    "nomeMedicacao": $('#ReceitaDivHTML').html(),
-                                    "dose": $('#DoseDivHTML').html(),
-                                    "via": $('#ViaQtddDivHTML').html(),
-                                    "espacer": $('#espacerHTML').html()
+                                    "nomeMedicacao": medicamentos,
+                                    "dose": doses,
+                                    "via": vias,
+                                    "quantidade": quantidades
                                 },
                                 success: function (data) {
                                     swal(
@@ -476,8 +494,8 @@
                                     );
                                     $('#textoReceitaForm').val($('#ReceitaDivHTML').html());
                                     $('#textoDoseForm').val($('#DoseDivHTML').html());
-                                    $('#textoViaForm').val($('#ViaQtddDivHTML').html());
-                                    $('#espacerForm').val($('#espacerHTML').html());
+                                    $('#textoViaForm').val($('#ViaDivHTML').html());
+                                    $('#textoQtddForm').val($('#QtddDivHTML').html());
                                     $('#receitaPOST').submit();
                                 },
                                 error: function (response) {

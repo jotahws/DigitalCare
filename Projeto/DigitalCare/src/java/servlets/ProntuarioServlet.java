@@ -12,6 +12,7 @@ import beans.Medico;
 import beans.Prontuario;
 import com.google.gson.Gson;
 import conexao.ConnectionFactory;
+import dtos.ReceitaDTO;
 import facade.Facade;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +24,7 @@ import java.net.URL;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -149,8 +152,37 @@ public class ProntuarioServlet extends HttpServlet {
                 //2. Retornar PDF na jsp
                 
                 try {
+                    String[] doses = request.getParameter("nomeDose").split(";");
+                    String[] vias = request.getParameter("nomeVia").split(";");
+                    String[] quantidades = request.getParameter("nomeQuantidade").split(";");
+                    String[] medicamentos = request.getParameter("nomeMedicacao").split(";");
+                    List<ReceitaDTO> receitaMedicamentos = new ArrayList<>();
+                    if (quantidades != null) {
+                        for (int i = 0; i < medicamentos.length; i++) {
+                            ReceitaDTO receita = new ReceitaDTO();
+                            try{
+                                receita.setDose(doses[i]);
+                            }catch(Exception ex){
+                                receita.setDose("");
+                            }
+                            try {
+                                receita.setVia(vias[i]);
+                            }catch(Exception ex){
+                                receita.setVia("");
+                            }
+                            try {
+                                receita.setQuantidade(quantidades[i]);
+                            }catch(Exception ex){
+                                receita.setQuantidade("");
+                            }
+                            receita.setMedicamento(medicamentos[i]);
+                            receitaMedicamentos.add(receita);
+                        }
+                    }else{
+                        throw new Exception("A lista de medicamentos não pode estar vazia.");
+                    }
+                                        
                     Connection con = new ConnectionFactory().getConnection();
-                    
                     HttpSession session = request.getSession();
                     Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
                     
@@ -158,12 +190,8 @@ public class ProntuarioServlet extends HttpServlet {
                     String host = "http://" + request.getServerName() + ":" + request.getServerPort();
                     URL jasperURL = new URL(host + jasper);
                     HashMap params = new HashMap();
-                    
-//                    params.put("ATESTADO", request.getParameter("texto"));
-                    params.put("MEDICAMENTO", request.getParameter("nomeMedicacao"));
-                    params.put("DOSE", request.getParameter("dose"));
-                    params.put("ESPACADOR", request.getParameter("espacer"));
-                    params.put("VIA", request.getParameter("via"));
+                    JRBeanCollectionDataSource receitaJRBean = new JRBeanCollectionDataSource(receitaMedicamentos);
+                    params.put("RECEITA", receitaJRBean);
                     params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
                     params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
                     params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());
@@ -192,8 +220,20 @@ public class ProntuarioServlet extends HttpServlet {
                 //3. Retornar STATUS na jsp
                 
                 try {
+                    String[] doses = request.getParameterValues("dose[]");
+                    String[] vias = request.getParameterValues("via[]");
+                    String[] quantidades = request.getParameterValues("quantidade[]");
+                    String[] medicamentos = request.getParameterValues("nomeMedicacao[]");
+                    List<ReceitaDTO> receitaMedicamentos = new ArrayList<>();
+                    if (quantidades != null) {
+                        for (int i = 0; i < medicamentos.length; i++) {
+                            receitaMedicamentos.add(new ReceitaDTO(doses[i], vias[i], quantidades[i], medicamentos[i]));
+                        }
+                    }else{
+                        throw new Exception("A lista de medicamentos não pode estar vazia.");
+                    }
+                                        
                     Connection con = new ConnectionFactory().getConnection();
-                    
                     HttpSession session = request.getSession();
                     Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
                     
@@ -201,11 +241,8 @@ public class ProntuarioServlet extends HttpServlet {
                     String host = "http://" + request.getServerName() + ":" + request.getServerPort();
                     URL jasperURL = new URL(host + jasper);
                     HashMap params = new HashMap();
-                    String[] doses = request.getParameterValues("doses[]");
-                    String[] vias = request.getParameterValues("vias[]");
-                    String[] quantidades = request.getParameterValues("quantidades[]");
-                    params.put("VIA", "vias");
-                    params.put("QUANTIDADE", quantidades);
+                    JRBeanCollectionDataSource receitaJRBean = new JRBeanCollectionDataSource(receitaMedicamentos);
+                    params.put("RECEITA", receitaJRBean);
                     params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
                     params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
                     params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());

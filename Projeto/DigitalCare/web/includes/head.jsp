@@ -41,3 +41,6 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/components/DataTables/datatables.min.js"></script>
         <!--Animate-->
         <link href="${pageContext.request.contextPath}/components/animate.css" rel="stylesheet" type="text/css"/>
+        <!--Summernote-->
+        <link href="${pageContext.request.contextPath}/components/summernote-master/dist/summernote-bs4.css" rel="stylesheet" type="text/css"/>
+        <script src="${pageContext.request.contextPath}/components/summernote-master/dist/summernote-bs4.js" type="text/javascript"></script>
