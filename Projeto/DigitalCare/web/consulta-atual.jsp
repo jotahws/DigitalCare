@@ -137,7 +137,7 @@
                                     </div>
                                     <div class="row col-md-12 pl-0">
                                         <form id="prontuarioForm" class="form w-100">
-                                            <div class="form-group">
+                                            <div class="form-group mb-0">
                                                 <div id="summernote">
                                                     <h4>Anamnese</h4>
                                                     <p><br></p>
@@ -153,9 +153,9 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-12 row justify-content-end">
-                                        <button class="btn clickable btn-outline-success"><i class="fa fa-fw fa-files-o"></i> Anexar exame</button>                                            
-                                    </div>
+                                    <!--<div class="col-12 row justify-content-end">-->
+                                        <!--<button class="btn clickable btn-outline-success"><i class="fa fa-fw fa-files-o"></i> Anexar exame</button>-->                                            
+                                    <!--</div>-->
                                 </div>
                                 <div class="card col-md-4 row border-info">
                                     <div class="card-header row">Linha do Tempo</div>
@@ -345,7 +345,25 @@
                             confirmButtonText: 'Concluir consulta',
                             cancelButtonText: 'Cancelar',
                         }).then(function () {
-                                window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                            $.ajax({
+                                url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=prontuario',
+                                type: 'GET',
+                                dataType: 'text',
+                                contentType: 'application/pdf',
+                                data: {
+                                    "prontuario": $('#summernote').html()
+                                },
+                                success: function (data) {
+                                    window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
+                                },
+                                error: function (response) {
+                                    swal({
+                                        type: 'error',
+                                        title: 'Erro!',
+                                        text: response.responseText
+                                    });
+                                }
+                            });
                         });
                     }
                     $(document).ready(function () {
@@ -552,7 +570,6 @@
                                 }
                             });
                         });
-                        //FIM Receita-------------------------------------------
                     });
                     
                     function buscaMedicamentos(name){

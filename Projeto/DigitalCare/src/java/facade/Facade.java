@@ -636,4 +636,9 @@ public class Facade {
         ProntuarioDAO dao = new ProntuarioDAO();
         dao.updateExame(prontuario);
     }
+
+    public static void inserirDescricao(Prontuario prontuario) throws ClassNotFoundException, SQLException {
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateDescricao(prontuario);
+    }
 }
