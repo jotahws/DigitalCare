@@ -23,6 +23,8 @@
 
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
     </head>
 
     <body class="fixed-nav sticky-footer" id="page-top">
@@ -141,6 +143,12 @@
                                                     <p><br></p>
                                                     <hr>
                                                     <h4>Exame Físico</h4>
+                                                    <p><br></p>
+                                                    <hr>
+                                                    <h4>Análise</h4>
+                                                    <p><br></p>
+                                                    <hr>
+                                                    <h4>Plano</h4>
                                                 </div>
                                             </div>
                                         </form>
@@ -291,8 +299,11 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary">Salvar arquivo</button>
+                                            <button type="button" id="btnExame" class="btn btn-primary">Salvar arquivo</button>
                                         </div>
+                                        <form id="examePOST" action="${pageContext.request.contextPath}/ProntuarioServlet?action=examePDF" target="_blank" method="POST">
+                                            <input type="hidden" name="nomeExames" value="" id="textoExameForm">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -302,6 +313,7 @@
                     <div id="DoseDivHTML" class="hidden"></div>
                     <div id="ViaDivHTML" class="hidden"></div>
                     <div id="QtddDivHTML" class="hidden"></div>
+                    <div id="ExameDivHTML" class="hidden"></div>
                 </div> 
 
                 <%@include file="/includes/footer.jsp" %>
@@ -350,7 +362,7 @@
                         $('#summernote').summernote({
                             placeholder: 'Digite aqui o Prontuário do paciente',
                             tabsize: 2,
-                            height: 300,
+                            height: 350,
                             toolbar: [
                                 ['style', ['bold', 'italic', 'underline', 'hr','style']],
                                 ['para', ['ul', 'ol', 'paragraph']],
@@ -405,6 +417,39 @@
                             data: '',
                             selectionRequired: 0,
                             multiple: true
+                        });
+                        $('#btnExame').click(function(){
+                            exames = $('#examesForm').flexdatalist('value');
+                            console.log(exames);
+                            $('#ExameDivHTML').html('');
+                            for (var i = 0; i < exames.length; i++) {
+                                $('#ExameDivHTML').append(exames[i]+',');
+                            }
+                            $.ajax({
+                                url: '<%=request.getContextPath()%>' + '/ProntuarioServlet?action=exame',
+                                type: 'GET',
+                                dataType: 'text',
+                                contentType: 'application/pdf',
+                                data: {
+                                    "exames": exames
+                                },
+                                success: function (data) {
+                                    swal(
+                                        'Solicitação de Exame Salva!',
+                                        'O documento de solicitação exame foi salvo no histórico. Para substituí-lo, clique em "Salvar arquivo" novamente.',
+                                        'success'
+                                    );
+                                    $('#textoExameForm').val($('#ExameDivHTML').html());
+                                    $('#examePOST').submit();
+                                },
+                                error: function (response) {
+                                    swal({
+                                        type: 'error',
+                                        title: 'Erro!',
+                                        text: response.responseText
+                                    });
+                                }
+                            });
                         });
                         //Receita-----------------------------------------------
                         $('#receitaForm').flexdatalist({

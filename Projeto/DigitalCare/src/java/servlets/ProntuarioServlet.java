@@ -7,11 +7,9 @@ package servlets;
 
 
 import beans.Consulta;
-import beans.Medicamento;
-import beans.Medico;
 import beans.Prontuario;
-import com.google.gson.Gson;
 import conexao.ConnectionFactory;
+import dtos.ExameDTO;
 import dtos.ReceitaDTO;
 import facade.Facade;
 import java.io.File;
@@ -19,16 +17,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -269,7 +264,109 @@ public class ProntuarioServlet extends HttpServlet {
                 } catch (Exception ex) {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response.getWriter().write(ex.getMessage());
-                }   break;
+                }
+                break;
+            case "examePDF":
+                //1. Emitir PDF
+                //2. Retornar PDF na jsp
+                
+                try {
+                    String[] exames = request.getParameter("nomeExames").split(",");
+                    List<ExameDTO> listaExames = new ArrayList<>();
+                    if (exames != null) {
+                        for (String exame : exames) {
+                            listaExames.add(new ExameDTO(exame));
+                        }
+                    } else {
+                        throw new Exception("A lista de exames não pode estar vazia.");
+                    }
+                    Connection con = new ConnectionFactory().getConnection();
+                    HttpSession session = request.getSession();
+                    Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
+                    
+                    String jasper = request.getContextPath() + "/jasper/exame.jasper";
+                    String host = "http://" + request.getServerName() + ":" + request.getServerPort();
+                    URL jasperURL = new URL(host + jasper);
+                    HashMap params = new HashMap();
+                    JRBeanCollectionDataSource receitaJRBean = new JRBeanCollectionDataSource(listaExames);
+                    params.put("EXAME", receitaJRBean);
+                    params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                    params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
+                    params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());
+                    params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                    params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro());
+                    params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                    params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
+                    ServletContext context = getServletContext();
+                    File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                    InputStream fi = new FileInputStream(digital_logo);
+                    params.put("DIGITAL_LOGO", fi);
+                    
+                    byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                    if (bytes != null) {
+                        response.setContentType("application/pdf");
+                        OutputStream ops = response.getOutputStream();
+                        ops.write(bytes);
+                    }
+                } catch (Exception ex) {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write(ex.getMessage());
+                }
+                break;
+            case "exame":
+                //1. Emitir PDF
+                //2. Salvar PDF no BD
+                //3. Retornar STATUS na jsp
+                
+                try {
+                    String[] exames = request.getParameterValues("exames[]");
+                    List<ExameDTO> listaExames = new ArrayList<>();
+                    if (exames != null) {
+                        for (String exame : exames) {
+                            listaExames.add(new ExameDTO(exame));
+                        }
+                    } else {
+                        throw new Exception("A lista de exames não pode estar vazia.");
+                    }
+                                        
+                    Connection con = new ConnectionFactory().getConnection();
+                    HttpSession session = request.getSession();
+                    Consulta consultaAtual = (Consulta) session.getAttribute("consultaAtual");
+                    
+                    String jasper = request.getContextPath() + "/jasper/exame.jasper";
+                    String host = "http://" + request.getServerName() + ":" + request.getServerPort();
+                    URL jasperURL = new URL(host + jasper);
+                    HashMap params = new HashMap();
+                    JRBeanCollectionDataSource receitaJRBean = new JRBeanCollectionDataSource(listaExames);
+                    params.put("EXAME", receitaJRBean);
+                    params.put("CLINICA_NOME", consultaAtual.getClinicaEndereco().getClinica().getNomeFantasia());
+                    params.put("PACIENTE_NOME", consultaAtual.getPacienteUsuario().getPaciente().getNome() + " " + consultaAtual.getPacienteUsuario().getPaciente().getSobrenome());
+                    params.put("PACIENTE_END", consultaAtual.getPacienteUsuario().getEndereco().getRua() +", "+ consultaAtual.getPacienteUsuario().getEndereco().getNumero()+" - "+ consultaAtual.getPacienteUsuario().getEndereco().getBairro()+" - "+consultaAtual.getPacienteUsuario().getEndereco().getCidade().getNome());
+                    params.put("CLINICA_NOME_ENDERECO", consultaAtual.getClinicaEndereco().getNome());
+                    params.put("CLINICA_ENDERECO", consultaAtual.getClinicaEndereco().getEndereco().getRua()+", "+consultaAtual.getClinicaEndereco().getEndereco().getNumero()+" "+consultaAtual.getClinicaEndereco().getEndereco().getComplemento()+" - "+consultaAtual.getClinicaEndereco().getEndereco().getBairro());
+                    params.put("CLINICA_TELEFONE", "(" + consultaAtual.getClinicaEndereco().getTelefone1().substring(0, 2) + ")" + consultaAtual.getClinicaEndereco().getTelefone1().substring(2, 6) + "-" + consultaAtual.getClinicaEndereco().getTelefone1().substring(6, 10)); //
+                    params.put("CLINICA_CNPJ", consultaAtual.getClinicaEndereco().getClinica().getCnpj());
+                    ServletContext context = getServletContext();
+                    File digital_logo = new File(context.getRealPath("/images/logo-peq.png"));
+                    InputStream fi = new FileInputStream(digital_logo);
+                    params.put("DIGITAL_LOGO", fi);
+                    
+                    byte[] bytes = JasperRunManager.runReportToPdf(jasperURL.openStream(), params, con);
+                    if (bytes != null) {
+                        //Coloca arquivo PDF no Banco de Dados
+                        Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                        Prontuario prontuario = new Prontuario();
+                        prontuario.setReceita(blob);
+                        prontuario.setConsulta(consultaAtual);
+                        Facade.inserirReceita(prontuario);
+                        response.setCharacterEncoding("UTF-8");
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    }
+                } catch (Exception ex) {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write(ex.getMessage());
+                }
+                break;
             default:
                 break;
         }
