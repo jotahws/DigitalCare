@@ -452,6 +452,7 @@ public class HorarioDAO {
                 Medico medico2 = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
                 ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
                 Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico2, new Paciente(), clinicaEndereco);
+                pacienteUsuario.setProntuarios(Facade.getListaProntuarioPacienteMedico(pacienteUsuario, medico));
                 consulta.setPacienteUsuario(pacienteUsuario);
                 return consulta;
             }

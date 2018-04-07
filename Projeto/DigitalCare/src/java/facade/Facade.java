@@ -209,7 +209,9 @@ public class Facade {
     public static Consulta iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         dao.iniciaConsulta(consulta);
-        return Facade.getConsultaPorId(consulta);
+        consulta = Facade.getConsultaPorId(consulta);
+        consulta.getPacienteUsuario().setProntuarios(Facade.getListaProntuarioPacienteMedico(consulta.getPacienteUsuario(), consulta.getMedico()));
+        return consulta;
     }
 
     public static void concluiConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
@@ -232,7 +234,7 @@ public class Facade {
         return dao.buscarStatusPorClinicaNoDia(clinica);
     }
 
-    private static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
+    public static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaPorId(consulta);
     }
@@ -640,5 +642,10 @@ public class Facade {
     public static void inserirDescricao(Prontuario prontuario) throws ClassNotFoundException, SQLException {
         ProntuarioDAO dao = new ProntuarioDAO();
         dao.updateDescricao(prontuario);
+    }
+    
+    public static List<Prontuario> getListaProntuarioPacienteMedico(PacienteUsuario pacienteUsuario, Medico medico) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        return dao.listaProntuariosPacienteMedico(pacienteUsuario, medico);
     }
 }

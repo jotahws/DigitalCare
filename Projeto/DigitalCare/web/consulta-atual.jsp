@@ -163,30 +163,41 @@
                                         <h4 class="card-title text-center">Histórico de prontuários</h4>
                                         <div class="tree justify-content-center row">
                                             <ul>
-                                                <li>
-                                                    <span><i class="fa fa-fw fa-folder"></i> 19/03/2017</span>
-                                                    <ul>
-                                                        <li>
-                                                            <span><i class="icon-minus-sign"></i> Child</span>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="icon-minus-sign"></i> Child</span>
-                                                            <ul>
+                                                <c:forEach items="${consultaAtual.pacienteUsuario.prontuarios}" var="prontuario">
+                                                    <li>
+                                                        <span><i class="fa fa-fw fa-folder"></i> <fmt:formatDate type = "both" pattern="dd/MM/yyyy" value = "${prontuario.consulta.dataHora}" /></span>
+                                                        <ul>
+                                                            <c:if test="${prontuario.descricao != null}">
                                                                 <li>
-                                                                    <span><i class="icon-leaf"></i> Grand Child</span>
+                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                        <span><i class="fa fa-address-book"></i> Prontuário</span>
+                                                                    </a>
                                                                 </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-fw fa-folder"></i> 12/07/2005</span>
-                                                    <ul>
-                                                        <li>
-                                                            <span><i class="icon-leaf"></i> Child</span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
+                                                            </c:if>
+                                                            <c:if test="${prontuario.receita != null}">
+                                                                <li>
+                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                        <span><i class="fa fa-book"></i> Receita</span>
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                            <c:if test="${prontuario.atestado != null}">
+                                                                <li>
+                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                        <span><i class="fa fa-file"></i> Atestado</span>
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                            <c:if test="${prontuario.exame != null}">
+                                                                <li>
+                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                        <span><i class="fa fa-file-text"></i> Exame</span>
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </ul>
+                                                    </li>
+                                                </c:forEach>
                                             </ul>
                                         </div>
                                     </div>
