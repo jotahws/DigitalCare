@@ -114,7 +114,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="50" width="384" height="280" uuid="82a33374-b464-4859-98b9-2e3789a961e1"/>
-				<textElement textAlignment="Justified"/>
+				<textElement textAlignment="Justified" markup="html"/>
 				<textFieldExpression><![CDATA[$P{PRONTUARIO}]]></textFieldExpression>
 			</textField>
 		</band>

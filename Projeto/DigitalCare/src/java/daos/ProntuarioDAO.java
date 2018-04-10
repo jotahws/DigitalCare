@@ -145,6 +145,7 @@ public class ProntuarioDAO {
             while (rs.next()) {
                 Prontuario prontuario = new Prontuario();
                 Consulta consulta = new Consulta();
+                prontuario.setId(rs.getInt("pi.id"));
                 prontuario.setAtestado(rs.getBlob("pi.atestado"));
                 prontuario.setExame(rs.getBlob("pi.exame"));
                 prontuario.setDescricao(rs.getBlob("pi.descricao"));

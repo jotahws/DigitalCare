@@ -169,30 +169,42 @@
                                                         <ul>
                                                             <c:if test="${prontuario.descricao != null}">
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                    <a href="#" onclick="document.getElementById('prontuarioHistorico${prontuario.id}').submit();" class="text-info">
                                                                         <span><i class="fa fa-address-book"></i> Prontuário <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
+                                                                    <form id="prontuarioHistorico${prontuario.id}" action="${pageContext.request.contextPath}/ProntuarioServlet?action=prontuarioHistorico" target="_blank" method="POST">
+                                                                        <input type="hidden" value="${prontuario.id}" name="valorHistorico">
+                                                                    </form>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.receita != null}">
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                    <a href="#" onclick="document.getElementById('receitaHistorico${prontuario.id}').submit();" class="text-info">
                                                                         <span><i class="fa fa-book"></i> Receita <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
+                                                                    <form id="receitaHistorico${prontuario.id}" action="${pageContext.request.contextPath}/ProntuarioServlet?action=receitaHistorico" target="_blank" method="POST">
+                                                                        <input type="hidden" value="${prontuario.id}" name="valorHistorico">
+                                                                    </form>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.atestado != null}">
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                    <a href="#" onclick="document.getElementById('atestadoHistorico${prontuario.id}').submit();" class="text-info">
                                                                         <span><i class="fa fa-file"></i> Atestado <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
+                                                                    <form id="atestadoHistorico${prontuario.id}" action="${pageContext.request.contextPath}/ProntuarioServlet?action=atestadoHistorico" target="_blank" method="POST">
+                                                                        <input type="hidden" value="${prontuario.id}" name="valorHistorico">
+                                                                    </form>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.exame != null}">
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="text-info">
+                                                                    <a href="#" onclick="document.getElementById('exameHistorico${prontuario.id}').submit();" class="text-info">
                                                                         <span><i class="fa fa-file-text"></i> Exame <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
+                                                                    <form id="exameHistorico${prontuario.id}" action="${pageContext.request.contextPath}/ProntuarioServlet?action=exameHistorico" target="_blank" method="POST">
+                                                                        <input type="hidden" value="${prontuario.id}" name="valorHistorico">
+                                                                    </form>
                                                                 </li>
                                                             </c:if>
                                                         </ul>
@@ -362,7 +374,7 @@
                                 dataType: 'text',
                                 contentType: 'application/pdf',
                                 data: {
-                                    "prontuario": $('#summernote').html()
+                                    "prontuario": $('#summernote').summernote('code')
                                 },
                                 success: function (data) {
                                     window.location.href = "EstadoConsultaServlet?action=concluiConsulta&idConsulta="+consultaId;
