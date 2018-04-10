@@ -170,28 +170,28 @@
                                                             <c:if test="${prontuario.descricao != null}">
                                                                 <li>
                                                                     <a href="javascript:void(0);" class="text-info">
-                                                                        <span><i class="fa fa-address-book"></i> Prontuário</span>
+                                                                        <span><i class="fa fa-address-book"></i> Prontuário <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.receita != null}">
                                                                 <li>
                                                                     <a href="javascript:void(0);" class="text-info">
-                                                                        <span><i class="fa fa-book"></i> Receita</span>
+                                                                        <span><i class="fa fa-book"></i> Receita <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.atestado != null}">
                                                                 <li>
                                                                     <a href="javascript:void(0);" class="text-info">
-                                                                        <span><i class="fa fa-file"></i> Atestado</span>
+                                                                        <span><i class="fa fa-file"></i> Atestado <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
                                                                 </li>
                                                             </c:if>
                                                             <c:if test="${prontuario.exame != null}">
                                                                 <li>
                                                                     <a href="javascript:void(0);" class="text-info">
-                                                                        <span><i class="fa fa-file-text"></i> Exame</span>
+                                                                        <span><i class="fa fa-file-text"></i> Exame <sup><i class="fa fa-external-link"></i></sup></span>
                                                                     </a>
                                                                 </li>
                                                             </c:if>
