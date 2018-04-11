@@ -222,56 +222,72 @@ public class ConsultaServlet extends HttpServlet {
                 rd.forward(request, response);
             } else if ("BuscaConsultasMedico".equals(action)) {
                 try {
-                    HttpSession session = request.getSession();
-                    Medico medico = (Medico) session.getAttribute("usuario");
-                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
-                    List<String[]> statusConsultas = Facade.buscarStatusPorMedicoNoDia(medico);
-                    List<Falta> faltas = Facade.buscarFaltas(medico);
-                    request.setAttribute("consultas", consultas);
-                    request.setAttribute("faltas", faltas);
-                    request.setAttribute("statusConsultas", statusConsultas);
-                } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        HttpSession session = request.getSession();
+                        Medico medico = (Medico) session.getAttribute("usuario");
+                        List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                        List<String[]> statusConsultas = Facade.buscarStatusPorMedicoNoDia(medico);
+                        List<Falta> faltas = Facade.buscarFaltas(medico);
+                        request.setAttribute("consultas", consultas);
+                        request.setAttribute("faltas", faltas);
+                        request.setAttribute("statusConsultas", statusConsultas);
+                    } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                        Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario.jsp");
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/calendario.jsp");
-                rd.forward(request, response);
             } else if ("Dashboard".equals(action)) {
                 try {
-                    HttpSession session = request.getSession();
-                    Medico medico = (Medico) session.getAttribute("usuario");
-                    List<List<String[]>> estatisticas = Facade.getEstatisticasMedico(medico);
-                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
-                    request.setAttribute("consultas", consultas);
-                    request.setAttribute("stats", estatisticas);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        HttpSession session = request.getSession();
+                        Medico medico = (Medico) session.getAttribute("usuario");
+                        List<List<String[]>> estatisticas = Facade.getEstatisticasMedico(medico);
+                        List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                        request.setAttribute("consultas", consultas);
+                        request.setAttribute("stats", estatisticas);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard.jsp");
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard.jsp");
-                rd.forward(request, response);
             } else if ("indisponibilidade".equals(action)) {
                 try {
-                    HttpSession session = request.getSession();
-                    Medico medico = (Medico) session.getAttribute("usuario");
-                    List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
-                    List<Falta> faltas = Facade.buscarFaltas(medico);
-                    request.setAttribute("consultas", consultas);
-                    request.setAttribute("faltas", faltas);
-                } catch (ClassNotFoundException | SQLException | ParseException ex) {
-                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        HttpSession session = request.getSession();
+                        Medico medico = (Medico) session.getAttribute("usuario");
+                        List<Consulta> consultas = Facade.buscarConsultasMedico(medico);
+                        List<Falta> faltas = Facade.buscarFaltas(medico);
+                        request.setAttribute("consultas", consultas);
+                        request.setAttribute("faltas", faltas);
+                    } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                        Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/indisponibilidade.jsp");
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/indisponibilidade.jsp");
-                rd.forward(request, response);
             } else if ("homePaciente".equals(action)) {
                 try {
-                    HttpSession session = request.getSession();
-                    PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
-                    List<Consulta> consultas = Facade.buscarConsultasPaciente(pacienteUsuario);
-                    request.setAttribute("consultas", consultas);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        HttpSession session = request.getSession();
+                        PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
+                        List<Consulta> consultas = Facade.buscarConsultasPaciente(pacienteUsuario);
+                        request.setAttribute("consultas", consultas);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/paciente-home.jsp");;
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/paciente-home.jsp");;
-                rd.forward(request, response);
             } else if ("ClinicaBuscaConsultas".equals(action)) {
                 try {
                     String cpfPaciente = request.getParameter("pacienteCPF");
@@ -390,11 +406,15 @@ public class ConsultaServlet extends HttpServlet {
                     request.setAttribute("tipoConsulta", especialidade);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/agendar-consulta.jsp");
                     rd.forward(request, response);
+                } catch (NullPointerException ex) {
+                    response.sendRedirect("agendar-consulta.jsp");
                 } catch (Exception ex) {
                     if (ex.getMessage().equals("Nao ha medicos disponiveis")) {
                         response.sendRedirect("agendar-consulta.jsp?status=semMedicos");
                     }else if (ex.getMessage().equals("Paciente não existe")) {
                         response.sendRedirect("agendar-consulta.jsp?status=erro-paciente");
+                    }else{
+                        response.sendRedirect("agendar-consulta.jsp");
                     }
                 }
             }

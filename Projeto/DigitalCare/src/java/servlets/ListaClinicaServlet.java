@@ -59,14 +59,18 @@ public class ListaClinicaServlet extends HttpServlet {
         if ("listaConfiguracao".equals(action)) {
             String statusLista = "";
             try {
-                HttpSession session = request.getSession();
-                Clinica clinica = (Clinica) session.getAttribute("usuario");
-                statusLista = request.getParameter("status");
-            } catch (Exception ex) {
-                status = "error";
+            try {
+                    HttpSession session = request.getSession();
+                    Clinica clinica = (Clinica) session.getAttribute("usuario");
+                    statusLista = request.getParameter("status");
+                } catch (Exception ex) {
+                    status = "error";
+                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-clinica.jsp?status=" + statusLista);
+                rd.forward(request, response);
+            } catch (NullPointerException | ClassCastException ex) {
+                response.sendRedirect("login.jsp");
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-clinica.jsp?status=" + statusLista);
-            rd.forward(request, response);
         } else if ("PesquisaVinculaMedico".equals(action)) {
             try {
                 String cpf = request.getParameter("cpf");
@@ -86,29 +90,33 @@ public class ListaClinicaServlet extends HttpServlet {
             rd.forward(request, response);
         } else if ("dashboardClinica".equals(action)) {
             try {
-                HttpSession session = request.getSession();
-                Clinica clinica = (Clinica) session.getAttribute("usuario");
-                //busca consultas atuais
-                List<Consulta> consultas = Facade.buscarConsultasAtuaisPorClinica(clinica);
-                //busca próximas consultas
-                List<Consulta> proximasConsultas = new ArrayList();
-                List<Medico> medicosDaClinica = facade.carregaListaMedicosUnique(clinica.getId());
-                for (Medico medico : medicosDaClinica) {
-                    Consulta consulta = Facade.buscarProximaConsultaPorMedico(medico);
-                    if (consulta != null) {
-                        proximasConsultas.add(consulta);
+                try {
+                    HttpSession session = request.getSession();
+                    Clinica clinica = (Clinica) session.getAttribute("usuario");
+                    //busca consultas atuais
+                    List<Consulta> consultas = Facade.buscarConsultasAtuaisPorClinica(clinica);
+                    //busca próximas consultas
+                    List<Consulta> proximasConsultas = new ArrayList();
+                    List<Medico> medicosDaClinica = facade.carregaListaMedicosUnique(clinica.getId());
+                    for (Medico medico : medicosDaClinica) {
+                        Consulta consulta = Facade.buscarProximaConsultaPorMedico(medico);
+                        if (consulta != null) {
+                            proximasConsultas.add(consulta);
+                        }
                     }
+                    //busca os status de todos os medicos da clinica
+                    List<String[]> statusConsultas = Facade.buscarStatusPorClinicaNoDia(clinica);
+                    request.setAttribute("consultasAtuais", consultas);
+                    request.setAttribute("proximasConsultas", proximasConsultas);
+                    request.setAttribute("statusConsultas", statusConsultas);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                //busca os status de todos os medicos da clinica
-                List<String[]> statusConsultas = Facade.buscarStatusPorClinicaNoDia(clinica);
-                request.setAttribute("consultasAtuais", consultas);
-                request.setAttribute("proximasConsultas", proximasConsultas);
-                request.setAttribute("statusConsultas", statusConsultas);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard-clinica.jsp");
+                rd.forward(request, response);
+            } catch (NullPointerException | ClassCastException ex) {
+                response.sendRedirect("login.jsp");
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard-clinica.jsp");
-            rd.forward(request, response);
         }
 
     }

@@ -71,7 +71,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                     Consulta consulta = new Consulta(datahora, "Marcado", medico, paciente, clinicaEndereco);
                     Facade.marcaConsulta(consulta);
                     status = "consulta-marcada";
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "erro-nova-consulta";
                 }
                 response.sendRedirect("ConsultaServlet?action=homePaciente&status=" + status + "#pesquisar");
@@ -125,7 +125,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                     //COLOCAR A CONSULTA INICIADA NA SESSAO
                     session.setAttribute("consultaAtual", consulta);
                     status = "consulta-iniciada";
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "erro-inicia-consulta";
                 }
                 response.sendRedirect("consulta-atual.jsp?status=" + status);
@@ -144,7 +144,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                         }
                     }
                     status = "consulta-concluida";
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "erro-conclui-consulta";
                 }
                 response.sendRedirect("ConsultaServlet?action=BuscaConsultasMedico&status=" + status);
@@ -158,7 +158,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                     //TIRAR A CONSULTA INICADA DA SESSAO
                     session.setAttribute("consultaAtual", null);
                     status = "consulta-concluida";
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "erro-conclui-consulta";
                 }
                 response.sendRedirect("calendario-clinica.jsp?status=" + status);
@@ -180,7 +180,7 @@ public class EstadoConsultaServlet extends HttpServlet {
                     Consulta consultaNova = Facade.proximoPaciente(medico);
                     session.setAttribute("consultaAtual", consultaNova);
                     status = "proxima-consulta-ok";
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | ClassCastException ex) {
                     status = "erro-proxima-consulta";
                 } catch (NullPointerException ex) {
                     status = "sem-proxima-consulta";

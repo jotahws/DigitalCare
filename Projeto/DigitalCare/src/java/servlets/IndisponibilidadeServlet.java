@@ -66,7 +66,7 @@ public class IndisponibilidadeServlet extends HttpServlet {
                     Falta falta = new Falta(medico, calInicio, calFim);
                     falta = Facade.setFalta(falta);
                     status = "falta-ok";
-                } catch (ClassNotFoundException | SQLException | ParseException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ParseException | ClassCastException ex) {
                     status = "falta-erro";
                 }
                 response.sendRedirect("ConsultaServlet?action=indisponibilidade&status="+status);
