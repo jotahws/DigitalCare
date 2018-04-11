@@ -92,7 +92,7 @@
 
         <!--notificacoes e logout-->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
+<!--            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="alertsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-comment"></i>
                     <span class="d-lg-none">Alerts
@@ -115,7 +115,7 @@
                     </a>
                     <div class="dropdown-divider"></div>
                 </div>
-            </li>
+            </li>-->
             <li class="nav-item">
                 <a href="${pageContext.request.contextPath}/LoginServlet?action=logout" class="nav-link">
                     <i class="fa fa-fw fa-sign-out"></i>
