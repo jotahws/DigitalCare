@@ -55,7 +55,7 @@ public class PacienteDAO {
               "   INNER JOIN estado                   es ON (es.id			= cid.id_estado)" +
               "   INNER JOIN consulta                con ON (con.id_paciente		= pac.id)" +
               "   INNER JOIN medico                    m ON (m.id			= con.id_medico)" +
-              "   where m.id =? AND con.status != 'Concluído';";
+              "   where m.id =? AND con.status != 'Concluído' AND con.status != 'Cancelado';";
 
     private final String buscaPacientePorCPF = "SELECT * FROM PACIENTE P\n"
             + "WHERE p.cpf = ?;";
