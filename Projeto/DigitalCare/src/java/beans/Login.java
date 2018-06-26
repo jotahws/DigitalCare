@@ -79,4 +79,8 @@ public class Login implements Serializable {
         
         return senha;
     }
+    
+    public boolean verificaLogado (int perfil){
+        return true;
+    }
 }

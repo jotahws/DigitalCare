@@ -14,12 +14,15 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Especialidade;
 import beans.Estado;
+import beans.Falta;
 import beans.MedicoHorario;
 import beans.Login;
+import beans.Medicamento;
 import beans.Medico;
 import beans.MedicoFalta;
 import beans.Paciente;
 import beans.PacienteUsuario;
+import beans.Prontuario;
 import daos.CidadeDAO;
 import daos.ClinicaDAO;
 import daos.ClinicaEnderecoDAO;
@@ -28,15 +31,17 @@ import daos.ConvenioDAO;
 import daos.EnderecoDAO;
 import daos.EspecialidadeDAO;
 import daos.EstadoDAO;
+import daos.FaltaDAO;
 import daos.HorarioDAO;
 import daos.LoginDAO;
+import daos.MedicamentoDAO;
 import daos.MedicoDAO;
 import daos.PacienteDAO;
 import daos.PacienteUsuarioDAO;
+import daos.ProntuarioDAO;
 import dtos.ConsultaDisponivelDTO;
 import dtos.DiaDisponivelDTO;
 import dtos.HorarioDisponivelDTO;
-import static java.lang.Float.NaN;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -56,7 +61,12 @@ public class Facade {
         PacienteUsuarioDAO pacienteUsuarioDAO = new PacienteUsuarioDAO();
         return pacienteUsuarioDAO.buscarPacienteUsuarioPorIdLogin(id);
     }
-
+    
+    public static PacienteUsuario getPacienteUsuarioPorIdPaciente(int idPaciente) throws ClassNotFoundException, SQLException {
+        PacienteUsuarioDAO dao = new PacienteUsuarioDAO();
+        return dao.buscarPacienteUsuarioPorIdPaciente(idPaciente);
+    }
+    
     public static Medico getMedicoPorLogin(int idLogin) throws SQLException, ClassNotFoundException {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorLogin(idLogin);
@@ -80,6 +90,11 @@ public class Facade {
     public static Clinica getClinicaPorLogin(int idLogin) throws ClassNotFoundException, SQLException {
         ClinicaDAO clinicaDAO = new ClinicaDAO();
         return clinicaDAO.buscarClinicaPorLogin(idLogin);
+    }
+    
+    public static Clinica getClinicaPorID(int idClinica) throws ClassNotFoundException, SQLException {
+        ClinicaDAO clinicaDAO = new ClinicaDAO();
+        return clinicaDAO.buscarClinicaPorID(idClinica);
     }
 
     public static List<ClinicaEndereco> getListaEnderecosClinica(int idClinica) throws ClassNotFoundException, SQLException {
@@ -115,6 +130,11 @@ public class Facade {
     public static Medico getMedicoPorCPF(String cpf) throws SQLException, ClassNotFoundException {
         MedicoDAO dao = new MedicoDAO();
         return dao.getMedicoPorCPF(cpf);
+    }
+    
+    public static Paciente getPacientePorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        PacienteDAO dao = new PacienteDAO();
+        return dao.getPacientePorCPF(cpf);
     }
 
     public static void vincularMedicoClinica(int idMedico, int idClinicaEndereco) throws SQLException, ClassNotFoundException {
@@ -189,7 +209,9 @@ public class Facade {
     public static Consulta iniciaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
         ConsultaDAO dao = new ConsultaDAO();
         dao.iniciaConsulta(consulta);
-        return Facade.getConsultaPorId(consulta);
+        consulta = Facade.getConsultaPorId(consulta);
+        consulta.getPacienteUsuario().setProntuarios(Facade.getListaProntuarioPacienteMedico(consulta.getPacienteUsuario(), consulta.getMedico()));
+        return consulta;
     }
 
     public static void concluiConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {
@@ -212,11 +234,11 @@ public class Facade {
         return dao.buscarStatusPorClinicaNoDia(clinica);
     }
 
-    private static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
+    public static Consulta getConsultaPorId(Consulta consulta) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaPorId(consulta);
     }
-
+    
     public static Consulta getConsultaAtual(Medico medico) throws ClassNotFoundException, SQLException {
         HorarioDAO dao = new HorarioDAO();
         return dao.buscarConsultaAtualPorMedico(medico);
@@ -270,6 +292,11 @@ public class Facade {
             Facade.concluiConsulta(consultaAtual);
         }
         return Facade.iniciaConsulta(consulta);
+    }
+
+    public static Falta setFalta(Falta falta) throws ClassNotFoundException, SQLException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.insereFalta(falta);
     }
 
     public List<Estado> listarEstados() throws ClassNotFoundException, SQLException {
@@ -509,6 +536,16 @@ public class Facade {
         HorarioDAO hDAO = new HorarioDAO();
         return hDAO.buscarFaltasSemana(dataInicio, dataFim, idMedicos);
     }
+    
+    public static List<Falta> buscarFaltas(Medico medico) throws ClassNotFoundException, SQLException, ParseException {
+        FaltaDAO dao = new FaltaDAO();
+        return dao.buscarFaltas(medico);
+    }
+    
+    public static void apagarFaltas(Falta falta) throws ClassNotFoundException, SQLException {
+        FaltaDAO dao = new FaltaDAO();
+        dao.apagaFalta(falta);
+    }
 
     public static List<Consulta> buscarConsultasSemana(Date dataInicio, Date dataFim, Integer idMedicos) throws ClassNotFoundException, SQLException {
         HorarioDAO hDAO = new HorarioDAO();
@@ -575,5 +612,40 @@ public class Facade {
     public List<PacienteUsuario> carregaListaPacientes(int idMedico) throws SQLException, ClassNotFoundException {
         PacienteDAO pacienteDAO = new PacienteDAO();
         return pacienteDAO.ListPacienteNoMedico(idMedico);
+    }
+    
+    public static List<Medicamento> getMedicamento(Medicamento medicamento) throws SQLException, ClassNotFoundException {
+        MedicamentoDAO dao = new MedicamentoDAO();
+        return dao.buscar(medicamento);
+    }
+    
+    public static void inserirProntuario(Prontuario prontuario) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.criaProntuario(prontuario);
+    }
+    
+    public static void inserirAtestado(Prontuario prontuario) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateAtestado(prontuario);
+    }
+
+    public static void inserirReceita(Prontuario prontuario) throws ClassNotFoundException, SQLException {
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateReceita(prontuario);
+    }
+    
+    public static void inserirExame(Prontuario prontuario) throws ClassNotFoundException, SQLException {
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateExame(prontuario);
+    }
+
+    public static void inserirDescricao(Prontuario prontuario) throws ClassNotFoundException, SQLException {
+        ProntuarioDAO dao = new ProntuarioDAO();
+        dao.updateDescricao(prontuario);
+    }
+    
+    public static List<Prontuario> getListaProntuarioPacienteMedico(PacienteUsuario pacienteUsuario, Medico medico) throws ClassNotFoundException, SQLException{
+        ProntuarioDAO dao = new ProntuarioDAO();
+        return dao.listaProntuariosPacienteMedico(pacienteUsuario, medico);
     }
 }

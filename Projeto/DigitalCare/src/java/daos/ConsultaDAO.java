@@ -10,6 +10,7 @@ import beans.ClinicaEndereco;
 import beans.Consulta;
 import beans.Medico;
 import beans.Paciente;
+import beans.Prontuario;
 import conexao.ConnectionFactory;
 import facade.Facade;
 import java.sql.Connection;
@@ -65,7 +66,7 @@ public class ConsultaDAO {
             + "WHERE m.id=? AND c.status IN  ( 'Em andamento', 'Concluído' ) \n"
             + "ORDER BY c.datahora DESC LIMIT 1)\n"
             + "AND date(c.datahora) = curdate()\n"
-            + "AND c.status = 'Em andamento'\n"
+            + "AND c.status IN ('Em espera', 'Marcado') \n"
             + "ORDER BY c.datahora \n"
             + "LIMIT 1;";
 
@@ -115,8 +116,11 @@ public class ConsultaDAO {
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 consulta.setId(rs.getInt(1));
-                return consulta;
             }
+            Prontuario prontuario = new Prontuario();
+            prontuario.setConsulta(consulta);
+            Facade.inserirProntuario(prontuario);
+            return consulta;
         } finally {
             try {
                 if (rs != null) {
@@ -132,7 +136,6 @@ public class ConsultaDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
-        return null;
     }
 
     public void cancelaConsulta(Consulta consulta) throws ClassNotFoundException, SQLException {

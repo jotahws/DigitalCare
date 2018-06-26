@@ -158,7 +158,7 @@ public class MedicoServlet extends HttpServlet {
 
                 session.setAttribute("usuario", medico);
                 status = "edit-ok";
-            } catch (ClassNotFoundException | SQLException | ParseException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ParseException | ClassCastException ex) {
                 status = "edit-erro";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaConfigMedico&status=" + status);
@@ -180,7 +180,7 @@ public class MedicoServlet extends HttpServlet {
                 } else {
                     status = "alterSenha-error";
                 }
-            } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                 status = "alterSenha-error";
             } catch (NoSuchAlgorithmException ex) {
                 status = "error-criptografa";
@@ -196,7 +196,7 @@ public class MedicoServlet extends HttpServlet {
             try {
                 facade.desvinculaMedicoClinica(idMedico, idClinica);
                 status = "desvincular-ok";
-            } catch (ClassNotFoundException | SQLException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                 status = "desvincular-error";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
@@ -212,7 +212,7 @@ public class MedicoServlet extends HttpServlet {
                     session.invalidate();
                     response.sendRedirect("index.jsp?status=" + status);
                 }
-            } catch (ClassNotFoundException | SQLException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                 status = "erro-deleta";
                 response.sendRedirect("configuracoes-medico.jsp" + status);
             }

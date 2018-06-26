@@ -51,23 +51,27 @@ public class ListaPacienteServlet extends HttpServlet {
         Facade facade = new Facade();
 
         if ("listPacientes".equals(action)) {
-            HttpSession session = request.getSession();
-            Medico medID = (Medico) session.getAttribute("usuario");
-            try {
-                List<PacienteUsuario> listaPacientes;
-                listaPacientes = facade.carregaListaPacientes(medID.getId());
-                request.setAttribute("listaPacientes", listaPacientes);
-            } catch (ClassNotFoundException ex) {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("Class not found: " + ex.getMessage());
+            try{
+                HttpSession session = request.getSession();
+                Medico medID = (Medico) session.getAttribute("usuario");
+                try {
+                    List<PacienteUsuario> listaPacientes;
+                    listaPacientes = facade.carregaListaPacientes(medID.getId());
+                    request.setAttribute("listaPacientes", listaPacientes);
+                } catch (ClassNotFoundException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("Class not found: " + ex.getMessage());
+                    }
+                } catch (SQLException ex) {
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("SQL not found: " + ex.getMessage());
+                    }
                 }
-            } catch (SQLException ex) {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("SQL not found: " + ex.getMessage());
-                }
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/pacientes.jsp");
+                rd.forward(request, response);
+            } catch (NullPointerException | ClassCastException ex) {
+                response.sendRedirect("login.jsp");
             }
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/pacientes.jsp");
-            rd.forward(request, response);
 
         }
     }

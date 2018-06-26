@@ -194,10 +194,10 @@
                             </c:when>
                             <c:when test="${(param.status == 'sem-proxima-consulta')}">
                                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <button type="button" class="close no-focus" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <strong>Sem mais consultas para hoje! </strong>
+                                    <strong><i class="fa fa-home"></i> Pode ir para casa! </strong> Sem mais consultas para hoje.
                                 </div>
                             </c:when>
                         </c:choose>

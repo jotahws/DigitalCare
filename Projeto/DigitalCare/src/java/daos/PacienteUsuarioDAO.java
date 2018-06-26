@@ -48,6 +48,13 @@ public class PacienteUsuarioDAO {
             + "INNER JOIN cidade ci on en.id_cidade = ci.id "
             + "INNER JOIN estado es on ci.id_estado = es.id "
             + "WHERE lo.id = ?";
+    private final String buscaPacienteUsuarioPorIdPaciente = "SELECT * FROM paciente_usuario pu "
+            + "INNER JOIN login lo on pu.id_login = lo.id "
+            + "INNER JOIN paciente pa on pu.id_paciente = pa.id "
+            + "INNER JOIN endereco en on pu.id_endereco = en.id "
+            + "INNER JOIN cidade ci on en.id_cidade = ci.id "
+            + "INNER JOIN estado es on ci.id_estado = es.id "
+            + "WHERE pa.id = ?";
     private final String buscaPacientePorId = "SELECT	paciente_usuario.telefone,              paciente_usuario.telefone2,"
             + "		paciente.cpf, 				paciente.data_nascimento,"
             + "        paciente.nome,				paciente.sexo,"
@@ -281,4 +288,61 @@ public class PacienteUsuarioDAO {
             }
         }
     }
+    
+    public PacienteUsuario buscarPacienteUsuarioPorIdPaciente(int idPaciente) throws ClassNotFoundException, SQLException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaPacienteUsuarioPorIdPaciente);
+            stmt.setInt(1, idPaciente);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                PacienteUsuario pacienteUsuario = new PacienteUsuario();
+                Paciente paciente = new Paciente();
+                Endereco endereco = new Endereco();
+                Cidade cidade = new Cidade();
+                Estado estado = new Estado();
+
+                pacienteUsuario.setTelefone(rs.getString("pu.telefone"));
+                pacienteUsuario.setTelefone2(rs.getString("pu.telefone2"));
+                pacienteUsuario.setId(rs.getInt("pu.id"));
+
+                paciente.setCpf(rs.getString("pa.cpf"));
+                paciente.setDataNascimento(rs.getDate("pa.data_nascimento"));
+                paciente.setId(rs.getInt("pa.id"));
+                paciente.setNome(rs.getString("pa.nome"));
+                paciente.setSexo(rs.getString("pa.sexo"));
+                paciente.setSobrenome(rs.getString("pa.sobrenome"));
+
+                endereco.setBairro(rs.getString("en.bairro"));
+                endereco.setCep(rs.getString("en.cep"));
+                endereco.setComplemento(rs.getString("en.complemento"));
+                endereco.setNumero(rs.getString("en.numero"));
+                endereco.setRua(rs.getString("en.rua"));
+                endereco.setId(rs.getInt("en.id"));
+
+                cidade.setId(rs.getInt("ci.id"));
+                cidade.setNome(rs.getString("ci.nome"));
+
+                estado.setId(rs.getInt("es.id"));
+                estado.setNome(rs.getString("es.nome"));
+                estado.setUf(rs.getString("es.uf"));
+
+                cidade.setEstado(estado);
+                endereco.setCidade(cidade);
+                pacienteUsuario.setPaciente(paciente);
+                pacienteUsuario.setEndereco(endereco);
+                return pacienteUsuario;
+            }
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
+    }
+    
 }

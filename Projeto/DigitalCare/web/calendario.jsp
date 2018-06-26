@@ -19,7 +19,7 @@
         <!-- Style customizado -->
         <link href="${pageContext.request.contextPath}/stylesheet/dash.css" rel="stylesheet">
     </head>
-
+    
     <body class="fixed-nav sticky-footer" id="page-top">
         <c:choose>
             <c:when test="${sessionLogin.email == null}">
@@ -40,9 +40,13 @@
 
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <div class="row">
-                            <h1 class="col-9">Calendário</h1>
-                            <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade" class=" btn-lg col-md-3 text-right"><i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade</a>
+                        <div class="row justify-content-between ml-1">       
+                            <h1 class="">Calendário</h1>       
+                            <div class="align-self-center">           
+                                <a href="${pageContext.request.contextPath}/ConsultaServlet?action=indisponibilidade" class=" btn-lg pl-0">
+                                    <i class="fa fa-fw fa-clock-o"></i>Marcar indisponibilidade
+                                </a>
+                            </div>   
                         </div>
                         <hr>
                         <div class="row">
@@ -169,6 +173,20 @@
                         });
                     }
                     
+                    function confirmaDeleteFalta(faltaId){
+                        swal({
+                            title: 'Você tem certeza?',
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#888',
+                            cancelButtonColor: '#bfd9d2',
+                            confirmButtonText: 'Excluir',
+                            cancelButtonText: 'Cancelar',
+                        }).then(function () {
+                            window.location.href = "IndisponibilidadeServlet?action=deleteFalta&idFalta="+faltaId;
+                        });
+                    }
+                    
                     function getCorStatus(status){
                         var cor = '#fff';
                         switch(status) {
@@ -186,6 +204,9 @@
                                 break;
                             case 'Em andamento':
                                 cor = '#68c4af';
+                                break;
+                            case 'Falta':
+                                cor = '#888';
                                 break;
                             default:
                                 cor = 'dodgerblue';
@@ -208,21 +229,34 @@
                                              <a onclick="confirmaCancela('+ event.id +')" class="btn btn-danger clickable">Cancelar consulta</a>';
                                 }else if(event.status == 'Em andamento'){
                                     botoes = '<br><a onclick="confirmaConclui('+ event.id +')" class="btn btn-digital-green clickable">Concluir Consulta</a>';
+                                }else if(event.status == 'Falta'){
+                                    botoes = '<br><a onclick="confirmaDeleteFalta('+ event.id +')" class="btn btn-outline-secondary clickable">Excluir Indisponibilidade</a>';
                                 }
-                                swal({
-                                    title: event.title,
-                                    html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
-                                            '<p>Status: '+ event.status +'</p>' +
-                                            '<p>Horário: ' + event.horario + '</p>' +
-                                            '<p>Duração prevista: 30 min</p>' +
-                                            '<h3 class="left-text">Dados Pessoais</h3>' +
-                                            '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
-                                            '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
-                                    showCloseButton: true,
-                                    showConfirmButton: false,
-                                    width: 600,
-                                    padding: 50
-                                })
+                                if (event.status != 'Falta') {
+                                    swal({
+                                        title: event.title,
+                                        html: '<div class="left-text"><h3 class="left-text">Consulta</h3>' +
+                                                '<p>Status: '+ event.status +'</p>' +
+                                                '<p>Horário: ' + event.horario + '</p>' +
+                                                '<p>Duração prevista: 30 min</p>' +
+                                                '<h3 class="left-text">Dados Pessoais</h3>' +
+                                                '<p><b>Data de Nascimento: '+ event.nascimento +'</b></p>'+
+                                                '<p><b>Sexo: '+ event.sexo +'</b></p></div>' + botoes,
+                                        showCloseButton: true,
+                                        showConfirmButton: false,
+                                        width: 600,
+                                        padding: 50
+                                    });
+                                }else{
+                                    swal({
+                                        title: event.title,
+                                        html: '<br><h5>Você estará indisponível nesse horário.</h5></div>' + botoes,
+                                        showCloseButton: true,
+                                        showConfirmButton: false,
+                                        width: 600,
+                                        padding: 50
+                                    });
+                                }
                             },
                             header: {
                                 left: 'prev,next today myCustomButton',
@@ -258,6 +292,18 @@
                                             horario: '<fmt:formatDate pattern = "HH:mm" value = "${consultas.get(i).dataHora}" />',
                                             start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${consultas.get(i).dataHora}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${consultas.get(i).dataHora}" />',
                                             color: getCorStatus('${consultas.get(i).status}')
+                                        },
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${faltas.size() > 0}">
+                                    <c:forEach begin="0" end="${faltas.size()-1}" var="i" >
+                                        {
+                                            id: '${faltas.get(i).id}',
+                                            title: 'Indisponibilidade',
+                                            status: 'Falta',
+                                            start: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataInicio.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataInicio.time}" />',
+                                            end: '<fmt:formatDate pattern = "yyyy-MM-dd" value = "${faltas.get(i).dataFim.time}" />T<fmt:formatDate pattern = "HH:mm:ss" value = "${faltas.get(i).dataFim.time}" />',
+                                            color: getCorStatus('Falta')
                                         },
                                     </c:forEach>
                                 </c:if>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receituario" pageWidth="424" pageHeight="590" columnWidth="384" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="3c2ad69e-bc8b-40ac-98a9-581b87bdd4ae">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CLINICA_NOME" class="java.lang.String"/>
+	<parameter name="PACIENTE_NOME" class="java.lang.String"/>
+	<parameter name="PACIENTE_END" class="java.lang.String"/>
+	<parameter name="CLINICA_NOME_ENDERECO" class="java.lang.String"/>
+	<parameter name="CLINICA_ENDERECO" class="java.lang.String"/>
+	<parameter name="CLINICA_TELEFONE" class="java.lang.String"/>
+	<parameter name="CLINICA_CNPJ" class="java.lang.String"/>
+	<parameter name="ATESTADO" class="java.lang.String"/>
+	<parameter name="DIGITAL_LOGO" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[select 1 from dual]]>
+	</queryString>
+	<field name="1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="14" width="330" height="40" uuid="f48c5054-fe3e-49c1-9e3b-15ec38f2d293"/>
+				<textElement>
+					<font fontName="Arial Black" size="27"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CLINICA_NOME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="66" width="380" height="18" uuid="68f194e9-5dcc-4e45-9b4e-cd772aab4e93"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atestado]]></text>
+			</staticText>
+			<image>
+				<reportElement x="330" y="28" width="54" height="22" uuid="b37ee5bf-2b64-4a87-aa8e-c51cb10d0dba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{DIGITAL_LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="330" y="16" width="54" height="12" uuid="a7307df4-3519-4701-99af-6cc4e325ba37"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Powered by]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="272" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="21" width="380" height="20" uuid="3cad48ad-1ce0-43d3-9074-d238efd74522"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Para: "+$P{PACIENTE_NOME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="43" width="380" height="20" uuid="34b61f45-9635-44cf-be2a-17fa62bae5e6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PACIENTE_END}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="70" width="380" height="110" uuid="62974167-8203-444d-bee3-c3e923cf1ad0"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA[$P{ATESTADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="280" y="211" width="100" height="30" uuid="333ef3af-d6e9-4ac4-b044-62792da3a61e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="66" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="25" width="380" height="13" uuid="7f9c7055-5901-4565-b38e-681128cd704f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{CLINICA_NOME_ENDERECO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="-11" y="41" width="261" height="13" uuid="4422ec9a-8423-4d66-8d33-27238edbb1d4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{CLINICA_ENDERECO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="-20" y="20" width="424" height="1" forecolor="#888888" backcolor="#888888" uuid="a8b3c82b-c57f-4a36-8657-6547c1767703">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="250" y="41" width="144" height="13" uuid="b25958e6-06c1-4cee-a788-dadd6d5cf23c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{CLINICA_TELEFONE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-10" y="4" width="404" height="13" uuid="44444d82-33f6-4ce3-b6f2-9bd6f16354a2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["CNPJ: "+$P{CLINICA_CNPJ}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

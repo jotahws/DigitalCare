@@ -51,7 +51,7 @@
                                 <thead class="thead-inverse">
                                     <tr>
                                         <th>Nome</th>
-                                        <th>Idade</th>
+                                        <th>Data de Nascimento</th>
                                         <th>Email</th>
                                         <th></th>
                                     </tr>
@@ -63,7 +63,7 @@
                                             <td><fmt:formatDate pattern = "dd/MM/yyyy" value = "${item.paciente.dataNascimento}"/></td>
                                             <td>${item.login.email}</td>
                                             <td><a href="${pageContext.request.contextPath}/PacienteServlet?action=perfilPacienteMedico&id=${item.id}&idPac=${item.paciente.id}" class="btn btn-primary">Ver perfil</a></td>
-                                        </tr> 
+                                        </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>

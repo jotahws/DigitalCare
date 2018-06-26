@@ -15,7 +15,6 @@ public class Prontuario_cab {
     private int idClinica;
     private Paciente paciente;
     private Clinica clinica;
-    private Prontuario_item prontuarioItem;
 
     /**
      * @return the id
@@ -85,19 +84,5 @@ public class Prontuario_cab {
      */
     public void setClinica(Clinica clinica) {
         this.clinica = clinica;
-    }
-
-    /**
-     * @return the prontuarioItem
-     */
-    public Prontuario_item getProntuarioItem() {
-        return prontuarioItem;
-    }
-
-    /**
-     * @param prontuarioItem the prontuarioItem to set
-     */
-    public void setProntuarioItem(Prontuario_item prontuarioItem) {
-        this.prontuarioItem = prontuarioItem;
     }
 }

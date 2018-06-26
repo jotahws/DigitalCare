@@ -95,21 +95,25 @@ public class ClinicaServlet extends HttpServlet {
             response.sendRedirect("login.jsp?status=" + status);
         } else if ("alter".equals(action)) {
             try {
-                String nomeFantasia = request.getParameter("nomeFantasia");
-                String razaoSocial = request.getParameter("razaoSocial");
-                String site = request.getParameter("site");
-                HttpSession session = request.getSession();
-                Clinica clinica = (Clinica) session.getAttribute("usuario");
-                clinica.setNomeFantasia(nomeFantasia);
-                clinica.setRazaoSocial(razaoSocial);
-                clinica.setSite(site);
-                Facade.atualizarClinica(clinica);
+                try {
+                    String nomeFantasia = request.getParameter("nomeFantasia");
+                    String razaoSocial = request.getParameter("razaoSocial");
+                    String site = request.getParameter("site");
+                    HttpSession session = request.getSession();
+                    Clinica clinica = (Clinica) session.getAttribute("usuario");
+                    clinica.setNomeFantasia(nomeFantasia);
+                    clinica.setRazaoSocial(razaoSocial);
+                    clinica.setSite(site);
+                    Facade.atualizarClinica(clinica);
 
-                status = "alter-ok";
-            } catch (ClassNotFoundException | SQLException ex) {
-                status = "alter-error";
+                    status = "alter-ok";
+                } catch (ClassNotFoundException | SQLException ex) {
+                    status = "alter-error";
+                }
+                response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
+            } catch (NullPointerException | ClassCastException ex) {
+                response.sendRedirect("login.jsp");
             }
-            response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
         } else if ("editEndereco".equals(action)) {
             int superid = 0;
             try {
@@ -177,29 +181,33 @@ public class ClinicaServlet extends HttpServlet {
             response.sendRedirect("endereco-clinica.jsp?id=" + superid + "&status=" + status);
 
         } else if ("alterSenha".equals(action)) {
-            HttpSession session = request.getSession();
-            Clinica clinica = (Clinica) session.getAttribute("usuario");
-            String senha = request.getParameter("senha-antiga");
-            String novaSenha = request.getParameter("nova-senha");
-            try {
-                Login login = new Login();
-                senha = login.criptografa(senha);
-                novaSenha = login.criptografa(novaSenha);
+            try{
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
+                String senha = request.getParameter("senha-antiga");
+                String novaSenha = request.getParameter("nova-senha");
+                try {
+                    Login login = new Login();
+                    senha = login.criptografa(senha);
+                    novaSenha = login.criptografa(novaSenha);
 
-                if (facade.senhaVerificada(clinica.getLogin().getId(), senha)) {
-                    facade.editaSenha(clinica.getLogin().getId(), novaSenha);
-                    clinica.getLogin().setSenha(novaSenha);
-                    session.setAttribute("usuario", clinica);
-                    status = "alterSenha-ok";
-                } else {
+                    if (facade.senhaVerificada(clinica.getLogin().getId(), senha)) {
+                        facade.editaSenha(clinica.getLogin().getId(), novaSenha);
+                        clinica.getLogin().setSenha(novaSenha);
+                        session.setAttribute("usuario", clinica);
+                        status = "alterSenha-ok";
+                    } else {
+                        status = "alterSenha-error";
+                    }
+                } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
                     status = "alterSenha-error";
+                } catch (NoSuchAlgorithmException ex) {
+                    status = "criptografa-erro";
                 }
-            } catch (ClassNotFoundException | SQLException | NullPointerException ex) {
-                status = "alterSenha-error";
-            } catch (NoSuchAlgorithmException ex) {
-                status = "criptografa-erro";
+                response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status + "#tabela");
+            } catch (NullPointerException | ClassCastException ex) {
+                response.sendRedirect("login.jsp");
             }
-            response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status + "#tabela");
         } else if ("newEndereco".equals(action)) {
             try {
                 String tel1 = request.getParameter("tel1");
@@ -255,7 +263,7 @@ public class ClinicaServlet extends HttpServlet {
                 session.setAttribute("usuario", clinica);
                 status = "excludeEnd-ok";
 
-            } catch (ClassNotFoundException | NumberFormatException | SQLException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                 status = "excludeEnd-erro";
             }
             response.sendRedirect("ListaClinicaServlet?action=listaConfiguracao&status=" + status);
@@ -267,26 +275,26 @@ public class ClinicaServlet extends HttpServlet {
                 int idClinicaEndereco = Integer.parseInt(idClinicaString);
                 Facade.vincularMedicoClinica(idMedico, idClinicaEndereco);
                 status = "vincula-ok";
-            } catch (ClassNotFoundException | NumberFormatException | SQLException ex) {
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                 status = "vincula-erro";
             }
             response.sendRedirect("ListaMedicoServlet?action=listaMedicos&status=" + status);
         } else if ("excluir".equals(action)){
-            HttpSession session = request.getSession();
-            Clinica clinica = (Clinica) session.getAttribute("usuario");
             try {
+                HttpSession session = request.getSession();
+                Clinica clinica = (Clinica) session.getAttribute("usuario");
                 Facade.deletarLogin(clinica.getLogin().getId());
                 Facade.deletarMedicosSemClinica();
                 status = "excluir-ok";
                 session = request.getSession(false);
 
-                    if (session != null) {
-                        session.invalidate();
-                        response.sendRedirect("index.jsp?status=" + status);
-                    }
-            }  catch (ClassNotFoundException | SQLException ex) {
-                    status = "erro-deleta";
-                    response.sendRedirect("configuracoes-medico" + status);
+                if (session != null) {
+                    session.invalidate();
+                    response.sendRedirect("index.jsp?status=" + status);
+                }
+            } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
+                status = "erro-deleta";
+                response.sendRedirect("configuracoes-medico" + status);
             }
         }
     }

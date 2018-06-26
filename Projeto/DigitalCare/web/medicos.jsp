@@ -38,15 +38,13 @@
                 <%@include file="/includes/headerDash.jsp" %>
                 <div class="content-wrapper">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h1>Lista de Médicos</h1>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <a href="${pageContext.request.contextPath}/vincular-medico.jsp" class="btn btn-lg btn-digital-green">
+                        <div class="row justify-content-between ml-1">       
+                            <h1>Lista de Médicos</h1>
+                            <div class="align-self-center">           
+                                <a href="${pageContext.request.contextPath}/vincular-medico.jsp" class="btn btn-lg btn-digital-green mr-3">
                                     <i class="fa fa-fw fa-plus"></i>Adicionar Novo Médico
                                 </a>
-                            </div>
+                            </div>   
                         </div>
                         <hr>
                         <div class="row">

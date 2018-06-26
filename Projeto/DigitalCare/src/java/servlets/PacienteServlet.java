@@ -108,18 +108,22 @@ public class PacienteServlet extends HttpServlet {
                 response.sendRedirect("login.jsp?status=" + status);
             } else if ("meuPerfil".equals(action)) {
                 try {
-                    HttpSession session = request.getSession();
-                    PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
-                    List<Convenio> convenios = Facade.getListaConvenios();
-                    List<ConvenioPaciente> conveniosPaciente = Facade.getListaConveniosPaciente(pacienteUsuario.getPaciente().getId());
-                    request.setAttribute("convenios", convenios);
-                    request.setAttribute("conveniosPaciente", conveniosPaciente);
-                    request.setAttribute("paciente", pacienteUsuario);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    status = "erro";
+                    try {
+                        HttpSession session = request.getSession();
+                        PacienteUsuario pacienteUsuario = (PacienteUsuario) session.getAttribute("usuario");
+                        List<Convenio> convenios = Facade.getListaConvenios();
+                        List<ConvenioPaciente> conveniosPaciente = Facade.getListaConveniosPaciente(pacienteUsuario.getPaciente().getId());
+                        request.setAttribute("convenios", convenios);
+                        request.setAttribute("conveniosPaciente", conveniosPaciente);
+                        request.setAttribute("paciente", pacienteUsuario);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        status = "erro";
+                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/configuracoes-paciente.jsp");
-                rd.forward(request, response);
             } else if ("alteraPerfil".equals(action)) {
                 try {
                     //Pega dos input dados informados
@@ -212,7 +216,7 @@ public class PacienteServlet extends HttpServlet {
                     session.setAttribute("usuario", pacienteUsuario);
 
                     status = "altera-ok";
-                } catch (ParseException | SQLException | ClassNotFoundException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ParseException | ClassCastException ex) {
                     status = "altera-erro";
                 }
                 response.sendRedirect("PacienteServlet?status=" + status + "&action=meuPerfil");
@@ -234,7 +238,7 @@ public class PacienteServlet extends HttpServlet {
                     } else {
                         status = "error-senha";
                     }
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "error-senha";
                 } catch (NoSuchAlgorithmException ex) {
                     status = "error-criptografa";
@@ -251,33 +255,37 @@ public class PacienteServlet extends HttpServlet {
                         session.invalidate();
                         response.sendRedirect("index.jsp?status=" + status);
                     }
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (ClassNotFoundException | NumberFormatException | SQLException | NullPointerException | ClassCastException ex) {
                     status = "erro-deleta";
                     response.sendRedirect("configuracoes-paciente" + status);
                 }
             } else if ("perfilPacienteMedico".equals(action)) {
-                HttpSession session = request.getSession();
-                Medico medID = (Medico) session.getAttribute("usuario");
-                int idPacienteUsu = Integer.parseInt(request.getParameter("id"));
-                int idPaciente = Integer.parseInt(request.getParameter("idPac"));
                 try {
-                    PacienteUsuario pacienteUsuario = new PacienteUsuario();
-                    List<ConvenioPaciente> convenioPacientes;
-                    pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPacienteUsu);
-                    convenioPacientes = Facade.getListaConveniosPaciente(idPaciente);
-                    request.setAttribute("perfilPaciente", pacienteUsuario);
-                    request.setAttribute("listConveniosPac", convenioPacientes);
-                } catch (ClassNotFoundException ex) {
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println("Class not found: " + ex.getMessage());
+                    HttpSession session = request.getSession();
+                    Medico medID = (Medico) session.getAttribute("usuario");
+                    int idPacienteUsu = Integer.parseInt(request.getParameter("id"));
+                    int idPaciente = Integer.parseInt(request.getParameter("idPac"));
+                    try {
+                        PacienteUsuario pacienteUsuario = new PacienteUsuario();
+                        List<ConvenioPaciente> convenioPacientes;
+                        pacienteUsuario = facade.carregaPerfilPaciente(medID.getId(), idPacienteUsu);
+                        convenioPacientes = Facade.getListaConveniosPaciente(idPaciente);
+                        request.setAttribute("perfilPaciente", pacienteUsuario);
+                        request.setAttribute("listConveniosPac", convenioPacientes);
+                    } catch (ClassNotFoundException ex) {
+                        try (PrintWriter out = response.getWriter()) {
+                            out.println("Class not found: " + ex.getMessage());
+                        }
+                    } catch (SQLException ex) {
+                        try (PrintWriter out = response.getWriter()) {
+                            out.println("SQL not found: " + ex.getMessage());
+                        }
                     }
-                } catch (SQLException ex) {
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println("SQL not found: " + ex.getMessage());
-                    }
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
+                    rd.forward(request, response);
+                } catch (NullPointerException | ClassCastException ex) {
+                    response.sendRedirect("login.jsp");
                 }
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/perfil-paciente.jsp");
-                rd.forward(request, response);
             }
         } else {
             response.sendRedirect("login.jsp");

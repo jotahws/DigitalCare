@@ -418,10 +418,12 @@ public class HorarioDAO {
             if (rs.next()) {
                 Timestamp timestamp = rs.getTimestamp("c.datahora");
                 Date datahora = timestamp;
-                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                PacienteUsuario pacienteUsuario = Facade.getPacienteUsuarioPorIdPaciente(rs.getInt("p.id"));
+                pacienteUsuario.getPaciente().setListaConvenios(Facade.getListaConveniosPaciente(pacienteUsuario.getPaciente().getId()));
                 Medico medico = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
                 ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
-                consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, paciente, clinicaEndereco);
+                consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico, new Paciente(), clinicaEndereco);
+                consulta.setPacienteUsuario(pacienteUsuario);
                 return consulta;
             }
         } finally {
@@ -445,10 +447,13 @@ public class HorarioDAO {
             if (rs.next()) {
                 Timestamp timestamp = rs.getTimestamp("c.datahora");
                 Date datahora = timestamp;
-                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("p.sexo"));
+                PacienteUsuario pacienteUsuario = Facade.getPacienteUsuarioPorIdPaciente(rs.getInt("p.id"));
+                pacienteUsuario.getPaciente().setListaConvenios(Facade.getListaConveniosPaciente(pacienteUsuario.getPaciente().getId()));
                 Medico medico2 = Facade.buscarMedicoPorId(rs.getInt("m.id_login"));
                 ClinicaEndereco clinicaEndereco = Facade.getClinicaEnderecoPorId(rs.getInt("c.id_clinica_endereco"));
-                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico2, paciente, clinicaEndereco);
+                Consulta consulta = new Consulta(rs.getInt("c.id"), datahora, rs.getString("c.status"), medico2, new Paciente(), clinicaEndereco);
+                pacienteUsuario.setProntuarios(Facade.getListaProntuarioPacienteMedico(pacienteUsuario, medico));
+                consulta.setPacienteUsuario(pacienteUsuario);
                 return consulta;
             }
         } finally {

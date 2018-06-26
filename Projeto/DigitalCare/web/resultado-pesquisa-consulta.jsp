@@ -39,7 +39,7 @@
                 <hr>
                 <div class="container ">
                     <div class="row">
-                        <div class="col-md-3">
+<!--                        <div class="col-md-3">
                             <div class="filtro-lateral">
                                 <div class="text-center">
                                     <h6>Filtrar resultados</h6><hr>
@@ -88,9 +88,9 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-9">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        </div>-->
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                                 <c:forEach begin="0" end="${horarios.size()-1}" var="i">
                                     <li class="nav-item">
                                         <a class="nav-link link-digital-green <c:if test="${i == 3}">active</c:if>" id="dia${i}" data-toggle="tab" href="#content${i}" role="tab" aria-controls="content${i}" aria-selected="true">

@@ -13,10 +13,10 @@ import beans.ConvenioPaciente;
 import beans.Endereco;
 import beans.Estado;
 import beans.Login;
+import beans.Medico;
 import beans.Paciente;
 import beans.PacienteUsuario;
 import beans.Prontuario_cab;
-import beans.Prontuario_item;
 import conexao.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,7 +55,11 @@ public class PacienteDAO {
               "   INNER JOIN estado                   es ON (es.id			= cid.id_estado)" +
               "   INNER JOIN consulta                con ON (con.id_paciente		= pac.id)" +
               "   INNER JOIN medico                    m ON (m.id			= con.id_medico)" +
-              "   where m.id =? AND con.status != 'Concluído';";
+              "   where m.id =? AND con.status != 'Concluído' AND con.status != 'Cancelado';";
+
+    private final String buscaPacientePorCPF = "SELECT * FROM PACIENTE P\n"
+            + "WHERE p.cpf = ?;";
+    
     private Connection con = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
@@ -103,7 +107,6 @@ public class PacienteDAO {
                 Estado estado = new Estado();
                 Consulta consulta = new Consulta();
                 Prontuario_cab prontuarioCab = new Prontuario_cab();
-                Prontuario_item prontuarioItem = new Prontuario_item();
                 
                 consulta.setDataHora(rs.getDate("con.datahora"));
                 consulta.setId(rs.getInt("con.id"));
@@ -226,6 +229,34 @@ public class PacienteDAO {
                 System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
             }
         }
+    }
+
+    public Paciente getPacientePorCPF(String cpf) throws SQLException, ClassNotFoundException {
+        try {
+            con = new ConnectionFactory().getConnection();
+            stmt = con.prepareStatement(buscaPacientePorCPF);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Paciente paciente = new Paciente(rs.getInt("p.id"), rs.getString("p.cpf"), rs.getString("p.nome"), rs.getString("p.sobrenome"), rs.getDate("p.data_nascimento"), rs.getString("sexo"));                
+                return paciente;
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao fechar parâmetros: " + ex.getMessage());
+            }
+        }
+        return null;
     }
 
 }
