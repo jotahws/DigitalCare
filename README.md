@@ -15,10 +15,11 @@ O software foi desenvolvido como requisito para aprovação no curso de Análise
 1. Baixar este arquivo Git;
 1. Criar uma conexão com um servidor MySQL (versão recomendada: 5.7.x);
 1. Rodar o arquivo `/Projeto/Banco De Dados/script_completo.sql` na sua conexão;
-    a. Obs.: Caso deseje criar o banco de dados não populado, rodar arquivo `script_esquema.sql`;
+    1. *Obs.: Caso deseje criar o banco de dados não populado, rodar arquivo `script_esquema.sql`;*
 1. Alterar o arquivo `/Projeto/DigitalCare/src/java/conexao/bancoDados.properties` para conter a URL do seu servidor MySQL, usuário e senha;
 1. Rodar o projeto no NetBeans
-    a. Obs.: O servidor Tomcat deve estar instalado
+    1. *Obs.: O servidor Tomcat deve estar instalado*
+    
 *Em caso de dúvidas ver arquivo `/Projeto/LEIA-ME.pdf`*
 
 ## Documentação
